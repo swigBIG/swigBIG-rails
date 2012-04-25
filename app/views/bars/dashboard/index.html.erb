@@ -1,0 +1,71 @@
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  #map_canvas { height: 250px ; width: 550px;}
+</style>
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
+    var myOptions = {
+      center: latlo,
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+    myOptions);
+    var marker = new google.maps.Marker({
+      position: latlo,
+      map: map
+    });
+  }
+</script>
+<body onload="initialize()">
+
+  <%= content_for :side do %>
+    <h3><%= @bar.name rescue nil %></h3>
+    <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+  <% end %>
+  <h2>Bars Dashboard</h2>
+  <div id="map_canvas">
+    <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+  </div>
+  <br/>
+  <ul class="tabs" data-tabs="tabs">
+    <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+    <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+    <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+    <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
+    <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+    <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+    <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+  </ul>
+
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane active" id="monday">
+      mon
+    </div>
+    <div class="tab-pane" id="tuesday">
+      tue
+    </div>
+    <div class="tab-pane" id="wednesday">
+      wed
+    </div>
+    <div class="tab-pane" id="thusday">
+      thu
+    </div>
+    <div class="tab-pane" id="friday">
+      fri
+    </div>
+    <div class="tab-pane" id="saturday">
+      sat
+    </div>
+    <div class="tab-pane" id="sunday">
+      sun
+    </div>
+
+  </div>
+
+
+</body>

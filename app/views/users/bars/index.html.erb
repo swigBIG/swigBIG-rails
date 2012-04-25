@@ -1,0 +1,43 @@
+<%= content_for :side do %>
+  <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+<% end %>
+
+<h2>Bars Dashboard</h2>
+<div class="span10 pull-right" >
+  <h3><%= @bar.name rescue nil %></h3>
+  <ul class="tabs" data-tabs="tabs">
+    <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+    <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+    <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+    <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
+    <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+    <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+    <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+  </ul>
+
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane active" id="monday">
+      mon
+    </div>
+    <div class="tab-pane" id="tuesday">
+      tue
+    </div>
+    <div class="tab-pane" id="wednesday">
+      wed
+    </div>
+    <div class="tab-pane" id="thusday">
+      thu
+    </div>
+    <div class="tab-pane" id="friday">
+      fri
+    </div>
+    <div class="tab-pane" id="saturday">
+      sat
+    </div>
+    <div class="tab-pane" id="sunday">
+      sun
+    </div>
+
+  </div>
+
+</div>

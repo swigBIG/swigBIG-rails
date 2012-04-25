@@ -1,0 +1,2 @@
+module Bars::DashboardHelper
+end

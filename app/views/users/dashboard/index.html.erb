@@ -1,0 +1,16 @@
+<h1>Users Dashboard index</h1>
+
+<%= @user.email %>
+<fieldset>
+  <legend>Bar List</legend>
+  <table>
+    <% @bars.each do |bar| %>
+      <tr>
+        <td>
+          <%= link_to  bar.email, bar_profile_users_path(bar.id) %>
+        </td>
+      </tr>
+    <% end %>
+    <tr></tr>
+  </table>
+</fieldset>
