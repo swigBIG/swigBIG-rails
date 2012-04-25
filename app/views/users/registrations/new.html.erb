@@ -8,7 +8,7 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
-  //$("input.datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+    //$("input.datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
     // Smart Wizard
     $('#wizard').smartWizard();
     $('.buttonFinish').hide();
@@ -43,9 +43,9 @@
       <%= devise_error_messages! %>
       <div id="step-1">
         <div class="container span11" style="margin-top: 20px;">
-          <%= f.input :email %>
-          <%= f.input :password %>
-          <%= f.input :password_confirmation %>
+            <%= f.input :email %>
+            <%= f.input :password %>
+            <%= f.input :password_confirmation %>
         </div>
       </div>
 

@@ -6,6 +6,8 @@ Swprototype::Application.routes.draw do
   root to:  "home#index"
 
   match  "bar_dashboard" => "bars/dashboard#index", as: "bars_dashboard"
+  post  "create_swig" => "bars/dashboard#create_swig", as: "create_swig"
+  post  "update_swig/:id" => "bars/dashboard#update_swig", as: "update_swig"
   match  "user_dashboard" => "users/dashboard#index", as: "user_dashboard"
 
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords"}
