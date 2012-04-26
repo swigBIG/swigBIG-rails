@@ -1,14 +1,13 @@
 Swprototype::Application.routes.draw do
-  #  get "bars/index"
+
+#  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  get "bar_swigs/index"
 
   match "bars/show"
 
   root to:  "home#index"
 
-  match  "bar_dashboard" => "bars/dashboard#index", as: "bars_dashboard"
-  post  "create_swig" => "bars/dashboard#create_swig", as: "create_swig"
-  post  "update_swig/:id" => "bars/dashboard#update_swig", as: "update_swig"
-  match  "user_dashboard" => "users/dashboard#index", as: "user_dashboard"
 
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords"}
   resource :users do
@@ -20,7 +19,26 @@ Swprototype::Application.routes.draw do
 
   devise_for :members, controllers: {registrations: "members/registrations"}
 
-  devise_for :admins, controllers: {registrations: "admins/registrations"}
+
+
+  namespace :bars do
+    match  "dashboard" => "dashboard#index", as: "dashboard"
+    match  "product" => "products#index", as: "product"
+    post  "create_swig" => "dashboard#create_swig", as: "create_swig"
+    post  "update_swig/:id" => "dashboard#update_swig", as: "update_swig"
+    delete  "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
+    post  "active_swig/:id" => "dashboard#active_swig", as: "active_swig"
+    post  "deactive_swig/:id" => "dashboard#deactive_swig", as: "deactive_swig"
+    post  "create_product" => "dashboard#create_product", as: "create_product"
+    post  "update_product/:id" => "dashboard#update_product", as: "update_product"
+    delete  "delete_product" => "dashboard#delete_product", as: "delete_product"
+  end
+
+  namespace :users do
+    match  "user_dashboard" => "dashboard#index", as: "dashboard"
+    #    get "bar_swigs/show"
+    get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

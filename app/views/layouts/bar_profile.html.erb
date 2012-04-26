@@ -8,9 +8,7 @@
     <style type="text/css">
       body{
         background-color: rgba(107, 214, 0, 0.2);
-        <% if bar_signed_in? %>
-        background-image: url(<%= current_bar.bar_background_url %>);
-        <% end %>
+        background-image: url(<%= yield :background %>);
       }
       .navbar-inner{
         background-color: rgba(102, 153, 51, 1);
@@ -31,26 +29,30 @@
               <h2 class="brand" style="color: gray;">SwigBig</h2>
             </li>
 
-            <div class="nav pull-right" style="margin-left: 700px;">
-              <li id="fat-menu" class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: grey;"><b>Bar Menu</b></a>
-                <ul class="dropdown-menu">
-                  <% if bar_signed_in? %>
+            <div class="nav pull-right" style="margin-left: 600px;">
+              <% if user_signed_in? %>
+                <li>
+                  <%= link_to "Home",users_dashboard_path %>
+                </li>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: grey;"><b>User Menu</b></a>
+                  <ul class="dropdown-menu">
                     <li>
-                      <%= link_to "edit profile", edit_bar_registration_path %>
+                      <%= link_to "Edit Profile", edit_user_registration_path %>
                     </li>
                     <li class="divider"></li>
                     <li>
-                      <%= link_to "log out", destroy_bar_session_path, method: :delete %>
+                      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
                     </li>
-                    <% else %>
+                  <% else %>
                     <li>
-                      <%= link_to "log In", new_bar_session_path %>
+                      <%= link_to "Log In", new_user_session_path %>
                     </li>
                   <% end %>
                 </ul>
               </li>
             </div>
+
           </div>
         </div>
       </div>
@@ -58,11 +60,11 @@
 
     <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
       <% if notice %>
-          <div class="alert alert-success"><%= notice %></div>
-        <% end %>
-        <% if alert %>
-          <div class="alert alert-success"><%= alert %></div>
-        <% end %>
+        <div class="alert alert-success"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-success"><%= alert %></div>
+      <% end %>
       <div class="span4 pull-left">
         <br />
         <%= yield :side %>
@@ -73,8 +75,7 @@
         <br />
         <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"><%= image_tag("available_on_android.png") %></a>
       </div>
-      <div class="span11 pull-right">
-
+      <div class="container span11 pull-right">
         <%= yield %>
       </div>
       <div style="margin-top: 30px;"></div>

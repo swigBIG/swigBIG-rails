@@ -7,10 +7,18 @@ class Bar < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :address,
     :zip_code, :phone_number, :city, :state, :country, :latitude, :longitude, :logo, :slug,
-    :status, :qrcode, :plan_id, :service_uid
+    :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background
   # attr_accessible :title, :body
 
   mount_uploader :logo, ImageUploader
+  mount_uploader :bar_background, ImageUploader
+
+  validates :terms, :acceptance => true
+
+  with_options dependent: :destroy do
+    has_many :swigs
+    has_many :products
+  end
 
   before_update  :set_lat_lng
 

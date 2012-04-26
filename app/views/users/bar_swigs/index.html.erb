@@ -1,3 +1,24 @@
+<%= content_for :background do %>
+  <%= @bar.bar_background rescue nil %>
+<% end %>
+
+<%= content_for :side do %>
+  <h3><%= @bar.name rescue nil %></h3>
+  <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+  <br/>
+  <br />
+  <br />
+  <div class="span4 well" style="margin-left: -25px;">
+    <% @products.each do |product| %>
+      <br/>
+      <b><%= product.name %></b>
+      <br/>
+      <%= product.price %>
+    <% end %>
+  </div>
+<% end %>
+
+
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
   #map_canvas { height: 250px ; width: 550px;}
@@ -34,6 +55,7 @@
     <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
   </div>
   <br/>
+
   <ul class="tabs" data-tabs="tabs">
     <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
     <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>

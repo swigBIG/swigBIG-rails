@@ -8,6 +8,7 @@ class Users::DashboardController < ApplicationController
     else
       @bars = []
     end
+    @swigs = Swig.where(status: "active")
   end
 
   def show

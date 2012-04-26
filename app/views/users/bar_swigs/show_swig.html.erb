@@ -1,0 +1,67 @@
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  #map_canvas { height: 250px ; width: 550px;}
+</style>
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
+    var myOptions = {
+      center: latlo,
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+    myOptions);
+    var marker = new google.maps.Marker({
+      position: latlo,
+      map: map
+    });
+  }
+</script>
+<body onload="initialize()">
+
+  <%= content_for :side do %>
+    <h3><%= @bar.name rescue nil %></h3>
+    <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+    <br/>
+    <br />
+    <br />
+    <div class="span4 well" style="margin-left: -25px;">
+      <% @products.each do |product| %>
+        <br/>
+        <b><%= product.name %></b>
+        <br/>
+        <%= product.price %>
+      <% end %>
+    </div>
+  <% end %>
+
+
+  <div id="map_canvas">
+    <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+  </div>
+  <br/>
+  <div class="">
+    <fieldset class="well span6">
+      <legend>Standard</legend>
+      <%= Product.find(@swig.product_id).name %> $
+      <%= Product.find(@swig.product_id).price %>
+    </fieldset>
+    <fieldset class="well span6">
+      <legend>BIG Swig</legend>
+      <%= @swig.deal %>
+      <br/>
+      $<%= @swig.swig_price %>
+      <br/>
+      <%= @swig.swig_day %>
+      <br/>
+      <b>Require : <%= @swig.people %> people to Unlock</b>
+    </fieldset>
+  </div>
+
+
+
+</body>

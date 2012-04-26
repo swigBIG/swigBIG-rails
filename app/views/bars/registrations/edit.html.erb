@@ -1,4 +1,3 @@
-<div class="container">
   <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
   <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
@@ -8,7 +7,10 @@
     <%= f.input :password_confirmation %>
     <%= f.input :current_password %>
     <%= f.input :name %>
-    <%= f.input :logo, hint: image_tag(f.object.logo_url(:thumb))%>
+    <%= f.input :logo%>
+   current Logo<%= image_tag(f.object.logo_url(:thumb), class: "pull-left", hint: "current Logo") %>
+    <%= f.input :bar_background %>
+   current Background<%= image_tag(f.object.bar_background_url(:thumb), class: "pull-left", hint: "current Logo") %>
     <%= f.input :address %>
     <%= f.input :zip_code %>
     <%= f.input :phone_number %>
@@ -18,11 +20,11 @@
 
     <div class="form-actions"><%= f.submit "Update", class: "btn-primary" %></div>
   <% end %>
-
+  <br/>
+  <br/>
   <h3>Cancel my account</h3>
 
   <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
   <%= link_to "Back", :back %>
 
-</div>
