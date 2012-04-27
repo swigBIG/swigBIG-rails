@@ -74,8 +74,11 @@
         <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"><%= image_tag("available_on_android.png") %></a>
       </div>
       <div class="span10 pull-right" style="background-color: whitesmoke;border-radius: 5px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;">
-        <%= image_tag("/assets/beer.jpg", :style => "width:650px;height:300px;") %>
-        <div class="well" style="opacity: 0.7;">
+        <%= image_tag("/assets/beer.jpg", :style => "width:650px;height:200px;") %>
+        <div class="well" style="margin-bottom: 50px;padding-bottom: 50px;">
+          <%= yield :swig_slogan %>
+        </div>
+        <div class="well" style="">
           <%= yield %>
         </div>
       </div>

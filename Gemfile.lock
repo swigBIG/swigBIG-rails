@@ -172,6 +172,7 @@ DEPENDENCIES
   friendly_id
   geocoder
   jquery-rails
+  meta_search
   mini_magick
   mysql2
   pg

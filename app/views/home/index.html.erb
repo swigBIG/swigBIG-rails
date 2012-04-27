@@ -1,17 +1,38 @@
-<div class="container" style="text-align: center">
-  <div style="float:left;width: 10%">
-    <h3>COSTOMER REWARDS</h3>
-  </div>
-  <div style="float:left;width: 10%">
-    <h3>INNOVATIVE TIERED <br /> SWIG SPECIALS</h3>
-  </div>
-  <div style="float:left;width: 10%">
-    <h3>INTEGRATED MARKETING</h3>
-  </div>
-  <div style="float:left;width: 10%">
-    <h3>REDUCED EXPENSES</h3>
-  </div>
-</div>
+<%= content_for :side do %>
+  <%= simple_form_for(@search, url: root_path) do |f|%>
+    <%= f.input :state_contains, required: false %>
+    <%= f.submit %>
+  <% end %>
 
 
+<% end %>
+
+<%= content_for :swig_slogan do %>
+  <div  style="text-align: center">
+    <div style="float:left;width: 25%">
+      <h6>COSTOMER REWARDS</h6>
+    </div>
+    <div style="float:left;width: 25%">
+      <h6>INNOVATIVE TIERED <br /> SWIG SPECIALS</h6>
+    </div>
+    <div style="float:left;width: 25%">
+      <h6>INTEGRATED MARKETING</h6>
+    </div>
+    <div style="float:left;width: 25%">
+      <h6>REDUCED EXPENSES</h6>
+    </div>
+  </div>
+
+<% end %>
+
+<% @bars.each do |bar| %>
+  <%= bar.state %>
+  <%= bar.name %>
+<% end %>
+<br/>
+<% @swigs.each do |swig| %>
+<br/>
+  <%= swig.deal%>
+  <%= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %>
+<% end %>
 

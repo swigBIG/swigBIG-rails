@@ -1,10 +1,13 @@
 Swprototype::Application.routes.draw do
 
-#  devise_for :admin_users, ActiveAdmin::Devise.config
+
+#  resource :bar_det
 
   get "bar_swigs/index"
+  get "/:id" => "bar_detail#show", as: :bar_profile
+  get "b/:b_id/:s_id" => "bar_detail#bar_swig", as: :bar_swig
 
-  match "bars/show"
+#  match "bars/show"
 
   root to:  "home#index"
 
@@ -38,6 +41,7 @@ Swprototype::Application.routes.draw do
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     #    get "bar_swigs/show"
     get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
+    get  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
   end
 
   # The priority is based upon order of creation:
