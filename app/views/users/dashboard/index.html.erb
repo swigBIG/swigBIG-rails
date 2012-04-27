@@ -1,3 +1,6 @@
+<%= content_for :side do %>
+  <%= image_tag(@user.avatar_url(:thumb)) rescue nil %>
+<% end %>
 <h1>Users Dashboard index</h1>
 
 <%= @user.email %>

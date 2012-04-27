@@ -1,19 +1,50 @@
+<style type="text/css">
+  .string{
+    margin-left: -100px;
+  }
+  .tel{
+    margin-left: -100px;
+  }
+  .file{
+    margin-left: -110px;
+  }
+  .date{
+    margin-left: -100px;
+  }
+  .password{
+    margin-left: -50px;
+  }
+</style>
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { :method => :put, class: "form-horizontal" }) do |f| %>
-  <%= devise_error_messages! %>
+    <%= devise_error_messages! %>
 
+    <div class="span4 pull-left">
+      <%= f.input :email,label: false, placeholder: "Email" %>
+      <%= f.input :password,label: false, placeholder: "Password" %>
+      <%= f.input :password_confirmation,label: false, placeholder: "Password Confirmation" %>
+      <%= f.input :current_password,label: false, placeholder: "Current Password" %>
+      <div><%= f.submit "Update", class: "btn-primary" %></div>
+      </div>
+      <div class="span4 pull-right" >
+        <%= f.input :bird_date,label: false %>
+        <p>Avatar</p>
+        <%= f.input :avatar, placeholder: "Avatar",label: false %>
+        <%= f.input :name, placeholder: "Name",label: false %>
+        <%= f.input :address, placeholder: "Address",label: false %>
+        <%= f.input :zip_code, placeholder: "Zip Code",label: false %>
+        <%= f.input :phone_number, placeholder: "Phone Number",label: false %>
+        <%= f.input :city, placeholder: "City",label: false %>
+        <%= f.input :state, placeholder: "State",label: false %>
+      </div>
 
-  <%= f.input :email %>
-  <%= f.input :password %>
-  <%= f.input :password_confirmation %>
-  <%= f.input :current_password %>
+    <% end %>
+    <br/>
+    <div class="span7">
+      <h3>Cancel my account</h3>
 
-  <div><%= f.submit "Update", class: "btn-primary" %></div>
-<% end %>
+      <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
-
-<%= link_to "Back", :back %>
+      <%= link_to "Back", :back %>
+    </div>

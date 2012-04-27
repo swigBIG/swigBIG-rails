@@ -28,6 +28,18 @@
     <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
     <br />
     <br />
+    <fieldset class="well">
+      <%= link_to "Enter Bar", users_enter_bar_path(@bar.id)  %>
+      <br/>
+      <b>Who's There</b>
+      <br/>
+      <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
+      <% @swigers.each do |swiger| %>
+        <%= User.find(swiger.user_id).name %>
+      <br/>
+      <% end %>
+      </div>
+    </fieldset>
   <% end %>
   <h2>Bars Dashboard</h2>
   <div id="map_canvas">

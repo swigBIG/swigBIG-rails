@@ -29,6 +29,7 @@ gem 'geocoder'
 gem "mini_magick"
 gem "friendly_id"
 gem "activeadmin"
+gem 'whenever', :require => false
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

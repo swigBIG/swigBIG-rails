@@ -8,5 +8,6 @@ class Users::BarsController < ApplicationController
   def show
     @bar = Bar.find(params[:bar_id])
     @swigs = Swig.where(status: "active")
+    @swigers = @bar.swigers.all
   end
 end

@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
     :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen
 
   # attr_accessible :title, :body
+  mount_uploader :avatar, ImageUploader
 
   validates :terms, :acceptance => true
 end

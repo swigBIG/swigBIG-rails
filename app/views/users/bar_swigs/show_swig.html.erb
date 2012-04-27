@@ -23,7 +23,12 @@
 </script>
 <body onload="initialize()">
 
+  <%= content_for :background do %>
+  <%= @bar.bar_background_url %>
+  <% end %>
+
   <%= content_for :side do %>
+  <%= @bar.bar_background_url %>
     <h3><%= @bar.name rescue nil %></h3>
     <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
     <br/>
@@ -51,14 +56,23 @@
       <%= Product.find(@swig.product_id).price %>
     </fieldset>
     <fieldset class="well span6">
-      <legend>BIG Swig</legend>
-      <%= @swig.deal %>
+      <legend> BIGSwig <%= @swig.deal %></legend>
       <br/>
-      $<%= @swig.swig_price %>
+      BigSwig price: $<%= @swig.swig_price %>
       <br/>
       <%= @swig.swig_day %>
       <br/>
+      <b>Status : <%= @swig.lock_status.blank? ? "lock" : "unlock" %></b>
+      <br/>
       <b>Require : <%= @swig.people %> people to Unlock</b>
+      <br/>
+      <%= link_to "Enter Swig", users_enter_bar_path(@bar.id)  %>
+      <br/>
+      <br/>
+      <h4>Swiger list</h4>
+      <% @swig.swigers.each do |swiger|%>
+        <%= swiger %>
+      <% end %>
     </fieldset>
   </div>
 
