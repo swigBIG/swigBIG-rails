@@ -1,18 +1,19 @@
 Swprototype::Application.routes.draw do
 
 
-#  resource :bar_det
+  #  resource :bar_det
 
   get "bar_swigs/index"
   get "/:id" => "bar_detail#show", as: :bar_profile
   get "b/:b_id/:s_id" => "bar_detail#bar_swig", as: :bar_swig
 
-#  match "bars/show"
+  #  match "bars/show"
 
   root to:  "home#index"
 
 
-  devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords"}
+  devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords", omniauth_callbacks: "users/omniauth_callbacks"}
+
   resource :users do
     collection do
       get "bar/:bar_id" => "users/bars#show", as: "bar_profile"

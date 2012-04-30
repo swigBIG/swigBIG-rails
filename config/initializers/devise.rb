@@ -220,4 +220,10 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
+
+  config.omniauth :facebook, "217608421677403", "2e93553428ed01d4f5a850b3adc3e70b"
+  #\\\  config.omniauth :twitter, "XNkbnBWRGmHY93LUFM5g", "NXObVWYWdFsSL4AT3lNyNMz6cKjA5CBfonpvY0Q"
+#  config.omniauth :twitter, "ljTiP8tlNC2VjKIzQsP4g", "S8lx1slu56Wr3LscMdBNfqtygvRfxLhLsIjFQa1M2EA"
+#  config.omniauth :open_id, OpenID::Store::Filesystem.new('/tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id'
+
 end

@@ -1,6 +1,6 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-  #map_canvas { height: 250px ; width: 550px;}
+  #map_canvas { height: 550px ; width: 275px;}
 </style>
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
@@ -28,9 +28,9 @@
   <% end %>
 
   <%= content_for :side do %>
-    <h3><%= @bar.name rescue nil %></h3>
-    <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
-    <br />
+    <div id="map_canvas" style="margin-left: -25px;">
+      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+    </div>
     <br />
     <fieldset class="well">
   <%#= link_to "Enter Bar", users_enter_bar_path(@bar.id)  %>
@@ -45,10 +45,18 @@
       </div>
     </fieldset>
   <% end %>
-  <h2>Bars Dashboard</h2>
-  <div id="map_canvas">
-    <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+  <h3><%= @bar.name rescue nil %></h3>
+  <div class="span4">
+    <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
   </div>
+  <div class="span2">
+    <br/>
+    <button class="btn" data-toggle="modal" href="#swigModal">Create Swig</button><br />
+  </div>
+  <br/>
+  <div class="clearfix"></div>
+  <br/>
+  <div class="clearfix"></div>
   <br/>
   <ul class="tabs" data-tabs="tabs">
     <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
@@ -62,120 +70,120 @@
 
   <div id="my-tab-content" class="tab-content">
     <div class="tab-pane active" id="monday">
-      <% @swigs.where(swig_day: "Monday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Monday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          &nbsp; <b>Required: </b><%= swig.people %> people
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>
     </div>
     <div class="tab-pane" id="tuesday">
-      <% @swigs.where(swig_day: "Tuesday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Tuesday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          <%= swig.deal %>
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>
     </div>
     <div class="tab-pane" id="wednesday">
-      <% @swigs.where(swig_day: "Wednesday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Wednesday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          &nbsp; <b>Required: </b><%= swig.people %> people
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>
     </div>
     <div class="tab-pane" id="thusday">
-      <% @swigs.where(swig_day: "Thusday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Thusday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          &nbsp; <b>Required: </b><%= swig.people %> people
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>
     </div>
     <div class="tab-pane" id="friday">
-      <% @swigs.where(swig_day: "Friday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Friday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          &nbsp; <b>Required: </b><%= swig.people %> people
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>
     </div>
     <div class="tab-pane" id="saturday">
-      <% @swigs.where(swig_day: "Saturday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Saturday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          &nbsp; <b>Required: </b><%= swig.people %> people
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>
     </div>
     <div class="tab-pane" id="sunday">
-      <% @swigs.where(swig_day: "Sunday").each do |swig|%>
+      <% @swigs.where("swig_day = 'Sunday' OR swig_day = 'all'").each do |swig|%>
         <div class="well span9">
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
+            &nbsp; <b>Required: </b><%= swig.people %> people
           <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
           <% end %>
-          &nbsp; <b>Required: </b><%= swig.people %> people
           <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
         </div>
       <% end %>

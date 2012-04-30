@@ -1,10 +1,9 @@
 <%= content_for :side do %>
   <%= simple_form_for(@search, url: root_path) do |f|%>
-    <%= f.input :state_contains, required: false %>
+    <%#= f.input :bar_state_contains, required: false %>
+    <%#= f.input :bar_id_contains, required: false %>
     <%= f.submit %>
   <% end %>
-
-
 <% end %>
 
 <%= content_for :swig_slogan do %>
@@ -22,17 +21,31 @@
       <h6>REDUCED EXPENSES</h6>
     </div>
   </div>
-
 <% end %>
 
-<% @bars.each do |bar| %>
-  <%= bar.state %>
-  <%= bar.name %>
-<% end %>
-<br/>
-<% @swigs.each do |swig| %>
-<br/>
-  <%= swig.deal%>
-  <%= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %>
+<%# @bars.each do |bar| %>
+<%#= bar.state %>
+<%#= bar.name %>
+<%# end %>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+<% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
+  <div class="well span9">
+    <div class="span3">
+      <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>
+    </div>
+    <% if  swig.swig_type.eql?("Big") %>
+      <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+        <%= swig.swig_type %>
+      </button>
+      &nbsp; <b>Required: </b><%= swig.people %> people
+    <% else %>
+      <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+        <%= swig.swig_type %>
+      </button>
+    <% end %>
+  <!--<b class="pull-right"><%#= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %></b>-->
+  </div>
+  <%#= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %>
 <% end %>
 
