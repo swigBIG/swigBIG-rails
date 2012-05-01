@@ -29,10 +29,12 @@ gem 'geocoder'
 gem "mini_magick"
 gem "friendly_id"
 gem "activeadmin"
+gem 'carmen'
 gem 'whenever', :require => false
 gem 'meta_search'
 gem "omniauth"
 gem 'omniauth-facebook'
+gem "amistad", git: 'https://github.com/raw1z/amistad.git'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

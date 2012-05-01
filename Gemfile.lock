@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/raw1z/amistad.git
+  revision: 1afd332b6b40ae42d4ecb62ee678adac8432a528
+  specs:
+    amistad (0.8.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,6 +51,7 @@ GEM
     bourbon (1.4.0)
       sass (>= 3.1)
     builder (3.0.0)
+    carmen (0.2.13)
     carrierwave (0.6.2)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -185,6 +192,8 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin
+  amistad!
+  carmen
   carrierwave
   coffee-rails (~> 3.2.1)
   devise

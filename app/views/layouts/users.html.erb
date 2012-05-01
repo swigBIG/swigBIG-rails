@@ -28,10 +28,13 @@
               <h2 class="brand" style="color: gray;">SwigBig</h2>
             </li>
 
-            <div class="nav pull-right" style="margin-left: 600px;">
+            <div class="nav pull-right" style="margin-left: 500px;">
               <% if user_signed_in? %>
                 <li>
                   <%= link_to "Home",users_dashboard_path %>
+                </li>
+                <li>
+                  <%= link_to "Profile", users_profile_path(current_user.id) %>
                 </li>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: grey;"><b>User Menu</b></a>
