@@ -19,6 +19,7 @@ class Bar < ActiveRecord::Base
     has_many :swigs
     has_many :swigers
     has_many :products
+    has_many :rewards
   end
 
   before_update  :set_lat_lng

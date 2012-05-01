@@ -1,6 +1,5 @@
 Swprototype::Application.routes.draw do
 
-
   #  resource :bar_det
 
   get "bar_swigs/index"
@@ -33,9 +32,11 @@ Swprototype::Application.routes.draw do
     delete  "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
     post  "active_swig/:id" => "dashboard#active_swig", as: "active_swig"
     post  "deactive_swig/:id" => "dashboard#deactive_swig", as: "deactive_swig"
-    post  "create_product" => "dashboard#create_product", as: "create_product"
-    post  "update_product/:id" => "dashboard#update_product", as: "update_product"
-    delete  "delete_product" => "dashboard#delete_product", as: "delete_product"
+    post  "create_reward" => "dashboard#create_reward", as: "create_reward"
+    post  "update_reward/:id" => "dashboard#update_reward", as: "update_reward"
+    delete  "delete_reward" => "dashboard#delete_reward", as: "delete_reward"
+    get "rewards/index"
+    match "rewards" => "rewards#index", as: "rewards"
   end
 
   namespace :users do

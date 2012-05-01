@@ -33,12 +33,82 @@
   <div class="span4">
     <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
   </div>
-  <div class="span2">
-    <br/>
-    <button class="btn" data-toggle="modal" href="#swigModal">Create Swig</button><br />
+  <div class="span6">
+    <div class="accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading" style="margin-left: 40px;">
+          <div class="accordion-inner">
+            <a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>
+          </div>
+        </div>
+        <div id="swig" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <a class="" data-toggle="modal" href="#swigModal">Create Swig</a>
+            <br />
+            <a class="" data-toggle="modal" href="#">Stat</a><br />
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading" style="margin-left: 40px;">
+          <div class="accordion-inner">
+            <a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>
+          </div>
+        </div>
+        <div id="reward" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />
+            <a class="" data-toggle="modal" href="#swigModal">Stat</a><br />
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading"style="margin-left: 40px;">
+          <div class="accordion-inner">
+            <a class="" data-toggle="collapse" data-target="#stat" style="color: black;"><b>Stats</b></a>
+          </div>
+        </div>
+        <div id="stat" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <a class="" data-toggle="modal" href="#swigModal">Create Swig</a><br />
+            <a class="" data-toggle="modal" href="#swigModal">Stat</a><br />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <br/>
   <div class="clearfix"></div>
+  <div class="accordion-group">
+    <div class="accordion-heading" style="margin-left: 40px;">
+      <div class="accordion-inner">
+        <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
+      </div>
+    </div>
+  </div>
+  <div id="popularityandloyalty" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <ul class="tabs" data-tabs="tabs">
+        <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+        <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="reward_loyalty">
+          <% @loyalty.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+        <div class="tab-pane" id="reward_popularity">
+          <% @popularity.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  </div>
   <br/>
   <div class="clearfix"></div>
   <ul class="tabs" data-tabs="tabs">
@@ -404,6 +474,19 @@
                                                   </div>
                                                 </div>
                                               </div>
+                                              <div id="rewardModal" class="modal hide fade">
+                                                <div class="modal-header">
+                                                  <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                  <h3>Swig Type</h3>
+                                                </div>
+                                                <div class="modal-body well">
+                                                  <div style="text-align: center;">
+                                                    <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#loyalty">Loyalty</a></strong>
+                                                    &nbsp; &nbsp;
+                                                    <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#popularity">Popularity</a></strong>
+                                                  </div>
+                                                </div>
+                                              </div>
 
                                               <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">
                                                 <div class="modal-header">
@@ -439,6 +522,38 @@
                                                       <% end %>
                                                     </div>
                                                   </div>
-                                                <% end %>
 
-                                              </body>
+                                                  <div id="popularity" class="modal hide fade">
+                                                    <div class="modal-header">
+                                                      <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                      <h3>Popularity</h3>
+                                                    </div>
+                                                    <div class="modal-body well">
+                                                      <%= simple_form_for(@reward, url: bars_create_reward_path, html: { :class => "form-horizontal"}) do |f| %>
+                                                        <%= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+                                                        <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                                                        <%= f.input :swigs_number %>
+                                                        <div class="form-actions">
+                                                          <%= f.submit "Create Popularity", class: "btn-primary" %>
+                                                          </div>
+                                                        <% end %>
+                                                      </div>
+                                                    </div>
+                                                    <div id="loyalty" class="modal hide fade">
+                                                      <div class="modal-header">
+                                                        <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                        <h3>Loyalty</h3>
+                                                      </div>
+                                                      <div class="modal-body well">
+                                                        <%= simple_form_for(@reward, url: bars_create_reward_path, html: { :class => "form-horizontal"}) do |f| %>
+                                                          <%= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+                                                          <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                                                          <div class="form-actions">
+                                                            <%= f.submit "Create Loyalty", class: "btn-primary" %>
+                                                            </div>
+                                                          <% end %>
+                                                        </div>
+                                                      </div>
+                                                    <% end %>
+
+                                                  </body>

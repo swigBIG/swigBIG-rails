@@ -5,8 +5,10 @@ class Bars::DashboardController < ApplicationController
     @bar = current_bar
     @swig = @bar.swigs.new
     @swigs = @bar.swigs
-    @product = @bar.products.new
-    @products = @bar.products
+    @reward = @bar.rewards.new
+    @popularity = @bar.rewards.where(reward_type: "Popularity")
+    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
+
   end
 
   def show
@@ -53,26 +55,26 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-  def create_product
-    @product = current_bar.products.new(params[:product])
-    if @product.save
-      redirect_to :back, notice: "product success added"
+  def create_reward
+    @reward = current_bar.rewards.new(params[:reward])
+    if @reward.save
+      redirect_to :back, notice: "reward success added"
     else
-      redirect_to :back, notice: "product fail added"
+      redirect_to :back, notice: "reward fail added"
     end
   end
 
-  def update_product
-    @product = Product.find(params[:id])
-    if @product.update_attributes(params[:product])
-      redirect_to :back, notice: "product success updated"
+  def update_reward
+    @reward = Reward.find(params[:id])
+    if @reward.update_attributes(params[:reward])
+      redirect_to :back, notice: "reward success updated"
     else
-      redirect_to :back, notice: "product fail updated"
+      redirect_to :back, notice: "reward fail updated"
     end
   end
 
-  def delete_product
-    @product = Product.find(params[:id]).destroy
-    redirect_to :back, notice: "Swig deleted"
+  def delete_reward
+    @reward = Reward.find(params[:id]).destroy
+    redirect_to :back, notice: "reward deleted"
   end
 end

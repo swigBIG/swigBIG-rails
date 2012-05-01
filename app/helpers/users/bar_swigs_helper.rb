@@ -1,0 +1,2 @@
+module Users::BarSwigsHelper
+end

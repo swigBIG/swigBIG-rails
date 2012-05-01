@@ -1,0 +1,2 @@
+module Bars::ProductHelper
+end

@@ -1,0 +1,2 @@
+module BarDetailHelper
+end

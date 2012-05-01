@@ -4,6 +4,8 @@ class BarDetailController < ApplicationController
     @bar = Bar.find(params[:id])
     @swigs = Swig.where(status: "active")
     @swigers = @bar.swigers.all
+    @popularity = @bar.rewards.where(reward_type: "Popularity")
+    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
   end
 
   def bar_swig

@@ -49,12 +49,40 @@
   <div class="span4">
     <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
   </div>
-  <div class="span2">
-    <br/>
-    <button class="btn" data-toggle="modal" href="#swigModal">Create Swig</button><br />
-  </div>
+  
   <br/>
   <div class="clearfix"></div>
+  <br/>
+  <div class="clearfix"></div>
+  <div class="accordion-group">
+    <div class="accordion-heading" style="margin-left: 40px;">
+      <div class="accordion-inner">
+        <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
+      </div>
+    </div>
+  </div>
+  <div id="popularityandloyalty" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <ul class="tabs" data-tabs="tabs">
+        <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+        <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="reward_loyalty">
+          <% @loyalty.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+        <div class="tab-pane" id="reward_popularity">
+          <% @popularity.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
   <br/>
   <div class="clearfix"></div>
   <br/>
