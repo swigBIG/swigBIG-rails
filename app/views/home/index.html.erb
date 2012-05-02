@@ -74,7 +74,7 @@
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="map">
         <div id="map_canvas" style="margin-left: -25px;">
-          <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+          <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat}%2C#{@geo.lng}") %>
         </div>
       </div>
       <div class="tab-pane active" id="list">
