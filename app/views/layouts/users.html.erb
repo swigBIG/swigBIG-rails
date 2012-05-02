@@ -31,7 +31,8 @@
             <div class="nav pull-right" style="margin-left: 500px;">
               <% if user_signed_in? %>
                 <li>
-                  <%= link_to "Home",users_dashboard_path %>
+                  <%#= link_to "Home",users_dashboard_path %>
+                  <%= link_to "Home",root_path %>
                 </li>
                 <li>
                   <%= link_to "Profile", users_profile_path(current_user.id) %>
