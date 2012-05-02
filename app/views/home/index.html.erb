@@ -1,52 +1,63 @@
 <%= content_for :side do %>
+<%= @geo.country rescue "nilll" %>
+<%= @geo.city rescue "nilll"%>
   <%= simple_form_for(@search, url: root_path) do |f|%>
-    <%#= f.input :bar_state_contains, as: :select, collection: states_collection , required: false %>
     <%= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
-    <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], label: false, placeholder: "Search by Type",required: false %>
-    <%= f.submit "Search", class: "btn-mini btn-primary" %>
-  <% end %>
-<% end %>
-
-<%= content_for :swig_slogan do %>
-  <div  style="text-align: center">
-    <div style="float:left;width: 25%">
-      <h6>COSTOMER REWARDS</h6>
-    </div>
-    <div style="float:left;width: 25%">
-      <h6>INNOVATIVE TIERED <br /> SWIG SPECIALS</h6>
-    </div>
-    <div style="float:left;width: 25%">
-      <h6>INTEGRATED MARKETING</h6>
-    </div>
-    <div style="float:left;width: 25%">
-      <h6>REDUCED EXPENSES</h6>
-    </div>
-  </div>
-<% end %>
-
-<%# @bars.each do |bar| %>
-<%#= bar.state %>
-<%#= bar.name %>
-<%# end %>
-<div class="clearfix"></div>
-<div class="clearfix"></div>
-<% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
-  <div class="well span9">
-    <div class="span3">
-      <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>
-    </div>
-    <% if  swig.swig_type.eql?("Big") %>
-      <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-        <%= swig.swig_type %>
-      </button>
-      &nbsp; <b>Required: </b><%= swig.people %> people
-    <% else %>
-      <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-        <%= swig.swig_type %>
-      </button>
+    <div class="accordion-group">
+      <div class="accordion-heading" style="margin-left: 20px;">
+        <div class="accordion-inner">
+          <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>More Search</b></a>
+          <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
+          </div>
+        </div>
+      </div>
+      <div id="search" class="accordion-body collapse">
+        <div class="accordion-inner" style="background-color: ;">
+          <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
+          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+          <%= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
+        </div>
+      </div>
     <% end %>
-  <!--<b class="pull-right"><%#= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %></b>-->
-  </div>
-  <%#= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %>
-<% end %>
+  <% end %>
+
+
+  <%= content_for :swig_slogan do %>
+    <div  style="text-align: center">
+      <div style="float:left;width: 25%">
+        <h6>COSTOMER REWARDS</h6>
+      </div>
+      <div style="float:left;width: 25%">
+        <h6>INNOVATIVE TIERED <br /> SWIG SPECIALS</h6>
+      </div>
+      <div style="float:left;width: 25%">
+        <h6>INTEGRATED MARKETING</h6>
+      </div>
+      <div style="float:left;width: 25%">
+        <h6>REDUCED EXPENSES</h6>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="clearfix"></div>
+  <div class="clearfix"></div>
+  <% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
+    <div class="well span9">
+      <div class="span3">
+        <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>
+      </div>
+      <% if  swig.swig_type.eql?("Big") %>
+        <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+          <%= swig.swig_type %>
+        </button>
+        &nbsp; <b>Required: </b><%= swig.people %> people
+      <% else %>
+        <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+          <%= swig.swig_type %>
+        </button>
+      <% end %>
+    <!--<b class="pull-right"><%#= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %></b>-->
+    </div>
+    <%#= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %>
+  <% end %>
 

@@ -35,6 +35,10 @@ gem 'meta_search'
 gem "omniauth"
 gem 'omniauth-facebook'
 gem "amistad", git: 'https://github.com/raw1z/amistad.git'
+gem "simple_geolocation", "~> 0.0.7"
+gem 'geo_location'
+gem 'nokogiri'
+gem 'geo_ip', '~> 0.3.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -50,12 +54,9 @@ gem "amistad", git: 'https://github.com/raw1z/amistad.git'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-# group :development do
-##  gem 'linecache19', git: 'git://github.com/mark-moseley/linecache'
-##  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-##  gem 'ruby-debug19'
-#  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
-#  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-#  gem 'ruby-debug19'
-#end
+group :development do
+  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
+  gem 'ruby-debug19'
+end
 
