@@ -1,8 +1,9 @@
 <%= content_for :side do %>
   <%= simple_form_for(@search, url: root_path) do |f|%>
-    <%#= f.input :bar_state_contains, required: false %>
-    <%#= f.input :bar_id_contains, required: false %>
-    <%= f.submit %>
+    <%#= f.input :bar_state_contains, as: :select, collection: states_collection , required: false %>
+    <%= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
+    <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], label: false, placeholder: "Search by Type",required: false %>
+    <%= f.submit "Search", class: "btn-mini btn-primary" %>
   <% end %>
 <% end %>
 
