@@ -15,7 +15,7 @@
         <div class="accordion-inner" style="background-color: ;">
           <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
           <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-          <%= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
+          <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
         </div>
       </div>
     <% end %>
