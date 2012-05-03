@@ -20,6 +20,7 @@ class Bar < ActiveRecord::Base
     has_many :swigers
     has_many :products
     has_many :rewards
+    has_many :winners
   end
 
   before_update  :set_lat_lng
@@ -31,7 +32,8 @@ class Bar < ActiveRecord::Base
   #  geocoded_by :latitude  => :latitude, :longitude => :longitude
 
   def full_address
-    "#{self.address}, #{self.city}, #{self.state}, United states"
+#    "#{self.address}, #{self.city}, #{self.state}, United states"
+    "#{self.address}, #{self.city}, #{self.state}, Indonesia"
   end
 
   def set_lat_lng

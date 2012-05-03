@@ -8,6 +8,11 @@ class User < ActiveRecord::Base
     :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen
 
   # attr_accessible :title, :body
+  with_options dependent: :destroy do
+    has_many :points
+    has_many :swigers
+  end
+
   mount_uploader :avatar, ImageUploader
 
   validates :terms, :acceptance => true
