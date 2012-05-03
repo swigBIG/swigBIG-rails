@@ -34,7 +34,7 @@ Swprototype::Application.routes.draw do
     post  "deactive_swig/:id" => "dashboard#deactive_swig", as: "deactive_swig"
     post  "create_reward" => "dashboard#create_reward", as: "create_reward"
     post  "update_reward/:id" => "dashboard#update_reward", as: "update_reward"
-    delete  "delete_reward" => "dashboard#delete_reward", as: "delete_reward"
+    delete  "delete_reward/:id" => "dashboard#delete_reward", as: "delete_reward"
     get "rewards/index"
     match "rewards" => "rewards#index", as: "rewards"
   end

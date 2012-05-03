@@ -1,6 +1,6 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-  #map_canvas { height: 275px ; width: 520px;}
+  #map_home_canvas { height: 275px ; width: 520px;}
 </style>
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
@@ -10,10 +10,10 @@
     var latlo = new google.maps.LatLng(<%= @geo.lat rescue nil %>, <%= @geo.lng rescue nil%>)
     var myOptions = {
       center: latlo,
-      zoom: 16,
+      zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),
+    var map = new google.maps.Map(document.getElementById("map_home_canvas"),
     myOptions);
     var marker = new google.maps.Marker({
       position: latlo,
@@ -81,7 +81,7 @@
 
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane" id="map">
-        <div id="map_canvas" style="margin-left: -25px;">
+        <div id="map_home_canvas">
           <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
         </div>
       </div>

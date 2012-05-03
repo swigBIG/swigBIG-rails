@@ -8,7 +8,7 @@ class Bars::DashboardController < ApplicationController
     @reward = @bar.rewards.new
     @popularity = @bar.rewards.where(reward_type: "Popularity")
     @loyalty = @bar.rewards.where(reward_type: "Loyalty")
-
+    @winner = @bar.winners.all
   end
 
   def show
