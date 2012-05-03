@@ -157,7 +157,7 @@
               <%= l.reward_detail %>
             </div>
             <div class="span4 pull-right">
-              <%= link_to  "Delete", bars_delete_reward_path(l.id), method: :delete, confirm: "Delete loyalty?" %>
+              <%= link_to  "Delete", bars_delete_loyalty_path(l.id), method: :delete, confirm: "Delete loyalty?" %>
               <a class="" data-toggle="modal" href="#update<%= l.id %>">Change</a>
               <%= content_for :outer do %>
                 <div id="update<%= l.id %>" class="modal hide fade">
@@ -174,11 +174,11 @@
               <%= l.reward_detail %>
             </div>
             <div class="span4 pull-right">
-              <%= link_to  "Delete", bars_delete_reward_path(l.id), method: :delete, confirm: "Delete Popularity?" %>
+              <%= link_to  "Delete", bars_delete_popularity_path(l.id), method: :delete, confirm: "Delete Popularity?" %>
               <a class="" data-toggle="modal" href="#update<%= l.id %>">Change</a>
               <%= content_for :outer do %>
                 <div id="update<%= l.id %>" class="modal hide fade">
-                  <%= render partial: "update_loyalty", locals: {l: l} %>
+                  <%= render partial: "update_popularity", locals: {l: l} %>
                 </div>
               <% end %>
             </div>
@@ -257,8 +257,9 @@
             <h3>Popularity</h3>
           </div>
           <div class="modal-body well">
-            <%= simple_form_for(@reward, url: bars_create_reward_path, html: { :class => "form-horizontal"}) do |f| %>
-              <%= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
+            <%= simple_form_for(@popular, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
+              <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
+              <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
               <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
               <%= f.input :swigs_number %>
               <div class="form-actions">
@@ -273,7 +274,7 @@
               <h3>Loyalty</h3>
             </div>
             <div class="modal-body well">
-              <%= simple_form_for(@reward, url: bars_create_reward_path, html: { :class => "form-horizontal"}) do |f| %>
+              <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
                 <%= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
                 <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
                 <%= f.input :swigs_number %>

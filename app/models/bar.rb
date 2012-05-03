@@ -19,8 +19,10 @@ class Bar < ActiveRecord::Base
     has_many :swigs
     has_many :swigers
     has_many :products
-    has_many :rewards
+#    has_many :rewards
     has_many :winners
+    has_one :loyalty
+    has_one :popularity
   end
 
   before_update  :set_lat_lng
