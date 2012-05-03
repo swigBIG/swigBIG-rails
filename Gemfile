@@ -39,6 +39,7 @@ gem "simple_geolocation", "~> 0.0.7"
 gem 'geo_location'
 gem 'nokogiri'
 gem 'geo_ip', '~> 0.3.0'
+gem 'capistrano-ext'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
