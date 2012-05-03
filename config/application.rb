@@ -56,5 +56,14 @@ module Swprototype
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+
+    config.middleware.use ::ExceptionNotifier,
+      :email_prefix => "[Swigbig Error] ",
+      :sender_address => %{dummy@41studio.com},
+      :exception_recipients => %w{hendra@41studio.com syafik@41studio.com angga@41studio.com}
+
   end
 end
+
+

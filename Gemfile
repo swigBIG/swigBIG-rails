@@ -41,8 +41,7 @@ gem 'geo_location'
 gem 'nokogiri'
 gem 'geo_ip', '~> 0.3.0'
 gem 'capistrano-ext'
-gem 'exception_notification'
-
+gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
