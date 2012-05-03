@@ -5,9 +5,15 @@ class Bars::DashboardController < ApplicationController
     @bar = current_bar
     @swig = @bar.swigs.new
     @swigs = @bar.swigs
-    @reward = @bar.rewards.new
-    @popularity = @bar.rewards.where(reward_type: "Popularity")
-    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
+#    @reward = @bar.rewards.new
+    @reward = []
+    @loyal = @bar.build_loyalty
+    @loyal = Loyalty.new
+    @popular = Popularity.new
+#    @popularity = @bar.rewards.where(reward_type: "Popularity")
+    @popularity = Popularity.all
+#    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
+    @loyalty = Loyalty.all
     @winner = @bar.winners.all
   end
 
@@ -55,26 +61,69 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-  def create_reward
-    @reward = current_bar.rewards.new(params[:reward])
-    if @reward.save
-      redirect_to :back, notice: "reward success added"
+#  def create_reward
+#    @reward = current_bar.rewards.new(params[:reward])
+#    if @reward.save
+#      redirect_to :back, notice: "reward success added"
+#    else
+#      redirect_to :back, notice: "reward fail added"
+#    end
+#  end
+
+  def create_loyalty
+    @loyalty = Loyalty.new(params[:loyalty])
+    if @loyalty.save
+      redirect_to :back, notice: "loyalty success added"
     else
-      redirect_to :back, notice: "reward fail added"
+      redirect_to :back, notice: "loyalty fail added"
+    end
+  end
+  
+  def create_popularity
+    @popularity = Popularity.new(params[:popularity])
+    if @popularity.save
+      redirect_to :back, notice: "popularity success added"
+    else
+      redirect_to :back, notice: "popularity fail added"
     end
   end
 
-  def update_reward
-    @reward = Reward.find(params[:id])
-    if @reward.update_attributes(params[:reward])
-      redirect_to :back, notice: "reward success updated"
+#  def update_reward
+#    @reward = Reward.find(params[:id])
+#    if @reward.update_attributes(params[:reward])
+#      redirect_to :back, notice: "reward success updated"
+#    else
+#      redirect_to :back, notice: "reward fail updated"
+#    end
+#  end
+  def update_loyalty
+    @loyalty = Loyalty.find(params[:id])
+    if @loyalty.update_attributes(params[:loyalty])
+      redirect_to :back, notice: "loyalty success updated"
     else
-      redirect_to :back, notice: "reward fail updated"
+      redirect_to :back, notice: "loyalty fail updated"
+    end
+  end
+
+  def update_popularity
+    @popularity = Popularity.find(params[:id])
+    if @popularity.update_attributes(params[:popularity])
+      redirect_to :back, notice: "popularity success updated"
+    else
+      redirect_to :back, notice: "popularity fail updated"
     end
   end
 
   def delete_reward
     @reward = Reward.find(params[:id]).destroy
     redirect_to :back, notice: "reward deleted"
+  end
+  def delete_popularity
+    @popularity = Popularity.find(params[:id]).destroy
+    redirect_to :back, notice: "Popularity deleted"
+  end
+  def delete_loyalty
+    @loyalty = Loyalty.find(params[:id]).destroy
+    redirect_to :back, notice: "Loyalty deleted"
   end
 end
