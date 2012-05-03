@@ -29,7 +29,7 @@ namespace :deploy do
 
     run "chown -Rf nobody #{directory_path}/#{stage}/current/"
     #    run "chmod 666 -R #{current_path}/log"
-#    run "chmod 777 #{current_path}/public/system"
+    #    run "chmod 777 #{current_path}/public/system"
 
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
@@ -45,8 +45,7 @@ after 'deploy:update_code' do
   run "rm -rf #{release_path}/tmp/*"
   #  run "touch #{File.join(current_path,'log','production.log')}"
   run "cd #{release_path}; RAILS_ENV=production bundle install"
-  #  run "cd #{release_path}; RAILS_ENV=production bundle exec rake db:migrate"
-  #  run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:clean"
-#  run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
-   
+  run "cd #{release_path}; RAILS_ENV=production bundle exec rake db:migrate"
+  run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:clean"
+  run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile" 
 end
