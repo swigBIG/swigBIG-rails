@@ -12,7 +12,7 @@ class Users::BarSwigsController < ApplicationController
 
   def enter_bar
     @bar = Bar.find(params[:bar_id])
-    if !@bar.rewards.where(reward_type: "Loyalty").blank?
+    if !@bar.loyalty.blank?
 #      @point = Point.where(user_id: current_user.id, bar_id: @bar.id).first
 #      Point.find_or_created(id: @point.id)
       current_user.points.create(bar_id: @bar.id, loyalty_points: 1 )

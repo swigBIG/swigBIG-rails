@@ -7,7 +7,6 @@ class Bars::DashboardController < ApplicationController
     @swigs = @bar.swigs
 #    @reward = @bar.rewards.new
     @reward = []
-    @loyal = @bar.build_loyalty
     @loyal = Loyalty.new
     @popular = Popularity.new
 #    @popularity = @bar.rewards.where(reward_type: "Popularity")
@@ -72,7 +71,9 @@ class Bars::DashboardController < ApplicationController
 
   def create_loyalty
     @loyalty = Loyalty.new(params[:loyalty])
+    
     if @loyalty.save
+#      Loyalty.find().update_attributes(bar_id: current_bar.id)
       redirect_to :back, notice: "loyalty success added"
     else
       redirect_to :back, notice: "loyalty fail added"
