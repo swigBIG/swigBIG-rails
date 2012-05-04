@@ -20,6 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+#gem 'execjs'
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise'
@@ -37,9 +38,9 @@ gem "omniauth"
 gem 'omniauth-facebook'
 gem "amistad", git: 'https://github.com/raw1z/amistad.git'
 gem "simple_geolocation", "~> 0.0.7"
-gem 'geo_location'
+#gem 'geo_location'
 gem 'nokogiri'
-gem 'geo_ip', '~> 0.3.0'
+#gem 'geo_ip', '~> 0.3.0'
 gem 'capistrano-ext'
 gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 # To use ActiveModel has_secure_password

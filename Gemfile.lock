@@ -103,10 +103,6 @@ GEM
     formtastic (2.2.0)
       actionpack (>= 3.0)
     friendly_id (4.0.4)
-    geo_ip (0.3.2)
-      json (~> 1.4)
-      rest-client (~> 1.6.1)
-    geo_location (0.4.2)
     geocoder (1.1.1)
     geoip (1.1.2)
     geokit (1.6.5)
@@ -197,8 +193,6 @@ GEM
       json (~> 1.4)
     responders (0.9.1)
       railties (~> 3.1)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
     ruby-debug-base19 (0.11.25)
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
@@ -263,8 +257,6 @@ DEPENDENCIES
   exception_notification!
   execjs
   friendly_id
-  geo_ip (~> 0.3.0)
-  geo_location
   geocoder
   jquery-rails
   linecache19!
