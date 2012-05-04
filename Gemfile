@@ -36,7 +36,8 @@ gem 'whenever', :require => false
 gem 'meta_search'
 gem "omniauth"
 gem 'omniauth-facebook'
-gem "amistad", git: 'https://github.com/raw1z/amistad.git'
+gem "amistad"
+#gem "amistad", git: 'https://github.com/raw1z/amistad.git'
 gem "simple_geolocation", "~> 0.0.7"
 #gem 'geo_location'
 gem 'nokogiri'

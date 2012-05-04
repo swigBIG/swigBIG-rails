@@ -11,12 +11,6 @@ GIT
   specs:
     exception_notification (1.0.0)
 
-GIT
-  remote: https://github.com/raw1z/amistad.git
-  revision: 1afd332b6b40ae42d4ecb62ee678adac8432a528
-  specs:
-    amistad (0.8.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -59,6 +53,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.7)
+    amistad (0.7.5)
     archive-tar-minitar (0.5.2)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
@@ -248,7 +243,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin
-  amistad!
+  amistad
   capistrano-ext
   carmen
   carrierwave
