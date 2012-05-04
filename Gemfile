@@ -43,7 +43,8 @@ gem "simple_geolocation", "~> 0.0.7"
 gem 'nokogiri'
 #gem 'geo_ip', '~> 0.3.0'
 gem 'capistrano-ext'
-gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
+#gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
+gem "exception_notification"
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -59,7 +60,8 @@ gem "exception_notification", :git => "git://github.com/rails/exception_notifica
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 group :development do
-  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+  #gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+  gem 'linecache19'
   gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
   gem 'ruby-debug19'
 end
