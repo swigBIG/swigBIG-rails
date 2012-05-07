@@ -61,8 +61,8 @@ gem "exception_notification"
 # gem 'ruby-debug19', :require => 'ruby-debug'
 group :development do
   #gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
-  gem 'linecache19'
-  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-  gem 'ruby-debug19'
+#  gem 'linecache19'
+#  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
+#  gem 'ruby-debug19'
 end
 

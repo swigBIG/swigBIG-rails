@@ -12,5 +12,7 @@ class Users::DashboardController < ApplicationController
   end
 
   def show
+    @bars = Bar.all
+    @winners = Winner.where(user_id: current_user)
   end
 end

@@ -4,6 +4,7 @@
     <title>Swprototype</title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag :cocoon %>
     <%= csrf_meta_tags %>
     <style type="text/css">
       body{
@@ -80,14 +81,15 @@
         <%= yield %>
       </div>
       <div style="margin-top: 30px;"></div>
+    </div>
+    <%= yield :outer  %>
 
-      <div class="navbar-fixed-bottom">
-        <div class="navbar-inner" style="ackground-color: #c09853;background-image: none;">
-          <div class="container">
-            <img src="/images/fb.png" width="50" height="50"/>
-            <img src="/images/twitter.png" width="50" height="50" />
-            <div class="pull-left">Live Swig Feed: James J. just swigged at Duffy's in Chicago</div>
-          </div>
+    <div class="navbar-fixed-bottom">
+      <div class="navbar-inner" style="ackground-color: #c09853;background-image: none;">
+        <div class="container">
+          <img src="/images/fb.png" width="50" height="50"/>
+          <img src="/images/twitter.png" width="50" height="50" />
+          <div class="pull-left">Live Swig Feed: James J. just swigged at Duffy's in Chicago</div>
         </div>
       </div>
     </div>

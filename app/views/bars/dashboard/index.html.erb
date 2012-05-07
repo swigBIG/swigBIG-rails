@@ -2,6 +2,8 @@
 <style type="text/css">
   #map_canvas { height: 250px ; width: 275px;}
 </style>
+
+<!--
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
@@ -21,11 +23,12 @@
     });
   }
 </script>
+-->
 <body onload="initialize()">
 
   <%= content_for :side do %>
     <div id="map_canvas" style="margin-left: -25px;">
-      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+      <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
   <% end %>
 
@@ -226,6 +229,7 @@
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Big"} %>
           <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
           <%= f.input :deal , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+          <%= f.input :people %>
 
           <div class="form-actions">
             <%= f.submit "Create Swig", class: "btn-primary" %>
@@ -275,11 +279,12 @@
             </div>
             <div class="modal-body well">
               <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
-                <%= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+                <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+                <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
                 <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
                 <%= f.input :swigs_number %>
                 <div class="form-actions">
-                  <%= f.submit "Create Loyalty", class: "btn-primary" %>
+                  <%= f.submit "Create Loyaltyi", class: "btn-primary" %>
                   </div>
                 <% end %>
               </div>
