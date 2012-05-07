@@ -1,112 +1,70 @@
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<style type="text/css">
-  #map_home_canvas { height: 275px ; width: 520px;}
-</style>
-<script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
-</script>
-<script type="text/javascript">
-  function initialize() {
-    var latlo = new google.maps.LatLng(<%= @geo.lat rescue nil %>, <%= @geo.lng rescue nil%>)
-    var myOptions = {
-      center: latlo,
-      zoom: 13,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_home_canvas"),
-    myOptions);
-    var marker = new google.maps.Marker({
-      position: latlo,
-      map: map
-    });
-  }
-</script>
 
-<body onload="initialize()">
-  <%= content_for :side do %>
-    <h4>Your Address</h4>
-    <%= @geo.street rescue "nill"%>
-    &nbsp;
-    <%= @geo.city rescue "nill"%>
-    &nbsp;
-    <%= @geo.country rescue "nill" %>
-    &nbsp;
-    <%= @geo.zip rescue "nill"%>
-    <br/>s
-    <%= simple_form_for(@search, url: root_path) do |f|%>
-      <%= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
-      <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 20px;">
-          <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>More Search</b></a>
-            <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
+
+
+<div class="row-fluid">
+  <div class="span3" style="text-align: center;">
+    <h5 id="slogan1">CUSTOMER REWARDS</h5>
+    <p id="p1" style="display: none;background-color: whitesmoke;padding: 5px;border-radius: 3px;">
+      Swig give custumer reward for user in everywhere
+    </p>
+  </div>
+  <div class="span3" style="text-align: center;">
+    <h5 id="slogan2">INNOVATIVE TIERED <br/>SWIG SPECIALS</h5>
+    <p id="p2" style="display: none;background-color: whitesmoke;padding: 5px;border-radius: 3px;">
+      Swig give custumer reward for user in everywhere
+    </p>
+  </div>
+  <div class="span3" style="text-align: center;">
+    <h5 id="slogan3">INTEGRATED MARKETING</h5>
+    <p id="p3" style="display: none;background-color: whitesmoke;padding: 5px;border-radius: 3px;">
+      Swig give custumer reward for user in everywhere
+    </p>
+  </div>
+  <div class="span3" style="text-align: center;">
+    <h5 id="slogan4">REDUCED EXPENSES</h5>
+    <p id="p4" style="display: none;background-color: whitesmoke;padding: 5px;border-radius: 3px;">
+      Swig give custumer reward for user in everywhere
+    </p>
+  </div>
+  <div class="clearfix"></div>
+  <div class="span11">
+    <div style="text-align: center;">
+      <br/>
+      <%= button_to "Go To SwigBIG", main_home_path, method: :get, class: "btn-primary" %>
+        <a class="btn" data-toggle="modal" href="#sign_up">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <%= content_for :outer do %>
+    <div id="sign_up" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Sign Up as?</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <b><%= button_to  "Bar", new_bar_registration_path, class: "btn-primary", method: :get %></b>
+            &nbsp;
+            <b>Or</b>
+            &nbsp;
+            <b><%= button_to "User",  new_user_registration_path, class: "btn-primary", method: :get %></b>
             </div>
-          </div>
-        </div>
-        <div id="search" class="accordion-body collapse">
-          <div class="accordion-inner" style="">
-            <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
-            <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-      <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
           </div>
         </div>
       <% end %>
-    <% end %>
 
-
-    <%= content_for :swig_slogan do %>
-      <div  style="text-align: center">
-        <div style="float:left;width: 25%">
-          <h6>COSTOMER REWARDS</h6>
-        </div>
-        <div style="float:left;width: 25%">
-          <h6>INNOVATIVE TIERED <br /> SWIG SPECIALS</h6>
-        </div>
-        <div style="float:left;width: 25%">
-          <h6>INTEGRATED MARKETING</h6>
-        </div>
-        <div style="float:left;width: 25%">
-          <h6>REDUCED EXPENSES</h6>
-        </div>
-      </div>
-    <% end %>
-
-    <div class="clearfix"></div>
-    <div class="clearfix"></div>
-    <h4><%= @geo.city %></h4>
-    <ul class="tabs" data-tabs="tabs">
-      <li><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-      <li><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
-    </ul>
-
-    <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane" id="map">
-        <div id="map_home_canvas">
-          <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
-        </div>
-      </div>
-      <div class="tab-pane active" id="list">
-        <% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
-          <div class="well span9">
-            <div class="span3">
-              <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>
-            </div>
-            <% if  swig.swig_type.eql?("Big") %>
-              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-                <%= swig.swig_type %>
-              </button>
-              &nbsp; <b>Required: </b><%= swig.people %> people
-            <% else %>
-              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-                <%= swig.swig_type %>
-              </button>
-            <% end %>
-    <!--<b class="pull-right"><%#= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %></b>-->
-          </div>
-    <%#= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %>
-        <% end %>
-
-      </div>
-    </div>
-
-
+      <script>
+        $("#slogan1").hover(function () {
+          $("#p1").slideToggle("slow");
+        });
+        $("#slogan2").hover(function () {
+          $("#p2").slideToggle("slow");
+        });
+        $("#slogan3").hover(function () {
+          $("#p3").slideToggle("slow");
+        });
+        $("#slogan4").hover(function () {
+          $("#p4").slideToggle("slow");
+        });
+      </script>
