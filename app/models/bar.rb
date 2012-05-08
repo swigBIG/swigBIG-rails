@@ -34,8 +34,8 @@ class Bar < ActiveRecord::Base
   #  geocoded_by :latitude  => :latitude, :longitude => :longitude
 
   def full_address
-#    "#{self.address}, #{self.city}, #{self.state}, United states"
-    "#{self.address}, #{self.city}, #{self.state}, Indonesia"
+    "#{self.address}, #{self.city}, #{self.state}, United states"
+#    "#{self.address}, #{self.city}, #{self.state}, Indonesia"
   end
 
   def set_lat_lng
