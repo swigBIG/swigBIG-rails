@@ -129,7 +129,7 @@
         </div>
         <div class="tab-pane" id="saturday">
           <% @swigs.where("swig_day = 'Saturday' OR swig_day = 'all'").each do |swig|%>
-            <<%= render partial: "swig_list", locals: {swig: swig} %>
+            <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
         <div class="tab-pane" id="sunday">
