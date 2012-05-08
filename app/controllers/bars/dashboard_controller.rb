@@ -3,6 +3,7 @@ class Bars::DashboardController < ApplicationController
 
   def index
     @bar = current_bar
+    @swigers = @bar.swigers
     @swig = @bar.swigs.new
     @swigs = @bar.swigs
 #    @reward = @bar.rewards.new

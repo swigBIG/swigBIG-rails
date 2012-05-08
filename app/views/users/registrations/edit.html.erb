@@ -2,6 +2,9 @@
   .string{
     margin-left: -100px;
   }
+  .email{
+    margin-left: -100px;
+  }
   .tel{
     margin-left: -100px;
   }
@@ -15,6 +18,11 @@
     margin-left: -50px;
   }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
+  });
+</script>
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { :method => :put, class: "form-horizontal" }) do |f| %>
@@ -22,29 +30,29 @@
 
     <div class="span4 pull-left">
       <%= f.input :email,label: false, placeholder: "Email" %>
-      <%#= f.input :password,label: false, placeholder: "Password" %>
-      <%#= f.input :password_confirmation,label: false, placeholder: "Password Confirmation" %>
-      <%#= f.input :current_password,label: false, placeholder: "Current Password" %>
+    <%#= f.input :password,label: false, placeholder: "Password" %>
+    <%#= f.input :password_confirmation,label: false, placeholder: "Password Confirmation" %>
+    <%#= f.input :current_password,label: false, placeholder: "Current Password" %>
+      <%= f.input :name, placeholder: "Name",label: false %>
+      <%= f.input :address, placeholder: "Address",label: false %>
+      <%= f.input :zip_code, placeholder: "Zip Code",label: false %>
+      <%= f.input :city, placeholder: "City",label: false %>
       <div><%= f.submit "Update", class: "btn-primary" %></div>
       </div>
       <div class="span4 pull-right" >
-        <%= f.input :bird_date,label: false %>
-        <p>Avatar</p>
-        <%= f.input :avatar, placeholder: "Avatar",label: false %>
-        <%= f.input :name, placeholder: "Name",label: false %>
-        <%= f.input :address, placeholder: "Address",label: false %>
-        <%= f.input :zip_code, placeholder: "Zip Code",label: false %>
-        <%= f.input :phone_number, placeholder: "Phone Number",label: false %>
-        <%= f.input :city, placeholder: "City",label: false %>
-        <%= f.input :state, placeholder: "State",label: false %>
+        <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
+          <p>Avatar</p>
+          <%= f.input :avatar, placeholder: "Avatar",label: false %>
+          <%= f.input :phone_number, placeholder: "Phone Number",label: false %>
+          <%= f.input :state, placeholder: "State",label: false %>
+        </div>
+
+      <% end %>
+      <br/>
+      <div class="span7">
+        <h3>Cancel my account</h3>
+
+        <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+
+        <%= link_to "Back", :back %>
       </div>
-
-    <% end %>
-    <br/>
-    <div class="span7">
-      <h3>Cancel my account</h3>
-
-      <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
-
-      <%= link_to "Back", :back %>
-    </div>

@@ -31,19 +31,24 @@
     <h4>Rewards</h4>
     <ul class="tabs" data-tabs="tabs">
       <li><a href="#loyalty" data-toggle="tab"><h4>Loyalty</h4></a></li>
-      <li><a href="#popularity" data-toggle="tab"><h4>Progress</h4></a></li>
+      <li><a href="#popularity" data-toggle="tab"><h4>Popularity</h4></a></li>
     </ul>
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="loyalty">
-
+        <% @bars.each do |b| %>
+          <%= b.name %>
+          <%= Point.where(type: "Loyalty",bar_id: b.id, user_id: current_user.id).count %>
+        <% end %>
       </div>
       <div class="tab-pane" id="popularity">
-2
+        2
       </div>
     </div>
   </div>
   <div class="tab-pane" id="earned">
-    3
+    <% @winners.each do |w| %>
+      <%= User.where(user_id: current_user.id) %>
+    <% end %>
   </div>
   <div class="tab-pane" id="redeemed">
     <h4>Rewards</h4>

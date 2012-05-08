@@ -22,11 +22,35 @@
     });
   }
 </script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Days', 'Swiger'],
+      ['Monday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
+      ['Tuesday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
+      ['Wednesday', <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
+      ['Thusday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thusday"}.count %>],
+      ['Friday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
+      ['Saturday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
+      ['Sunday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
+    ]);
+
+    var options = {
+      title: 'Swig Stat',
+      hAxis: {title: 'Stat', titleTextStyle: {color: 'red'}}
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>
 <body onload="initialize()">
 
   <%= content_for :side do %>
     <div id="map_canvas" style="margin-left: -25px;">
-  <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
   <% end %>
 
@@ -46,7 +70,7 @@
           <div class="accordion-inner">
             <a class="" data-toggle="modal" href="#swigModal">Create Swig</a>
             <br />
-            <a class="" data-toggle="modal" href="#">Stat</a><br />
+            <a class="" data-toggle="modal" href="#stat_swig">Stat</a><br />
           </div>
         </div>
       </div>
@@ -88,8 +112,10 @@
   <ul class="tabs" data-tabs="tabs">
     <li><a href="#swig_tab" data-toggle="tab"><h3>Swig</h3></a></li>
     <li><a href="#reward_tab" data-toggle="tab"><h3>Reward</h3></a></li>
+    <li><a href="#stat_chart" data-toggle="tab"><h3>Stat</h3></a></li>
   </ul>
   <div class="tab-content">
+
     <div class="tab-pane active" id="swig_tab">
       <ul class="tabs" data-tabs="tabs">
         <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
@@ -187,6 +213,11 @@
         </div>
       </div>
     </div>
+
+    <div class="tab-pane" id="stat_chart">
+      <div id="chart_div" style="width: 500px; height: 300px;"></div>
+    </div>
+
   </div>
 
   <%= content_for :outer do %>
@@ -201,6 +232,15 @@
           &nbsp; &nbsp;
           <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
         </div>
+      </div>
+    </div>
+    <div id="swig_stat" class="modal hide fade" style="opacity: 1 ;">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3>Swig Type</h3>
+      </div>
+      <div class="modal-body well">
+        <div id="chart_div" style="width: 400px; height: 300px;"></div>
       </div>
     </div>
     <div id="rewardModal" class="modal hide fade">

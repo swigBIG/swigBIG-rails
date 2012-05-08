@@ -5,14 +5,20 @@
   .stepContainer{
     height: 20px;
   }
+  .ui-icon{
+    background-image: none!important;
+    height: auto!important;
+    width: 0!important;
+  }
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
-    //$("input.datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
     // Smart Wizard
     $('#wizard').smartWizard();
     $('.buttonFinish').hide();
+  $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
   });
+  //$("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
 </script>
 
 <h2>User Sign up</h2>
@@ -51,7 +57,7 @@
 
       <div id="step-2">
         <div class="container span11" style="margin-top: 20px;">
-          <%= f.input :bird_date %>
+          <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
           <%= f.input :avatar %>
           <%= f.input :name %>
           <%= f.input :address %>

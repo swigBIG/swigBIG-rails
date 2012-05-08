@@ -44,7 +44,6 @@
       <% end %>
     <% end %>
 
-
     <%= content_for :swig_slogan do %>
       <div  style="text-align: center">
         <div style="float:left;width: 25%">
@@ -72,7 +71,7 @@
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane" id="map">
+      <div class="tab-pane active" id="map">
         <div id="map_home_canvas">
           <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
         </div>
@@ -117,7 +116,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane active" id="list">
+      <div class="tab-pane" id="list">
         <table class="zebra-striped">
           <th>Deals</th>
           <th>swigBIG Deals</th>
