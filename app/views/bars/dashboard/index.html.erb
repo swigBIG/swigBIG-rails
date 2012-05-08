@@ -3,7 +3,6 @@
   #map_canvas { height: 250px ; width: 275px;}
 </style>
 
-<!--
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
@@ -23,12 +22,11 @@
     });
   }
 </script>
--->
 <body onload="initialize()">
 
   <%= content_for :side do %>
     <div id="map_canvas" style="margin-left: -25px;">
-      <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+  <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
   <% end %>
 
@@ -262,7 +260,7 @@
           </div>
           <div class="modal-body well">
             <%= simple_form_for(@popular, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
-              <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
+        <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
               <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
               <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
               <%= f.input :swigs_number %>
@@ -279,7 +277,7 @@
             </div>
             <div class="modal-body well">
               <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
-                <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+          <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
                 <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
                 <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
                 <%= f.input :swigs_number %>
