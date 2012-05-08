@@ -12,13 +12,19 @@ Swprototype::Application.configure do
   config.serve_static_assets = false
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  config.assets.compress = false
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = true
 
+  # Do not compress assets
+  config.assets.compress = true
+
+  # Expands the lines which load the assets
+  config.assets.debug = true
+
   # Generate digests for assets URLs
-  config.assets.digest = true
+  #  config.assets.digest = true
 
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
@@ -46,7 +52,7 @@ Swprototype::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w(bootstrap-carousel.js bootstrap-collapse.js bootstrap-dropdown.js bootstrap-modal.js bootstrap-tab.js bootstrap-popover.js bootstrap-tooltip.js jquery.smartWizard-2.0.js jquery-ui.min.js bootstrap.css bootstrap.min.css docs.css smart_wizard.css)
+  config.assets.precompile += %w(application.css application.js bootstrap-dropdown.js)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

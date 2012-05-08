@@ -24,7 +24,7 @@ class HomeController < ApplicationController
   protected
   
   def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("production")
+#    return request.ip.to_s if Rails.env.eql?("production")
     "125.163.30.11"
   end
 

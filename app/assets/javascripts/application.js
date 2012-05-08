@@ -13,6 +13,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-//= require jquery-ui.min
-//= require bootstrap-tab
-//= require jquery.smartWizard-2.0
