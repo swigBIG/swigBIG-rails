@@ -18,16 +18,28 @@ class HomeController < ApplicationController
   end
 
   def index
-    
-  end
-  
-  protected
-  
-  def set_current_ip
-#    return request.ip.to_s if Rails.env.eql?("production")
-    "125.163.30.11"
+
   end
 
+  def time_zone
+    tz = params[:tz].to_i
+    timezone = ActiveSupport::TimeZone[tz*60*60].name
+    session[:tz] = params[:tz]
+    session[:timezone] = timezone
+    unless session[:timezone].blank?
+      Time.zone = session[:timezone]
+    else
+      Time.zone = "Pacific Time (US & Canada)"
+    end
+#    render :nothing => true
+  end
+
+  protected
+
+  def set_current_ip
+    return request.ip.to_s if Rails.env.eql?("production")
+    "125.163.30.11"
+  end
 end
 
 
