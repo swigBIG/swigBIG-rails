@@ -1,58 +1,103 @@
-<%= content_for :side do %>
-  <div class="accordion">
-    <div class="accordion-group">
-      <div class="accordion-heading" style="margin-left: 40px;">
-        <div class="accordion-inner">
-          <a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    // Smart Wizard
+    $('#wizard').smartWizard({
+      transitionEffect:'slide',
+      enableAllSteps: true,
+      hideButtonsOnDisabled: false
+    });
+    $('.actionBar').hide();
+
+  });
+</script>
+<style type="text/css">
+  .stepContainer .content{
+    width: 650px!important;
+  }
+</style>
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
+  <tr style="width: 500px;"><td style="width: 500px;">
+      <div id="wizard" class="swMain">
+
+        <ul>
+          <li>
+            <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Profile Stat</b>
+            </a>
+          </li>
+          <li>
+            <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Invite Friends</b>
+            </a>
+          </li>
+          <li>
+            <a href="#email" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Change Email</b>
+            </a>
+          </li>
+          <li>
+            <a href="#password" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Change Password</b>
+            </a>
+          </li>
+          <li>
+            <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Contact Prefrences</b>
+            </a>
+          </li>
+          <li>
+            <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Delete Account</b>
+            </a>
+          </li>
+        </ul>
+
+        <div id="stat">
+          <h2 class="StepTitle"><b>Profile Stat</b></h2>
+          <div class="span4 pull-right">
+            <b>Favorite Bar</b>
+            <%= @top_bar.bar.name %>
+          </div>
+          <br/>
+          <div class="span4 pull-right">
+            <b>Last 5 Swigs</b>
+            <% @swigers.limit(5).each do |swiger| %>
+              <div class="span3">
+                <b><%= swiger.bar.name %></b>
+                <br/>
+                <%= swiger.created_at.strftime("%d/%m/%Y") %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      </div>
-      <div id="swig" class="accordion-body collapse">
-        <div class="accordion-inner">
+        <div id="invite">
+          <h2 class="StepTitle"><b>Summary</b></h2>
 
         </div>
-      </div>
-    </div>
-  </div>
-<% end %>
 
+        <div id="email">
+          <h2 class="StepTitle"><b>Progress</b></h2>
+          <p>afewfwafeawf</p>
+        </div>
+        <div id="password">
+          <h2 class="StepTitle"><b>Earned Rewards</b></h2>
 
-<ul class="tabs" data-tabs="tabs">
-  <li><a href="#profile" data-toggle="tab"><h3>Profile Stats</h3></a></li>
-  <li><a href="#progress" data-toggle="tab"><h3>Progress</h3></a></li>
-  <li><a href="#earned" data-toggle="tab"><h3>Earned Rewards</h3></a></li>
-  <li><a href="#redeemed" data-toggle="tab"><h3>Redeemed Rewards</h3></a></li>
-</ul>
+        </div>
+        <div id="contact">
+          <h2 class="StepTitle"><b>Contact Rewards</b></h2>
+          <p></p>
+        </div>
+        <div id="delete">
+          <h2 class="StepTitle"><b>Delete Account</b></h2>
+          <p></p>
+        </div>
 
-<div id="my-tab-content" class="tab-content">
-  <div class="tab-pane active" id="profile">
-    1
-  </div>
-  <div class="tab-pane" id="progress">
-    <h4>Rewards</h4>
-    <ul class="tabs" data-tabs="tabs">
-      <li><a href="#loyalty" data-toggle="tab"><h4>Loyalty</h4></a></li>
-      <li><a href="#popularity" data-toggle="tab"><h4>Popularity</h4></a></li>
-    </ul>
-    <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="loyalty">
-        <% @bars.each do |b| %>
-          <%= b.name %>
-          <%= Point.where(type: "Loyalty",bar_id: b.id, user_id: current_user.id).count %>
-        <% end %>
       </div>
-      <div class="tab-pane" id="popularity">
-        2
-      </div>
-    </div>
-  </div>
-  <div class="tab-pane" id="earned">
-    <% @winners.each do |w| %>
-      <%= User.where(user_id: current_user.id) %>
-    <% end %>
-  </div>
-  <div class="tab-pane" id="redeemed">
-    <h4>Rewards</h4>
-  </div>
-</div>
+    </td></tr>
+</table>
+
 
 

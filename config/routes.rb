@@ -58,6 +58,7 @@ Swprototype::Application.routes.draw do
   namespace :users do
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     match  "profile/:id" => "dashboard#show", as: "profile"
+    match  "rewards" => "dashboard#rewards", as: "rewards"
     #    get "bar_swigs/show"
     get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
     get  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"

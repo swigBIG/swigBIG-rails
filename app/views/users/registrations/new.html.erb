@@ -1,6 +1,6 @@
 <style type="text/css">
   .actionBar{
-    width: 600px;
+    width: 450px;
   }
   .stepContainer{
     height: 20px;
@@ -9,14 +9,14 @@
     background-image: none!important;
     height: auto!important;
     width: 0!important;
-  }
+  }z
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
     // Smart Wizard
     $('#wizard').smartWizard();
     $('.buttonFinish').hide();
-  $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
+    $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
   });
   //$("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
 </script>
@@ -58,41 +58,42 @@
       <div id="step-2">
         <div class="container span11" style="margin-top: 20px;">
           <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
-          <%= f.input :avatar %>
-          <%= f.input :name %>
-          <%= f.input :address %>
-          <%= f.input :zip_code %>
-          <%= f.input :phone_number %>
-          <%= f.input :city %>
-          <%= f.input :state %>
-    <%#= f.input :country %>
-          <%= f.input :last_seen %>
+            <%= f.input :avatar %>
+            <%= f.input :name %>
+            <%= f.input :address %>
+            <%= f.input :zip_code %>
+            <%= f.input :phone_number %>
+            <%= f.input :city %>
+            <%= f.input :state %>
+      <%#= f.input :country %>
+            <%= f.input :last_seen %>
+          </div>
         </div>
+
+        <div id="step-3">
+          <div class="container span11" style="margin-top: 20px;">
+            "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
+            <%= f.input :terms, as: :boolean %>
+            <br/>
+            <div style="text-align: center;">
+              <%= f.submit "Sign up", class: "btn-primary" %>
+              </div>
+            <% end %>
+
+          </div>
+        </div>
+
       </div>
+      <%= render "links" %>
 
-      <div id="step-3">
-        <div class="container span11" style="margin-top: 20px;">
-          "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
-          <%= f.input :terms, as: :boolean %>
-          <br/>
-
-          <div class="form-actions"><%= f.submit "Sign up", class: "btn-primary" %></div>
-          <% end %>
-
+      <%= content_for :outer do  %>
+        <div id="termModal" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3>Terms of Service</h3>
+          </div>
+          <div class="modal-body well">
+            SwigBIG Terms of Service content
+          </div>
         </div>
-      </div>
-
-    </div>
-    <%= render "links" %>
-
-    <%= content_for :outer do  %>
-      <div id="termModal" class="modal hide fade">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Terms of Service</h3>
-        </div>
-        <div class="modal-body well">
-          SwigBIG Terms of Service content
-        </div>
-      </div>
-    <% end %>
+      <% end %>

@@ -1,6 +1,6 @@
 <style type="text/css">
   .actionBar{
-    width: 600px;
+    width: 450px;
   }
   .stepContainer{
     height: 20px;
@@ -65,24 +65,25 @@
         "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
         <%= f.input :terms, as: :boolean %>
         <br/>
-        <div class="form-actions">
-          <%= f.submit "Create Account", class: "btn-primary" %>
+        <div >
+          <%= f.submit "Sign up", class: "btn-primary" %>
           </div>
+        <br/>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 
   <%= render "links" %>
 
-<%= content_for :outer do %>
-  <div id="termModal" class="modal hide fade">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal"><b>x</b></a>
-      <h3>Terms of Service</h3>
+  <%= content_for :outer do %>
+    <div id="termModal" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3>Terms of Service</h3>
+      </div>
+      <div class="modal-body well">
+        SwigBIG Terms of Service content
+      </div>
     </div>
-    <div class="modal-body well">
-      SwigBIG Terms of Service content
-    </div>
-  </div>
-<% end %>
+  <% end %>
