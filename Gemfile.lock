@@ -79,8 +79,8 @@ GEM
     faraday (0.8.0)
       multipart-post (~> 1.1)
     fastercsv (1.5.4)
-    formtastic (2.2.0)
-      actionpack (>= 3.0)
+    formtastic (2.1.1)
+      actionpack (~> 3.0)
     friendly_id (4.0.5)
     geocoder (1.1.1)
     geoip (1.1.2)
@@ -211,7 +211,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin
+  activeadmin (~> 0.4.3)
   amistad
   capistrano-ext
   carmen
@@ -220,6 +220,7 @@ DEPENDENCIES
   devise
   exception_notification
   execjs
+  formtastic (~> 2.1.1)
   friendly_id
   geocoder
   jquery-rails

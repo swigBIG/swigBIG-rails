@@ -20,6 +20,9 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem "formtastic", "~> 2.1.1"
+gem "activeadmin", "~> 0.4.3"
+
 #gem 'execjs'
 gem 'execjs'
 gem 'therubyracer'
@@ -30,7 +33,6 @@ gem 'carrierwave'
 gem 'geocoder'
 gem "mini_magick"
 gem "friendly_id"
-gem "activeadmin"
 gem 'carmen'
 gem 'whenever', :require => false
 gem 'meta_search'
@@ -59,10 +61,10 @@ gem "exception_notification"
 
 # To use debugger
 group :development do
-#  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
-#  gem 'linecache19'
-# gem 'ruby-debug19', :require => 'ruby-debug'
-#  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-#  gem 'ruby-debug19'
+  #  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+  #  gem 'linecache19'
+  # gem 'ruby-debug19', :require => 'ruby-debug'
+  #  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
+  #  gem 'ruby-debug19'
 end
 

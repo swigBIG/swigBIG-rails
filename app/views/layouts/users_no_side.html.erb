@@ -8,6 +8,8 @@
     <style type="text/css">
       body{
         background-color: rgba(107, 214, 0, 0.2);
+        background-image: url(<%= @site_content.site_background_url rescue nil %>);
+        background-repeat: repeat;
       }
       .navbar-inner{
         background-color: rgba(102, 153, 51, 1);
@@ -126,7 +128,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-          swigBig copright
+          <%= @site_content.corp_information rescue nil %>
         </div>
       </div>
     </div>
