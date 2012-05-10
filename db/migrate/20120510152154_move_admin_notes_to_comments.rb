@@ -6,7 +6,8 @@ class MoveAdminNotesToComments < ActiveRecord::Migration
     rename_column :active_admin_comments, :admin_user_id, :author_id
     add_column    :active_admin_comments, :namespace, :string
     add_index     :active_admin_comments, [:namespace]
-    add_index     :active_admin_comments, [:author_type, :author_id]
+    add_index     :active_admin_comments, :author_type
+    add_index     :active_admin_comments,  :author_id
 
     # Update all the existing comments to the default namespace
     say "Updating any existing comments to the #{ActiveAdmin.application.default_namespace} namespace."
