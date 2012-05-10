@@ -19,6 +19,7 @@ class Bar < ActiveRecord::Base
     has_many :swigs
     has_many :swigers
     has_many :products
+    has_many :points
 #    has_many :rewards
     has_many :winners
     has_one :loyalty

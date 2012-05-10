@@ -12,4 +12,8 @@ module ApplicationHelper
 #  User.all.map{|u| [u.name, u.id]}
   User.all
   end
+
+  def days
+    [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thursday","Thursday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]]
+  end
 end

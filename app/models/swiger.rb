@@ -6,20 +6,24 @@ class Swiger < ActiveRecord::Base
 
   after_create :get_loyalty
 
+  scope :today, where("created_at >= ? AND created_at  <= ?", Time.now.beginning_of_day, Time.now.end_of_day)
+  
   def get_loyalty
-    @swiger = Swiger.where(bar_id:  self.bar_id, user_id: self.user_id).count
-    @bar = Bar.find(self.bar_id)
-    @swiger = Swiger.where("created_at >= ? AND created_at  <= ?", Time.now.beginning_of_day, Time.now.end_of_day)
-    @swigs = @bar.swigs.where(swig_day: Date.today.strftime("%A"), swig_type: "Big", lock_status: nil)
-    @swigs.each do |swig|
-      if @swiger.count >= swig.people
-        swig.update_attributes(lock_status: "unlock")
-      end
+    swiger = self.user.swigers.where(bar_id:  self.bar_id).count
+
+    today_swiger = self.bar.swigers.today.count
+
+#    today_swigs = self.bar.swigs.where(swig_day: Date.today.strftime("%A"), swig_type: "Big", lock_status: "active").where("people <= ?", today_swiger)
+    today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger)
+    
+    today_swigs.each do |swig|
+      swig.update_attributes(lock_status: "unlock")
     end
-    unless @bar.loyalty.blank?
-      if @bar.loyalty.swigs_number.eql?(@swiger)
-        Winner.create(bar_id: @bar, user_id: self.user_id)
-        Swiger.where(bar_id:  self.bar_id, user_id: self.user_id).delete_all
+    
+    unless self.bar.loyalty.blank?
+      if self.bar.loyalty.swigs_number.eql?(swiger)
+        Winner.create(bar_id: self.bar, user_id: self.user_id)
+        Point.where(bar_id:  self.bar_id, user_id: self.user_id).delete_all
       end
     end
   end

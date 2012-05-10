@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Swprototype</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <style type="text/css">
+      body{
+        background-color: rgba(107, 214, 0, 0.2);
+      }
+      .navbar-inner{
+        background-color: rgba(102, 153, 51, 1);
+        background-image: none;
+      }
+      .tab-pane{
+        margin-left: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="nav pull-right">
+            <li>
+              <h2 class="brand" style="color: gray;">SwigBig</h2>
+            </li>
+            <li>
+              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.strftime("%A") %></span></h3></h2>
+            </li>
+            <div class="nav pull-right" style="margin-left: 200px;">
+              <li><b><a href="#" id="fat-menu" style="color: white;">Home</a></b></li>
+              <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
+              <% unless user_signed_in? %>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Sign up for FREE</b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <%= link_to "User Sign Up", new_user_registration_path,style: "color:#fff" %>
+                    </li>
+                    <li>
+                      <%= link_to "Bar Sign Up", new_bar_registration_path, style: "color: white;" %>
+                    </li>
+                    <li class="divider"></li>
+                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
+                  </ul>
+                </li>
+              <% end %>
+              <% if user_signed_in? %>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
+                    </li>
+                    <li>
+                      <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+                    </li>
+                    <li>
+                      <%= link_to "Rewards", users_rewards_path %>
+                    </li>
+                  </ul>
+                <% else %>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Log In</b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <%= link_to "User log in", new_user_session_path %>
+                    </li>
+                    <li>
+                      <%= link_to "Bar log in", new_bar_session_path %>
+                    </li>
+                    <li class="divider"></li>
+                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
+                  </ul>
+                </li>
+              <% end %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;">
+      <% if notice %>
+        <div class="alert alert-success"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-success"><%= alert %></div>
+      <% end %>
+
+      <%= yield %>
+      <div style="margin-top: 30px;"></div>
+    </div>
+    <%= yield :outer %>
+    <div class="navbar-fixed-bottom">
+      <div class="navbar-inner" style="background-image: none;height: 25px;">
+        <div class="container" style="padding-top: 5px;">
+          <div class="pull-left">Live Swig Feed: James J. just swigged at Duffy's in Chicago</div>
+          <div class="pull-right">
+            <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
+            &nbsp;
+            <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
+            &nbsp;
+            <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
+            &nbsp;
+            <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            &nbsp;
+            <b><%= link_to "swigBIG.com", main_home_path, style: "color: white" %></b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="copright" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Copright</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          swigBig copright
+        </div>
+      </div>
+    </div>
+    <div id="about" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">About Us</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          swigBig is a Bar connected with user
+        </div>
+      </div>
+    </div>
+    <div id="contact" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Contact Us</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          swigBig contact
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

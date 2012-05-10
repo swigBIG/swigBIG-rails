@@ -1,5 +1,5 @@
 <%= f.input :deal , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
 <% if swig.swig_type.eql?("Big") %>
-  <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
+  <%= f.input :swig_day, as: :select, collection: days %>
   <%= f.input :people, label: "people required" %>
 <% end %>

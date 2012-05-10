@@ -121,7 +121,7 @@
         <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
         <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
         <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-        <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
+        <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
         <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
         <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
         <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
@@ -129,37 +129,37 @@
 
       <div class="tab-content">
         <div class="tab-pane active" id="monday">
-          <% @swigs.where("swig_day = 'Monday' OR swig_day = 'all'").each do |swig|%>
+          <% @swigs.monday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
         <div class="tab-pane" id="tuesday">
-          <% @swigs.where("swig_day = 'Tuesday' OR swig_day = 'all'").each do |swig|%>
+          <% @swigs.tuesday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
         <div class="tab-pane" id="wednesday">
-          <% @swigs.where("swig_day = 'Wednesday' OR swig_day = 'all'").each do |swig|%>
+          <% @swigs.wednesday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane" id="thusday">
-          <% @swigs.where("swig_day = 'Thusday' OR swig_day = 'all'").each do |swig|%>
+        <div class="tab-pane" id="thursday">
+          <% @swigs.thursday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
         <div class="tab-pane" id="friday">
-          <% @swigs.where("swig_day = 'Friday' OR swig_day = 'all'").each do |swig|%>
+          <% @swigs.friday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
         <div class="tab-pane" id="saturday">
-          <% @swigs.where("swig_day = 'Saturday' OR swig_day = 'all'").each do |swig|%>
+          <% @swigs.saturday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
         <div class="tab-pane" id="sunday">
-          <% @swigs.where("swig_day = 'Sunday' OR swig_day = 'all'").each do |swig|%>
+          <% @swigs.sunday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
@@ -174,9 +174,7 @@
 
       <div class="tab-content">
         <div class="tab-pane active" id="reward_loyalty">
-          <% @winner.each do |w| %>
-            <%=  w.user.name %>
-          <% end %>
+
           <div class="clearfix"></div>
           <% @loyalty.each do |l| %>
             <div class="span6">
@@ -193,6 +191,23 @@
               <% end %>
             </div>
           <% end %>
+          <div class="clearfix"></div>
+          <div class="span7">
+            <table class="zebra-striped">
+              <th>Name</th>
+              <th>Winning Date</th>
+              <% @winner.each do |w| %>
+                <tr>
+                  <td>
+                    <%=  w.user.name %>
+                  </td>
+                  <td>
+                    <%=  w.created_at.strftime("%%%") %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
         </div>
         <div class="tab-pane" id="reward_popularity">
           <% @popularity.each do |l| %>
@@ -265,7 +280,7 @@
       <div class="modal-body well">
         <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Big"} %>
-          <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
+          <%= f.input :swig_day, as: :select, collection: days %>
           <%= f.input :deal , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
           <%= f.input :people %>
 

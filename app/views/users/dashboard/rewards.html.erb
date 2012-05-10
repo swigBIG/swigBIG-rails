@@ -1,0 +1,110 @@
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    // Smart Wizard
+    $('#wizard').smartWizard({
+      transitionEffect:'slide',
+      enableAllSteps: true,
+      hideButtonsOnDisabled: false
+    });
+    $('.actionBar').hide();
+
+  });
+</script>
+<style type="text/css">
+  .stepContainer .content{
+    width: 650px!important;
+  }
+</style>
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
+  <tr style="width: 500px;"><td style="width: 500px;">
+      <div id="wizard" class="swMain">
+
+        <ul>
+          <li>
+            <a href="#summary" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Summary</b>
+            </a>
+          </li>
+          <li>
+            <a href="#progress" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Progress</b>
+            </a>
+          </li>
+          <li>
+            <a href="#earned" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Earned Rewards</b>
+            </a>
+          </li>
+          <li>
+            <a href="#redeemed" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Redeemed Rewards</b>
+            </a>
+          </li>
+        </ul>
+
+        <div id="summary">
+          <h2 class="StepTitle"><b>Summary</b></h2>
+          <p>afewfwafeawf</p>
+        </div>
+
+        <div id="progress">
+          <h2 class="StepTitle"><b>Progress</b></h2>
+          <table>
+            <th>Bar</th>
+            <th>Reward</th>
+            <th>Progress</th>
+            <th>status</th>
+            <% @loyalty_points.each do |point| %>
+              <tr>
+                <td>
+                  <%= point.bar.name %>
+                </td>
+                <td>
+                  <%= point.bar.loyalty.reward_detail %>
+                </td>
+                <td>
+                  <%= point.bar.loyalty.swigs_number %>
+                  <b> of </b>
+                  <%= point.bar.points.count %>
+                </td>
+                <td>
+                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+
+        </div>
+        <div id="earned">
+          <h2 class="StepTitle"><b>Earned Rewards</b></h2>
+          <table>
+            <th>Date</th>
+            <th>Bar</th>
+            <th>Reward</th>
+            <th>Expiration</th>
+            <% @winners.each do |winner| %>
+              <tr>
+                <td>
+                  <%= winner.created_at.strftime("%m %d, %Y") %>
+                </td>
+                <td>
+                  <%= winner.bar.name %>
+                </td>
+                <td>
+                  <%= winner.bar.loyalty.reward_detail %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+        <div id="redeemed">
+          <h2 class="StepTitle"><b>Redeemed Rewards</b></h2>
+          <p>afewfwafeawf</p>
+        </div>
+
+      </div>
+    </td></tr>
+</table>

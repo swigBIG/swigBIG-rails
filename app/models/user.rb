@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   with_options dependent: :destroy do
     has_many :points
     has_many :swigers
+    has_many :winners
   end
 
 

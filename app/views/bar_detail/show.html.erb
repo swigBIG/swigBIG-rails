@@ -35,7 +35,7 @@
     <div class="clearfix"></div>
     <br/>
     <div id="map_canvas" style="margin-left: -25px;">
-      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+      <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
     <br />
     <fieldset class="well">
@@ -92,7 +92,7 @@
     <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
     <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
     <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-    <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
+    <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
     <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
     <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
     <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
@@ -100,42 +100,41 @@
 
   <div id="my-tab-content" class="tab-content">
     <div class="tab-pane active" id="monday">
-      <% @swigs.where("swig_day = 'Monday' OR swig_day = 'all'").each do |swig|%>
+      <% @swigs.monday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="tuesday">
-      <% @swigs.where("swig_day = 'Tuesday' OR swig_day = 'all'").each do |swig|%>
+      <% @swigs.tuesday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="wednesday">
-      <% @swigs.where("swig_day = 'Wednesday' OR swig_day = 'all'").each do |swig|%>
+      <% @swigs.wednesday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
-    <div class="tab-pane" id="thusday">
-      <% @swigs.where("swig_day = 'Thusday' OR swig_day = 'all'").each do |swig|%>
+    <div class="tab-pane" id="thursday">
+      <% @swigs.thursday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="friday">
-      <% @swigs.where("swig_day = 'Friday' OR swig_day = 'all'").each do |swig|%>
+      <% @swigs.friday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="saturday">
-      <% @swigs.where("swig_day = 'Saturday' OR swig_day = 'all'").each do |swig|%>
+      <% @swigs.saturday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="sunday">
-      <% @swigs.where("swig_day = 'Sunday' OR swig_day = 'all'").each do |swig|%>
+      <% @swigs.sunday.each do |swig|%>
         <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
 
   </div>
-
 
 </body>
