@@ -21,8 +21,8 @@ end
 
 gem 'jquery-rails'
 gem "formtastic", "~> 2.1.1"
-gem "activeadmin", "~> 0.4.3"
-
+#gem "activeadmin", "~> 0.4.3"
+gem 'activeadmin', :git => "git://github.com/gregbell/active_admin.git"
 #gem 'execjs'
 gem 'execjs'
 gem 'therubyracer'
