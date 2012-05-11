@@ -59,7 +59,7 @@
           <h2 class="StepTitle"><b>Profile Stat</b></h2>
           <div class="span4 pull-right">
             <b>Favorite Bar</b>
-            <%= @top_bar.bar.name %>
+            <%= @top_bar.bar.name rescue "---"%>
           </div>
           <br/>
           <div class="span4 pull-right">

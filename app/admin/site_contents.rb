@@ -59,6 +59,7 @@ ActiveAdmin.register SiteContent do
       f.input :about_us
       f.input :learn_more
       f.input :contact_us
+      f.buttons
     end
   end
 

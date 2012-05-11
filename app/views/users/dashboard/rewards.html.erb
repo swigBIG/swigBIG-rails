@@ -17,7 +17,94 @@
     width: 650px!important;
   }
 </style>
+<div class="clearfix"></div>
+<br/>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+<!--<ul class="" data-tabs="tabs" style="list-style: none;"></ul>-->
+<div class="span5 pull-left" style="margin-left: 0px;margin-bottom: 50px;">
+  <a class="btn btn-large" style="width: 200px;margin-bottom: 5px;" href="#summary" data-toggle="tab"><b>Summary</b></a>
+  <br/>
+  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#progress" data-toggle="tab"><b>Progress</b></a>
+  <br/>
+  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>Earned Rewards</b></a>
+  <br/>
+  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#redeemed" data-toggle="tab"><b>Redeemed Rewards</b></a>
+</div>
+<div class="span11 pull-right">
+  <div class="tab-content">
+    <div class="tab-pane active" id="summary">
+      tet
+    </div>
+    <div class="tab-pane" id="progress">
+      <h3 class="StepTitle"><b>Progress</b></h3>
+      <ul class="tabs" data-tabs="tabs">
+        <li class="active"><a href="#loyalty" data-toggle="tab"><h5>Loyalty</h5></a></li>
+        <li><a href="#popularity" data-toggle="tab"><h5>Popularity</h5></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="loyalty">
+          <table>
+            <th>Bar</th>
+            <th>Reward</th>
+            <th>Progress</th>
+            <th>status</th>
+            <% @loyalty_points.each do |point| %>
+              <tr>
+                <td>
+                  <%= point.bar.name %>
+                </td>
+                <td>
+                  <%= point.bar.loyalty.reward_detail %>
+                </td>
+                <td>
+                  <%= point.bar.loyalty.swigs_number %>
+                  <b> of </b>
+                  <%= point.bar.points.count %>
+                </td>
+                <td>
+                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+        <div class="tab-pane" id="popularity">
+          pop
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="earned">
+      <h2 class="StepTitle"><b>Earned Rewards</b></h2>
+      <table>
+        <th>Date</th>
+        <th>Bar</th>
+        <th>Reward</th>
+        <th>Expiration</th>
+        <% @winners.each do |winner| %>
+          <tr>
+            <td>
+              <%= winner.created_at.strftime("%m %d, %Y") %>
+            </td>
+            <td>
+              <%= winner.bar.name %>
+            </td>
+            <td>
+              <%= winner.bar.loyalty.reward_detail %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="tab-pane" id="redeemed">
+      Popularity content
+    </div>
+  </div>
+</div>
 
+
+
+<!--------------------------------------------------------
 <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
   <tr style="width: 500px;"><td style="width: 500px;">
       <div id="wizard" class="swMain">
@@ -51,65 +138,12 @@
         </div>
 
         <div id="progress">
-          <h2 class="StepTitle"><b>Progress</b></h2>
-          <table>
-            <th>Bar</th>
-            <th>Reward</th>
-            <th>Progress</th>
-            <th>status</th>
-            <% @loyalty_points.each do |point| %>
-              <tr>
-                <td>
-                  <%= point.bar.name %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.reward_detail %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.swigs_number %>
-                  <b> of </b>
-                  <%= point.bar.points.count %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  %>
-                </td>
-              </tr>
-            <% end %>
-          </table>
-          <!--<ul class="tabs" data-tabs="tabs">
-            <li class="active"><a href="#loyalty_tab" data-toggle="tab"><h3>Loyalty</h3></a></li>
-            <li><a href="#popularity_tab" data-toggle="tab"><h3>Popularity</h3></a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="loyalty_tab">
-            </div>
-            <div class="tab-pane" id="popularity_tab">
-              Popularity content
-            </div>
-          </div>-->
+
+
 
         </div>
         <div id="earned">
-          <h2 class="StepTitle"><b>Earned Rewards</b></h2>
-          <table>
-            <th>Date</th>
-            <th>Bar</th>
-            <th>Reward</th>
-            <th>Expiration</th>
-            <% @winners.each do |winner| %>
-              <tr>
-                <td>
-                  <%= winner.created_at.strftime("%m %d, %Y") %>
-                </td>
-                <td>
-                  <%= winner.bar.name %>
-                </td>
-                <td>
-                  <%= winner.bar.loyalty.reward_detail %>
-                </td>
-              </tr>
-            <% end %>
-          </table>
+
         </div>
         <div id="redeemed">
           <h2 class="StepTitle"><b>Redeemed Rewards</b></h2>
@@ -119,3 +153,4 @@
       </div>
     </td></tr>
 </table>
+-->
