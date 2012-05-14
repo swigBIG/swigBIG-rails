@@ -204,6 +204,23 @@
                   <td>
                     <%=  w.created_at.strftime("%%%") %>
                   </td>
+                  <td>
+                    <a href="#loyalty_reward_message<%= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
+                    <%= content_for :outer do %>
+                      <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade"><div class="modal-header">
+                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                          <h3>Reward for <%=  w.user.name %></h3>
+                        </div>
+                        <div class="modal-body well">
+                          <div style="text-align: center;">
+                            <%= simple_form_for(@loyalty_reward ,url: bars_create_reward_message_path(w.user_id, w.id)) do |lr| %>
+                              <%= render partial: "loyalty_reward", locals: {lr: lr} %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </table>
@@ -338,22 +355,9 @@
                 <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
                 <%= f.input :swigs_number %>
                 <div class="form-actions">
-                  <%= f.submit "Create Loyaltyi", class: "btn-primary" %>
+                  <%= f.submit "Create Loyalty", class: "btn-primary" %>
                   </div>
                 <% end %>
-              </div>
-            </div>
-            <div id="messagemodal" class="modal hide fade" style="opacity: 1 ;">
-              <div class="modal-header">
-                <a class="close" data-dismiss="modal"><b>x</b></a>
-                <h3>Swig Type</h3>
-              </div>
-              <div class="modal-body well">
-                <div style="text-align: center;">
-                  <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
-                  &nbsp; &nbsp;
-                  <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
-                </div>
               </div>
             </div>
           <% end %>

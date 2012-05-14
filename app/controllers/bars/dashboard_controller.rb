@@ -6,15 +6,16 @@ class Bars::DashboardController < ApplicationController
     @swigers = @bar.swigers
     @swig = @bar.swigs.new
     @swigs = @bar.swigs
-#    @reward = @bar.rewards.new
+    #    @reward = @bar.rewards.new
     @reward = []
     @loyal = Loyalty.new
     @popular = Popularity.new
-#    @popularity = @bar.rewards.where(reward_type: "Popularity")
+    #    @popularity = @bar.rewards.where(reward_type: "Popularity")
     @popularity = Popularity.all
-#    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
+    #    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
     @loyalty = Loyalty.all
     @winner = @bar.winners.all
+    @loyalty_reward = RewardMessage.new
   end
 
   def show
@@ -22,7 +23,12 @@ class Bars::DashboardController < ApplicationController
 
   def create_reward_message
     @winner = Winner.find(params[:user_id])
-    @reward_message = RewardMessage.ne
+    @reward_message = RewardMessage.new(bar_id: current_bar.id, user_id: params[:user_id], content: params[:reward_message][:content], subject: params[:reward_message][:subject])
+    if @reward_message.save
+      redirect_to :back, notice: "Success Send"
+    else
+      redirect_to :back, notice: "Failed Send"
+    end
   end
 
   def create_swig
@@ -66,20 +72,20 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-#  def create_reward
-#    @reward = current_bar.rewards.new(params[:reward])
-#    if @reward.save
-#      redirect_to :back, notice: "reward success added"
-#    else
-#      redirect_to :back, notice: "reward fail added"
-#    end
-#  end
+  #  def create_reward
+  #    @reward = current_bar.rewards.new(params[:reward])
+  #    if @reward.save
+  #      redirect_to :back, notice: "reward success added"
+  #    else
+  #      redirect_to :back, notice: "reward fail added"
+  #    end
+  #  end
 
   def create_loyalty
     @loyalty = Loyalty.new(params[:loyalty])
     
     if @loyalty.save
-#      Loyalty.find().update_attributes(bar_id: current_bar.id)
+      #      Loyalty.find().update_attributes(bar_id: current_bar.id)
       redirect_to :back, notice: "loyalty success added"
     else
       redirect_to :back, notice: "loyalty fail added"
@@ -95,14 +101,14 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-#  def update_reward
-#    @reward = Reward.find(params[:id])
-#    if @reward.update_attributes(params[:reward])
-#      redirect_to :back, notice: "reward success updated"
-#    else
-#      redirect_to :back, notice: "reward fail updated"
-#    end
-#  end
+  #  def update_reward
+  #    @reward = Reward.find(params[:id])
+  #    if @reward.update_attributes(params[:reward])
+  #      redirect_to :back, notice: "reward success updated"
+  #    else
+  #      redirect_to :back, notice: "reward fail updated"
+  #    end
+  #  end
   def update_loyalty
     @loyalty = Loyalty.find(params[:id])
     if @loyalty.update_attributes(params[:loyalty])
