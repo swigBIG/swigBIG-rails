@@ -10,19 +10,19 @@ ActiveAdmin.register Bar do
   filter  :logo
   filter  :sports_team
 
-  index do
-    column  :email
-    column  :name
-    column  :address
-    column  :zip_code
-    column  :phone_number
-    column  :city
-    column  :state
-    column  :country
-    column  :logo
-    column  :sports_team
-    default_actions
-  end
+#  index do
+#    column  :email
+#    column  :name
+#    column  :address
+#    column  :zip_code
+#    column  :phone_number
+#    column  :city
+#    column  :state
+#    column  :country
+#    column  :logo
+#    column  :sports_team
+#    default_actions
+#  end
 
   show do |b|
 

@@ -75,4 +75,10 @@ ActiveAdmin.register User do
     end
   end
 
+#  member_action :lock, :method => :put do
+#    user = User.find(params[:id])
+#    user.lock!
+#    redirect_to {:action => :show}, :notice => "Locked!"
+#  end
+
 end

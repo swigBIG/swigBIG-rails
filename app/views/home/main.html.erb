@@ -24,6 +24,19 @@
 
 <body onload="initialize()">
   <%= content_for :side do %>
+    <ul>
+      <li id="fat-menu" class="dropdown" style="list-style: none;">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
+        <ul class="dropdown-menu">
+          <% City.order(:name).each do |c| %>
+            <li>
+              <%= link_to c.name, city_home_path(c.id), method: :get %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+
     <%= simple_form_for(@search, url: root_path) do |f|%>
       <%= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
       <div class="accordion-group">
@@ -155,5 +168,5 @@
 
       </div>
     </div>
-
+  </body>
 

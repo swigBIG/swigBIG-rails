@@ -83,11 +83,25 @@
 
         <div id="email">
           <h2 class="StepTitle"><b>Progress</b></h2>
-          <p>afewfwafeawf</p>
+          <div style="margin-top: 30px;">
+            <div style="margin-left: 80px;margin-top: 40px;">
+              <%= simple_form_for(@user, url: users_update_account_path) do |f| %>
+                <%= f.input :email, label: false, placeholder: "Email" %>
+                <%= f.submit "change email"  %>
+              <% end %>
+            </div>
+          </div>
         </div>
         <div id="password">
-          <h2 class="StepTitle"><b>Earned Rewards</b></h2>
-
+          <h2 class="StepTitle"><b>Change Password</b></h2>
+          <div style="margin-left: 80px;margin-top: 40px;">
+            <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
+              <%= f.input :password,label: false, placeholder: "Password" %>
+              <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
+              <%= f.input :current_password, label: false, placeholder: "Current Password" %>
+              <%= f.submit "Change Password" %>
+            <% end %>
+          </div>
         </div>
         <div id="contact">
           <h2 class="StepTitle"><b>Contact Rewards</b></h2>

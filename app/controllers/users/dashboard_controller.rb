@@ -20,6 +20,7 @@ class Users::DashboardController < ApplicationController
     @top_bar = Swiger.select(:bar_id).group(:bar_id).max
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
+    @user = User.new
 #    @winners = Winner.where(user_id: current_user)
   end
 
@@ -31,11 +32,21 @@ class Users::DashboardController < ApplicationController
 
   def update_account
     @user = current_user
+    if @user.update_attributes(params[:user])
+      sign_in @user, :bypass => true
+      redirect_to :back, notice: "Update Success!"
+    else
+      redirect_to :back, notice: "Update Failed!"
+    end
+  end
+  
+  def update_password
+    @user = current_user
     if @user.update_with_password(params[:user])
       sign_in @user, :bypass => true
-      redirect_to :back
+      redirect_to :back, notice: "Update Success!"
     else
-      render action: :account_setting
+      redirect_to :back, notice: "Update Failed!"
     end
   end
 end

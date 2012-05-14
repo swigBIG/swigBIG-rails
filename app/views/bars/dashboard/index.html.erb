@@ -28,18 +28,18 @@
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
       ['Days', 'Swiger'],
-      ['Monday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
-      ['Tuesday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
-      ['Wednesday', <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
-      ['Thusday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thusday"}.count %>],
-      ['Friday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
-      ['Saturday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
-      ['Sunday',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
+      ['Mon',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
+      ['Tue',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
+      ['Wed', <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
+      ['Thu',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thusday"}.count %>],
+      ['Fri',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
+      ['Sat',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
+      ['Sun',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
     ]);
 
     var options = {
       title: 'Swig Stat',
-      hAxis: {title: 'Stat', titleTextStyle: {color: 'red'}}
+      hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}}
     };
 
     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
@@ -230,7 +230,7 @@
     </div>
 
     <div class="tab-pane" id="stat_chart">
-      <div id="chart_div" style="width: 500px; height: 300px;"></div>
+      <div id="chart_div" style="width: 700px; height: 300px;"></div>
     </div>
 
   </div>

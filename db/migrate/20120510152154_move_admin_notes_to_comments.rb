@@ -20,6 +20,6 @@ class MoveAdminNotesToComments < ActiveRecord::Migration
     rename_column :active_admin_comments, :author_id, :admin_user_id
     rename_column :active_admin_comments, :author_type, :admin_user_type
     rename_table  :active_admin_comments, :admin_notes
-    add_index     :admin_notes, [:admin_user_type, :admin_user_id]
+#    add_index     :admin_notes, [:admin_user_type, :admin_user_id]
   end
 end

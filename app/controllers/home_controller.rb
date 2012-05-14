@@ -7,6 +7,7 @@ class HomeController < ApplicationController
     @geo.geocode!
     @loyalty = Loyalty.all
     @popularity = Popularity.all
+    @city = City.new
     #    @search = Bar.search(params[:search])
     #    @bars = @search.all
     @search = Swig.search(params[:search])
@@ -19,6 +20,13 @@ class HomeController < ApplicationController
 
   def index
 
+  end
+
+  def city
+    @city = City.find(params[:id])
+    @loyalty = Loyalty.all
+    @popularity = Popularity.all
+    @swigs = Swig.where(status: "active")
   end
 
   def time_zone
