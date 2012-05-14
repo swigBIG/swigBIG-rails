@@ -13,6 +13,8 @@ class Bar < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
   mount_uploader :bar_background, ImageUploader
 
+#  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
+  
   validates :terms, :acceptance => true
 
   with_options dependent: :destroy do

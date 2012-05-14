@@ -42,6 +42,7 @@ Swprototype::Application.routes.draw do
   namespace :bars do
     match  "dashboard" => "dashboard#index", as: "dashboard"
     match  "product" => "products#index", as: "product"
+    post  "create_reward_message/:user_id/:winner_id" => "dashboard#create_reward_message", as: "create_reward_message"
     post  "create_swig" => "dashboard#create_swig", as: "create_swig"
     post  "update_swig/:id" => "dashboard#update_swig", as: "update_swig"
     delete  "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
@@ -58,6 +59,15 @@ Swprototype::Application.routes.draw do
     delete  "delete_popularity/:id" => "dashboard#delete_popularity", as: "delete_popularity"
     get "rewards/index"
     match "rewards" => "rewards#index", as: "rewards"
+
+#    resources :messages do
+#      collection do
+#        get 'sent'
+#        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
+#        get 'trash'
+#        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
+#      end
+#    end
   end
 
   namespace :users do
@@ -73,6 +83,15 @@ Swprototype::Application.routes.draw do
     #--- friendship
     match "friendship" => "friends#index", as: "friend_index"
     post "friend_request/:user_id" => "friends#friend_request", as: "friend_request"
+
+#    resources :messages do
+#      collection do
+#        get 'sent'
+#        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
+#        get 'trash'
+#        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
+#      end
+#    end
   end
 
   # The priority is based upon order of creation:

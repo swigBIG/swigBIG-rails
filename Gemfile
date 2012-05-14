@@ -45,6 +45,7 @@ gem "simple_geolocation", "~> 0.0.7"
 gem 'nokogiri'
 #gem 'geo_ip', '~> 0.3.0'
 gem 'capistrano-ext'
+gem "acts-as-messageable"
 #gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 gem "exception_notification"
 # To use ActiveModel has_secure_password

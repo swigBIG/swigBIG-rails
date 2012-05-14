@@ -20,6 +20,11 @@ class Bars::DashboardController < ApplicationController
   def show
   end
 
+  def create_reward_message
+    @winner = Winner.find(params[:user_id])
+    @reward_message = RewardMessage.ne
+  end
+
   def create_swig
     @swig = current_bar.swigs.new(params[:swig])
     if @swig.save

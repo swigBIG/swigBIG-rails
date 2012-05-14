@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
     has_many :winners
   end
 
+#  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
 
   mount_uploader :avatar, ImageUploader
 

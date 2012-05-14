@@ -11,7 +11,7 @@
     var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
     var myOptions = {
       center: latlo,
-      zoom: 9,
+      zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"),
@@ -110,7 +110,7 @@
   <div class="clearfix"></div>
 
   <ul class="tabs" data-tabs="tabs">
-    <li><a href="#swig_tab" data-toggle="tab"><h3>Swig</h3></a></li>
+    <li class="active"><a href="#swig_tab" data-toggle="tab"><h3>Swig</h3></a></li>
     <li><a href="#reward_tab" data-toggle="tab"><h3>Reward</h3></a></li>
     <li><a href="#stat_chart" data-toggle="tab"><h3>Stat</h3></a></li>
   </ul>
@@ -168,7 +168,7 @@
     </div>
     <div class="tab-pane" id="reward_tab">
       <ul class="tabs" data-tabs="tabs">
-        <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+        <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
         <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
       </ul>
 
@@ -178,12 +178,12 @@
           <div class="clearfix"></div>
           <% @loyalty.each do |l| %>
             <div class="span6">
-              <%= l.swigs_number %><br/>
-              <%= l.reward_detail %>
+              <b>Swig Require : </b><%= l.swigs_number %><br/>
+              <b>Detail : </b><%= l.reward_detail %>
             </div>
             <div class="span4 pull-right">
-              <%= link_to  "Delete", bars_delete_loyalty_path(l.id), method: :delete, confirm: "Delete loyalty?" %>
               <a class="" data-toggle="modal" href="#update<%= l.id %>">Change</a>
+              <%= link_to  "Delete", bars_delete_loyalty_path(l.id), method: :delete, confirm: "Delete loyalty?" %>
               <%= content_for :outer do %>
                 <div id="update<%= l.id %>" class="modal hide fade">
                   <%= render partial: "update_loyalty", locals: {l: l} %>
@@ -236,6 +236,7 @@
   </div>
 
   <%= content_for :outer do %>
+
     <div id="swigModal" class="modal hide fade" style="opacity: 1 ;">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
@@ -340,6 +341,19 @@
                   <%= f.submit "Create Loyaltyi", class: "btn-primary" %>
                   </div>
                 <% end %>
+              </div>
+            </div>
+            <div id="messagemodal" class="modal hide fade" style="opacity: 1 ;">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal"><b>x</b></a>
+                <h3>Swig Type</h3>
+              </div>
+              <div class="modal-body well">
+                <div style="text-align: center;">
+                  <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
+                  &nbsp; &nbsp;
+                  <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
+                </div>
               </div>
             </div>
           <% end %>
