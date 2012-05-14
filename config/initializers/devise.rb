@@ -223,10 +223,10 @@ Devise.setup do |config|
 
 
   # use this for development
-  config.omniauth :facebook, "217608421677403", "2e93553428ed01d4f5a850b3adc3e70b"
+  #  config.omniauth :facebook, "217608421677403", "2e93553428ed01d4f5a850b3adc3e70b"
 
   #use this for production
-  #  config.omniauth :facebook, "410355872318354", "af14d3859f43ca38345e9c9368f3165d"
+  config.omniauth :facebook, "410355872318354", "af14d3859f43ca38345e9c9368f3165d"
   #
   #  
   #\\\  config.omniauth :twitter, "XNkbnBWRGmHY93LUFM5g", "NXObVWYWdFsSL4AT3lNyNMz6cKjA5CBfonpvY0Q"
