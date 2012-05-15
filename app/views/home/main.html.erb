@@ -38,7 +38,7 @@
     </ul>
 
     <%= simple_form_for(@search, url: root_path) do |f|%>
-      <%#= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
+    <%#= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 20px;">
           <div class="accordion-inner">
@@ -51,6 +51,7 @@
           <div class="accordion-inner" style="">
             <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
             <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+            <%= f.input :bar_sports_team_contains, label: false, placeholder: "Search by City",required: false %>
       <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
           </div>
         </div>
