@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable #, :confirmable
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :terms, :bird_date,
-    :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen
+    :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen, :access_token
 
   # attr_accessible :title, :body
   with_options dependent: :destroy do
@@ -21,6 +21,13 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, ImageUploader
 
   validates :terms, :acceptance => true
+
+
+#  def age_
+#    now = Time.now.utc.to_date
+#    age = now.year - self.bird_date.year - (self.bird_date.change(:year => now.year) > now ? 1 : 0)
+#    unless
+#  end
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     img = access_token.info.image

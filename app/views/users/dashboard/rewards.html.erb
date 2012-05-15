@@ -92,6 +92,16 @@
             <td>
               <%= winner.bar.loyalty.reward_detail %>
             </td>
+            <td>
+              <%= current_user.id %>
+              <% unless winner.reward_messages.nill? %>
+                <%= winner.reward_messages.each do |m| %>
+      <%#= RewardMessage.where(user_id: current_user.id).each do |m| %>
+                  <%= m.subject %>
+                  <%= m.content %>
+                <% end %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </table>

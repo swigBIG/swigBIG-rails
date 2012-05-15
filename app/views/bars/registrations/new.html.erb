@@ -55,7 +55,7 @@
         <%= f.input :sports_team %>
         <%= f.input :zip_code %>
         <%= f.input :phone_number %>
-        <%= f.input :city %>
+        <%= f.input :city, as: :select, collection: avaliable_cities %>
         <%= f.input :state %>
       </div>
     </div>
@@ -65,25 +65,31 @@
         "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
         <%= f.input :terms, as: :boolean %>
         <br/>
-        <div >
-          <%= f.submit "Sign up", class: "btn-primary" %>
+        <div class="span6" style="margin-left: -180px;margin-top: 20px;margin-bottom: 10px;">
+          <div class="span3 pull-left" style="margin-bottom: -25px;">
+            <%= link_to "Cancel", main_home_path, class: "btn-primary" %>
+            </div>
+            <div class="span3 pull-right">
+              <%= f.submit "Sign up", class: "btn-primary" %>
+              </div>
+            </div>
+            <br/>
           </div>
-        <br/>
+        <% end %>
+      </div>
+    </div>
+    <div class="span5 pull-left">
+      <%= render "links" %>
+    </div>
+
+    <%= content_for :outer do %>
+      <div id="termModal" class="modal hide fade">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Terms of Service</h3>
         </div>
-      <% end %>
-    </div>
-  </div>
-
-  <%= render "links" %>
-
-  <%= content_for :outer do %>
-    <div id="termModal" class="modal hide fade">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3>Terms of Service</h3>
+        <div class="modal-body well">
+          <%= @site_content.term_of_service rescue nil %>
+        </div>
       </div>
-      <div class="modal-body well">
-       <%= @site_content.term_of_service rescue nil %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>

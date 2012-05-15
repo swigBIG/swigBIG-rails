@@ -13,7 +13,7 @@ class Bar < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
   mount_uploader :bar_background, ImageUploader
 
-#  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
+  #  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
   
   validates :terms, :acceptance => true
 
@@ -22,7 +22,7 @@ class Bar < ActiveRecord::Base
     has_many :swigers
     has_many :products
     has_many :points
-#    has_many :rewards
+    #    has_many :rewards
     has_many :winners
     has_one :loyalty
     has_one :popularity
@@ -32,13 +32,17 @@ class Bar < ActiveRecord::Base
 
   extend  FriendlyId
 
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :name , use: :slugged
+
+#  def to_param
+#    "#{id} #{name}".parameterize
+#  end
 
   #  geocoded_by :latitude  => :latitude, :longitude => :longitude
 
   def full_address
     "#{self.address}, #{self.city}, #{self.state}, United states"
-#    "#{self.address}, #{self.city}, #{self.state}, Indonesia"
+    #    "#{self.address}, #{self.city}, #{self.state}, Indonesia"
   end
 
   def set_lat_lng

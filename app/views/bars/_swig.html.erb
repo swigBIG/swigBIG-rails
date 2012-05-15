@@ -1,0 +1,18 @@
+<div class="well span9">
+  <% if  swig.swig_type.eql?("Big") %>
+    <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+      <%= swig.swig_type %>
+    </button>
+    &nbsp;
+    <b>Required: </b><%= swig.people %> people
+    &nbsp;
+    <%= swig.lock_status.blank? ? "Lock" : "unlock" %>
+  <% else %>
+    <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+      <%= swig.swig_type %>
+    </button>
+  <% end %>
+  <b class="pull-right">
+    <%= swig.deal %>
+  </b>
+</div>

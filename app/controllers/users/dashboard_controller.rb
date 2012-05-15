@@ -15,19 +15,25 @@ class Users::DashboardController < ApplicationController
     end
     @swigs = Swig.where(status: "active")
   end
+  def facebook_page
+    @top_bar = Swiger.select(:bar_id).group(:bar_id).max
+    @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
+    @bars = Bar.all
+    @user = User.new
+  end
 
   def show
     @top_bar = Swiger.select(:bar_id).group(:bar_id).max
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     @user = User.new
-#    @winners = Winner.where(user_id: current_user)
+    #    @winners = Winner.where(user_id: current_user)
   end
 
   def rewards
     @winners = current_user.winners
     @loyalty_points = current_user.points.where(popularity_points: nil).group(:bar_id)
-#    @loyalty_points = Bar.loyalty.nil?
+    #    @loyalty_points = Bar.loyalty.nil?
   end
 
   def update_account

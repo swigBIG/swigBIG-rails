@@ -75,25 +75,30 @@
             "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
             <%= f.input :terms, as: :boolean %>
             <br/>
-            <div style="text-align: center;">
-              <%= f.submit "Sign up", class: "btn-primary" %>
-              </div>
-            <% end %>
+            <div class="span6">
+              <div class="span2">
+                <%= f.submit "Sign up", class: "btn-primary" %>
+                </div>
+                <div class="span3 pull-right">
+                  <%= link_to "Cancel", main_home_path, class: "btn-primary" %>
+                  </div>
+                </div>
+              <% end %>
 
+            </div>
           </div>
+
         </div>
+        <%= render "links" %>
 
-      </div>
-      <%= render "links" %>
-
-      <%= content_for :outer do  %>
-        <div id="termModal" class="modal hide fade">
-          <div class="modal-header">
-            <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3>Terms of Service</h3>
+        <%= content_for :outer do  %>
+          <div id="termModal" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3>Terms of Service</h3>
+            </div>
+            <div class="modal-body well">
+              <%= @site_content.term_of_service rescue nil %>
+            </div>
           </div>
-          <div class="modal-body well">
-            <%= @site_content.term_of_service rescue nil %>
-          </div>
-        </div>
-      <% end %>
+        <% end %>

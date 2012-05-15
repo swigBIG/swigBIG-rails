@@ -2,8 +2,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   layout "users"
 
   def after_inactive_sign_up_path_for(resource)
-#    new_user_session_url
+    #    new_user_session_url
     main_home_path
+  end
+
+  def after_sign_up_path_for(resource)
+    main_home_path
+  end
+  
+  def after_update_path_for(resource)
+    users_dashboard_url
   end
 
   def update
@@ -16,9 +24,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
       render action: :edit
     end
   end
-
-  def after_update_path_for(resource)
-    users_dashboard_url
-  end
-
+  
 end

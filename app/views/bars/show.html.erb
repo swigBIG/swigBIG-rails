@@ -1,0 +1,140 @@
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  #map_canvas { height: 350px ; width: 275px;}
+</style>
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
+    var myOptions = {
+      center: latlo,
+      zoom: 16,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+    myOptions);
+    var marker = new google.maps.Marker({
+      position: latlo,
+      map: map
+    });
+  }
+</script>
+<body onload="initialize()">
+
+  <%= content_for :background do %>
+    <%= @bar.bar_background_url %>
+  <% end %>
+
+  <%= content_for :side do %>
+    <h3><%= @bar.name rescue nil %></h3>
+    <div class="span4">
+      <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+    </div>
+    <div class="clearfix"></div>
+    <br/>
+    <div id="map_canvas" style="margin-left: -25px;">
+      <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+    </div>
+    <br />
+    <fieldset class="well">
+      <%= link_to "Enter Bar", users_enter_bar_path(@bar.id)  %>
+      <br/>
+      <b>Who's There</b>
+      <br/>
+      <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
+        <% @swigers.each do |swiger| %>
+          <%= User.find(swiger.user_id).name %>
+          <br/>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
+
+
+  <div class="clearfix"></div>
+  <br/>
+  <div class="clearfix"></div>
+  <div class="accordion-group">
+    <div class="accordion-heading" style="margin-left: 40px;">
+      <div class="accordion-inner">
+        <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
+      </div>
+    </div>
+  </div>
+  <div id="popularityandloyalty" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <ul class="tabs" data-tabs="tabs">
+        <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+        <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="reward_loyalty">
+          <% @loyalty.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+        <div class="tab-pane" id="reward_popularity">
+          <% @popularity.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <div class="clearfix"></div>
+  <br/>
+  <ul class="tabs" data-tabs="tabs">
+    <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+    <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+    <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+    <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
+    <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+    <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+    <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+  </ul>
+
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane active" id="monday">
+      <% @swigs.monday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="tuesday">
+      <% @swigs.tuesday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="wednesday">
+      <% @swigs.wednesday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="thursday">
+      <% @swigs.thursday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="friday">
+      <% @swigs.friday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="saturday">
+      <% @swigs.saturday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="sunday">
+      <% @swigs.sunday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+
+  </div>
+
+</body>

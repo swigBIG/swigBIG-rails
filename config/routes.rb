@@ -37,8 +37,7 @@ Swprototype::Application.routes.draw do
 
   devise_for :members, controllers: {registrations: "members/registrations"}
 
-
-
+  
   namespace :bars do
     match  "dashboard" => "dashboard#index", as: "dashboard"
     match  "product" => "products#index", as: "product"
@@ -69,9 +68,15 @@ Swprototype::Application.routes.draw do
 #      end
 #    end
   end
+  resources :bars do
+
+  end
+
+
 
   namespace :users do
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
+    match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"
     match  "profile/:id" => "dashboard#show", as: "profile"
     match  "rewards" => "dashboard#rewards", as: "rewards"
     match  "update_account" => "dashboard#update_account", as: "update_account"

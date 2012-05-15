@@ -1,0 +1,37 @@
+<%= render "message_menu" %>
+  <h2>Compose Message</h2>
+  <%= simple_form_for(@message, :url => bars_messages_path,html: {:class => "form-horizontal pull-left"}) do |f| %>
+    <% if @recipient %>
+      <span style="margin-left: 86px">Recipient</span>
+      <div class="input string required">
+
+        <%= f.input :received_messageable_id, as: :hidden, :label => "Recipient", :collection => student_collection_from_business_side, input_html: {value: @recipient.id}, class: "pull-right" %>
+        <%= f.input :received_messageable_type, :as => :hidden, :input_html => {:value => "Student"} %>
+        <div style="margin-top: -13px;margin-left: 10px;margin-bottom: 20px;"><%= @recipient.full_name.titleize %></div>
+        </div>
+      <% else %>
+        <span style="margin-left: 86px">Recipient</span> <select data-placeholder="Select Recipient" style="width:350px;margin-left: 20px;margin-bottom: 10px" class="chzn-select" tabindex="5" name="acts_as_messageable_message[received_messageable_id]">
+          <option value=""></option>
+          <% student_collection_from_business_side.each do |s| %>
+            <option value="<%= s.id rescue nil %>--<%= s.class.to_s rescue nil %>"><%= s.full_name.titleize rescue nil%></option>
+          <% end %>
+        </select>
+      <%#= f.input :received_messageable_id, :label => "Recipient", :collection => student_collection, input_html: {:class => "chzn-select", tabindex: "7", "data-placeholder" => "Select the recipient", style: "width:350px"}, required: true %>
+        <%= f.input :received_messageable_type, :as => :hidden, :input_html => {:value => "Student"} %>
+      <% end %>
+      <%= f.input :sent_messageable_id, :as => :hidden, :input_html => {:value => current_business.id} %>
+      <%= f.input :sent_messageable_type, :as => :hidden, :input_html => {:value => "Business"} %>
+      <%= f.input :topic, label: "Subject" %>
+      <%= f.input :body, input_html: {rows: 6, style: "width: 550px"}%>
+      <div class="form-actions">
+        <%= f.submit "Send" , class: "btn-primary"%>
+        </div>
+      <% end %>
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("abbr").hide();
+      })
+      $(".chzn-select").chosen();
+    </script>

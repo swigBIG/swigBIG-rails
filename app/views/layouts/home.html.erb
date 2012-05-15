@@ -40,7 +40,9 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Sign up for FREE</b></a>
                   <ul class="dropdown-menu">
                     <li>
-                      <%= link_to "User Sign Up", new_user_registration_path,style: "color:#fff" %>
+  <%#= link_to "User Sign Up", new_user_registration_path,style: "color:#fff" %>
+                      <!--<a href="#step1_user_sign_up" data-toggle="modal" style="color: white;" ><b>User Sign Up</b></a>-->
+                      <a href="#option_sign_up" data-toggle="modal" style="color: white;" ><b>User Sign Up</b></a>
                     </li>
                     <li>
                       <%= link_to "Bar Sign Up", new_bar_registration_path, style: "color: white;" %>
@@ -164,5 +166,84 @@
       </div>
     </div>
 
-  </body>
-</html>
+    <div id="option_sign_up" class="modal hide fade"><!--Sign Up Option-->
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Sign Up or Log In Using:</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+<%#- if devise_mapping.omniauthable? %>
+<%#- resource_class.omniauth_providers.each do |provider| %>
+<%#= link_to "Facebook", omniauth_authorize_path(resource_name, provider) %><br />
+<%# end -%>
+<%# end -%>
+          <br/>
+          or
+          <br/>
+          <b><%= button_to "Email", new_user_registration_path, class: "btn-success", method: :get %></b>
+          </div>
+        </div>
+      </div>
+
+      <!--Sign up Modal----->
+      <!--
+  <%#= simple_form_for(resource, :as => resource_name, :url => user_registration_path, html: {class: "form-horizontal" }) do |f| %>
+  <%#= devise_error_messages! %>
+          <div id="step1_user_sign_up" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3 style="text-align: center;">Step 1</h3>
+            </div>
+            <div class="modal-body">
+              <div style="text-align: center;">
+  <%#= f.input :email %>
+  <%#= f.input :password %>
+  <%#= f.input :password_confirmation %>
+              </div>
+              <a href="#step2_user_sign_up" data-toggle="modal" style="color: white;" ><b>Next</b></a>
+            </div>
+          </div>
+          <div id="step2_user_sign_up" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3 style="text-align: center;">Step 2</h3>
+            </div>
+            <div class="modal-body">
+              <div style="text-align: center;">
+  <%#= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
+  <%#= f.input :avatar %>
+  <%#= f.input :name %>
+  <%#= f.input :address %>
+  <%#= f.input :zip_code %>
+  <%#= f.input :phone_number %>
+  <%#= f.input :city %>
+  <%#= f.input :state %>
+  <%#= f.input :country %>
+  <%#= f.input :last_seen %>
+                </div>
+                <a href="#step3_user_sign_up" data-toggle="modal" style="color: white;" ><b>Next</b></a>
+              </div>
+            </div>
+            <div id="step3_user_sign_up" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal"><b>x</b></a>
+                <h3 style="text-align: center;">Step 3</h3>
+              </div>
+              <div class="modal-body">
+                <div style="text-align: center;">
+                  "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
+  <%#= f.input :terms, as: :boolean %>
+                  <br/>
+                  <div style="text-align: center;">
+  <%#= f.submit "Sign up", class: "btn-primary" %>
+                    </div>
+  <%# end %>
+                </div>
+              </div>
+            </div>-->
+
+    </body>
+  </html>
+
+

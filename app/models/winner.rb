@@ -4,6 +4,6 @@ class Winner < ActiveRecord::Base
   belongs_to :bar
   belongs_to :user
 
-  has_many :reward_message
+  has_many :reward_messages
 
 end

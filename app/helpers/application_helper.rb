@@ -17,4 +17,8 @@ module ApplicationHelper
     [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thursday","Thursday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]]
   end
 
+  def avaliable_cities
+    City.all.map{|c| [c.name, c.name]}
+  end
+
 end

@@ -38,7 +38,7 @@
     </ul>
 
     <%= simple_form_for(@search, url: root_path) do |f|%>
-      <%= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
+      <%#= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 20px;">
           <div class="accordion-inner">
@@ -57,30 +57,14 @@
       <% end %>
     <% end %>
 
-    <%= content_for :swig_slogan do %>
-      <div  style="text-align: center">
-        <div style="float:left;width: 25%">
-          <h6>COSTOMER REWARDS</h6>
-        </div>
-        <div style="float:left;width: 25%">
-          <h6>INNOVATIVE TIERED <br /> SWIG SPECIALS</h6>
-        </div>
-        <div style="float:left;width: 25%">
-          <h6>INTEGRATED MARKETING</h6>
-        </div>
-        <div style="float:left;width: 25%">
-          <h6>REDUCED EXPENSES</h6>
-        </div>
-      </div>
-    <% end %>
-
     <div class="clearfix"></div>
+
     <div class="clearfix"></div>
     <h4><%= @geo.city %></h4>
     <ul class="tabs" data-tabs="tabs">
       <li><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-      <li><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
-      <li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>
+      <li class="active"><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
+      <!--<li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>-->
     </ul>
 
     <div id="my-tab-content" class="tab-content">
@@ -89,46 +73,7 @@
           <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
         </div>
       </div>
-      <div class="tab-pane" id="reward">
-        <ul class="tabs" data-tabs="tabs">
-          <li><a href="#side_loyalty" data-toggle="tab"><h4>Loyalty</h4></a></li>
-          <li><a href="#side_popularity" data-toggle="tab"><h4>Popularity</h4></a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="side_loyalty">
-            <table class="zebra-striped">
-              <th>Loyality</th>
-              <th class="pull-right">Bar name</th>
-              <% @loyalty.each do |l| %>
-                <tr>
-                  <td>
-                    <%= l.reward_detail %>
-                  </td>
-                  <td class="pull-right">
-                    <%=  link_to l.bar.name, bar_profile_path(l.bar_id) %>
-                  </td>
-                </tr>
-              <% end %>
-            </table>
-          </div>
-          <div class="tab-pane" id="side_popularity">
-            <table class="zebra-striped">
-              <th>Popularity</th>
-              <th class="pull-right">Bar name</th>
-              <% @popularity.each do |l| %>
-                <tr>
-                  <td>
-                    <%= l.reward_detail %>
-                  </td>
-                  <td class="pull-right">
-                    <%=  link_to l.bar.name, bar_profile_path(l.bar_id) %>
-                  </td>
-                </tr>
-              <% end %>
-            </table>
-          </div>
-        </div>
-      </div>
+
       <div class="tab-pane" id="list">
         <table class="zebra-striped">
           <th>Deals</th>
@@ -157,7 +102,7 @@
                 <%= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %>
               </td>
               <td>
-                <%=begin
+                <%= begin
                   sprintf("%.2f",Geocoder::Calculations.distance_between([@geo.lat,@geo.lng], [swig.bar.latitude, swig.bar.longitude]))
                 rescue
                 end %> mile
@@ -165,8 +110,49 @@
             </tr>
           <% end %>
         </table>
-
       </div>
+
+      <!--<div class="tab-pane" id="reward">
+        <ul class="tabs" data-tabs="tabs">
+          <li><a href="#side_loyalty" data-toggle="tab"><h4>Loyalty</h4></a></li>
+          <li><a href="#side_popularity" data-toggle="tab"><h4>Popularity</h4></a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="side_loyalty">
+            <table class="zebra-striped">
+              <th>Loyality</th>
+              <th class="pull-right">Bar name</th>
+  <%# @loyalty.each do |l| %>
+                <tr>
+                  <td>
+  <%#= l.reward_detail %>
+                  </td>
+                  <td class="pull-right">
+  <%#=  link_to l.bar.name, bar_profile_path(l.bar_id) %>
+                  </td>
+                </tr>
+  <%# end %>
+            </table>
+          </div>
+          <div class="tab-pane" id="side_popularity">
+            <table class="zebra-striped">
+              <th>Popularity</th>
+              <th class="pull-right">Bar name</th>
+  <%# @popularity.each do |l| %>
+                  <tr>
+                    <td>
+  <%#= l.reward_detail %>
+                    </td>
+                    <td class="pull-right">
+  <%#=  link_to l.bar.name, bar_profile_path(l.bar_id) %>
+                    </td>
+                  </tr>
+  <%# end %>
+            </table>
+          </div>
+        </div>
+      </div>-->
+
     </div>
   </body>
 

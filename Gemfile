@@ -38,6 +38,7 @@ gem 'whenever', :require => false
 gem 'meta_search'
 gem "omniauth"
 gem 'omniauth-facebook'
+gem "fb_graph", "~> 2.4.15"
 gem "amistad"
 #gem "amistad", git: 'https://github.com/raw1z/amistad.git'
 gem "simple_geolocation", "~> 0.0.7"
@@ -62,10 +63,9 @@ gem "exception_notification"
 
 # To use debugger
 group :development do
-  #  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
   #  gem 'linecache19'
-  # gem 'ruby-debug19', :require => 'ruby-debug'
-  #  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-  #  gem 'ruby-debug19'
+  gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
 end
 

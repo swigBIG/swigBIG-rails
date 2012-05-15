@@ -1,0 +1,21 @@
+
+<!--<div style="float:left;width: 20%;border-right: 1px solid black;padding:10px;min-height: 400px;">-->
+<div class="span3">
+  <div class="well sidebar-nav">
+    <ul class="nav nav-list">
+      <li class="nav-header">Message</li>
+      <li class="span3">
+        <%= link_to "Compose", new_bars_message_path %>
+      </li>
+      <li class="span3"><%= link_to "Inbox", businesses_messages_path %> </li>
+      <li class="span3">
+        <%= link_to "Sent", sent_bars_messages_path %>
+      </li>
+      <li class="span3">
+        <%= link_to "Trash", trash_bars_messages_path %>
+      </li>
+    </ul>
+    <div style="clear: both"></div>
+  </div>
+  <div class="clear"></div>
+</div>

@@ -26,7 +26,7 @@ class HomeController < ApplicationController
     @city = City.find(params[:id])
     @loyalty = Loyalty.all
     @popularity = Popularity.all
-    @swigs = Swig.where(status: "active")
+    @swigs = Swig.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city.name, "active"])
   end
 
   def time_zone
