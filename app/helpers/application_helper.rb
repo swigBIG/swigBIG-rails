@@ -21,4 +21,8 @@ module ApplicationHelper
     City.all.map{|c| [c.name, c.name]}
   end
 
+  def sport_teams_collection
+    SportTeam.all.map{ |s| [s.team_name, s.team_name] }
+  end
+
 end

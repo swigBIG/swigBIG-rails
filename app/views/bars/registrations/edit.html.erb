@@ -3,16 +3,16 @@
   <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
     <%= devise_error_messages! %>
     <%= f.input :email %>
-    <%= f.input :password %>
-    <%= f.input :password_confirmation %>
-    <%= f.input :current_password %>
+    <%#= f.input :password %>
+    <%#= f.input :password_confirmation %>
+    <%#= f.input :current_password %>
     <%= f.input :name %>
-    <%= f.input :logo%>
+    <%#= f.input :logo%>
    <%#= image_tag(f.object.logo_url(:thumb), class: "pull-left", hint: "current Logo") %>
     <%#= f.input :bar_background %>
    <%#= image_tag(f.object.bar_background_url(:thumb), class: "pull-left", hint: "current Logo") %>`
     <%= f.input :address %>
-    <%= f.input :sports_team %>
+    <%= f.input :sports_team, as: :select, collection: sport_teams_collection %>
     <%= f.input :zip_code %>
     <%= f.input :phone_number %>
     <%= f.input :city, as: :select, collection: avaliable_cities %>
