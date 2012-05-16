@@ -11,12 +11,15 @@ Swprototype::Application.routes.draw do
   #  resource :bar_det
 
   get "time_zone" => "home#time_zone", as: :time_zone
-  get "/:id" => "bar_detail#show", as: :bar_profile
   get "b/:b_id/:s_id" => "bar_detail#bar_swig", as: :bar_swig
 
   #  match "bars/show"
   constraints(Subdomain) do
     root to:  "home#index"
+    devise_scope :bar do
+      match "/sign_in" => "bars/sessions#new", :as => :sign_in_bars
+      match "/sign_up" =>  "bars/registrations#new", :as => :sign_up_bars
+    end
   end
 
   root to:  "home#main"

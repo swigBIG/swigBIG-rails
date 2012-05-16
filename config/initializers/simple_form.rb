@@ -5,6 +5,7 @@ SimpleForm.setup do |config|
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
+  config.form_class = 'simple_form form-horizontal'
   config.wrappers :default, :class => :input,
     :hint_class => :field_with_hint, :error_class => :field_with_errors do |b|
     ## Extensions enabled by default
@@ -146,7 +147,7 @@ SimpleForm.setup do |config|
 
   # Tell browsers whether to use default HTML5 validations (novalidate option).
   # Default is enabled.
-  config.browser_validations = false
+  config.browser_validations = true
 
   # Collection of methods to detect if a file type was given.
   # config.file_methods = [ :mounted_as, :file?, :public_filename ]

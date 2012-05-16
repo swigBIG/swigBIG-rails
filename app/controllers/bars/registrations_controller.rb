@@ -6,8 +6,6 @@ class Bars::RegistrationsController < Devise::RegistrationsController
     bars_dashboard_url
   end
 
-  
-
   def after_update_path_for(resource)
     bars_dashboard_url
   end
