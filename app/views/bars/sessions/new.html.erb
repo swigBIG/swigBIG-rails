@@ -1,17 +1,17 @@
-<h2>bar Sign in</h2>
+<div class="page-header">
+  <h2>Bar Sign in</h2>
+</div>
+<div class="span8">
+  <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), html: {class: "form-horizontal"}) do |f| %>
+      <%= f.input :email %>
+      <%= f.input :password %>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+      <% if devise_mapping.rememberable? -%>
+        <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+      <% end -%>
+      <br />
+      <%= f.submit "Sign in", :class => "btn", :style => 'margin-left:200px;'%>
+    <% end %>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
-
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
-
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
-
-<%= render "links" %>
+    <%= render "links" %>
+  </div>
