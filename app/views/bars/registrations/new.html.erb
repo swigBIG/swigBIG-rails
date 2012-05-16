@@ -15,81 +15,49 @@
 </script>
 
 <h2>bar Sign up</h2>
-<div id="wizard" class="swMain">
-  <ul>
-    <li><a href="#step-1"  style="width: 150px;">
-        <span class="stepDesc">
-          Step 1<br />
-          <small>Step 1 Basic</small>
-        </span>
-      </a></li>
-    <li><a href="#step-2"  style="width: 150px;">
-        <span class="stepDesc">
-          Step 2<br />
-          <small>Step 2 complete</small>
-        </span>
-      </a></li>
-    <li><a href="#step-3"  style="width: 150px;">
-        <span class="stepDesc">
-          Step 3<br />
-          <small>Step 3 Agreement</small>
-        </span>
-      </a></li>
-  </ul>
 
-  <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-    <%= devise_error_messages! %>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+  <%= f.input :email, label: false, placeholder: "Email" %>
+  <%= f.input :password, label: false, placeholder: "Password" %>
+  <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
+  <%#= f.input :name %>
+  <%#= f.input :logo, hint: image_tag(f.object.logo_url(:thumb))%>
+  <%#= f.input :address %>
+  <%#= f.input :sports_team %>
+  <%#= f.input :zip_code %>
+  <%#= f.input :phone_number %>
+  <%#= f.input :city, as: :select, collection: avaliable_cities %>
+  <%#= f.input :state %>
 
-    <div id="step-1">
-      <div class="container span11" style="margin-top: 20px;">
-        <%= f.input :email %>
-        <%= f.input :password %>
-        <%= f.input :password_confirmation %>
-      </div>
-    </div>
-    <div id="step-2">
-      <div class="container span11" style="margin-top: 20px;">
-        <%= f.input :name %>
-        <%= f.input :logo, hint: image_tag(f.object.logo_url(:thumb))%>
-        <%= f.input :address %>
-        <%= f.input :sports_team %>
-        <%= f.input :zip_code %>
-        <%= f.input :phone_number %>
-        <%= f.input :city, as: :select, collection: avaliable_cities %>
-        <%= f.input :state %>
-      </div>
-    </div>
-
-    <div id="step-3" style="margin-top: 20px;">
-      <div class="container span11">
-        "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
-        <%= f.input :terms, as: :boolean %>
-        <br/>
-        <div class="span6" style="margin-left: -180px;margin-top: 20px;margin-bottom: 10px;">
-          <div class="span3 pull-left" style="margin-bottom: -25px;">
-            <%= link_to "Cancel", main_home_path, class: "btn-primary" %>
-            </div>
-            <div class="span3 pull-right">
-              <%= f.submit "Sign up", class: "btn-primary" %>
-              </div>
-            </div>
-            <br/>
+  <div class="container span11" style="margin-top: 20px;">
+    "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
+    <%= f.input :terms, as: :boolean %>
+    <br/>
+    <div class="span6" style="margin-left: -180px;margin-top: 20px;margin-bottom: 10px;">
+      <div class="span3 pull-left" style="margin-bottom: -25px;">
+        <%#= link_to "Cancel", index_home_path, class: "btn-primary" %>
+        </div>
+        <div class="span3 pull-right">
+          <%= f.submit "Sign up", class: "btn-primary" %>
           </div>
-        <% end %>
-      </div>
-    </div>
-    <div class="span5 pull-left">
-      <%= render "links" %>
-    </div>
-
-    <%= content_for :outer do %>
-      <div id="termModal" class="modal hide fade">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Terms of Service</h3>
         </div>
-        <div class="modal-body well">
-          <%= @site_content.term_of_service rescue nil %>
-        </div>
+        <br/>
       </div>
     <% end %>
+    <%= button_to "Cancel", root_path, class: "btn-primary", method: :get %>
+      <div class="span5 pull-left">
+        <%= render "links" %>
+      </div>
+
+      <%= content_for :outer do %>
+        <div id="termModal" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3>Terms of Service</h3>
+          </div>
+          <div class="modal-body well">
+            <%= @site_content.term_of_service rescue nil %>
+          </div>
+        </div>
+      <% end %>
