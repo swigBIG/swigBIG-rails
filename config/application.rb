@@ -17,7 +17,7 @@ module Swprototype
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-
+    config.autoload_paths += %W(#{config.root}/lib)
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -58,10 +58,10 @@ module Swprototype
     config.assets.version = '1.0'
 
 
-#    config.middleware.use ::ExceptionNotifier,
-#      :email_prefix => "[Swigbig Error] ",
-#      :sender_address => %{dummy@41studio.com},
-#      :exception_recipients => %w{hendra@41studio.com syafik@41studio.com angga@41studio.com}
+    #    config.middleware.use ::ExceptionNotifier,
+    #      :email_prefix => "[Swigbig Error] ",
+    #      :sender_address => %{dummy@41studio.com},
+    #      :exception_recipients => %w{hendra@41studio.com syafik@41studio.com angga@41studio.com}
 
   end
 end

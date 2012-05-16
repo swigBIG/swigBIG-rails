@@ -15,8 +15,12 @@ Swprototype::Application.routes.draw do
   get "b/:b_id/:s_id" => "bar_detail#bar_swig", as: :bar_swig
 
   #  match "bars/show"
+  constraints(Subdomain) do
+    root to:  "home#index"
+  end
 
-  root to:  "home#index"
+  root to:  "home#main"
+  
   #  match "swig_list" => "home#index", as: :swig_list
   resource :home do
     collection do
@@ -59,14 +63,14 @@ Swprototype::Application.routes.draw do
     get "rewards/index"
     match "rewards" => "rewards#index", as: "rewards"
 
-#    resources :messages do
-#      collection do
-#        get 'sent'
-#        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
-#        get 'trash'
-#        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
-#      end
-#    end
+    #    resources :messages do
+    #      collection do
+    #        get 'sent'
+    #        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
+    #        get 'trash'
+    #        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
+    #      end
+    #    end
   end
   resources :bars do
 
@@ -89,14 +93,14 @@ Swprototype::Application.routes.draw do
     match "friendship" => "friends#index", as: "friend_index"
     post "friend_request/:user_id" => "friends#friend_request", as: "friend_request"
 
-#    resources :messages do
-#      collection do
-#        get 'sent'
-#        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
-#        get 'trash'
-#        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
-#      end
-#    end
+    #    resources :messages do
+    #      collection do
+    #        get 'sent'
+    #        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
+    #        get 'trash'
+    #        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
+    #      end
+    #    end
   end
 
   # The priority is based upon order of creation:
