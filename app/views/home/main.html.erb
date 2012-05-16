@@ -88,7 +88,7 @@
           <% Swig.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>
+                <b class="pull-left"><%= swig.deal %></b>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>
@@ -103,7 +103,7 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %>
+                <%= swig.bar.name %>
               </td>
               <td>
                 <%= begin
