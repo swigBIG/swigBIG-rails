@@ -1,6 +1,8 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
   #map_home_canvas { height: 275px ; width: 520px;}
+  .string{margin-left: -50px;}
+  .select{margin-left: -50px;}
 </style>
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
@@ -40,7 +42,7 @@
     <%= simple_form_for(@search, url: root_path) do |f|%>
     <%#= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
       <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 20px;">
+        <div class="accordion-heading" style="margin-left: 10px;">
           <div class="accordion-inner">
             <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>More Search</b></a>
             <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
@@ -48,10 +50,11 @@
           </div>
         </div>
         <div id="search" class="accordion-body collapse">
-          <div class="accordion-inner" style="">
-            <%= f.input :swig_type_contains, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
+          <div class="accordion-inner" style="margin-left: -40px;">
+
+            <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
             <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-            <%= f.input :bar_sports_team_contains, label: false, placeholder: "Search by City",required: false %>
+            <%= f.input :bar_sports_team_contains, label: false, placeholder: "Sports Team",required: false %>
       <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
           </div>
         </div>
@@ -63,19 +66,19 @@
     <div class="clearfix"></div>
     <h4><%= @geo.city %></h4>
     <ul class="tabs" data-tabs="tabs">
-      <li><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-      <li class="active"><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
+      <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
+      <li><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
       <!--<li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>-->
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="map">
+      <div class="tab-pane " id="map">
         <div id="map_home_canvas">
           <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
         </div>
       </div>
 
-      <div class="tab-pane" id="list">
+      <div class="tab-pane active" id="list">
         <table class="zebra-striped">
           <th>Deals</th>
           <th>swigBIG Deals</th>

@@ -317,7 +317,7 @@
         <div class="modal-body well">
           <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal"}) do |f| %>
             <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
-            <%= f.input :swig_day %>
+            <%= f.input :swig_day, as: :select, collection: days%>
             <%= f.input :deal , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
             <div class="form-actions">
               <%= f.submit "Create Swig", class: "btn-primary" %>
