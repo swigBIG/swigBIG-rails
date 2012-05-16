@@ -8,6 +8,7 @@
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
 <script type="text/javascript">
+  var map;
   function initialize() {
     var latlo = new google.maps.LatLng(<%= @geo.lat rescue nil %>, <%= @geo.lng rescue nil%>)
     var myOptions = {
@@ -15,12 +16,15 @@
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("map_home_canvas"),
+    map = new google.maps.Map(document.getElementById("map_home_canvas"),
     myOptions);
     var marker = new google.maps.Marker({
       position: latlo,
       map: map
     });
+
+    google.maps.event.trigger(map, "resize");
+
   }
 </script>
 
@@ -54,7 +58,7 @@
 
             <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
             <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-            <%= f.input :bar_sports_team_contains, label: false, placeholder: "Sports Team",required: false %>
+            <%= f.input :bar_sports_team_contains, label: false, collection: sport_teams_collection,placeholder: "Sports Team",required: false %>
       <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
           </div>
         </div>
@@ -67,7 +71,7 @@
     <h4><%= @geo.city %></h4>
     <ul class="tabs" data-tabs="tabs">
       <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-      <li><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
+      <li><a href="#map" data-toggle="tab" ><h3>Map</h3></a></li>
       <!--<li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>-->
     </ul>
 
@@ -88,7 +92,7 @@
           <% Swig.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= swig.deal %></b>
+                <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>
@@ -103,7 +107,7 @@
                 <% end %>
               </td>
               <td>
-                <%= swig.bar.name %>
+                <%= link_to  Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id) %>
               </td>
               <td>
                 <%= begin

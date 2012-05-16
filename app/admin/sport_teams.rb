@@ -12,6 +12,7 @@ ActiveAdmin.register SportTeam do
 
     attributes_table do
       row :team_name do
+        
         b.team_name
       end
       row :category do
