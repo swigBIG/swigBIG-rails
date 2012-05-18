@@ -27,7 +27,7 @@
         <div class="container">
           <div class="nav pull-right">
             <li>
-              <h2 class="brand" style="color: gray;">SwigBig</h2>
+              <h2 class="brand" style="color: gray;"> <%= @bar_name.blank? ? "SwigBig" : @bar_name %></h2>
             </li>
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.strftime("%A") %></span></h3></h2>

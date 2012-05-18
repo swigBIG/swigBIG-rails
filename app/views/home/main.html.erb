@@ -92,14 +92,14 @@
           <% Swig.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar_id) %></b>
+                <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar) %></b>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>
                   <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
                     <%= swig.swig_type %>
                   </button>
-                  <!--<b>Required: </b><%#= swig.people %> people-->
+                  <b>Required: </b><%= swig.people %> swigs
                 <% else %>
                   <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
                     <%= swig.swig_type %>
@@ -107,7 +107,23 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to  Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id) %>
+    <%#= link_to  Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id) %>
+                <a class="" data-toggle="modal" href="#barModal"><b><%= swig.bar.name %></b></a>
+                <%= content_for :outer do %>
+                  <div id="barModal" class="modal hide fade" style="opacity: 1 ;">
+                    <div class="modal-header">
+                      <a class="close" data-dismiss="modal"><b>x</b></a>
+                       <h3>Go to <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar_id) %></h3>
+                    </div>
+                    <div class="modal-body well">
+                      <b>Location</b>: &nbsp; <strong><%= swig.bar.address %> <b><%= swig.bar.city %></b></strong>
+                      <br/>
+                      <b>Sport team</b>: &nbsp; <strong><%= swig.bar.sports_team %></strong>
+                      <br/>
+                      <b>Zip code</b>: &nbsp; <strong><%= swig.bar.zip_code %></strong>
+                    </div>
+                  </div>
+                <% end %>
               </td>
               <td>
                 <%= begin
@@ -162,5 +178,10 @@
       </div>-->
 
     </div>
+
+
+
   </body>
+
+
 

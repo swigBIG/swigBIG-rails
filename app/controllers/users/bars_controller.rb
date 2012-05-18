@@ -10,14 +10,20 @@ class Users::BarsController < ApplicationController
   end
 
   def show
+#    @bar = Bar.find(params[:bar_id])
+#    @swigs = Swig.where(status: "active")
+#    @swigers = @bar.swigers
+#    @users = User.all
+#    @popularity = Popularity.new
+#    #    @users.count.times do
+#    guesses = @popularity.guesses.new
+#    #    end
     @bar = Bar.find(params[:bar_id])
+    @bar_name = @bar.name
     @swigs = Swig.where(status: "active")
-    @swigers = @bar.swigers
-    @users = User.all
-    @popularity = Popularity.new
-    #    @users.count.times do
-    guesses = @popularity.guesses.new
-    #    end
+    @swigers = @bar.swigers.all
+    @popularity = Popularity.where(bar_id: @bar)
+    @loyalty = Loyalty.where(bar_id: @bar)
   end
 
   def create_popularity
