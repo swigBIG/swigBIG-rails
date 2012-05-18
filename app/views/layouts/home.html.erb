@@ -40,8 +40,8 @@
                 <li><b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b></li>
                 <li><b><%= link_to "Log out", destroy_user_session_path, method: :delete %></b></li>
               <% else %>
-                <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
-                <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
+                <li><b><%= link_to "Sign In", new_user_session_path, style: "color: white;" %></b></li>
+                <li><b> <%= link_to "Sign Up", new_user_registration_path, style: "color: white;" %></b></li>
               <% end %>
             </div>
 
