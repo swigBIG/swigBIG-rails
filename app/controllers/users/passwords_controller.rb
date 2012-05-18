@@ -1,4 +1,4 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
+class Users::PasswordsController < Devise::PasswordsController
+   layout "users"
 
-puts "Hello World"
+end
