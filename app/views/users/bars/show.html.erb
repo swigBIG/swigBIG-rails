@@ -24,11 +24,16 @@
 
 <% content_for :facebook_like do %>
   <div id="fb-root"></div>
+  <script src="//connect.facebook.net/en_US/all.js"></script>
+  <!--<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share"
+          type="text/javascript">
+  </script>-->
   <script>
     window.fbAsyncInit = function() {
+      console.log("asdasd")
       FB.init({
         appId      : '410355872318354', // App ID
-        channelUrl : '//www.swigbig.com', // Channel File
+        channelUrl : '<%= bar_profile_users_url(@bar).to_s %>', // Channel File
         status     : true, // check login status
         cookie     : true, // enable cookies to allow the server to access the session
         xfbml      : true  // parse XFBML
@@ -46,9 +51,18 @@
       ref.parentNode.insertBefore(js, ref);
     }(document));
   </script>
+  <!--<script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=410355872318354";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>-->
 <% end %>
 <% content_for :facebook_like_meta do %>
-  <meta property="og:site_name" content="swigbig"/>
+  <meta property="og:site_name" content="www.swigbig.com"/>
   <meta property="og:title" content="#{<%= @bar.name %>}"/>
   <meta property="og:type" content="YOUR_PAGE_OBJECT_TYPE"/>
   <meta property="og:url" content="<%= bar_profile_users_url(@bar) %>"/>
@@ -77,11 +91,12 @@
   <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
     <br />
-    <fieldset class="well">
+    <fieldset class="well" style="margin-left: -15px;">
       <div id="fb-root"></div>
-      <!--<div class="fb-like-box" data-href="http://www.facebook.com/platform" data-width="292" data-show-faces="true" data-stream="true" data-header="true"></div>-->
-      <!--<div class="fb-like-box" data-href="http://www.swigbig.com/users/bar" data-width="292" data-show-faces="true" data-stream="true" data-header="true"></div>-->
-      <div style="width:70px;float:left;"><fb:like href="http:" layout="button_count" show_faces="false" font="tahoma"></fb:like></div>
+      <!--<fb:like send="false" width="210px" show_faces="true" />-->
+      <fb:like send="false"  width="210px" show_faces="true" />
+      <a name="fb_share"></a>
+
       <%= link_to "Enter Bar", users_enter_bar_path(@bar)  %>
       <br/>
       <b>Who's There</b>
