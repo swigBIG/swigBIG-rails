@@ -89,7 +89,7 @@
           <th>Bar Name</th>
           <th>Distance</th>
   <%# @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
-          <% Swig.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
+          <% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
             <tr>
               <td>
                 <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar) %></b>

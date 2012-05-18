@@ -4,6 +4,8 @@
     <title>Swprototype</title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
+
+    <%= yield :facebook_like_meta %>
     <%= csrf_meta_tags %>
     <style type="text/css">
       body{
@@ -20,8 +22,12 @@
         margin-bottom: 20px;
       }
     </style>
+
   </head>
   <body>
+    <%= yield :facebook_like %>
+    <!--facebook like box-->
+    <!------>
     <div class="navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">

@@ -1,6 +1,6 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-  #map_canvas { height: 550px ; width: 275px;}
+  #map_canvas { height: 350px ; width: 275px;}
 </style>
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
@@ -21,6 +21,41 @@
     });
   }
 </script>
+
+<% content_for :facebook_like do %>
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '410355872318354', // App ID
+        channelUrl : '//www.swigbig.com', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+
+      // Additional initialization code here
+    };
+
+    // Load the SDK Asynchronously
+    (function(d){
+      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      ref.parentNode.insertBefore(js, ref);
+    }(document));
+  </script>
+<% end %>
+<% content_for :facebook_like_meta do %>
+  <meta property="og:site_name" content="swigbig"/>
+  <meta property="og:title" content="#{<%= @bar.name %>}"/>
+  <meta property="og:type" content="YOUR_PAGE_OBJECT_TYPE"/>
+  <meta property="og:url" content="<%= bar_profile_users_url(@bar) %>"/>
+  <meta property="og:image" content="assets/rails.png"/>
+  <meta property="fb:app_id" content="410355872318354"/>
+
+<% end %>
 <body onload="initialize()">
 
   <%= content_for :background do %>
@@ -28,36 +63,71 @@
   <% end %>
 
   <%= content_for :side do %>
+    <h3><%= @bar.name rescue nil %></h3>
+    <b>Address : </b><%= @bar.address rescue nil %>, <b><%= @bar.city rescue nil %></b>
+    <br/>
+    <b>Sport Team : </b><%= @bar.sports_team rescue nil %>
+    <br/>
+    <!--<div class="span4">
+  <%#= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+    </div>-->
+    <div class="clearfix"></div>
+    <br/>
     <div id="map_canvas" style="margin-left: -25px;">
-      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
     <br />
     <fieldset class="well">
-      <%= link_to "Enter Bar", users_enter_bar_path(@bar.id)  %>
-      <%= link_to "Create popularity", users_enter_bar_path(@bar.id)  %><br/>
-      <a class="" data-toggle="modal" href="#getpopularity">invite friend to get popularity</a>
+      <div id="fb-root"></div>
+      <!--<div class="fb-like-box" data-href="http://www.facebook.com/platform" data-width="292" data-show-faces="true" data-stream="true" data-header="true"></div>-->
+      <!--<div class="fb-like-box" data-href="http://www.swigbig.com/users/bar" data-width="292" data-show-faces="true" data-stream="true" data-header="true"></div>-->
+      <div style="width:70px;float:left;"><fb:like href="http:" layout="button_count" show_faces="false" font="tahoma"></fb:like></div>
+      <%= link_to "Enter Bar", users_enter_bar_path(@bar)  %>
       <br/>
       <b>Who's There</b>
       <br/>
       <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
         <% @swigers.each do |swiger| %>
-          <%= swiger.user_id%>
           <%= User.find(swiger.user_id).name %>
           <br/>
         <% end %>
       </div>
     </fieldset>
   <% end %>
-  <h3><%= @bar.name rescue nil %></h3>
-  <div class="span4">
-    <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
-  </div>
-  <div class="span2">
-    <br/>
-    <button class="btn" data-toggle="modal" href="#swigModal">Create Swig</button><br />
-  </div>
+
+
+  <div class="clearfix"></div>
   <br/>
   <div class="clearfix"></div>
+  <div class="accordion-group">
+    <div class="accordion-heading" style="margin-left: 40px;">
+      <div class="accordion-inner">
+        <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
+      </div>
+    </div>
+  </div>
+  <div id="popularityandloyalty" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <ul class="tabs" data-tabs="tabs">
+        <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+        <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="reward_loyalty">
+          <% @loyalty.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+        <div class="tab-pane" id="reward_popularity">
+          <% @popularity.each do |l| %>
+            <%= l.reward_detail %>
+            <br/>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
   <br/>
   <div class="clearfix"></div>
   <br/>
@@ -65,7 +135,7 @@
     <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
     <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
     <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-    <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
+    <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
     <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
     <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
     <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
@@ -73,148 +143,41 @@
 
   <div id="my-tab-content" class="tab-content">
     <div class="tab-pane active" id="monday">
-      <% @swigs.where("swig_day = 'Monday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+      <% @swigs.monday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="tuesday">
-      <% @swigs.where("swig_day = 'Tuesday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+      <% @swigs.tuesday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="wednesday">
-      <% @swigs.where("swig_day = 'Wednesday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+      <% @swigs.wednesday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
-    <div class="tab-pane" id="thusday">
-      <% @swigs.where("swig_day = 'Thusday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+    <div class="tab-pane" id="thursday">
+      <% @swigs.thursday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="friday">
-      <% @swigs.where("swig_day = 'Friday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+      <% @swigs.friday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="saturday">
-      <% @swigs.where("swig_day = 'Saturday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+      <% @swigs.saturday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
     <div class="tab-pane" id="sunday">
-      <% @swigs.where("swig_day = 'Sunday' OR swig_day = 'all'").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-            &nbsp; <b>Required: </b><%= swig.people %> people
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <b class="pull-right"><%= link_to  swig.deal, bar_swig_path(@bar.id, swig.id) %></b>
-        </div>
+      <% @swigs.sunday.each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
       <% end %>
     </div>
-  </div>
 
+  </div>
 
 </body>
-
-<%= content_for :outer do %>
-  <div id="getpopularity" class="modal hide fade">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal"><b>x</b></a>
-      <h3>Friends list</h3>
-    </div>
-    <div class="modal-body well">
-      <%= simple_form_for(@popularity, url: users_create_popularity_path) do |f| %>
-        <%= f.input :bar_id, as: :hidden, input_html: {value: @bar.id} %>
-        <%= f.fields_for :guesses do |ff| %>
-          <% @users.each do |user| %>
-            <%= ff.input :user_id, hint: user.name, as: :check_boxes,  collection: ["",user.id] %>
-            <br/>
-          <% end %>
-        <% end %>
-        <div class="form-actions">
-                  <%= f.submit "invite" %>
-                </div>
-      <% end %>
-    </div>
-  </div>
-<% end %>
