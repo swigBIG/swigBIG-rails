@@ -28,95 +28,121 @@
             <%= form_tag users_facebook_update_status_path do %>
               <%= text_area_tag :message, nil, :placeholder => 'Message here.' %>
   <%#= submit_tag 'Update', :disable_with => 'Updating.' %>
-            <br/>
+              <br/>
               <%= submit_tag 'Update', class: "btn-primary pull-right", style: "margin-top: 10px;" %>
-            <% end %>
-          </li>
-          <li>
-            <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
-              <b>Profile Stat</b>
-            </a>
-          </li>
-          <li>
-            <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
-              <b>Invite Friends</b>
-            </a>
-          </li>
+              <% end %>
+            </li>
+            <li>
+              <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
+                <b>Profile Stat</b>
+              </a>
+            </li>
+            <li>
+              <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
+                <b>Invite Friends</b>
+              </a>
+            </li>
 
-          <li>
-            <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
-              <b>Contact Prefrences</b>
-            </a>
-          </li>
-          <li>
-            <a href="#delink" style="height: 30px;text-align: center;padding-top: 5px;">
-              <b>De-Link Facebook</b>
-            </a>
-          </li>
-          <li>
-            <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
-              <b>Delete Account</b>
-            </a>
-          </li>
+            <li>
+              <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
+                <b>Contact Prefrences</b>
+              </a>
+            </li>
+            <li>
+              <a href="#delink" style="height: 30px;text-align: center;padding-top: 5px;">
+                <b>De-Link Facebook</b>
+              </a>
+            </li>
+            <li>
+              <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
+                <b>Delete Account</b>
+              </a>
+            </li>
 
-        </ul>
+          </ul>
 
-        <div id="stat">
-          <h2 class="StepTitle"><b>Profile Stat</b></h2>
-          <div class="span4 pull-right">
-            <b>Favorite Bar</b>
-            <%= @top_bar.bar.name rescue "---"%>
+          <div id="stat">
+            <h2 class="StepTitle"><b>Profile Stat</b></h2>
+            <div class="span4 pull-right">
+              <b>Favorite Bar</b>
+              <%= @top_bar.bar.name rescue "---"%>
+            </div>
+            <br/>
+            <div class="span4 pull-right">
+              <b>Last 5 Swigs</b>
+              <% @swigers.limit(5).each do |swiger| %>
+                <div class="span3">
+                  <b><%= swiger.bar.name %></b>
+                  <br/>
+                  <%= swiger.created_at.strftime("%d/%m/%Y") %>
+                </div>
+              <% end %>
+            </div>
+            <div class="span4">
+              <b>Swig This</b>
+            </div>
           </div>
-          <br/>
-          <div class="span4 pull-right">
-            <b>Last 5 Swigs</b>
-            <% @swigers.limit(5).each do |swiger| %>
-              <div class="span3">
-                <b><%= swiger.bar.name %></b>
-                <br/>
-                <%= swiger.created_at.strftime("%d/%m/%Y") %>
-              </div>
-            <% end %>
-          </div>
-          <div class="span4">
-            <b>Swig This</b>
-          </div>
-        </div>
-        <div id="invite">
-          <h2 class="StepTitle"><b>Invite Friends</b></h2>
-          <%= link_to "Invite All", users_invite_swigbig_path %>
-        </div>
+          <div id="invite">
+            <h2 class="StepTitle"><b>Invite Friends</b></h2>
 
-        <div id="contact">
-          <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
-          <table class="zebra-striped">
-            <th></th>
-            <th>name</th>
-            <% @friends.each do |f| %>
-              <tr>
-                <td>
-                  <%=link_to image_tag(f.picture), f.link %>
-                </td>
-  <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
-                <td>
-                  <%= f.name %>
-                </td>
-              </tr>
-            <% end %>
-          </table>
-        </div>
-        <div id="delink">
-          <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
-          <p></p>
-        </div>
-        <div id="delete">
-          <h2 class="StepTitle"><b>Delete Account</b></h2>
-          <p></p>
-        </div>
+            <br/>
+            <table class="zebra-striped">
+              <th><b><%= link_to "Invite All", users_invite_swigbig_path,  style: "color: green;" %></b></th>
+              <th>name</th>
+              <%= form_tag(users_invite_swigbig_path) do %>
+              <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
+              <%= submit_tag "invite" %>
+                  <% @friends.each do |f| %>
+                    <tr>
+                      <td>
+                        <%=  check_box_tag "fb_ids[]", f.identifier, false, :class => "checkbox" %>
+                      </td>
+                      <td>
+                        <%=  f.identifier %>
+                      </td>
+                      <td>
+                        <%=  link_to image_tag(f.picture) %>
+                      </td>
+        <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
+                      <td>
+                        <%= f.name %>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </table>
+            </div>
 
-      </div>
-    </td></tr>
-</table>
+            <div id="contact">
+              <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
+              <!--<table class="zebra-striped">
+                <th></th>
+                <th>name</th>
+    <%# @friends.each do |f| %>
+                  <tr>
+                    <td>
+    <%#=link_to image_tag(f.picture), f.link %>
+                    </td>
+    <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
+                    <td>
+    <%#= f.name %>
+                    </td>
+                  </tr>
+    <%# end %>
+              </table>-->
+            </div>
+            <div id="delink">
+              <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
+              <p></p>
+            </div>
+            <div id="delete">
+              <h2 class="StepTitle"><b>Delete Account</b></h2>
+              <p></p>
+            </div>
+
+          </div>
+        </td></tr>
+    </table>
 
 
 
