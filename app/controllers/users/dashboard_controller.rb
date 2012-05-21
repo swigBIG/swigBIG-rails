@@ -33,15 +33,18 @@ class Users::DashboardController < ApplicationController
   end
 
   def invite_swigbig
-    me = FbGraph::User.me(current_user.access_token)
-    me.feed!(
-      :message => "just test",
-      :link => 'https://swigbig.com',
-      :name => 'swigBIG',
-      :description => 'tes tes tes'
-    )
+    fb = MiniFB::OAuthSession.new(current_user.access_token)
+
+    params[:fb_ids].each do |fb_id|
+      fb.post(fb_id, :type => :feed, :params => {:message => "bla bbla"})
+    end
     
     redirect_to :back
+  end
+
+  def costum_invite
+    @fb = MiniFB::OAuthSession.new(self.auth_token)
+    @fb.post(fb_id, :type => :feed, :params => {:message => params[:message]})
   end
 
   def show
