@@ -85,6 +85,7 @@ Swprototype::Application.routes.draw do
   namespace :users do
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"
+    match  "facebook_update_status" => "dashboard#facebook_update_status", as: "facebook_update_status"
     match  "profile/:id" => "dashboard#show", as: "profile"
     match  "rewards" => "dashboard#rewards", as: "rewards"
     match  "update_account" => "dashboard#update_account", as: "update_account"

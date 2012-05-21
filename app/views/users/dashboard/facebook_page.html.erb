@@ -1,0 +1,119 @@
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    // Smart Wizard
+    $('#wizard').smartWizard({
+      transitionEffect:'slide',
+      enableAllSteps: true,
+      hideButtonsOnDisabled: false
+    });
+    $('.actionBar').hide();
+
+  });
+</script>
+<style type="text/css">
+  .stepContainer .content{
+    width: 650px!important;
+  }
+</style>
+
+<%= current_user.name %>
+<b>Facebook Status Message</b>
+<%= form_tag users_facebook_update_status_path do %>
+  <%= text_area_tag :message, nil, :placeholder => 'Message here.' %>
+  <%#= submit_tag 'Update', :disable_with => 'Updating.' %>
+  <%= submit_tag 'Update' %>
+<% end %>
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
+  <tr style="width: 500px;"><td style="width: 500px;">
+      <div id="wizard" class="swMain">
+
+        <ul>
+          <li>
+            <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Profile Stat</b>
+            </a>
+          </li>
+          <li>
+            <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Invite Friends</b>
+            </a>
+          </li>
+
+          <li>
+            <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Contact Prefrences</b>
+            </a>
+          </li>
+          <li>
+            <a href="#delink" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>De-Link Facebook</b>
+            </a>
+          </li>
+          <li>
+            <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Delete Account</b>
+            </a>
+          </li>
+        </ul>
+
+        <div id="stat">
+          <h2 class="StepTitle"><b>Profile Stat</b></h2>
+          <div class="span4 pull-right">
+            <b>Favorite Bar</b>
+            <%= @top_bar.bar.name rescue "---"%>
+          </div>
+          <br/>
+          <div class="span4 pull-right">
+            <b>Last 5 Swigs</b>
+            <% @swigers.limit(5).each do |swiger| %>
+              <div class="span3">
+                <b><%= swiger.bar.name %></b>
+                <br/>
+                <%= swiger.created_at.strftime("%d/%m/%Y") %>
+              </div>
+            <% end %>
+          </div>
+          <div class="span4">
+            <b>Swig This</b>
+          </div>
+        </div>
+        <div id="invite">
+          <h2 class="StepTitle"><b>Invite Friends</b></h2>
+
+        </div>
+
+        <div id="contact">
+          <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
+          <table class="zebra-striped">
+            <th></th>
+            <th>name</th>
+            <% @friends.each do |f| %>
+              <tr>
+                <td>
+                  <%=link_to image_tag(f.picture), f.link %>
+                </td>
+  <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
+                <td>
+                  <%= f.name %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+        <div id="delink">
+          <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
+          <p></p>
+        </div>
+        <div id="delete">
+          <h2 class="StepTitle"><b>Delete Account</b></h2>
+          <p></p>
+        </div>
+
+      </div>
+    </td></tr>
+</table>
+
+
+
