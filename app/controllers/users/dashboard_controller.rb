@@ -20,6 +20,28 @@ class Users::DashboardController < ApplicationController
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     @user = User.new
+    @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
+    #    @feed = FbGraph::User.me(current_user.access_token).feed!
+  end
+
+  def facebook_update_status
+    me = FbGraph::User.me(current_user.access_token)
+    me.feed!(
+      :message => params[:message]
+    )
+    redirect_to :back
+  end
+
+  def invite_swigbig
+    me = FbGraph::User.me(current_user.access_token)
+    me.feed!(
+      :message => "just test",
+      :link => 'https://swigbig.com',
+      :name => 'swigBIG',
+      :description => 'tes tes tes'
+    )
+    
+    redirect_to :back
   end
 
   def show

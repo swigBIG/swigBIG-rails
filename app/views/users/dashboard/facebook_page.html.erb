@@ -18,18 +18,20 @@
   }
 </style>
 
-<%= current_user.name %>
-<b>Facebook Status Message</b>
-<%= form_tag users_facebook_update_status_path do %>
-  <%= text_area_tag :message, nil, :placeholder => 'Message here.' %>
-  <%#= submit_tag 'Update', :disable_with => 'Updating.' %>
-  <%= submit_tag 'Update' %>
-<% end %>
 <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
   <tr style="width: 500px;"><td style="width: 500px;">
       <div id="wizard" class="swMain">
 
         <ul>
+          <li>
+            <b>Facebook Status Message</b>
+            <%= form_tag users_facebook_update_status_path do %>
+              <%= text_area_tag :message, nil, :placeholder => 'Message here.' %>
+  <%#= submit_tag 'Update', :disable_with => 'Updating.' %>
+            <br/>
+              <%= submit_tag 'Update', class: "btn-primary pull-right", style: "margin-top: 10px;" %>
+            <% end %>
+          </li>
           <li>
             <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
               <b>Profile Stat</b>
@@ -56,6 +58,7 @@
               <b>Delete Account</b>
             </a>
           </li>
+
         </ul>
 
         <div id="stat">
@@ -81,7 +84,7 @@
         </div>
         <div id="invite">
           <h2 class="StepTitle"><b>Invite Friends</b></h2>
-
+          <%= link_to "Invite All", users_invite_swigbig_path %>
         </div>
 
         <div id="contact">
