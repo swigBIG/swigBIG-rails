@@ -24,6 +24,10 @@
     });
 
     google.maps.event.trigger(map, "resize");
+    if (map && map.isLoaded()) {
+      map.checkResize();
+      map.panTo(c);
+    } 
 
   }
 </script>
@@ -76,7 +80,7 @@
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane " id="map">
+      <div class="tab-pane " id="map" onmousemove="google.maps.event.trigger(map, 'resize');">
         <div id="map_home_canvas">
           <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
         </div>
@@ -113,7 +117,7 @@
                   <div id="barModal" class="modal hide fade" style="opacity: 1 ;">
                     <div class="modal-header">
                       <a class="close" data-dismiss="modal"><b>x</b></a>
-                       <h3>Go to <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar_id) %></h3>
+                      <h3>Go to <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar_id) %></h3>
                     </div>
                     <div class="modal-body well">
                       <b>Location</b>: &nbsp; <strong><%= swig.bar.address %> <b><%= swig.bar.city %></b></strong>
