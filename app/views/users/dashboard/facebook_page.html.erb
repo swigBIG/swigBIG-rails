@@ -90,59 +90,55 @@
               <th><b><%= link_to "Invite All", users_invite_swigbig_path,  style: "color: green;" %></b></th>
               <th>name</th>
               <%= form_tag(users_invite_swigbig_path) do %>
-              <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-              <%= submit_tag "invite" %>
-                  <% @friends.each do |f| %>
-                    <tr>
-                      <td>
-                        <%=  check_box_tag "fb_ids[]", f.identifier, false, :class => "checkbox" %>
-                      </td>
-                      <td>
-                        <%=  f.identifier %>
-                      </td>
-                      <td>
-                        <%=  link_to image_tag(f.picture) %>
-                      </td>
-        <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
-                      <td>
-                        <%= f.name %>
-                      </td>
-                    </tr>
-                  <% end %>
-                <% end %>
-              </table>
-            </div>
-
-            <div id="contact">
-              <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
-              <!--<table class="zebra-striped">
-                <th></th>
-                <th>name</th>
-    <%# @friends.each do |f| %>
+                <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
+                <%= submit_tag "invite" %>
+                <% @friends.each do |f| %>
                   <tr>
                     <td>
-    <%#=link_to image_tag(f.picture), f.link %>
+                      <%=  check_box_tag "fb_ids[]", f.identifier, false, :class => "checkbox" %>
                     </td>
-    <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
                     <td>
-    <%#= f.name %>
+                      <%=  link_to image_tag(f.picture) %>
+                    </td>
+                    <td>
+                      <%= f.name %>
                     </td>
                   </tr>
-    <%# end %>
-              </table>-->
-            </div>
-            <div id="delink">
-              <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
-              <p></p>
-            </div>
-            <div id="delete">
-              <h2 class="StepTitle"><b>Delete Account</b></h2>
-              <p></p>
-            </div>
-
+                <% end %>
+              <% end %>
+            </table>
           </div>
-        </td></tr>
-    </table>
+
+          <div id="contact">
+            <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
+            <!--<table class="zebra-striped">
+              <th></th>
+              <th>name</th>
+  <%# @friends.each do |f| %>
+                <tr>
+                  <td>
+  <%#=link_to image_tag(f.picture), f.link %>
+                  </td>
+  <%#=link_to image_tag(f.picture, input_html: {rel: "tooltip", title: f.name}) %>
+                  <td>
+  <%#= f.name %>
+                  </td>
+                </tr>
+  <%# end %>
+            </table>-->
+          </div>
+          <div id="delink">
+            <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
+            <p></p>
+          </div>
+          <div id="delete">
+            <h2 class="StepTitle"><b>Delete Account</b></h2>
+            <p></p>
+          </div>
+
+        </div>
+      </td></tr>
+  </table>
 
 
 

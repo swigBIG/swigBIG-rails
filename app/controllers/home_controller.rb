@@ -26,7 +26,12 @@ class HomeController < ApplicationController
     @city = City.find(params[:id])
     @loyalty = Loyalty.all
     @popularity = Popularity.all
-    @swigs = Swig.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city.name, "active"])
+    @search = Swig.search(params[:search])
+    #    if !params[:search].nil?
+    #      @swigs = @search.where(status: "active")
+    #    else
+    @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city.name, "active"])
+    #    end
   end
 
   def time_zone
@@ -39,7 +44,7 @@ class HomeController < ApplicationController
     else
       Time.zone = "Pacific Time (US & Canada)"
     end
-#    render :nothing => true
+    #    render :nothing => true
   end
 
   protected

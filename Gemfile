@@ -27,6 +27,7 @@ gem "activeadmin", "~> 0.4.3"
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise'
+#gem "devise_invitable", "~> 1.0.1"
 gem 'mysql2'
 gem 'simple_form'
 gem 'carrierwave'

@@ -33,7 +33,7 @@
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.strftime("%A") %></span></h3></h2>
             </li>
             <div class="nav pull-right" style="margin-left: 200px;">
-              <li><b><a href="#" id="fat-menu" style="color: white;">Home</a></b></li>
+              <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% unless user_signed_in? %>
                 <li id="fat-menu" class="dropdown">
@@ -54,21 +54,28 @@
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
                   <ul class="dropdown-menu">
+
                     <li>
-                      <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
-                    </li>
-                    <li>
-                      <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-                    </li>
-                    <li>
-                      <%= link_to "Rewards", users_rewards_path %>
-                    </li>
-                  </ul>
-                <% else %>
+                      <% unless current_user.access_token.blank? %>
+                        <b><%= link_to "facebook", users_facebook_page_path, style: "color: white;" %></b>
+                      <% else %>
+                      <li>
+                        <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
+                      </li>
+                      <li>
+                        <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
+                      </li>
+                    <% end %>
+                </li>
+                <li>
+                  <%= link_to "Rewards", users_rewards_path %>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+                </li>
+                </ul>
+              <% else %>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Log In</b></a>
                   <ul class="dropdown-menu">
@@ -115,7 +122,7 @@
             &nbsp;
             <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
             &nbsp;
-            <b><%= link_to "swigBIG.com", main_home_path, style: "color: white" %></b>
+            <b><%#= link_to "swigBIG.com", main_home_path, style: "color: white" %></b>
           </div>
         </div>
       </div>

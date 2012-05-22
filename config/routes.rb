@@ -4,10 +4,6 @@ Swprototype::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  get "friends/index"
-
-  get "friends/show"
-
   #  resource :bar_det
 
   get "time_zone" => "home#time_zone", as: :time_zone
@@ -87,6 +83,7 @@ Swprototype::Application.routes.draw do
     match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"
     match  "facebook_update_status" => "dashboard#facebook_update_status", as: "facebook_update_status"
     match  "invite_swigbig" => "dashboard#invite_swigbig", as: "invite_swigbig"
+    post "invite_by_email" => "dashboard#invite_by_email", as: :invite_by_email
     match  "profile/:id" => "dashboard#show", as: "profile"
     match  "rewards" => "dashboard#rewards", as: "rewards"
     match  "update_account" => "dashboard#update_account", as: "update_account"
@@ -97,7 +94,9 @@ Swprototype::Application.routes.draw do
     post "create_popularity" => "bars#create_popularity", as: "create_popularity"
     #--- friendship
     match "friendship" => "friends#index", as: "friend_index"
-    post "friend_request/:user_id" => "friends#friend_request", as: "friend_request"
+    post "friend_request/:id" => "friends#friend_request", as: "friend_request"
+    post "remove_friend/:id" => "friends#remove_friend", as: :remove_friend
+    post "approve_friend/:id" => "friends#approve_friend", as: :approve_friend
 
     #    resources :messages do
     #      collection do

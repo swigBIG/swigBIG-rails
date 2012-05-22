@@ -28,11 +28,15 @@ class Users::BarSwigsController < ApplicationController
         redirect_to :back, notice: "You must sign in first!"
       end
     else
-      @swiger = Swiger.new(user_id: current_user.id, bar_id: @bar.id)
-      if @swiger.save
-        redirect_to :back, notice: "You added as Swiger in this BigSwig!"
+      if user_signed_in?
+        @swiger = Swiger.new(user_id: current_user.id, bar_id: params[:bar_id])
+        if @swiger.save
+          redirect_to :back, notice: "You added as Swiger in this BigSwig!"
+        else
+          redirect_to :back, notice: "You failed added as Swiger in this BigSwig!"
+        end
       else
-        redirect_to :back, notice: "You failed added as Swiger in this BigSwig!"
+        redirect_to :back, notice: "You must sign in first!"
       end
     end
 

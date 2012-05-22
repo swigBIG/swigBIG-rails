@@ -36,10 +36,18 @@ class Users::DashboardController < ApplicationController
     fb = MiniFB::OAuthSession.new(current_user.access_token)
 
     params[:fb_ids].each do |fb_id|
-      fb.post(fb_id, :type => :feed, :params => {:message => "bla bbla"})
+      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit swigbig.com"})
     end
     
-    redirect_to :back
+    redirect_to :back, notice: "invite success"
+  end
+
+  def invite_by_email
+    params[:emails_address].each do |e|
+      Invite.send_invite_email(e, current_user).deliver
+    end
+
+    redirect_to :back, notice: "invite has been sent"
   end
 
   def costum_invite
@@ -52,6 +60,8 @@ class Users::DashboardController < ApplicationController
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     @user = User.new
+    @users = User.all
+    @friends = current_user.friends
     #    @winners = Winner.where(user_id: current_user)
   end
 

@@ -4,138 +4,143 @@
 <h1>Users Dashboard index</h1>
 
 <%= @user.email %>
-<fieldset>
-  <legend>Swig List</legend>
-  <ul class="tabs" data-tabs="tabs">
-    <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
-    <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
-    <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-    <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
-    <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
-    <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
-    <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
-  </ul>
+<div class="row-fluid">
 
-  <div id="my-tab-content" class="tab-content">
-    <div class="tab-pane active" id="monday">
-      <% @swigs.where(swig_day: "Monday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= link_to swig.deal, users_show_swig_path(swig.bar_id, swig.id) %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="tuesday">
-      <% @swigs.where(swig_day: "Tuesday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= swig.deal %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="wednesday">
-      <% @swigs.where(swig_day: "Wednesday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= swig.deal %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="thusday">
-      <% @swigs.where(swig_day: "Thusday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= swig.deal %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="friday">
-      <% @swigs.where(swig_day: "Friday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= swig.deal %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="saturday">
-      <% @swigs.where(swig_day: "Saturday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= swig.deal %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="sunday">
-      <% @swigs.where(swig_day: "Sunday").each do |swig|%>
-        <div class="well span9">
-          <% if  swig.swig_type.eql?("Big") %>
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% else %>
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          <% end %>
-          <%= swig.deal %>
-          <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
-        </div>
-      <% end %>
-    </div>
-
+  <div class="span3 pull-left">
+    
   </div>
-</fieldset>
+  <div class="span8 pull-right">
+    <ul class="tabs" data-tabs="tabs">
+      <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+      <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+      <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+      <li><a href="#thusday" data-toggle="tab"><h3>Thu</h3></a></li>
+      <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+      <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+      <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+    </ul>
+
+    <div id="my-tab-content" class="tab-content">
+      <div class="tab-pane active" id="monday">
+        <% @swigs.where(swig_day: "Monday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= link_to swig.deal, users_show_swig_path(swig.bar_id, swig.id) %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_path(swig.bar), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="tuesday">
+        <% @swigs.where(swig_day: "Tuesday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= swig.deal %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="wednesday">
+        <% @swigs.where(swig_day: "Wednesday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= swig.deal %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="thusday">
+        <% @swigs.where(swig_day: "Thusday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= swig.deal %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="friday">
+        <% @swigs.where(swig_day: "Friday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= swig.deal %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="saturday">
+        <% @swigs.where(swig_day: "Saturday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= swig.deal %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="sunday">
+        <% @swigs.where(swig_day: "Sunday").each do |swig|%>
+          <div class="well span9">
+            <% if  swig.swig_type.eql?("Big") %>
+              <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% else %>
+              <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+                <%= swig.swig_type %>
+              </button>
+            <% end %>
+            <%= swig.deal %>
+            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>

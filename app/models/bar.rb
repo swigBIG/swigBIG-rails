@@ -1,7 +1,7 @@
 class Bar < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, #:omniauthable,
     :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
@@ -28,6 +28,8 @@ class Bar < ActiveRecord::Base
     has_one :popularity
   end
 
+#  accepts_nested_attributes_for :, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+
   before_update  :set_lat_lng
 
   extend  FriendlyId
@@ -47,7 +49,7 @@ class Bar < ActiveRecord::Base
 
   def set_lat_lng
     begin
-      coordinates = Geocoder.coordinates(full_address)
+      coordinates = Geocoder.coordinates("#{self.address}, #{self.city}, United states")
       self.latitude = coordinates.first
       self.longitude = coordinates.last
     rescue

@@ -1,38 +1,50 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-  #map_home_canvas { height: 275px ; width: 520px;}
-  .string{margin-left: -50px;}
-  .select{margin-left: -50px;}
+  #map_home_canvas { height: 325px ; width: 620px;}
+</style>
+<style type="text/css">
+  .string{margin-left: -70px;}
+  .select{margin-left: -70px;}
 </style>
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
 <script type="text/javascript">
-  var map;
   function initialize() {
-    var latlo = new google.maps.LatLng(<%= @geo.lat rescue nil %>, <%= @geo.lng rescue nil%>)
+    var latlo = new google.maps.LatLng(<%= @city.latitude rescue nil %>, <%= @city.longitude rescue nil%>);
     var myOptions = {
       center: latlo,
-      zoom: 10,
+      zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    map = new google.maps.Map(document.getElementById("map_home_canvas"),
-    myOptions);
-    var marker = new google.maps.Marker({
-      position: latlo,
-      map: map
-    });
+    var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
 
-    google.maps.event.trigger(map, "resize");
-    if (map && map.isLoaded()) {
-      map.checkResize();
-      map.panTo(c);
-    } 
+    //    var bar = <%= Bar.where(city: @city.name).map{|b| [b.latitude, b.longitude, b.name]} %>;
+    var bar = <%= Bar.all.map{|b| [b.latitude, b.longitude]} %>;
 
+    var marker, i;
+
+    for (i = 0; i < bar.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(bar[i][0], bar[i][1]),
+        map: map
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(bar[i][2]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
   }
+
+  
 </script>
 
 <body onload="initialize()">
+
+
   <%= content_for :side do %>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
@@ -47,7 +59,7 @@
       </li>
     </ul>
 
-    <%= simple_form_for(@search, url: root_path) do |f|%>
+    <%= simple_form_for(@search, url: city_home_path) do |f|%>
     <%#= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 10px;">
@@ -58,35 +70,33 @@
           </div>
         </div>
         <div id="search" class="accordion-body collapse">
-          <div class="accordion-inner" style="margin-left: -40px;">
+          <div class="accordion-inner" style="margin-left: 0px;">
 
             <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
             <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
             <%= f.input :bar_sports_team_contains, label: false, collection: sport_teams_collection,placeholder: "Sports Team",required: false %>
-      <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
           </div>
         </div>
       <% end %>
     <% end %>
 
     <div class="clearfix"></div>
-
     <div class="clearfix"></div>
-    <h4><%= @geo.city %></h4>
+    <h4><%= @city.name %></h4>
     <ul class="tabs" data-tabs="tabs">
-      <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-      <li><a href="#map" data-toggle="tab" ><h3>Map</h3></a></li>
+      <li><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
+      <li class="active"><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
       <!--<li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>-->
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane " id="map" onmousemove="google.maps.event.trigger(map, 'resize');map.getCenter();">
+      <div class="tab-pane active" id="map"><!-----bar map------>
         <div id="map_home_canvas">
-          <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@geo.lat rescue nil}%2C#{@geo.lng rescue nil}") %>
+          <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
         </div>
       </div>
 
-      <div class="tab-pane active" id="list">
+      <div class="tab-pane" id="list"><!-----list of swig------>
         <table class="zebra-striped">
           <th>Deals</th>
           <th>swigBIG Deals</th>
@@ -96,14 +106,15 @@
           <% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar) %></b>
+                <!--<b class="pull-left"><%#= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>-->
+                <b class="pull-left"><%= link_to  swig.deal, bar_path(swig.bar) %></b>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>
                   <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
                     <%= swig.swig_type %>
                   </button>
-                  <b>Required: </b><%= swig.people %> swigs
+                  <!--<b>Required: </b><%#= swig.people %> people-->
                 <% else %>
                   <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
                     <%= swig.swig_type %>
@@ -111,27 +122,11 @@
                 <% end %>
               </td>
               <td>
-    <%#= link_to  Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id) %>
-                <a class="" data-toggle="modal" href="#barModal"><b><%= swig.bar.name %></b></a>
-                <%= content_for :outer do %>
-                  <div id="barModal" class="modal hide fade" style="opacity: 1 ;">
-                    <div class="modal-header">
-                      <a class="close" data-dismiss="modal"><b>x</b></a>
-                      <h3>Go to <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar_id) %></h3>
-                    </div>
-                    <div class="modal-body well">
-                      <b>Location</b>: &nbsp; <strong><%= swig.bar.address %> <b><%= swig.bar.city %></b></strong>
-                      <br/>
-                      <b>Sport team</b>: &nbsp; <strong><%= swig.bar.sports_team %></strong>
-                      <br/>
-                      <b>Zip code</b>: &nbsp; <strong><%= swig.bar.zip_code %></strong>
-                    </div>
-                  </div>
-                <% end %>
+                <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar) %>
               </td>
               <td>
-                <%= begin
-                  sprintf("%.2f",Geocoder::Calculations.distance_between([@geo.lat,@geo.lng], [swig.bar.latitude, swig.bar.longitude]))
+                <%=begin
+                  sprintf("%.2f",Geocoder::Calculations.distance_between([@city.latitude,@city.longitude], [swig.bar.latitude, swig.bar.longitude]))
                 rescue
                 end %> mile
               </td>
@@ -167,14 +162,14 @@
               <th>Popularity</th>
               <th class="pull-right">Bar name</th>
   <%# @popularity.each do |l| %>
-                  <tr>
-                    <td>
+                <tr>
+                  <td>
   <%#= l.reward_detail %>
-                    </td>
-                    <td class="pull-right">
+                  </td>
+                  <td class="pull-right">
   <%#=  link_to l.bar.name, bar_profile_path(l.bar_id) %>
-                    </td>
-                  </tr>
+                  </td>
+                </tr>
   <%# end %>
             </table>
           </div>
@@ -182,10 +177,5 @@
       </div>-->
 
     </div>
-
-
-
-  </body>
-
 
 

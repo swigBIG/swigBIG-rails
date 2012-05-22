@@ -14,6 +14,9 @@ class Swiger < ActiveRecord::Base
     
     today_swigs.each do |swig|
       swig.update_attributes(lock_status: "unlock")
+      swig.today_swiger.each do |swiger|
+        swiger.update(swig_message: "test")
+      end
     end
     unless self.bar.loyalty.blank?
 #      Point.create(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1)

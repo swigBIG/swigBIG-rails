@@ -1,0 +1,80 @@
+<%= simple_form_for(@search, url: users_friend_index_path) do |f| %>
+  <%= f.input :name_contains, label: false, placeholder: "Search by Name", required: false, input_html: {style: "margin-left: -160px;"} %>
+  <%= f.submit "Search", class: "btn-primary", input_html: {style: "margin-top: -50px; margin-right: -70px;"} %>
+  <% end %>
+
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"><a href="#list" data-toggle="tab"><h5>Search</h5></a></li>
+    <li><a href="#friends" data-toggle="tab" ><h5>Friends</h5></a></li>
+    <li><a href="#pending" data-toggle="tab" ><h5>Pending</h5></a></li>
+    <li><a href="#request" data-toggle="tab" ><h5>Request</h5></a></li>
+  </ul>
+
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane active" id="list">
+      <table class="">
+        <th>name</th>
+        <th>email</th>
+        <th>status</th>
+        <% @users.each do |u| %>
+          <tr>
+            <td>
+              <%= u.name %>
+            </td>
+            <td>
+              <%= u.email %>
+            </td>
+            <td>
+              <%= check_friend(current_user, u) %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <div class="tab-pane" id="friends">
+      <table>
+  <%# @friends.each do |r| %>
+  <%#*<tr>%>
+  <%#*<td>%>
+  <%#= r.name %>
+  <%#*</td>%>
+  <%#*<td>%>
+  <%#= link_to "Remove", users_remove_friend_path(r.id), method: :post, confirm: "Remove ?", input_html: {class: "btn btn-warning"} %>
+  <%#*</td>%>
+  <%#*</tr>%>
+  <%# end %>
+      </table>
+    </div>
+    <div class="tab-pane" id="pending">
+      <table>
+        <% @user_pending.each do |r| %>
+          <tr>
+            <td>
+              <%= r.name %>
+            </td>
+            <td>
+              <%= link_to "Cancel Request", users_remove_friend_path(r.id), method: :post, confirm: "Remove ?", input_html: {class: "btn btn-warning"} %>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+      <div class="tab-pane" id="request">
+        <table>
+          <% @user_request.each do |r| %>
+            <tr>
+              <td>
+                <%= r.name %>
+              </td>
+              <td>
+                <%= link_to "Add Friend", users_approve_friend_path(r.id), method: :post %>
+              </td>
+              <td>
+                <%= link_to "Ignore", users_remove_friend_path(r.id), method: :post, confirm: "Remove ?", input_html: {class: "btn btn-warning"} %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+
+      </div>
