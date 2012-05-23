@@ -7,7 +7,8 @@ class Bar < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :address,
     :zip_code, :phone_number, :city, :state, :country, :latitude, :longitude, :logo, :slug,
-    :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background, :sports_team
+    :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background, :sports_team, :website_link,
+    :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description
   # attr_accessible :title, :body
 
   mount_uploader :logo, ImageUploader
