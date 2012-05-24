@@ -57,7 +57,7 @@
 
                     <li>
                       <% unless current_user.access_token.blank? %>
-                        <b><%= link_to "facebook profile", users_facebook_page_path, style: "color: white;" %></b>
+                        <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
                       <% else %>
                       <li>
                         <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
@@ -76,18 +76,9 @@
                 </li>
                 </ul>
               <% else %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Log In</b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <%= link_to "User log in", new_user_session_path %>
-                    </li>
-                    <li>
-                      <%= link_to "Bar log in", new_bar_session_path %>
-                    </li>
-                    <li class="divider"></li>
-                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
-                  </ul>
+                <li>
+                  <%= link_to "User log in", new_user_session_path %>
+                </li>
                 </li>
               <% end %>
             </div>

@@ -20,6 +20,7 @@ class Users::DashboardController < ApplicationController
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     @user = User.new
+    @fb_post = FbGraph::User.me(current_user.access_token).statuses.first.message
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
     #    @feed = FbGraph::User.me(current_user.access_token).feed!
   end
