@@ -61,6 +61,7 @@
                   <%= point.bar.loyalty.swigs_number %>
                   <b> of </b>
                   <%= point.bar.points.count %>
+                  <%= number_to_percentage(point.bar.loyalty.swigs_number / point.bar.points.count) %>
                 </td>
                 <td>
                   <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  %>

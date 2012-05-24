@@ -13,7 +13,7 @@
     var latlo = new google.maps.LatLng(<%= @geo.lat rescue nil %>, <%= @geo.lng rescue nil%>)
     var myOptions = {
       center: latlo,
-      zoom: 10,
+      zoom: 8,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_home_canvas"),
@@ -24,23 +24,20 @@
     });
 
     google.maps.event.trigger(map, "resize");
-    if (map && map.isLoaded()) {
-      map.checkResize();
-      map.panTo(c);
-    } 
 
   }
 </script>
 
 <body onload="initialize()">
   <%= content_for :side do %>
+    <h4><%#= @geo.city %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
         <ul class="dropdown-menu">
           <% City.order(:name).each do |c| %>
             <li>
-              <%= link_to c.name, city_home_path(c.id), method: :get %>
+              <%= link_to c.name, city_home_path(c), method: :get %>
             </li>
           <% end %>
         </ul>
@@ -48,7 +45,6 @@
     </ul>
 
     <%= simple_form_for(@search, url: root_path) do |f|%>
-    <%#= f.input :bar_city_contains, label: false, placeholder: "Search by City",required: false %>
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 10px;">
           <div class="accordion-inner">
@@ -59,11 +55,13 @@
         </div>
         <div id="search" class="accordion-body collapse">
           <div class="accordion-inner" style="margin-left: -40px;">
-
+            <b style="margin-left: 60px;">Swig Type</b><br/>
             <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
+            <b style="margin-left: 60px;">Sports teams</b>
+            <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
+            <b style="margin-left: 60px;">Radius in Mile</b>
+            <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
             <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-            <%= f.input :bar_sports_team_contains, label: false, collection: sport_teams_collection,placeholder: "Sports Team",required: false %>
-      <%#= f.input :bar_sports_team_contains,label: false, placeholder: "Sports team", required: false %>
           </div>
         </div>
       <% end %>
@@ -72,7 +70,6 @@
     <div class="clearfix"></div>
 
     <div class="clearfix"></div>
-    <h4><%= @geo.city %></h4>
     <ul class="tabs" data-tabs="tabs">
       <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
       <li><a href="#map" data-toggle="tab" ><h3>Map</h3></a></li>

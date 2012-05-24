@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Swprototype</title>
-    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <style type="text/css">
@@ -19,6 +19,13 @@
         margin-left: 10px;
         margin-bottom: 20px;
       }
+      ul.nav li.dropdown:hover ul.dropdown-menu{
+        display: block;
+      }
+
+      a.menu:after, .dropdown-toggle:after {
+        content: none;
+      }
     </style>
   </head>
   <body>
@@ -32,83 +39,34 @@
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.strftime("%A") %></span></h3></h2>
             </li>
-            <div class="nav pull-right" style="margin-left: 200px;">
-              <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
-              <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
-              <% unless user_signed_in? %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Sign up for FREE</b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <%= link_to "User Sign Up", new_user_registration_path,style: "color:#fff" %>
-                    </li>
-                    <li>
-                      <%= link_to "Bar Sign Up", new_bar_registration_path, style: "color: white;" %>
-                    </li>
-                    <li class="divider"></li>
-                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
-                  </ul>
-                </li>
-              <% end %>
-              <% if user_signed_in? %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
-                  <ul class="dropdown-menu">
 
-                    <li>
-                      <% unless current_user.access_token.blank? %>
-                        <b><%= link_to "facebook profile", users_facebook_page_path, style: "color: white;" %></b>
-                      <% else %>
-                      <li>
-                        <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
-                      </li>
-                      <li>
-                        <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
-                      </li>
-                    <% end %>
-                </li>
-                <li>
-                  <%= link_to "Rewards", users_rewards_path %>
-                </li>
-                <li class="divider"></li>
-                <li>
-                  <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-                </li>
-                </ul>
+            <div class="nav pull-right" style="margin-left: 200px;">
+              <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
+              <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
+              <% if bar_signed_in? %>
+                <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
+                <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
               <% else %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Log In</b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <%= link_to "User log in", new_user_session_path %>
-                    </li>
-                    <li>
-                      <%= link_to "Bar log in", new_bar_session_path %>
-                    </li>
-                    <li class="divider"></li>
-                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
-                  </ul>
-                </li>
+                <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
+                <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
               <% end %>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-
-    <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;">
+    <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
       <% if notice %>
-        <div class="alert alert-success"><%= notice %></div>
+        <div class="alert alert-success"><%= notice %><a class="close"><b>x</b></a></div>
       <% end %>
       <% if alert %>
-        <div class="alert alert-success"><%= alert %></div>
+        <div class="alert alert-success"><%= alert %><a class="close"><b>x</b></a></div>
       <% end %>
-
       <%= yield %>
-      <div style="margin-top: 30px;"></div>
     </div>
+    <div style="margin-top: 30px;"></div>
     <%= yield :outer %>
+
     <div class="navbar-fixed-bottom">
       <div class="navbar-inner" style="background-image: none;height: 25px;">
         <div class="container" style="padding-top: 5px;">

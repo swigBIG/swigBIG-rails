@@ -7,18 +7,19 @@ Swprototype::Application.configure do
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  config.assets.manifest = Rails.root.join("public/assets")
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
-  config.assets.compress = false
+#  config.assets.compress = false
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Do not compress assets
-  config.assets.compress = true
+  config.assets.compress = false
 
   # Expands the lines which load the assets
   config.assets.debug = true
@@ -52,7 +53,7 @@ Swprototype::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w(active_admin.css bootstrap.css bootstrap.min.css docs.css jquery-ui.css jquery.ui.autocomplete.css jquery.ui.autocomplete.custom.css smart_wizard_vertical.css active_admin.js bootstrap-carousel.js bootstrap-collapse.js bootstrap-dropdown.js bootstrap-modal.js bootstrap-popover.js bootstrap-tab bootstrap-tooltip.js chart.js detect_timezone.js jquery-ui-1.8.autocomplete.min.js jquery-ui-1.8.core-and-interactions.min.js jquery-ui.min.js jquery.livesearch.js jquery.smartWizard-2.0.js)
+  config.assets.precompile += %w(application.css active_admin.css bootstrap.css bootstrap.min.css docs.css jquery-ui.css jquery.ui.autocomplete.css jquery.ui.autocomplete.custom.css smart_wizard_vertical.css active_admin.js bootstrap-carousel.js bootstrap-collapse.js bootstrap-dropdown.js bootstrap-modal.js bootstrap-popover.js bootstrap-tab bootstrap-tooltip.js chart.js detect_timezone.js jquery-ui-1.8.autocomplete.min.js jquery-ui-1.8.core-and-interactions.min.js jquery-ui.min.js jquery.livesearch.js jquery.smartWizard-2.0.js)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

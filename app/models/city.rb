@@ -1,6 +1,11 @@
 class City < ActiveRecord::Base
   attr_accessible :integer, :name, :site_content_id, :state, :country
+
   belongs_to :site_content
+
+  extend  FriendlyId
+
+  friendly_id :name , use: :slugged
 
   before_save  :set_city_lat_lng
 

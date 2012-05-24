@@ -22,7 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #  end
 
   def after_sign_in_path_for(resource)
-    current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, name: request.env["omniauth.auth"].info.name)
+    current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, name: request.env["omniauth.auth"].info.name, fb_id: request.env["omniauth.auth"].uid)
     users_facebook_page_url
   end
 end

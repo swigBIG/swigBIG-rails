@@ -1,5 +1,6 @@
 Swprototype::Application.routes.draw do
 
+
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -11,7 +12,7 @@ Swprototype::Application.routes.draw do
 
   #  match "bars/show"
   constraints(Subdomain) do
-    root to:  "home#index"
+    root to:  "bar_home#index"
     devise_scope :bar do
       match "/sign_in" => "bars/sessions#new", :as => :sign_in_bars
       match "/sign_up" =>  "bars/registrations#new", :as => :sign_up_bars

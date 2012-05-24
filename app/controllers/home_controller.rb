@@ -1,10 +1,11 @@
 class HomeController < ApplicationController
-  layout "home", only: :main
-  layout "main", only: :index
+#  layout "home", only: :main
+#  layout "users", only: :index
+  layout "users"
 
   def main
-    @geo = SimpleGeolocation::Geocoder.new(set_current_ip)
-    @geo.geocode!
+#    @geo = SimpleGeolocation::Geocoder.new(set_current_ip)
+#    @geo.geocode!
     @loyalty = Loyalty.all
     @popularity = Popularity.all
     @city = City.new
@@ -14,7 +15,7 @@ class HomeController < ApplicationController
     if !params[:search].nil?
       @swigs = @search.where(status: "active")
     else
-      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @geo.city, "active"])
+      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", 'Bandung', "active"])
     end
   end
 
@@ -50,7 +51,7 @@ class HomeController < ApplicationController
   protected
 
   def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("production")
+#    return request.ip.to_s if Rails.env.eql?("production")
     "125.163.30.11"
   end
 end

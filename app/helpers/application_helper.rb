@@ -25,4 +25,8 @@ module ApplicationHelper
     SportTeam.all.map{ |s| [s.team_name, s.team_name] }
   end
 
+  def radius_collection
+    GeoRadius.all.map{ |g| [g.radius, g.radius] }
+  end
+
 end
