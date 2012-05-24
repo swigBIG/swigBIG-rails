@@ -52,7 +52,7 @@ Swprototype::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w(application.css application.js)
+  config.assets.precompile += %w(active_admin.css bootstrap.css bootstrap.min.css docs.css jquery-ui.css jquery.ui.autocomplete.css jquery.ui.autocomplete.custom.css smart_wizard_vertical.css active_admin.js bootstrap-carousel.js bootstrap-collapse.js bootstrap-dropdown.js bootstrap-modal.js bootstrap-popover.js bootstrap-tab bootstrap-tooltip.js chart.js detect_timezone.js jquery-ui-1.8.autocomplete.min.js jquery-ui-1.8.core-and-interactions.min.js jquery-ui.min.js jquery.livesearch.js jquery.smartWizard-2.0.js)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
