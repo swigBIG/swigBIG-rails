@@ -94,7 +94,7 @@
               </a>
             </li>
             <li>
-              <a data-toggle="modal" href="#invite_modal" style="height: 30px;text-align: center;padding-top: 5px;">
+              <a data-toggle="modal" href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
                 <b>Invite Friends</b>
               </a>
             </li>
@@ -138,40 +138,10 @@
               <b>Swig This</b>
             </div>
           </div>
-          <!--<div id="invite">
+          <div id="invite">
             <h2 class="StepTitle"><b>Invite Friends</b></h2>
-
-            <br/>
-            <table class="zebra-striped">
-              <th><b><%#= link_to "Invite All", users_invite_swigbig_path,  style: "color: green;" %></b></th>
-              <th>name</th>
-  <%#= form_tag(users_invite_swigbig_path) do %>
-  <%#= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-                  <p>
-                    Search:
-                    <input type="text" name="q" value="">
-                    <span id="count"></span>
-                  </p>
-
-                  <p id="none" style="display:none">There were no names to match your search!</p>
-
-  <%#= submit_tag "invite" %>
-  <%# @friends.each do |f| %>
-                      <tr id="fb">
-                        <td>
-  <%#= f.name %>
-                        </td>
-                        <td>
-  <%#=  link_to image_tag(f.picture) %>
-                        </td>
-                        <td>
-  <%#=  check_box_tag "fb_ids[]", f.identifier, false, :class => "checkbox" %>
-                        </td>
-                      </tr>
-  <%# end %>
-  <%# end %>
-            </table>
-          </div>-->
+            <a class="" data-toggle="modal" href="#invite_modal">invite</a>
+          </div>
 
           <div id="contact">
             <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
