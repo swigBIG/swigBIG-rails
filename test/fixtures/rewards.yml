@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  bar_id: 1
+  reward_type: MyString
+  reward_detail: MyString
+  swigs_number: MyString
+  lock_status: MyString
+
+two:
+  bar_id: 1
+  reward_type: MyString
+  reward_detail: MyString
+  swigs_number: MyString
+  lock_status: MyString

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  bar_id: 1
+  swig_type: MyString
+  swig_day: MyString
+  status: MyString
+  deal: MyString
+  people: 1
+
+two:
+  bar_id: 1
+  swig_type: MyString
+  swig_day: MyString
+  status: MyString
+  deal: MyString
+  people: 1
