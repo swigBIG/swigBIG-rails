@@ -49,7 +49,7 @@
         <div class="accordion-heading" style="margin-left: 10px;">
           <div class="accordion-inner">
             <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>More Search</b></a>
-            <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
+            
             </div>
           </div>
         </div>
@@ -62,6 +62,7 @@
             <b style="margin-left: 60px;">Radius in Mile</b>
             <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
             <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+            <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
         </div>
       <% end %>
