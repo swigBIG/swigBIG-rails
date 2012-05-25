@@ -1,0 +1,16 @@
+<h3>Notifications</h3>
+
+<table class="zebra-striped">
+  <th>Subject</th>
+  <th>Content</th>
+  <% @bar_messages.each do |message| %>
+    <tr>
+      <td>
+        <%= message.subject %>
+      </td>
+      <td>
+        <%= message.content %>
+      </td>
+    </tr>
+  <% end %>
+</table>
