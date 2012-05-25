@@ -108,91 +108,113 @@
         <% end %>
       </div>
     </fieldset>
-  <% end %>
+    <br />
+    <fieldset class="well" style="margin-left: -15px;">
+      <legend>create Popularity</legend>
+      <div id="fb-root"></div>
+
+      <%= link_to "Create Popularity", users_enter_bar_path(@bar)  %>
+      <br/>
+      <b>Who's There</b>
+      <br/>
+      <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
+        <%= form_tag(users_create_popularity_path(@bar)) do %>
+          <%= submit_tag "Invite And Create", class: "btn-success" %>
+            <% @friends.each do |friend| %>
+              <div class="span3">
+                <%= check_box_tag "guess_ids[]", friend.id, false, :class => "checkbox" %>
+                <%= friend.name %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </fieldset>
+    <% end %>
 
 
-  <div class="clearfix"></div>
-  <br/>
-  <div class="clearfix"></div>
-  <div class="accordion-group">
-    <div class="accordion-heading" style="margin-left: 40px;">
+    <div class="clearfix"></div>
+    <br/>
+    <div class="clearfix"></div>
+    <div class="accordion-group">
+      <div class="accordion-heading" style="margin-left: 40px;">
+        <div class="accordion-inner">
+          <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
+        </div>
+      </div>
+    </div>
+    <div id="popularityandloyalty" class="accordion-body collapse">
       <div class="accordion-inner">
-        <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
-      </div>
-    </div>
-  </div>
-  <div id="popularityandloyalty" class="accordion-body collapse">
-    <div class="accordion-inner">
-      <ul class="tabs" data-tabs="tabs">
-        <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
-        <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
-      </ul>
-      <div id="my-tab-content" class="tab-content">
-        <div class="tab-pane active" id="reward_loyalty">
-          <% @loyalty.each do |l| %>
-            <%= l.reward_detail %>
-            <br/>
-          <% end %>
-        </div>
-        <div class="tab-pane" id="reward_popularity">
-          <% @popularity.each do |l| %>
-            <%= l.reward_detail %>
-            <br/>
-          <% end %>
+        <ul class="tabs" data-tabs="tabs">
+          <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+          <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+        </ul>
+        <div id="my-tab-content" class="tab-content">
+          <div class="tab-pane active" id="reward_loyalty">
+            <% @loyalty.each do |l| %>
+              <%= l.reward_detail %>
+              <br/>
+            <% end %>
+          </div>
+          <div class="tab-pane" id="reward_popularity">
+            <% @popularity.each do |l| %>
+              <%= l.reward_detail %>
+              <br/>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <br/>
-  <div class="clearfix"></div>
-  <br/>
-  <ul class="tabs" data-tabs="tabs">
-    <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
-    <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
-    <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-    <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
-    <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
-    <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
-    <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
-  </ul>
+    <br/>
+    <div class="clearfix"></div>
+    <br/>
+    <ul class="tabs" data-tabs="tabs">
+      <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+      <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+      <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+      <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
+      <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+      <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+      <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+    </ul>
 
-  <div id="my-tab-content" class="tab-content">
-    <div class="tab-pane active" id="monday">
-      <% @swigs.monday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="tuesday">
-      <% @swigs.tuesday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="wednesday">
-      <% @swigs.wednesday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="thursday">
-      <% @swigs.thursday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="friday">
-      <% @swigs.friday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="saturday">
-      <% @swigs.saturday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
-    </div>
-    <div class="tab-pane" id="sunday">
-      <% @swigs.sunday.each do |swig|%>
-        <%= render partial: "swig", locals: {swig: swig}  %>
-      <% end %>
+    <div id="my-tab-content" class="tab-content">
+      <div class="tab-pane active" id="monday">
+        <% @swigs.monday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="tuesday">
+        <% @swigs.tuesday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="wednesday">
+        <% @swigs.wednesday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="thursday">
+        <% @swigs.thursday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="friday">
+        <% @swigs.friday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="saturday">
+        <% @swigs.saturday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="sunday">
+        <% @swigs.sunday.each do |swig|%>
+          <%= render partial: "swig", locals: {swig: swig}  %>
+        <% end %>
+      </div>
+
     </div>
 
-  </div>
+  </body>
 
-</body>
