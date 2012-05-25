@@ -109,26 +109,28 @@
       </div>
     </fieldset>
     <br />
-    <fieldset class="well" style="margin-left: -15px;">
-      <legend>create Popularity</legend>
-      <div id="fb-root"></div>
+    <% if user_signed_in? %>
+      <fieldset class="well" style="margin-left: -15px;">
+        <legend>create Popularity</legend>
+        <div id="fb-root"></div>
 
-      <%= link_to "Create Popularity", users_enter_bar_path(@bar)  %>
-      <br/>
-      <b>Who's There</b>
-      <br/>
-      <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
-        <%= form_tag(users_create_popularity_path(@bar)) do %>
-          <%= submit_tag "Invite And Create", class: "btn-success" %>
-            <% @friends.each do |friend| %>
-              <div class="span3">
-                <%= check_box_tag "guess_ids[]", friend.id, false, :class => "checkbox" %>
-                <%= friend.name %>
-              </div>
+        <%= link_to "Create Popularity", users_enter_bar_path(@bar)  %>
+        <br/>
+        <b>Who's There</b>
+        <br/>
+        <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
+          <%= form_tag(users_create_popularity_path(@bar)) do %>
+            <%= submit_tag "Invite And Create", class: "btn-success" %>
+              <% @friends.each do |friend| %>
+                <div class="span3">
+                  <%= check_box_tag "guess_ids[]", friend.id, false, :class => "checkbox" %>
+                  <%= friend.name %>
+                </div>
+              <% end %>
             <% end %>
-          <% end %>
-        </div>
-      </fieldset>
+          </div>
+        </fieldset>
+      <%end%>
     <% end %>
 
 
