@@ -16,6 +16,7 @@ class Bars::DashboardController < ApplicationController
     @loyalty = Loyalty.all
     @winner = @bar.winners.all
     @loyalty_reward = RewardMessage.new
+    @bar_message = BarMessage.new
   end
 
   def show
@@ -131,12 +132,33 @@ class Bars::DashboardController < ApplicationController
     @reward = Reward.find(params[:id]).destroy
     redirect_to :back, notice: "reward deleted"
   end
+
   def delete_popularity
     @popularity = Popularity.find(params[:id]).destroy
     redirect_to :back, notice: "Popularity deleted"
   end
+
   def delete_loyalty
     @loyalty = Loyalty.find(params[:id]).destroy
     redirect_to :back, notice: "Loyalty deleted"
   end
+
+  def create_bar_message
+    case params[:category]
+    when "0"
+      User.all.each do |user|
+        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      end
+    when "1"
+      User.all.each do |user|
+        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      end
+    when "2"
+      User.all.each do |user|
+        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      end
+    end
+    redirect_to :back, notice: "Message success Send!"
+  end
+
 end

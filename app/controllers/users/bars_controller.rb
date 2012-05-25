@@ -10,30 +10,37 @@ class Users::BarsController < ApplicationController
   end
 
   def show
-#    @bar = Bar.find(params[:bar_id])
-#    @swigs = Swig.where(status: "active")
-#    @swigers = @bar.swigers
-#    @users = User.all
-#    @popularity = Popularity.new
-#    #    @users.count.times do
-#    guesses = @popularity.guesses.new
-#    #    end
+    #    @bar = Bar.find(params[:bar_id])
+    #    @swigs = Swig.where(status: "active")
+    #    @swigers = @bar.swigers
+    #    @users = User.all
+    #    @popularity = Popularity.new
+    #    #    @users.count.times do
+    #    guesses = @popularity.guesses.new
+    #    #    end
     @bar = Bar.find(params[:bar_id])
     @bar_name = @bar.name
     @swigs = Swig.where(status: "active")
     @swigers = @bar.swigers.all
     @popularity = Popularity.where(bar_id: @bar)
     @loyalty = Loyalty.where(bar_id: @bar)
+    @friends = current_user.friends
+    
+    if @bar.popularity.blank? and !user_signed_in?
+      @inviter = @bar.popularity_inviter.new
+    end
   end
 
   def create_popularity
-    debugger
-    #    @bar = Bar.find(:bar_id)
-#    @popularity = Popularity.new(bar_id: @bar.id)
-#params[:job].merge(dates: revert_date_to_db_format(params[:job][:dates])
-    @popularity = Popularity.new(params[:popularity].merge(guesses: revert_date_to_db_format(params[:popularity][:user_id])))
-     if @popularity.save
-       redirect_to :back
-     end
+    @bar = Bar.find(params[:bar_id])
+    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id)
+    if @popularity_inviter.save
+      params[:guess_ids].each do |guess_id|
+        @popularity_inviter.popularity_guesses.create(user_id: guess_id)
+      end
+      redirect_to :back, notice: "Success Create Popularity!"
+    else
+      redirect_to :back, notice: "Fail Create Popularity!"
+    end
   end
 end

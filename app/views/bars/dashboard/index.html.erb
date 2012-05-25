@@ -56,14 +56,24 @@
 
   <h3><%= @bar.name rescue nil %></h3>
   <div class="span4">
-    <%#= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+<%#= image_tag(@bar.logo_url(:thumb)) rescue nil %>
   </div>
   <div class="span6">
     <div class="accordion">
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 40px;">
           <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>
+            <a class=""  href="#bar_message" data-toggle="modal" style="color: black;"><b>Message</b></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading" style="margin-left: 40px;">
+          <div class="accordion-inner">
+            <!--<a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>-->
+            <a class=""  href="#swigModal" data-toggle="modal" style="color: black;"><b>Swigs</b></a>
           </div>
         </div>
         <div id="swig" class="accordion-body collapse">
@@ -77,7 +87,8 @@
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 40px;">
           <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>
+            <!--<a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>-->
+            <a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>
           </div>
         </div>
         <div id="reward" class="accordion-body collapse">
@@ -360,6 +371,31 @@
                 <% end %>
               </div>
             </div>
-          <% end %>
 
-        </body>
+            <div id="bar_message" class="modal hide fade"><div class="modal-header">
+                <a class="close" data-dismiss="modal"><b>x</b></a>
+                <h3>New Message</h3>
+              </div>
+              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                <div class="modal-body well">
+                  <div style="text-align: center;">
+                    <b>To : </b><%= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>
+                    <br/>
+                    <br/>
+                    <%= m.input :subject, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
+                    <%= m.input :content, label: false, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <div class="span3 pull-left">
+                    <a href="#" class="btn pull-left" data-dismiss="modal" >Close</a>
+                  </div>
+                  <div class="span3 pull-right">
+                    <%= m.submit "Send", class: "btn pull-right" %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+          </body>

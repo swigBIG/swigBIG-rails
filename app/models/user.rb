@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
     has_many :points
     has_many :swigers
     has_many :winners
+    has_many :popularity_inviters
+    has_many :popularity_guesses
   end
 
 #  acts_as_messageable required: [:topic, :body, :received_messageable_id ]

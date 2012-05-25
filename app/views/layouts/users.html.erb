@@ -36,8 +36,6 @@
             </li>
             <div class="nav pull-right" style="margin-left: 200px;">
               <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
-              <li><b><a href="#" style="color: white;">Notifications</a></b></li>
-
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% unless user_signed_in? %>
                 <li>
@@ -45,6 +43,9 @@
                 </li>
               <% end %>
               <% if user_signed_in? %>
+                <li>
+                  <b><%=  link_to "Notifications", users_notifications_path, style: "color: white;" %></b>
+                </li>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
                   <ul class="dropdown-menu">
