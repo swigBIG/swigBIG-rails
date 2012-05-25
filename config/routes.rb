@@ -1,6 +1,5 @@
 Swprototype::Application.routes.draw do
 
-
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -63,6 +62,7 @@ Swprototype::Application.routes.draw do
     delete  "delete_popularity/:id" => "dashboard#delete_popularity", as: "delete_popularity"
     get "rewards/index"
     match "rewards" => "rewards#index", as: "rewards"
+    post "create_bar_message" => "dashboard#create_bar_message", as: "create_bar_message"
 
     #    resources :messages do
     #      collection do
@@ -80,6 +80,7 @@ Swprototype::Application.routes.draw do
 
 
   namespace :users do
+    match  "notifications" => "notifications#index", as: "notifications"
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"
     match  "facebook_update_status" => "dashboard#facebook_update_status", as: "facebook_update_status"
@@ -92,7 +93,7 @@ Swprototype::Application.routes.draw do
     #    get "bar_swigs/show"
     get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
     get  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
-    post "create_popularity" => "bars#create_popularity", as: "create_popularity"
+    post "create_popularity/:bar_id" => "bars#create_popularity", as: "create_popularity"
     #--- friendship
     match "friendship" => "friends#index", as: "friend_index"
     post "friend_request/:id" => "friends#friend_request", as: "friend_request"
