@@ -111,7 +111,7 @@
             <tr>
               <td>
                 <!--<b class="pull-left"><%#= link_to  swig.deal, bar_profile_path(swig.bar_id) %></b>-->
-                <b class="pull-left"><%= link_to  swig.deal, bar_path(swig.bar) %></b>
+                <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar) %></b>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>
@@ -126,7 +126,7 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar) %>
+                <b><%= link_to  swig.bar.name, bar_profile_users_path(swig.bar) %></b>
               </td>
               <td>
                 <%=begin
