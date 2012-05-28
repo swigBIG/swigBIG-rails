@@ -1,5 +1,6 @@
 class Bars::DashboardController < ApplicationController
   layout "bars"
+  before_filter :authenticate_bar!
 
   def index
     @bar = current_bar
@@ -159,6 +160,20 @@ class Bars::DashboardController < ApplicationController
       end
     end
     redirect_to :back, notice: "Message success Send!"
+  end
+
+  def update_completion
+    @bar = current_bar
+    if @bar.update_attributes(params[:bar])
+      sign_in @bar, :bypass => true
+      redirect_to :back, notice: "Profile Completion Success!"
+    else
+      redirect_to :back, notice: "Profile Completion Failed!"
+    end
+  end
+
+  def completion
+    @bar = current_bar
   end
 
 end

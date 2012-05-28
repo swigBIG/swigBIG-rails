@@ -2,13 +2,13 @@ class Bar < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, #:omniauthable,
-    :recoverable, :rememberable, :trackable, :validatable
+  :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :address,
     :zip_code, :phone_number, :city, :state, :country, :latitude, :longitude, :logo, :slug,
     :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background, :sports_team, :website_link,
-    :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description
+    :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description, :bar_hour
   # attr_accessible :title, :body
 
   mount_uploader :logo, ImageUploader
@@ -30,17 +30,19 @@ class Bar < ActiveRecord::Base
     has_one :popularity
   end
 
-#  accepts_nested_attributes_for :, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  #  accepts_nested_attributes_for :, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
-  before_update  :set_lat_lng
+  #  before_update  :set_lat_lng
+  geocoded_by :address
+  after_validation :geocode, :if => :address_changed?
 
   extend  FriendlyId
 
   friendly_id :name , use: :slugged
 
-#  def to_param
-#    "#{id} #{name}".parameterize
-#  end
+  #  def to_param
+  #    "#{id} #{name}".parameterize
+  #  end
 
   #  geocoded_by :latitude  => :latitude, :longitude => :longitude
 

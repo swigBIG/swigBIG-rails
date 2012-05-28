@@ -24,10 +24,15 @@ class Users::BarsController < ApplicationController
     @swigers = @bar.swigers.all
     @popularity = Popularity.where(bar_id: @bar)
     @loyalty = Loyalty.where(bar_id: @bar)
+    if user_signed_in?
     @friends = current_user.friends
-    
-    if @bar.popularity.blank? and !user_signed_in?
+    else
+      @friends = []
+    end
+    if @bar.popularity.blank? and user_signed_in?
       @inviter = @bar.popularity_inviter.new
+    else
+      @inviter = []
     end
   end
 
