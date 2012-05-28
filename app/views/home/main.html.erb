@@ -30,7 +30,7 @@
 
 <body onload="initialize()">
   <%= content_for :side do %>
-    <h4><%#= @geo.city %></h4>
+    <h4><%= @geo.city %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
@@ -48,21 +48,20 @@
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 10px;">
           <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>More Search</b></a>
-            
-            </div>
+            <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>Narrow it down</b></a>
           </div>
         </div>
-        <div id="search" class="accordion-body collapse">
-          <div class="accordion-inner" style="margin-left: -40px;">
-            <b style="margin-left: 60px;">Swig Type</b><br/>
-            <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
-            <b style="margin-left: 60px;">Sports teams</b>
-            <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
-            <b style="margin-left: 60px;">Radius in Mile</b>
-            <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
-            <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-            <%= f.submit "Search", class: "btn-mini btn-primary pull-left" %>
+      </div>
+      <div id="search" class="accordion-body collapse">
+        <div class="accordion-inner" style="margin-left: -40px;">
+          <b style="margin-left: 60px;">Swig Type</b><br/>
+          <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
+          <b style="margin-left: 60px;">Sports teams</b>
+          <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
+          <b style="margin-left: 60px;">Radius in Mile</b>
+          <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
+          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+          <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
         </div>
       <% end %>
