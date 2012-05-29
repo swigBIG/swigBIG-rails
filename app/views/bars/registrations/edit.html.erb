@@ -1,31 +1,47 @@
-  <h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-  <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
+<h2>Edit <%= current_bar.name %> Profile</h2>
+<ul class="tabs" data-tabs="tabs">
+  <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
+  <li><a href="#link" data-toggle="tab"><h5>Link</h5></a></li>
+  <li><a href="#location" data-toggle="tab"><h5>Location</h5></a></li>
+</ul>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
     <%= devise_error_messages! %>
-    <%= f.input :email %>
-    <%#= f.input :password %>
-    <%#= f.input :password_confirmation %>
-    <%#= f.input :current_password %>
-    <%= f.input :name %>
-    <%#= f.input :logo%>
-   <%#= image_tag(f.object.logo_url(:thumb), class: "pull-left", hint: "current Logo") %>
-    <%#= f.input :bar_background %>
-   <%#= image_tag(f.object.bar_background_url(:thumb), class: "pull-left", hint: "current Logo") %>`
-    <%= f.input :address %>
-    <%= f.input :sports_team, as: :select, collection: sport_teams_collection %>
-    <%= f.input :zip_code %>
-    <%= f.input :phone_number %>
-    <%= f.input :city, as: :select, collection: avaliable_cities %>
-    <%#= f.input :state %>
-    <%#= f.input :country %>
+    <div class="tab-content">
+      <div class="tab-pane active" id="bar">
+        <%= f.input :email %>
+        <%= f.input :name %>
+        <%= f.input :bar_hour, label: "Bar Hour" %>
+        <%= f.input :phone_number %>
+        <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;"} %>
+        <div class="form-actions">
+          <%= f.submit "Update", class: "btn-primary" %>
+          </div>
+        </div>
+        <div class="tab-pane" id="link">
+          <%= f.input :website_link %>
+          <%= f.input :facebook_link %>
+          <%= f.input :twitter_link %>
+          <%= f.input :google_plus_link %>
+          <div class="form-actions">
+            <%= f.submit "Update", class: "btn-primary" %>
+            </div>
+          </div>
+          <div class="tab-pane" id="location">
+            <%= f.input :address %>
+            <%= f.input :sports_team, as: :select, collection: sport_teams_collection %>
+            <%= f.input :zip_code %>
+            <%= f.input :city, as: :select, collection: avaliable_cities %>
+            <div class="form-actions">
+              <%= f.submit "Update", class: "btn-primary" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <br/>
+        <br/>
+        <h3>Cancel my account</h3>
 
-    <div class="form-actions"><%= f.submit "Update", class: "btn-primary" %></div>
-  <% end %>
-  <br/>
-  <br/>
-  <h3>Cancel my account</h3>
+        <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
-  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
-
-  <%= link_to "Back", :back %>
+        <%= link_to "Back", :back %>
 
