@@ -1,13 +1,16 @@
 class Swig < ActiveRecord::Base
 
   attr_accessible :bar_id, :deal, :people, :status, :swig_day, :swig_type, :product_id, :swig_price,
-    :lock_status
+    :lock_status, :latitude, :longitude, :address, :city
 
   belongs_to :bar
   with_options dependent: :destroy do
     #    has_many :swigers
-    
   end
+
+  before_save :add_address
+
+  geocoded_by :address
 
   scope :today, where(swig_day: Date.today.strftime("%A"))
   scope :big, where(swig_type: "Big")
@@ -23,4 +26,20 @@ class Swig < ActiveRecord::Base
   def swig_lock
     self.people
   end
+
+  def add_address
+    begin
+      self.address = self.bar.address
+      self.city = self.bar.city
+      self.latitude = self.bar.latitude
+      self.longitude = self.bar.longitude
+    rescue
+      self.address = nil
+      self.city = nil
+      self.latitude = nil
+      self.longitude = nil
+      logger.error "failed to get coordinates"
+    end
+  end
+
 end

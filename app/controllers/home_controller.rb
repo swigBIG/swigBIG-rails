@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
-#  layout "home", only: :main
-#  layout "users", only: :index
+  #  layout "home", only: :main
+  #  layout "users", only: :index
   layout "users"
 
   def main
@@ -27,12 +27,21 @@ class HomeController < ApplicationController
     @city = City.find(params[:id])
     @loyalty = Loyalty.all
     @popularity = Popularity.all
-    @search = Swig.search(params[:search])
-    #    if !params[:search].nil?
-    #      @swigs = @search.where(status: "active")
-    #    else
-    @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city.name, "active"])
-    #    end
+    if !params[:radius].blank?
+      @search = Swig.near(@city.name.to_s, params[:radius], :order => :distance).search(params[:search])
+      @swigs = @search.all
+    else
+      @search = Swig.search(params[:search])
+      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+    end
+  end
+
+  def find_by_radius
+    if !params[:search].blank?
+      @bars = Bar.address.near(params[:search])
+    else
+      @bars = Bar.all
+    end
   end
 
   def time_zone

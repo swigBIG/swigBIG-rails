@@ -34,7 +34,10 @@ class Bar < ActiveRecord::Base
 
   #  before_update  :set_lat_lng
   geocoded_by :address
+
   after_validation :geocode, :if => :address_changed?
+
+  before_update :update_swig_location
 
   extend  FriendlyId
 
@@ -60,6 +63,12 @@ class Bar < ActiveRecord::Base
       self.latitude = nil
       self.longitude = nil
       logger.error "failed to get coordinates"
+    end
+  end
+
+  def update_swig_location
+    self.swigs.each do |swig|
+      swig.update_attributes(address: self.address, latitude: self.latitude, longitude: self.longitude, city: self.city)
     end
   end
   
