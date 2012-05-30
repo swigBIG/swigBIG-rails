@@ -25,10 +25,7 @@
       x.push(<%= b.latitude %>);
       x.push(<%= b.longitude %>);
       x.push('<%= b.name %>');
-      x.push('<%= b.sports_team.blank? ? "---" : b.sports_team %>');
-  <% b.swigs.today.where(status: "active", swig_type: "Big").each do |swig| %>
-        x.push('<%= swig.deal rescue "No Swig" %>');
-  <% end %>
+      x.push('<%= b.sports_team %>');
       bar.push(x);
 <% end %>
 
@@ -55,8 +52,8 @@
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          //infowindow.setContent('<b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]);
-          infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
+          infowindow.setContent('<b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]);
+          /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
             '<br/>'+
             '<ul class="tabs" data-tabs="tabs">'+
             '<li class="active"><a href="#cover" data-toggle="tab"><b>'+bar[i][2]+'</b></a></li>'+
@@ -69,7 +66,7 @@
             '<div class="tab-pane" id="detail">'+
             'detail</div>'+
             '</div>'+
-            '</div>');
+            '</div>');*/
           infowindow.open(map, marker);
         }
       })(marker, i));
