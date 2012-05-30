@@ -1,5 +1,5 @@
 class Users::BarsController < ApplicationController
-  layout "bar_profile"
+  layout "home"
   
   def index
 
