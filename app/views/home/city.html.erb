@@ -50,12 +50,26 @@
         map: map
       });
 
-      var htmlcontent = '<b>'+bar[i][2]+'</b>'+
-        '<br/>'+bar[i][3]+'';
+      var htmlcontent = '<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+
+        '<br/>'+bar[i][3]+'</div>';
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent('<b>'+bar[i][2]+'</b> <br/>'+bar[i][3]);
+          //infowindow.setContent('<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]+'</div>');
+          infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
+            '<br/>'+
+            '<ul class="tabs" data-tabs="tabs">'+
+            '<li class="active"><a href="#cover" data-toggle="tab"><b>'+bar[i][2]+'</b></a></li>'+
+            '<li><a href="#detail" data-toggle="tab"><b>Detail</b></a></li>'+
+            '</ul>'+
+            '<div id="my-tab-content" class="tab-content">'+
+            '<div class="tab-pane active" id="cover">'+
+            bar[i][3]+
+            '</div>'+
+            '<div class="tab-pane" id="detail">'+
+            'detail</div>'+
+            '</div>'+
+            '</div>');
           infowindow.open(map, marker);
         }
       })(marker, i));
@@ -115,7 +129,7 @@
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="map"><!-----bar map------>
         <div id="map_home_canvas">
-          <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
+  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
         </div>
       </div>
 
