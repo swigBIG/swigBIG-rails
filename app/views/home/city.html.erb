@@ -9,24 +9,6 @@
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
-<!--<script type="text/javascript">
-<%= Bar.where(city: @city.name).map{|b| { lat: b.latitude, lng: b.longitude, info: b.name}} %>;
-  var bar = [];
-<% Bar.where(city: @city.name).each do |b| %>
-      var x = [];
-      x.push(<%= b.latitude %>);
-      x.push(<%= b.longitude %>);
-      x.push('<%= b.name %>');
-      bar.push(x);
-<% end %>
-
-  $("#google_map").googleMap({
-    'centerLat': <%= @city.latitude %>,
-    'centerLng': <%= @city.longitude %>,
-    'zoom': 6,
-    'markerData': marker_list
-  });
-</script>-->
 <script type="text/javascript">
   function initialize() {
     var latlo = new google.maps.LatLng(<%= @city.latitude rescue nil %>, <%= @city.longitude rescue nil%>);
@@ -43,29 +25,42 @@
       x.push(<%= b.latitude %>);
       x.push(<%= b.longitude %>);
       x.push('<%= b.name %>');
+      x.push('<%= b.sports_team.blank? ? "---" : b.sports_team %>');
+  <% b.swigs.today.where(status: "active", swig_type: "Big").each do |swig| %>
+        x.push('<%= swig.deal rescue "No Swig" %>');
+  <% end %>
       bar.push(x);
 <% end %>
-    //var bar = <%= Bar.all.map{|b| [b.latitude, b.longitude]} %>;
 
-    var marker, i;
-
-    for (i = 0; i < bar.length; i++) {
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(bar[i][0], bar[i][1]),
-        map: map
-      });
-
+    function addInfoWindow(marker, newMarker){
       var infowindow = new google.maps.InfoWindow({
-        content: "<b>" + bar[i][2]+ "</b>"
+        content: newMarker.info
       });
 
       google.maps.event.addListener(marker, 'click', function() {
         infowindow.open(map,marker);
       });
     }
+
+    var infowindow = new google.maps.InfoWindow();
+
+    for (var i = 0; i < bar.length; i++) {
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(bar[i][0], bar[i][1]),
+        map: map
+      });
+
+      var htmlcontent = '<b>'+bar[i][2]+'</b>'+
+        '<br/>'+bar[i][3]+'';
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent('<b>'+bar[i][2]+'</b> <br/>'+bar[i][3]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
   }
-
-
 </script>
 
 <body onload="initialize()">
@@ -119,9 +114,8 @@
 
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="map"><!-----bar map------>
-        <!--<div id="google_map"></div>-->
         <div id="map_home_canvas">
-          <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
+          <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
         </div>
       </div>
 
