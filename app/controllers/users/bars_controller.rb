@@ -30,7 +30,7 @@ class Users::BarsController < ApplicationController
       @friends = []
     end
     if @bar.popularity.blank? and user_signed_in?
-      @inviter = @bar.popularity_inviter.new
+      @inviter = @bar.popularity_inviters.new
     else
       @inviter = []
     end
