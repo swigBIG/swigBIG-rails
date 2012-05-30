@@ -9,6 +9,24 @@
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
+<!--<script type="text/javascript">
+<%= Bar.where(city: @city.name).map{|b| { lat: b.latitude, lng: b.longitude, info: b.name}} %>;
+  var bar = [];
+<% Bar.where(city: @city.name).each do |b| %>
+      var x = [];
+      x.push(<%= b.latitude %>);
+      x.push(<%= b.longitude %>);
+      x.push('<%= b.name %>');
+      bar.push(x);
+<% end %>
+
+  $("#google_map").googleMap({
+    'centerLat': <%= @city.latitude %>,
+    'centerLng': <%= @city.longitude %>,
+    'zoom': 6,
+    'markerData': marker_list
+  });
+</script>-->
 <script type="text/javascript">
   function initialize() {
     var latlo = new google.maps.LatLng(<%= @city.latitude rescue nil %>, <%= @city.longitude rescue nil%>);
@@ -19,8 +37,15 @@
     };
     var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
 
-    //    var bar = <%= Bar.where(city: @city.name).map{|b| [b.latitude, b.longitude, b.name]} %>;
-    var bar = <%= Bar.all.map{|b| [b.latitude, b.longitude]} %>;
+    var bar = [];
+<% Bar.where(city: @city.name).each do |b| %>
+      var x = [];
+      x.push(<%= b.latitude %>);
+      x.push(<%= b.longitude %>);
+      x.push('<%= b.name %>');
+      bar.push(x);
+<% end %>
+    //var bar = <%= Bar.all.map{|b| [b.latitude, b.longitude]} %>;
 
     var marker, i;
 
@@ -30,16 +55,17 @@
         map: map
       });
 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(bar[i][2]);
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
+      var infowindow = new google.maps.InfoWindow({
+        content: "<b>" + bar[i][2]+ "</b>"
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+      });
     }
   }
 
-  
+
 </script>
 
 <body onload="initialize()">
@@ -59,9 +85,7 @@
         </ul>
       </li>
     </ul>
-
     <%= simple_form_for(@search, url: city_home_path) do |f|%>
-
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 10px;">
           <div class="accordion-inner">
@@ -76,7 +100,6 @@
           <b style="margin-left: 60px;">Sports teams</b>
           <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
           <b style="margin-left: 60px;">Radius in Mile</b>
-    <%#= select_tag :radius, collection: sport_teams_collection %>
           <%= select(:geo, :radius,  radius_collection) %>
           <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 120px;margin-top: 20px;"} %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
@@ -96,6 +119,7 @@
 
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="map"><!-----bar map------>
+        <!--<div id="google_map"></div>-->
         <div id="map_home_canvas">
           <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
         </div>
