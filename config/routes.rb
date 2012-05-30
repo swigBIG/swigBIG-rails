@@ -12,6 +12,7 @@ Swprototype::Application.routes.draw do
   #  match "bars/show"
   constraints(Subdomain) do
     root to:  "bar_home#index"
+    match "/" => "bar_home#index", as: "bar_home"
     devise_scope :bar do
       match "/sign_in" => "bars/sessions#new", :as => :sign_in_bars
       match "/sign_up" =>  "bars/registrations#new", :as => :sign_up_bars
@@ -25,6 +26,7 @@ Swprototype::Application.routes.draw do
     collection do
       get "main" =>  "home#main", as: "main"
       get "city/:id" =>  "home#city", as: "city"
+      get "find_by_radius" => "home#find_by_radius", as: "find_by_radius"
     end
   end
 
@@ -42,6 +44,7 @@ Swprototype::Application.routes.draw do
 
   
   namespace :bars do
+   
     match  "completion" => "dashboard#completion", as: "completion"
     get  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "dashboard" => "dashboard#index", as: "dashboard"

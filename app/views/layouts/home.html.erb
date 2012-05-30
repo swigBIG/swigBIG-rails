@@ -20,6 +20,7 @@
         margin-bottom: 20px;
       }
     </style>
+    <%= yield :head_js %>
   </head>
   <body>
     <div class="navbar-fixed-top">
@@ -87,7 +88,12 @@
             &nbsp;
             <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
             &nbsp;
-            <b><%= link_to "swigBIG.com", main_home_path, style: "color: white" %></b>
+            <b>
+              <%= link_to "Bar Owner", root_path %>
+            </b>
+            <b>
+              <%= link_to "Bar Owner?", bar_home_path %>
+            </b>
           </div>
         </div>
       </div>
@@ -205,6 +211,7 @@
             </div>-->
 
     </body>
+    <%= yield :bottom_js %>
   </html>
 
 
