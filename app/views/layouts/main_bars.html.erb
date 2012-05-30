@@ -27,6 +27,7 @@
         content: none;
       }
     </style>
+    <%= yield :head_js %>
   </head>
   <body>
     <div class="navbar-fixed-top">
@@ -79,6 +80,8 @@
             <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
             &nbsp;
             <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            &nbsp;
+            <b><%= link_to "swigBIG.com", "http://#{with_subdomain(false)}", style: "color: white;"  %></b>
           </div>
         </div>
       </div>
@@ -119,4 +122,5 @@
     </div>
 
   </body>
+  <%= yield :bottom_js  %>
 </html>
