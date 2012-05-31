@@ -4,12 +4,6 @@ Swprototype::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  #  resource :bar_det
-
-  get "time_zone" => "home#time_zone", as: :time_zone
-  get "b/:b_id/:s_id" => "bar_detail#bar_swig", as: :bar_swig
-
-  #  match "bars/show"
   constraints(Subdomain) do
     root to:  "bar_home#index"
     match "/" => "bar_home#index", as: "bar_home"
@@ -17,31 +11,31 @@ Swprototype::Application.routes.draw do
       match "/sign_in" => "bars/sessions#new", :as => :sign_in_bars
       match "/sign_up" =>  "bars/registrations#new", :as => :sign_up_bars
     end
+#    match  "/:id" => "bars/dashboard#index", as: "subdomain_bar_detail"
   end
 
   root to:  "home#main"
   
-  #  match "swig_list" => "home#index", as: :swig_list
+#  get "bars/city/:id" =>  "home#city", as: "city"
+  
   resource :home do
     collection do
       get "main" =>  "home#main", as: "main"
-      get "city/:id" =>  "home#city", as: "city"
       get "find_by_radius" => "home#find_by_radius", as: "find_by_radius"
     end
   end
 
-
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords", omniauth_callbacks: "users/omniauth_callbacks"}
 
+#  get "bar/:bar_id" => "users/bars#show", as: "bar_profile"
+  
   resource :users do
     collection do
-      get "bar/:bar_id" => "users/bars#show", as: "bar_profile"
     end
   end
   devise_for :bars, controllers: {registrations: "bars/registrations", sessions: "bars/sessions", confirmations: "bars/confirmations", passwords: "bars/passwords"}
 
   devise_for :members, controllers: {registrations: "members/registrations"}
-
   
   namespace :bars do
    

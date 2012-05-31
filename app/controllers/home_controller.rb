@@ -4,8 +4,7 @@ class HomeController < ApplicationController
   layout "users"
 
   def main
-    @geo = SimpleGeolocation::Geocoder.new(request.ip.to_s)
-    @geo.geocode!
+    
     @loyalty = Loyalty.all
     @popularity = Popularity.all
     @city = City.new
@@ -15,7 +14,7 @@ class HomeController < ApplicationController
     if !params[:search].nil?
       @swigs = @search.where(status: "active")
     else
-      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @geo.city, "active"])
+      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city_lat_lng.first, "active"])
     end
   end
 
@@ -44,25 +43,6 @@ class HomeController < ApplicationController
     end
   end
 
-  def time_zone
-    tz = params[:tz].to_i
-    timezone = ActiveSupport::TimeZone[tz*60*60].name
-    session[:tz] = params[:tz]
-    session[:timezone] = timezone
-    unless session[:timezone].blank?
-      Time.zone = session[:timezone]
-    else
-      Time.zone = "Pacific Time (US & Canada)"
-    end
-    #    render :nothing => true
-  end
-
-  protected
-
-  def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("production")
-    "125.163.30.11"
-  end
 end
 
 

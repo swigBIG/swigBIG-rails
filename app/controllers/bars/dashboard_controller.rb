@@ -166,7 +166,7 @@ class Bars::DashboardController < ApplicationController
     @bar = current_bar
     if @bar.update_attributes(params[:bar])
       sign_in @bar, :bypass => true
-      redirect_to bars_dashboard_url, notice: "Profile Completion Success!"
+      redirect_to subdomain_bar_detail_path(current_bar), notice: "Profile Completion Success!"
     else
       redirect_to :back, notice: "Profile Completion Failed!"
     end
