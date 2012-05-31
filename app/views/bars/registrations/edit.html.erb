@@ -3,6 +3,7 @@
   <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
   <li><a href="#link" data-toggle="tab"><h5>Link</h5></a></li>
   <li><a href="#location" data-toggle="tab"><h5>Location</h5></a></li>
+  <li><a href="#hour" data-toggle="tab"><h5>Hour</h5></a></li>
 </ul>
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
     <%= devise_error_messages! %>
@@ -35,13 +36,25 @@
               <%= f.submit "Update", class: "btn-primary" %>
               </div>
             </div>
-          </div>
-        <% end %>
-        <br/>
-        <br/>
-        <h3>Cancel my account</h3>
+            <div class="tab-pane" id="hour">
+              <%= f.fields_for :bar_hours do |ff| %>
+                <div class="span2">
+                  <b><%= ff.object.day %></b>
+                  <%= ff.input :open, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                </div>
+              <% end %>
+              <div class="clearfix"></div>
+              <div class="form-actions">
+                <%= f.submit "Update", class: "btn-primary" %>
+                </div>
+              </div>
+            <% end %>
+            <br/>
+            <br/>
+            <h3>Cancel my account</h3>
 
-        <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+            <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
-        <%= link_to "Back", :back %>
+            <%= link_to "Back", :back %>
 

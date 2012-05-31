@@ -26,7 +26,7 @@ module ApplicationHelper
   end
 
   def radius_collection
-    GeoRadius.all.map{ |g| [g.radius, g.radius] }
+    GeoRadius.order("radius").all.map{ |g| [g.radius, g.radius] }
   end
 
 end

@@ -8,7 +8,7 @@
     <%= f.input :email %>
     <%= f.input :password %>
     <%= f.input :password_confirmation %>
-    <%= f.input :terms, as: :boolean, :label => "I agree to swigBIG.com's Terms of Service before registration is complete"  %>
+    <%= f.input :terms, as: :boolean, :label => "I agree to swigBIG.com's <a data-toggle='modal' href='#termModal'>Terms of Service</a> Service before registration is complete"  %>
     <%= f.submit "Sign Up", :class => 'btn', :style => 'margin-left:200px;' %>
   </div>
 <% end %>

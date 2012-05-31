@@ -6,7 +6,7 @@ class Swiger < ActiveRecord::Base
 
   after_create :get_loyalty
 
-  scope :today, where("created_at >= ? AND created_at  <= ?", Time.now.beginning_of_day, Time.now.end_of_day)
+  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
   
   def get_loyalty
     today_swiger = self.bar.swigers.today.count
