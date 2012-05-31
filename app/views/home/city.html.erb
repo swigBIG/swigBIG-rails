@@ -14,7 +14,7 @@
     var latlo = new google.maps.LatLng(<%= @city.latitude rescue nil %>, <%= @city.longitude rescue nil%>);
     var myOptions = {
       center: latlo,
-      zoom: 13,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
@@ -24,7 +24,7 @@
       var x = [];
       x.push(<%= b.latitude %>);
       x.push(<%= b.longitude %>);
-      x.push('<%= b.name %>');
+      x.push('<%= link_to  b.name, bar_profile_users_path(b) %>');
       bar.push(x);
 <% end %>
 
@@ -70,6 +70,7 @@
         }
       })(marker, i));
     }
+
   }
 </script>
 
@@ -98,18 +99,20 @@
           </div>
         </div>
       </div>
-      <div id="search" class="accordion-body collapse">
+      <!--<div id="search" class="accordion-body collapse">-->
         <div class="accordion-inner" style="margin-left: 0px;">
-          <b style="margin-left: 60px;">Swig Type</b><br/>
+          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+          <b style="margin-left: 60px;">Radius in Mile</b>
+          <%= select(:geo, :radius,  radius_collection, {:include_blank => true}) %>
+          <br/>
+          <br/>
+          <b style="margin-left: 60px;">Swig Type</b>
           <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
           <b style="margin-left: 60px;">Sports teams</b>
           <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
-          <b style="margin-left: 60px;">Radius in Mile</b>
-          <%= select(:geo, :radius,  radius_collection) %>
-          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 120px;margin-top: 20px;"} %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
-        </div>
+        <!--</div>-->
       <% end %>
     <% end %>
 
@@ -138,7 +141,8 @@
           <% @swigs.each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar) %></b>
+                <b class="pull-left"><%= link_to  truncate(swig.deal, length: 30), bar_profile_users_path(swig.bar), input_html: {rel: "popover", title: swig.deal.to_s} %></b>
+                <a href="#" id="popover" class="btn btn-danger" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">hover for popover</a>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>

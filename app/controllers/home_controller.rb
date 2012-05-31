@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   layout "users"
 
   def main
-    @geo = SimpleGeolocation::Geocoder.new(set_current_ip)
+    @geo = SimpleGeolocation::Geocoder.new(request.ip.to_s)
     @geo.geocode!
     @loyalty = Loyalty.all
     @popularity = Popularity.all
