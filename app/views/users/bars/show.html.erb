@@ -33,7 +33,7 @@
       console.log("asdasd")
       FB.init({
         appId      : '410355872318354', // App ID
-        channelUrl : '<%= bar_profile_users_url(@bar).to_s %>', // Channel File
+        channelUrl : '<%= bar_profile_url(@bar).to_s %>', // Channel File
         status     : true, // check login status
         cookie     : true, // enable cookies to allow the server to access the session
         xfbml      : true  // parse XFBML
@@ -65,7 +65,7 @@
   <meta property="og:site_name" content="www.swigbig.com"/>
   <meta property="og:title" content="#{<%= @bar.name %>}"/>
   <meta property="og:type" content="YOUR_PAGE_OBJECT_TYPE"/>
-  <meta property="og:url" content="<%= bar_profile_users_url(@bar) %>"/>
+  <meta property="og:url" content="<%= bar_profile_url(@bar) %>"/>
   <meta property="og:image" content="assets/rails.png"/>
   <meta property="fb:app_id" content="410355872318354"/>
 
@@ -82,9 +82,8 @@
     <br/>
     <b>Sport Team : </b><%= @bar.sports_team rescue nil %>
     <br/>
-    <!--<div class="span4">
-  <%#= image_tag(@bar.logo_url(:thumb)) rescue nil %>
-    </div>-->
+    <b>Sport Team : </b><%= @bar.sports_team rescue nil %>
+    <br/>
     <div class="clearfix"></div>
     <br/>
     <div id="map_canvas" style="margin-left: -25px;">
@@ -170,47 +169,47 @@
     <div class="clearfix"></div>
     <br/>
     <ul class="tabs" data-tabs="tabs">
-      <li><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
-      <li><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
-      <li><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-      <li><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
-      <li><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
-      <li><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
-      <li><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Moday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="monday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Moday') ? 'active' : '' %>" id="monday">
         <% @swigs.monday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane" id="tuesday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
         <% @swigs.tuesday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane" id="wednesday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
         <% @swigs.wednesday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane" id="thursday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
         <% @swigs.thursday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane" id="friday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
         <% @swigs.friday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane" id="saturday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
         <% @swigs.saturday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane" id="sunday">
+      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
         <% @swigs.sunday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>

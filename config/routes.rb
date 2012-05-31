@@ -16,7 +16,7 @@ Swprototype::Application.routes.draw do
 
   root to:  "home#main"
   
-#  get "bars/city/:id" =>  "home#city", as: "city"
+  get "bars/city/:id" =>  "home#city", as: "city"
   
   resource :home do
     collection do
@@ -27,7 +27,7 @@ Swprototype::Application.routes.draw do
 
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords", omniauth_callbacks: "users/omniauth_callbacks"}
 
-#  get "bar/:bar_id" => "users/bars#show", as: "bar_profile"
+  get "bar/:bar_id" => "users/bars#show", as: "bar_profile"
   
   resource :users do
     collection do

@@ -10,7 +10,7 @@
 <script type="text/javascript">
   var map;
   function initialize() {
-    var latlo = new google.maps.LatLng(<%= @geo.lat rescue nil %>, <%= @geo.lng rescue nil%>)
+    var latlo = new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>)
     var myOptions = {
       center: latlo,
       zoom: 8,
@@ -30,14 +30,14 @@
 
 <body onload="initialize()">
   <%= content_for :side do %>
-    <h4><%= @geo.city %></h4>
+    <h4><%= @city_lat_lng.first.titleize %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
         <ul class="dropdown-menu">
           <% City.order(:name).each do |c| %>
             <li>
-              <%= link_to c.name, city_home_path(c), method: :get %>
+              <%= link_to c.name, city_path(c), method: :get %>
             </li>
           <% end %>
         </ul>
@@ -54,13 +54,13 @@
       </div>
       <div id="search" class="accordion-body collapse">
         <div class="accordion-inner" style="margin-left: -40px;">
+          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
           <b style="margin-left: 60px;">Swig Type</b><br/>
           <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
           <b style="margin-left: 60px;">Sports teams</b>
           <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
           <b style="margin-left: 60px;">Radius in Mile</b>
           <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
-          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
         </div>
@@ -90,10 +90,11 @@
           <th>Bar Name</th>
           <th>Distance</th>
   <%# @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
-          <% @swigs.where("swig_day = '#{Date.today.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
+          <% @swigs.where("swig_day = '#{Date.today.to_time.in_time_zone.strftime("%A").to_s}' OR swig_day = 'all'").each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= link_to  swig.deal, bar_profile_users_path(swig.bar) %></b>
+                <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar) %></b>
+                <%#=  link_to l.bar.name, bar_path(swig.bar) %>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>
@@ -108,13 +109,12 @@
                 <% end %>
               </td>
               <td>
-    <%#= link_to  Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id) %>
-                <a class="" data-toggle="modal" href="#barModal"><b><%= swig.bar.name %></b></a>
+                <b><%= link_to swig.bar.name, bar_profile_path(swig.bar) %></b>
                 <%= content_for :outer do %>
                   <div id="barModal" class="modal hide fade" style="opacity: 1 ;">
                     <div class="modal-header">
                       <a class="close" data-dismiss="modal"><b>x</b></a>
-                      <h3>Go to <%= link_to  swig.bar.name, bar_profile_users_path(swig.bar_id) %></h3>
+                      <h3>Go to <%= link_to  swig.bar.name, bar_profile_path(swig.bar_id) %></h3>
                     </div>
                     <div class="modal-body well">
                       <b>Location</b>: &nbsp; <strong><%= swig.bar.address %> <b><%= swig.bar.city %></b></strong>
