@@ -46,8 +46,15 @@
     chart.draw(data, options);
   }
 </script>
+<% if current_bar.swigs.blank? %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#completion_link').click();
+    })
+  </script>
+<% end %>
 <body onload="initialize()">
-
+  <a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
   <%= content_for :side do %>
     <div id="map_canvas" style="margin-left: -25px;">
       <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
@@ -264,6 +271,20 @@
 
   <%= content_for :outer do %>
 
+    <div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3>Swig Type</h3>
+      </div>
+      <div class="modal-body well">
+        <b style="text-align: center;">There Is no Standard Swig setup! Create Swig?</b>
+        <div style="text-align: center;">
+          <a class="btn" data-dismiss="modal" data-toggle="modal">Next Time</a>
+          &nbsp; &nbsp;
+          <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
+        </div>
+      </div>
+    </div>
     <div id="swigModal" class="modal hide fade" style="opacity: 1 ;">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
