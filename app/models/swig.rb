@@ -1,7 +1,7 @@
 class Swig < ActiveRecord::Base
 
   attr_accessible :bar_id, :deal, :people, :status, :swig_day, :swig_type, :product_id, :swig_price,
-    :lock_status, :latitude, :longitude, :address, :city
+    :lock_status, :latitude, :longitude, :address, :city, :full_address, :zip_code
 
   belongs_to :bar
   with_options dependent: :destroy do
@@ -12,7 +12,7 @@ class Swig < ActiveRecord::Base
 
   geocoded_by :address
 
-  scope :today, where(swig_day: Date.today.strftime("%A"))
+  scope :today, where(swig_day: Date.today.to_time.in_time_zone.strftime("%A"))
   scope :big, where(swig_type: "Big")
   scope :lock_status_active, where(status: "active")
   #days
@@ -33,6 +33,8 @@ class Swig < ActiveRecord::Base
       self.city = self.bar.city
       self.latitude = self.bar.latitude
       self.longitude = self.bar.longitude
+      self.zip_code = self.bar.zip_code
+      self.full_address = self.bar.full_address
     rescue
       self.address = nil
       self.city = nil

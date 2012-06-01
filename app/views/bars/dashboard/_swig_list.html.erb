@@ -21,7 +21,7 @@
             </button>
           </div>
         <% end %>
-        <%= swig.deal %>
+        <%= truncate(swig.deal, length: 20) %>
       </div>
       <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
       <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>

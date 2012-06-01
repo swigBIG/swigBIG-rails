@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   def set_time_zone
     #get geo location
     if session["geo_#{set_current_ip}"].blank?
-      geo = SimpleGeolocation::Geocoder.new(set_current_ip)
-      geo.geocode!
-      @city_lat_lng = [geo.city, geo.lat, geo.lng]
+      geos = Geocoder.search(set_current_ip)
+      geo = geos.first
+      @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
       session["geo_#{set_current_ip}"] = @city_lat_lng
     else
       @city_lat_lng = session["geo_#{set_current_ip}"]
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("development")
-    "125.163.30.11"
+   return request.ip.to_s if Rails.env.eql?("development")
+    "75.85.54.184"
   end
 end

@@ -1,6 +1,6 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-  #map_home_canvas { height: 275px ; width: 520px;}
+  #map_home_canvas { height: 325px ; width: 620px;}
   .string{margin-left: -50px;}
   .select{margin-left: -50px;}
 </style>
@@ -13,15 +13,15 @@
     var latlo = new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>)
     var myOptions = {
       center: latlo,
-      zoom: 8,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_home_canvas"),
     myOptions);
-    var marker = new google.maps.Marker({
+    /*var marker = new google.maps.Marker({
       position: latlo,
       map: map
-    });
+    });*/
 
     google.maps.event.trigger(map, "resize");
 
@@ -30,7 +30,7 @@
 
 <body onload="initialize()">
   <%= content_for :side do %>
-    <h4><%= @city_lat_lng.first.titleize %></h4>
+    <h4><%= @city_lat_lng.first %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div id="search" class="accordion-body collapse">
+      <!--<div id="search" class="accordion-body collapse">-->
         <div class="accordion-inner" style="margin-left: -40px;">
           <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
           <b style="margin-left: 60px;">Swig Type</b><br/>
@@ -63,7 +63,7 @@
           <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
-        </div>
+        <!--</div>-->
       <% end %>
     <% end %>
 

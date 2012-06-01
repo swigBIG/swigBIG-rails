@@ -18,22 +18,56 @@ class HomeController < ApplicationController
     end
   end
 
-  def index
-
-  end
-
+  def index;end
+  
   def city
-    @city = City.find(params[:id])
-    @loyalty = Loyalty.all
-    @popularity = Popularity.all
-    if !params[:radius].blank?
+    if params[:radius].blank? and params[:search].blank?
+      @city = City.find(params[:id])
+      @geo = City.find(params[:id])
+      @loyalty = Loyalty.all
+      @popularity = Popularity.all
+      @search = Swig.search(params[:search])
+      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+    elsif !params[:search].blank? or !params[:radius].blank?
+      @city = City.find(params[:id])
+      @loyalty = Loyalty.all
+      @popularity = Popularity.all
+      @search = Swig.search(params[:search])
+      if !params[:search][:bar_zip_code_contains].blank?
+        @geos = Geocoder.search("#{params[:search][:bar_zip_code_contains]},#{@city}")
+        @geo = @geos.first
+        @swigs = @search.where(city: @city.name.to_s, zip_code: params[:search][:bar_zip_code_contains], status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
+      elsif !params[:radius].blank?
+        @geo = City.find(params[:id])
+        @search = Swig.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).search(params[:search])
+        @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
+      elsif !params[:search][:bar_zip_code_contains].blank? and !params[:radius].blank?
+        @geos = Geocoder.search("#{params[:search][:bar_zip_code_contains]},#{@city}")
+        @geo = @geos.first
+        @swigs = @search.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance)
+      end
+    elsif !params[:radius].blank?
+      @city = City.find(params[:id])
       @search = Swig.near(@city.name.to_s, params[:radius], :order => :distance).search(params[:search])
       @swigs = @search.all
     else
       @search = Swig.search(params[:search])
-      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
     end
   end
+
+  #  def city
+  #    @city = City.find(params[:id])
+  #    @loyalty = Loyalty.all
+  #    @popularity = Popularity.all
+  #    if !params[:radius].blank?
+  #      @search = Swig.near(@city.name.to_s, params[:radius], :order => :distance).search(params[:search])
+  #      @swigs = @search.all
+  #    else
+  #      @search = Swig.search(params[:search])
+  #      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+  #    end
+  #  end
 
   def find_by_radius
     if !params[:search].blank?

@@ -38,14 +38,14 @@
               <h2 class="brand" style="color: gray;">SwigBig</h2>
             </li>
             <li>
-              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.strftime("%A") %></span></h3></h2>
+              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>
             </li>
 
             <div class="nav pull-right" style="margin-left: 200px;">
               <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% if bar_signed_in? %>
-               <li><b><%= link_to "My Bar", subdomain_bar_detail_path(current_bar), style: "color: white;" %></b></li>
+               <li><b><%= link_to "My Bar", bars_dashboard_path, style: "color: white;" %></b></li>
                 <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
                 <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
               <% else %>
