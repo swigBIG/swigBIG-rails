@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <!--<div id="search" class="accordion-body collapse">-->
+      <div id="search" class="accordion-body collapse">
         <div class="accordion-inner" style="margin-left: -40px;">
           <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
           <b style="margin-left: 60px;">Swig Type</b><br/>
@@ -63,7 +63,7 @@
           <%= f.input :bar_sports_team_contains ,as: :select, label: false, collection: radius_collection, placeholder: "Sports Team",required: false %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
-        <!--</div>-->
+        </div>
       <% end %>
     <% end %>
 
@@ -94,7 +94,7 @@
             <tr>
               <td>
                 <b class="pull-left"><%= link_to  swig.deal, bar_profile_path(swig.bar) %></b>
-                <%#=  link_to l.bar.name, bar_path(swig.bar) %>
+    <%#=  link_to l.bar.name, bar_path(swig.bar) %>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>

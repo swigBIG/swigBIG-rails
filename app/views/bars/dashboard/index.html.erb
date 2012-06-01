@@ -53,16 +53,103 @@
     })
   </script>
 <% end %>
-<% if current_bar.swigs.where(swig_day: Date.today.to_time.in_time_zone.strftime('%A')).blank? %>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $('#completion_link').click();
-    })
-  </script>
+<script type="text/javascript">
+<% if current_bar.swigs.where(swig_day: "Monday").blank? %>
+    function check_monday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Standard").blank? %>
+    function check_monday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Big" ).blank? %>
+    function check_monday(){
+      $('#setup_big_swig').modal();
+    }
 <% end %>
+<% if current_bar.swigs.where(swig_day: "Tuesday").blank? %>
+    function check_tuesday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Standard").blank? %>
+    function check_tuesday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Big" ).blank? %>
+    function check_tuesday(){
+      $('#setup_big_swig').modal();
+    }
+<% end %>
+<% if current_bar.swigs.where(swig_day: "Wednesday").blank? %>
+    function check_wednesday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Standard").blank? %>
+    function check_wednesday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Big" ).blank? %>
+    function check_wednesday(){
+      $('#setup_big_swig').modal();
+    }
+<% end %>
+<% if current_bar.swigs.where(swig_day: "Thursday").blank? %>
+    function check_thursday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Standard").blank? %>
+    function check_thursday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Big" ).blank? %>
+    function check_thursday(){
+      $('#setup_big_swig').modal();
+    }
+<% end %>
+<% if current_bar.swigs.where(swig_day: "Friday").blank? %>
+    function check_friday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Standard").blank? %>
+    function check_friday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Big" ).blank? %>
+    function check_friday(){
+      $('#setup_big_swig').modal();
+    }
+<% end %>
+<% if current_bar.swigs.where(swig_day: "Saturday").blank? %>
+    function check_saturday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Standard").blank? %>
+    function check_saturday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Big" ).blank? %>
+    function check_saturday(){
+      $('#setup_big_swig').modal();
+    }
+<% end %>
+<% if current_bar.swigs.where(swig_day: "Sunday").blank? %>
+    function check_sunday(){
+      $('#big_and_standard_swig').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Standard").blank? %>
+    function check_sunday(){
+      $('#swigmessage').modal();
+    }
+<% elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Big" ).blank? %>
+    function check_sunday(){
+      $('#setup_big_swig').modal();
+    }
+<% end %>
+</script>
 
 <body onload="initialize()">
   <a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
+  <!--<a href="#big_and_standard_swig" data-toggle="modal" id="moday_check"></a>-->
   <%= content_for :side do %>
     <div id="map_canvas" style="margin-left: -25px;">
       <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
@@ -143,13 +230,13 @@
   <div class="tab-content">
     <div class="tab-pane active" id="swig_tab">
       <ul class="tabs" data-tabs="tabs">
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab" onclick="check_monday()"><h3>Mon</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab" onclick="check_tuesday()"><h3>Tue</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab" onclick="check_wednesday()"><h3>Wed</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab" onclick="check_thursday()"><h3>Thu</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab" onclick="check_friday()"><h3>Fri</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab" onclick="check_saturday()"><h3>Sat</h3></a></li>
+        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab" onclick="check_sunday()"><h3>Sun</h3></a></li>
       </ul>
 
       <div class="tab-content">
@@ -282,12 +369,42 @@
     <div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3><%= Date.today.to_time.in_time_zone.strftime('%A') %> Swig</h3>
+      </div>
+      <div class="modal-body well">
+        <b style="text-align: center;">No Swigs had been setup for <%= Date.today.to_time.in_time_zone.strftime('%A') %>. Create one now?</b>
+        <div style="text-align: center;"><br/>
+          <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
+          &nbsp; &nbsp;
+          <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
+          &nbsp; &nbsp;
+          <a class="btn pull-right" data-dismiss="modal" data-toggle="modal">Next Time</a>
+        </div>
+      </div>
+    </div>
+    <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3>Create BigSwig?</h3>
+      </div>
+      <div class="modal-body well">
+        <b style="text-align: center;">No Big Swigs had been setup for this day. Create one now?</b>
+        <div style="text-align: center;"><br/>
+          <a class="btn" data-dismiss="modal" data-toggle="modal">Next Time</a>
+          &nbsp; &nbsp;
+          <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
+        </div>
+      </div>
+    </div>
+    <div id="big_and_standard_swig" class="modal hide fade" style="opacity: 1 ;">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
         <h3>Swig Type</h3>
       </div>
       <div class="modal-body well">
-        <b style="text-align: center;">No Standard Swigs had been setup for this day. Create one now?</b>
-        <div style="text-align: center;">
-          <a class="btn" data-dismiss="modal" data-toggle="modal">Next Time</a>
+        <b style="text-align: center;">No Swigs had been setup for this day. Create one now?</b>
+        <div style="text-align: center;"><br/>
+          <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
           &nbsp; &nbsp;
           <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
         </div>
