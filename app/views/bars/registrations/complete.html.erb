@@ -1,0 +1,28 @@
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+  <%#= f.input :email, label: false, placeholder: "Email" %>
+  <%#= f.input :password, label: false, placeholder: "Password" %>
+  <%#= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
+  <%= f.input :name %>
+  <%#= f.input :logo, hint: image_tag(f.object.logo_url(:thumb))%>
+  <%= f.input :address %>
+  <%= f.input :sports_team %>
+  <%= f.input :zip_code %>
+  <%= f.input :phone_number %>
+  <%= f.input :city, as: :select, collection: avaliable_cities %>
+  <%#= f.input :state %>
+
+  <!--<div class="container span11" style="margin-top: 20px;">
+    "I agree"  to swigBIG.com's <a data-toggle="modal" href="#termModal">Terms of Service</a> before registration is complete
+  <%#= f.input :terms, as: :boolean %>
+    <br/>-->
+  <div class="span6" style="margin-left: -180px;margin-top: 20px;margin-bottom: 10px;">
+    <div class="span3 pull-left" style="margin-bottom: -25px;">
+  <%= link_to "Cancel", root_path, class: "btn-primary" %>
+    </div>
+    <div class="span3 pull-right">
+      <%= f.submit "Sign up", class: "btn-primary" %>
+      </div>
+    </div>
+    <br/>
+  <% end %>

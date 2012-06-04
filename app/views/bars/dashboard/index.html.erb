@@ -517,30 +517,65 @@
               </div>
             </div>
 
-            <div id="bar_message" class="modal hide fade"><div class="modal-header">
+            <div id="bar_message" class="modal hide fade">
+              <div class="modal-header">
                 <a class="close" data-dismiss="modal"><b>x</b></a>
                 <h3>New Message</h3>
               </div>
-              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                <div class="modal-body well">
-                  <div style="text-align: center;">
-                    <b>To : </b><%= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>
-                    <br/>
-                    <br/>
-                    <%= m.input :subject, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
-                    <%= m.input :content, label: false, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <div class="span3 pull-left">
-                    <a href="#" class="btn pull-left" data-dismiss="modal" >Close</a>
-                  </div>
-                  <div class="span3 pull-right">
-                    <%= m.submit "Send", class: "btn pull-right" %>
+              <div class="modal-body well">
+                <ul class="tabs" data-tabs="tabs">
+                  <li><a href="#all_user" class="btn" data-toggle="tab"><b>All User</b></a></li>
+                  <li><a href="#last_visit" class="btn" data-toggle="tab"><b>Last Visit</b></a></li>
+                  <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b>Almost Rewarded</b></a></li>
+                  <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b>Unused Rewarded</b></a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="all_user">
+                    <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path, category: "0") do |m| %>
+                      <div style="text-align: center;">
+                        <!--<b>To : </b><%#= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>-->
+                        <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
+                        <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                      </div>
+                      <div class="form-actions">
+                        <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                        <%= m.submit "Send", class: "btn-success pull-right" %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="tab-pane" id="last_visit">
+                      <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path, category: "1") do |m| %>
+                        <div style="text-align: center;">
+                          <!--<b>To : </b><%#= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>-->
+                          <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
+                          <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                        </div>
+                        <div class="form-actions">
+                          <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                          <%= m.submit "Send", class: "btn-success pull-right" %>
+                          </div>
+                        <% end %>
+                      </div>
+
+                      <div class="tab-pane" id="almost_rewarded">
+                        <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path, category: "2") do |m| %>
+                          <div style="text-align: center;">
+                            <!--<b>To : </b><%#= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>-->
+                            <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
+                            <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                          </div>
+                          <div class="form-actions">
+                            <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                            <%= m.submit "Send", class: "btn-success pull-right" %>
+                            </div>
+                          <% end %>
+                        </div>
+                        <div class="tab-pane" id="unused_rewards">
+
+                        </div>
+                      </div>
                     </div>
                   </div>
-                <% end %>
-              </div>
-            <% end %>
 
-          </body>
+                <% end %>
+              </body>

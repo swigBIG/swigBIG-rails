@@ -128,7 +128,7 @@
               <b>Last 5 Swigs</b>
               <% @swigers.limit(5).each do |swiger| %>
                 <div class="span3">
-                  <b><%= swiger.bar.name %></b>
+                  <b><%= swiger.bar.name rescue "No Name"%></b>
                   <br/>
                   <%= swiger.created_at.strftime("%d/%m/%Y") %>
                 </div>
@@ -187,8 +187,10 @@
           </ul>
         </div>
         <div class="modal-footer">
-          <%= submit_tag "invite", class: "btn-primary pull-right" %>
-            <a class="close" data-dismiss="modal">Cancel</a>
+          <%= submit_tag "invite", class: "btn-primary " %>
+          &nbsp;
+          &nbsp;
+          <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
           </div>
         <% end %>
       </div>

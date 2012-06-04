@@ -32,6 +32,7 @@ gem 'mysql2'
 gem 'simple_form'
 gem 'carrierwave'
 gem 'geocoder'
+gem 'geokit'
 gem "mini_magick"
 gem "friendly_id"
 gem 'carmen'

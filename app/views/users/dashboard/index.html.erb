@@ -34,7 +34,7 @@
               </button>
             <% end %>
             <%= link_to swig.deal, users_show_swig_path(swig.bar_id, swig.id) %>
-            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_path(swig.bar), style: "color: grey;"%></b>
+            <b class="pull-right"><%= link_to swig.bar.name, bar_path(swig.bar), style: "color: grey;"%></b>
           </div>
         <% end %>
       </div>
@@ -51,7 +51,7 @@
               </button>
             <% end %>
             <%= swig.deal %>
-            <b class="pull-right"><%= link_to Bar.find(swig.bar_id).name, bar_profile_users_path(swig.bar_id), style: "color: grey;"%></b>
+            <b class="pull-right"><%= link_to swig.bar.name, bar_profile_path(swig.bar_id), style: "color: grey;"%></b>
           </div>
         <% end %>
       </div>

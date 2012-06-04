@@ -40,7 +40,7 @@
               <%= f.fields_for :bar_hours do |ff| %>
                 <div class="span2">
                   <b><%= ff.object.day %></b>
-                  <%= ff.input :open, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
                   <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
                 </div>
               <% end %>

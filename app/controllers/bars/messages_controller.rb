@@ -1,6 +1,7 @@
 class Bars::MessagesController < ApplicationController
-
-   def index
+  layout "bars"
+  
+  def index
     @messages = current_bar.received_messages.page(params[:page]).per(10)
   end
 
@@ -9,19 +10,34 @@ class Bars::MessagesController < ApplicationController
   end
 
   def new
-    bar_id= params[:bar_id].split("--").first rescue nil
-    bar_type = params[:bar_id].split("--").last rescue nil
-    @recipient = user_type.constantize.find(bar_id) rescue nil
     @message = ActsAsMessageable::Message.new
   end
 
   def create
-    @message = ActsAsMessageable::Message.new(params[:acts_as_messageable_message])
+    case params[:category]
+    when "0"
+      User.all.each do |user|
+        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+        @message = ActsAsMessageable::Message.new(params[:acts_as_messageable_message])
+      end
+    when "1"
+      User.all.each do |user|
+        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      end
+    when "2"
+      User.all.each do |user|
+        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      end
+    end
+    redirect_to :back, notice: "Message success Send!"
     if @message.save
       redirect_to :back, notice: "Your message has been successfully sent"
     else
       render action: :new
     end
+  end
+
+  def create_bar_message
   end
 
   def show
@@ -52,7 +68,7 @@ class Bars::MessagesController < ApplicationController
         end
       end
     end
-    redirect_to params[:form_type].blank? ? students_messages_path : trash_students_messages_path
+    redirect_to params[:form_type].blank? ? :back : :back
   end
 
   def trash

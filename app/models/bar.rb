@@ -11,15 +11,25 @@ class Bar < ActiveRecord::Base
     :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description, :bar_hour,
     :bar_hours_attributes, :full_address
   # attr_accessible :title, :body
+  validates :terms, :acceptance => true
+  validates :address, :zip_code, :city, :sports_team, :presence => true, :on => :update
+  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
 
   mount_uploader :logo, ImageUploader
   mount_uploader :bar_background, ImageUploader
 
-  #  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
+  before_update  :set_full_address, :set_coordinates
+
+  after_update :update_swig_location
   
-  validates :terms, :acceptance => true
-  validates :address, :zip_code, :city, :sports_team, :presence => true, :on => :update
-  validates_format_of :zip_code, :with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234", :on => :update
+#  geocoded_by :full_address, :latitude  => :latitude, :longitude => :longitude
+
+#  after_validation :geocode, :if => :full_address_changed?
+
+  after_create :create_hour
+
+  acts_as_messageable required: [:topic, :body, :received_messageable_id]
+  
   
   with_options dependent: :destroy do
     has_many :bar_hours
@@ -34,17 +44,10 @@ class Bar < ActiveRecord::Base
     has_one :popularity
   end
 
-  accepts_nested_attributes_for :bar_hours, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :bar_hours#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :swigs, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
   #  before_update  :set_lat_lng
-  geocoded_by :full_address
-
-  after_validation :geocode, :if => :address_changed?
-
-  before_save :update_swig_location, :set_full_address
-
-  after_create :create_hour
 
   extend  FriendlyId
 
@@ -70,6 +73,18 @@ class Bar < ActiveRecord::Base
 
   def set_full_address
     self.full_address = "#{self.address},#{self.city},#{self.zip_code}, United States"
+  end
+
+  def set_coordinates
+    begin
+      geo = Geocoder.coordinates("#{self.address},#{self.city},#{self.zip_code}, United States")
+      self.latitude = geo.first
+      self.longitude = geo.last
+    rescue
+      self.latitude = nil
+      self.longitude = nil
+      logger.error "failed to get coordinates"
+    end
   end
   
 end

@@ -274,6 +274,7 @@ DEPENDENCIES
   formtastic (~> 2.1.1)
   friendly_id
   geocoder
+  geokit
   jquery-rails
   linecache19!
   meta_search

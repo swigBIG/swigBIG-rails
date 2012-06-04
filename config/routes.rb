@@ -11,7 +11,7 @@ Swprototype::Application.routes.draw do
       match "/sign_in" => "bars/sessions#new", :as => :sign_in_bars
       match "/sign_up" =>  "bars/registrations#new", :as => :sign_up_bars
     end
-#    match  "/:id" => "bars/dashboard#index", as: "subdomain_bar_detail"
+    #    match  "/:id" => "bars/dashboard#index", as: "subdomain_bar_detail"
   end
 
   root to:  "home#main"
@@ -62,14 +62,14 @@ Swprototype::Application.routes.draw do
     match "rewards" => "rewards#index", as: "rewards"
     post "create_bar_message" => "dashboard#create_bar_message", as: "create_bar_message"
 
-    #    resources :messages do
-    #      collection do
-    #        get 'sent'
-    #        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
-    #        get 'trash'
-    #        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
-    #      end
-    #    end
+    resources :messages do
+      collection do
+        get 'sent'
+        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
+        get 'trash'
+        get 'new/:user_ids' => "messages#new", as: :new
+      end
+    end
   end
   resources :bars do
 

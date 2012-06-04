@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row-fluid" style="margin-top: 15px">
+    <%= content_for :side do %>
+      <%= render "message_menu" %>
+    <% end %>
+    <div class="span9">
+      <h2>Show <%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h2>
+      <table width="100%;">
+        <tr>
+          <td style="width: 10%">From : </td>
+          <td>
+            <%= @message_show.sent_messageable.name %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><%= @message_show.topic %></td>
+        </tr>
+        <tr>
+          <td colspan="2"><%= @message_show.body.html_safe %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("abbr").hide();
+  })
+</script>

@@ -4,17 +4,52 @@ class HomeController < ApplicationController
   layout "users"
 
   def main
-    
-    @loyalty = Loyalty.all
-    @popularity = Popularity.all
-    @city = City.new
-    #    @search = Bar.search(params[:search])
-    #    @bars = @search.all
-    @search = Swig.search(params[:search])
-    if !params[:search].nil?
-      @swigs = @search.where(status: "active")
+#    @loyalty = Loyalty.all
+#    @popularity = Popularity.all
+#    @city = City.new
+#    #    @search = Bar.search(params[:search])
+#    #    @bars = @search.all
+#    @search = Swig.search(params[:search])
+#    if !params[:search].nil?
+#      @swigs = @search.where(status: "active")
+#    else
+#      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city_lat_lng.first, "active"])
+#    end
+#@city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
+
+    if params[:radius].blank? and params[:search].blank?
+      @city = City.where(name: @city_lat_lng[0].to_s).first
+      @geo = City.where(name: @city_lat_lng[0].to_s).first
+      @loyalty = Loyalty.all
+      @popularity = Popularity.all
+      @search = Swig.search(params[:search])
+      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+    elsif !params[:search].blank? or !params[:radius].blank?
+      @city = City.where(name: @city_lat_lng[0].to_s).first
+      @loyalty = Loyalty.all
+      @popularity = Popularity.all
+      @search = Swig.search(params[:search])
+      if !params[:search][:bar_zip_code_contains].blank?
+        @geos = Geocoder.search("#{params[:search][:bar_zip_code_contains]},#{@city}")
+        @geo = @geos.first
+        @swigs = @search.where(city: @city.name.to_s, zip_code: params[:search][:bar_zip_code_contains], status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
+      elsif !params[:radius].blank?
+        @geo = City.find(params[:id])
+        @search = Swig.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).search(params[:search])
+        @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
+      elsif !params[:search][:bar_zip_code_contains].blank? and !params[:radius].blank?
+        @geos = Geocoder.search("#{params[:search][:bar_zip_code_contains]},#{@city}")
+        @geo = @geos.first
+        @search = Swig.search(params[:search])
+        @swigs = @search.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).where(swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
+      end
+    elsif !params[:radius].blank?
+      @city = City.find(params[:id])
+      @search = Swig.near(@city.name.to_s, params[:radius], :order => :distance).search(params[:search])
+      @swigs = @search.all
     else
-      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city_lat_lng.first, "active"])
+      @search = Swig.search(params[:search])
+      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
     end
   end
 
@@ -44,7 +79,8 @@ class HomeController < ApplicationController
       elsif !params[:search][:bar_zip_code_contains].blank? and !params[:radius].blank?
         @geos = Geocoder.search("#{params[:search][:bar_zip_code_contains]},#{@city}")
         @geo = @geos.first
-        @swigs = @search.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance)
+        @search = Swig.search(params[:search])
+        @swigs = @search.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).where(swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
       end
     elsif !params[:radius].blank?
       @city = City.find(params[:id])

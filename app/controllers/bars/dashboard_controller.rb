@@ -17,7 +17,8 @@ class Bars::DashboardController < ApplicationController
     @loyalty = Loyalty.all
     @winner = @bar.winners.all
     @loyalty_reward = RewardMessage.new
-    @bar_message = BarMessage.new
+    @bar_message = ActsAsMessageable::Message.new
+    #    @bar_message = BarMessage.new
   end
 
   def show
@@ -148,7 +149,8 @@ class Bars::DashboardController < ApplicationController
     case params[:category]
     when "0"
       User.all.each do |user|
-        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+        #        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+        current_bar.send_message(user, params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
       end
     when "1"
       User.all.each do |user|

@@ -19,18 +19,18 @@ class User < ActiveRecord::Base
     has_many :popularity_guesses
   end
 
-#  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
+  acts_as_messageable required: [:topic, :body, :received_messageable_id ]
 
   mount_uploader :avatar, ImageUploader
 
   validates :terms, :acceptance => true
 
 
-#  def age_
-#    now = Time.now.utc.to_date
-#    age = now.year - self.bird_date.year - (self.bird_date.change(:year => now.year) > now ? 1 : 0)
-#    unless
-#  end
+  #  def age_
+  #    now = Time.now.utc.to_date
+  #    age = now.year - self.bird_date.year - (self.bird_date.change(:year => now.year) > now ? 1 : 0)
+  #    unless
+  #  end
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     img = access_token.info.image
