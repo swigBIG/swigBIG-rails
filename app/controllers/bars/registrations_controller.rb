@@ -21,7 +21,7 @@ class Bars::RegistrationsController < Devise::RegistrationsController
       sign_in current_bar, :bypass => true
       redirect_to bars_dashboard_url
     else
-      render action: :edit
+      render action: :edit, notice: "field with * mark must filled!"
     end
   end
 
