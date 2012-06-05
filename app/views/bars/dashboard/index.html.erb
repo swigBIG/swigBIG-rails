@@ -288,21 +288,21 @@
         <div class="tab-pane active" id="reward_loyalty">
 
           <div class="clearfix"></div>
-          <% @loyalty.each do |l| %>
-            <div class="span6">
-              <b>Swig Require : </b><%= l.swigs_number %><br/>
-              <b>Detail : </b><%= l.reward_detail %>
+<%# @loyalty.each do |l| %>
+          <div class="span6">
+            <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
+            <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
+          </div>
+          <div class="span4 pull-right">
+            <a class="" data-toggle="modal" href="#update<%= @loyalty.id rescue "" %>">Change</a>
+<%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
+<%#= content_for :outer do %>
+            <div id="update<%#= @loyalty.id %>" class="modal hide fade">
+<%#= render partial: "update_loyalty", locals: {@loyalty => l} %>
             </div>
-            <div class="span4 pull-right">
-              <a class="" data-toggle="modal" href="#update<%= l.id %>">Change</a>
-              <%= link_to  "Delete", bars_delete_loyalty_path(l.id), method: :delete, confirm: "Delete loyalty?" %>
-              <%= content_for :outer do %>
-                <div id="update<%= l.id %>" class="modal hide fade">
-                  <%= render partial: "update_loyalty", locals: {l: l} %>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+<%# end %>
+          </div>
+<%# end %>
           <div class="clearfix"></div>
           <div class="span7">
             <table class="zebra-striped">
@@ -531,9 +531,9 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="all_user">
-                    <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path, category: "0") do |m| %>
+                    <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
                       <div style="text-align: center;">
-                        <!--<b>To : </b><%#= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>-->
+                        <%= m.input :category, as: :hidden, input_html: {value: 0} %>
                         <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
                         <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                       </div>
@@ -544,24 +544,11 @@
                       <% end %>
                     </div>
                     <div class="tab-pane" id="last_visit">
-                      <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path, category: "1") do |m| %>
-                        <div style="text-align: center;">
-                          <!--<b>To : </b><%#= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>-->
-                          <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
-                          <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                        </div>
-                        <div class="form-actions">
-                          <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                          <%= m.submit "Send", class: "btn-success pull-right" %>
-                          </div>
-                        <% end %>
-                      </div>
-
-                      <div class="tab-pane" id="almost_rewarded">
-                        <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path, category: "2") do |m| %>
+                      <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                        <%= m.input :category, as: :hidden, input_html: {value: 1} %>
+                        <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
+                          <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
                           <div style="text-align: center;">
-                            <!--<b>To : </b><%#= select_tag "category", options_for_select([["All Users", "0"],["Last Visit", "1"],["Almost Rewarded", "2"]]) %>-->
-                            <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
                             <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                           </div>
                           <div class="form-actions">
@@ -570,12 +557,27 @@
                             </div>
                           <% end %>
                         </div>
-                        <div class="tab-pane" id="unused_rewards">
 
+                        <div class="tab-pane" id="almost_rewarded">
+                          <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                            <%= m.input :category, as: :hidden, input_html: {value: 2} %>
+                            <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
+                              <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                              <div style="text-align: center;">
+                                <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                              </div>
+                              <div class="form-actions">
+                                <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                <%= m.submit "Send", class: "btn-success pull-right" %>
+                                </div>
+                              <% end %>
+                            </div>
+                            <div class="tab-pane" id="unused_rewards">
+
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
 
-                <% end %>
-              </body>
+                    <% end %>
+                  </body>

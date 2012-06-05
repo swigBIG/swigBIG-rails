@@ -51,15 +51,6 @@
       ref.parentNode.insertBefore(js, ref);
     }(document));
   </script>
-  <!--<script>
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=410355872318354";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>-->
 <% end %>
 <% content_for :facebook_like_meta do %>
   <meta property="og:site_name" content="www.swigbig.com"/>
@@ -102,7 +93,8 @@
       <br/>
       <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
         <% @swigers.each do |swiger| %>
-          <%= User.find(swiger.user_id).name %>
+          <%#= swiger.user.name %>
+          <%= swiger.user.name %>
           <br/>
         <% end %>
       </div>
@@ -169,7 +161,6 @@
     <div class="clearfix"></div>
     <br/>
     <ul class="tabs" data-tabs="tabs">
-
       <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Moday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><%= @bar_hours.monday.first.open_hour %> to <%= @bar_hours.monday.first.close rescue "??" %></a></li>
       <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3><%= pluralize(@swigs.tuesday.count, "Deal") %><br/><%= @bar_hours.tuesday.first.open_hour rescue "??" %> to <%= @bar_hours.tuesday.first.close rescue "??" %></a></li>
       <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3><%= pluralize(@swigs.wednesday.count, "Deal") %><br/><%= @bar_hours.wednesday.first.open_hour rescue "??" %> to <%= @bar_hours.wednesday.first.close rescue "??" %></a></li>

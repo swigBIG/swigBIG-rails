@@ -37,10 +37,14 @@ class Users::BarsController < ApplicationController
     @bar = Bar.find(params[:bar_id])
     @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id)
     if @popularity_inviter.save
-      params[:guess_ids].each do |guess_id|
-        @popularity_inviter.popularity_guesses.create(user_id: guess_id)
+      if  !params[:guess_ids].blank?
+        params[:guess_ids].each do |guess_id|
+          @popularity_inviter.popularity_guesses.create(user_id: guess_id)
+          redirect_to :back, notice: "Success Create Popularity!"
+        end
+      else
+        redirect_to :back, notice: "Empty Guess!"
       end
-      redirect_to :back, notice: "Success Create Popularity!"
     else
       redirect_to :back, notice: "Fail Create Popularity!"
     end

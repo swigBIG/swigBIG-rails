@@ -17,7 +17,7 @@ class Users::BarSwigsController < ApplicationController
       #      Point.find_or_created(id: @point.id)
       if user_signed_in?
         @create_point = current_user.points.new(bar_id: @bar.id, loyalty_points: 1 )
-        @swiger = Swiger.create(user_id: current_user.id, bar_id: @bar.id)
+        @swiger = @bar.swigers.create(user_id: current_user.id)
         #        @create_point = Point.new(bar_id: @bar.id, user_id: current_user.id, loyalty_points: 1 )
         if @create_point.save
           redirect_to :back, notice: "You added as Swiger in this BigSwig!"
@@ -29,7 +29,7 @@ class Users::BarSwigsController < ApplicationController
       end
     else
       if user_signed_in?
-        @swiger = Swiger.new(user_id: current_user.id, bar_id: params[:bar_id])
+        @swiger = @bar.swigers.new(user_id: current_user.id)
         if @swiger.save
           redirect_to :back, notice: "You added as Swiger in this BigSwig!"
         else

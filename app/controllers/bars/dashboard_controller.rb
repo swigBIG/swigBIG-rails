@@ -14,7 +14,8 @@ class Bars::DashboardController < ApplicationController
     #    @popularity = @bar.rewards.where(reward_type: "Popularity")
     @popularity = Popularity.all
     #    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
-    @loyalty = Loyalty.all
+    #    @loyalty = Loyalty.where(bar_id: current_bar).first
+    @loyalty = current_bar.loyalty
     @winner = @bar.winners.all
     @loyalty_reward = RewardMessage.new
     @bar_message = ActsAsMessageable::Message.new
@@ -146,22 +147,30 @@ class Bars::DashboardController < ApplicationController
   end
 
   def create_bar_message
-    case params[:category]
+    case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
-        #        BarMessage.create(params[:bar_message].merge(user_id: user.id))
         current_bar.send_message(user, params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
+        #        ActsAsMessageable::Message.create()
       end
+      redirect_to :back, notice: "Message success Send!"
     when "1"
-      User.all.each do |user|
-        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      current_bar.swigers.where("created_at >= ?", params[:acts_as_messageable_message][:days].to_i.days.ago.beginning_of_day).pluck(:user_id).uniq.each do |user|
+        current_bar.send_message(User.find(user), params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
       end
+      redirect_to :back, notice: "Message success Send to User last #{params[:number_days]}!"
     when "2"
-      User.all.each do |user|
-        BarMessage.create(params[:bar_message].merge(user_id: user.id))
+      current_bar.points.where(loyalty_points: 1).group("user_id").count.each_pair do |key, val|
+        swigs_required = current_bar.loyalty.swigs_number - val
+        if swigs_required.eql?(params[:required_swigs])
+          current_bar.send_message(user, params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
+        end
       end
+      redirect_to :back, notice: "Message success Send!"
+    else
+      redirect_to :back, notice: "Failed sent message!"
     end
-    redirect_to :back, notice: "Message success Send!"
+    #    redirect_to :back, notice: "Message success Send!"
   end
 
   def update_completion
