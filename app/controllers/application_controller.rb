@@ -1,7 +1,14 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   require 'open-uri'
-  before_filter :set_time_zone, :swigbig_content
+  before_filter :reject_bot_request, :set_time_zone, :swigbig_content
+
+  def reject_bot_request
+    user_agent = request.env['HTTP_USER_AGENT']
+    if user_agent.include?('bot') or user_agent.include?('spider')
+      render text: 'This is bot request and should be rejected' and return
+    end
+  end
 
   def set_time_zone
     #get geo location
