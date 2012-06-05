@@ -11,7 +11,7 @@
 </script>
 <script type="text/javascript">
   function initialize() {
-    var latlo = new google.maps.LatLng(<%= @geo.latitude rescue nil %>, <%= @geo.longitude rescue nil%>);
+    var latlo = new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>);
     var myOptions = {
       center: latlo,
       zoom: 13,
@@ -20,7 +20,7 @@
     var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
 
     var bar = [];
-<% Bar.where(city: @city.name).each do |b| %>
+<% Bar.where(city: @city_lat_lng[0].to_s).each do |b| %>
       var x = [];
       x.push(<%= b.latitude %>);
       x.push(<%= b.longitude %>);
@@ -77,7 +77,7 @@
 <body onload="initialize()">
 
   <%= content_for :side do %>
-    <h4><%= @city.name.titleize %></h4>
+    <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
