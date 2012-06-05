@@ -14,7 +14,6 @@ class Bars::RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-    debugger
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     #      @bar = User.find(current_bar.id)
     if current_bar.update_attributes(params[:bar])
