@@ -18,12 +18,13 @@ class HomeController < ApplicationController
 #@city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
 
     if params[:radius].blank? and params[:search].blank?
+
       @city = City.where(name: @city_lat_lng[0].to_s).first
       @geo = City.where(name: @city_lat_lng[0].to_s).first
       @loyalty = Loyalty.all
       @popularity = Popularity.all
       @search = Swig.search(params[:search])
-      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+      @swigs = @search.where(city: @city_lat_lng[0].to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
     elsif !params[:search].blank? or !params[:radius].blank?
       @city = City.where(name: @city_lat_lng[0].to_s).first
       @loyalty = Loyalty.all
