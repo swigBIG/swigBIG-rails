@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   layout "users"
 
   def main
+    
 #    @loyalty = Loyalty.all
 #    @popularity = Popularity.all
 #    @city = City.new
