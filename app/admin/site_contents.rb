@@ -12,7 +12,7 @@ menu parent: "Site Settings"
     column :learn_more
     column :contact_us
     default_actions
-    render partial: "data_site"
+#    render partial: "data_site"
   end
 
   show do |b|
