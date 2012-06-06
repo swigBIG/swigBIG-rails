@@ -2,6 +2,8 @@ ActiveAdmin.register SportTeam do
   filter :team_name
   filter :category
 
+  menu parent: "Site Settings"
+
   index do
     column :team_name
     column :category

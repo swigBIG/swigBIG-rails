@@ -1,5 +1,5 @@
 ActiveAdmin.register SiteContent do
-
+menu parent: "Site Settings"
 
   index do
     column :site_background
@@ -12,6 +12,7 @@ ActiveAdmin.register SiteContent do
     column :learn_more
     column :contact_us
     default_actions
+    render partial: "data_site"
   end
 
   show do |b|
@@ -62,5 +63,15 @@ ActiveAdmin.register SiteContent do
       f.buttons
     end
   end
+
+#  data_site do
+#
+#  end
+#
+#  controller do
+#    def data_site
+#
+#    end
+#  end
 
 end

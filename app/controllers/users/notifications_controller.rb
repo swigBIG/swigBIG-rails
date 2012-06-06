@@ -3,5 +3,6 @@ class Users::NotificationsController < ApplicationController
 
   def index
     @bar_messages = BarMessage.where(user_id: current_user.id)
+    @bar_messages = BarMessage.where(user_id: current_user.id)
   end
 end

@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  menu parent: "Accounts"
 
   filter  :email
   filter  :name

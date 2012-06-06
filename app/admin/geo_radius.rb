@@ -1,4 +1,6 @@
 ActiveAdmin.register GeoRadius do
+  menu parent: "Site Settings"
+
   filter :radius
 
   index do

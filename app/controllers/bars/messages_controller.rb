@@ -6,7 +6,9 @@ class Bars::MessagesController < ApplicationController
   end
 
   def sent
-    @messages = current_bar.sent_messages.page(params[:page]).per(10)
+    @messages_all_user = current_bar.sent_messages.where(category: 0).group(:created_at).page(params[:page]).per(10)
+    @messages_last_visit = current_bar.sent_messages.where(category: 1).group(:created_at).page(params[:page]).per(10)
+    @messages_almost_rewarded = current_bar.sent_messages.where(category: 2).group(:created_at).page(params[:page]).per(10)
   end
 
   def new

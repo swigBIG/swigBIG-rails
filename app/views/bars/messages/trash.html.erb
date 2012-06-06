@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row-fluid" style="margin-top: 15px">
-    <div class="span3 pull-left" style="margin-left: 0px;">
+    <%= content_for :side do %>
       <%= render "message_menu" %>
-    </div>
-    <div class="span9">
+    <% end %>
+    <div class="span8">
       <h2>Trash</h2>
       <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
         <table class="table">

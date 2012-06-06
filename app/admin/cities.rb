@@ -1,4 +1,6 @@
 ActiveAdmin.register City do
+  menu parent: "Site Settings"
+
   filter :name
   filter :state
   filter :country

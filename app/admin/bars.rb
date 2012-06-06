@@ -1,4 +1,6 @@
 ActiveAdmin.register Bar do
+  menu parent: "Accounts"
+
   filter  :email
   filter  :name
   filter  :address

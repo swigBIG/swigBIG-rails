@@ -1,22 +1,24 @@
 <script type="text/css">
-#sidebar {
-float:left;
-width:175px;
-background:#c9c;
-}
-#left_side {
-    float:left;
-    margin-right:35%;
-    width:63%;
+  #sidebar {
+  float:left;
+  width:175px;
+  background:#c9c;
   }
-#right_side{
-    float:right;
-    margin-left:-65%;
-    width:35%;
+  #left_side {
+  float:left;
+  margin-right:35%;
+  width:63%;
+  }
+  #right_side{
+  float:right;
+  margin-left:-65%;
+  width:35%;
   }
 </script>
-  <%= link_to "Index", businesses_messages_path %> |
-  <%= link_to "Inbox", businesses_message_inbox_path %> |
-  <%= link_to "Outbox", businesses_message_outbox_path %>|
-  <%= link_to "New", new_businesses_message_path %> 
+
+<%= link_to "Index", businesses_messages_path %> |
+<%= link_to "Inbox", businesses_message_inbox_path %> |
+<%= link_to "Outbox", businesses_message_outbox_path %>|
+<%= link_to "New", new_businesses_message_path %>
+
 

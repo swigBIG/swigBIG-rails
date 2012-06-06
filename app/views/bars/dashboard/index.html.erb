@@ -54,19 +54,16 @@
   </script>
 <% end %>
 <script type="text/javascript">
-<% if current_bar.swigs.where(swig_day: "Monday").blank? %>
-    function check_monday(){
+  function check_monday(){
+<% if current_bar.swigs.where("swig_day = 'Monday' AND swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
       $('#big_and_standard_swig').modal();
-    }
 <% elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Standard").blank? %>
-    function check_monday(){
       $('#swigmessage').modal();
-    }
 <% elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Big" ).blank? %>
-    function check_monday(){
       $('#setup_big_swig').modal();
-    }
+<% elsif !current_bar.swigs.where("swig_day = 'Monday' AND swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
 <% end %>
+  }
 <% if current_bar.swigs.where(swig_day: "Tuesday").blank? %>
     function check_tuesday(){
       $('#big_and_standard_swig').modal();
@@ -532,9 +529,10 @@
                 <div class="tab-content">
                   <div class="tab-pane active" id="all_user">
                     <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                      <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
+                      <%= text_field_tag :gift_id,"", style: "margin-left: 15px;" %>
+                      <%= m.input :category, as: :hidden, input_html: {value: 0} %>
                       <div style="text-align: center;">
-                        <%= m.input :category, as: :hidden, input_html: {value: 0} %>
-                        <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
                         <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                       </div>
                       <div class="form-actions">
@@ -545,9 +543,10 @@
                     </div>
                     <div class="tab-pane" id="last_visit">
                       <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                        <%= m.input :category, as: :hidden, input_html: {value: 1} %>
                         <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
                           <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                          <%= text_field_tag :gift_id,"", style: "margin-left: 15px;" %>
+                          <%= m.input :category, as: :hidden, input_html: {value: 1} %>
                           <div style="text-align: center;">
                             <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                           </div>
@@ -560,9 +559,10 @@
 
                         <div class="tab-pane" id="almost_rewarded">
                           <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                            <%= m.input :category, as: :hidden, input_html: {value: 2} %>
                             <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
                               <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                              <%= text_field_tag :gift_id,"", style: "margin-left: 15px;" %>
+                              <%= m.input :category, as: :hidden, input_html: {value: 2} %>
                               <div style="text-align: center;">
                                 <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                               </div>

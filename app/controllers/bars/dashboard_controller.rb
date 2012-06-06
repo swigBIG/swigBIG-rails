@@ -150,20 +150,19 @@ class Bars::DashboardController < ApplicationController
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
-        current_bar.send_message(user, params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
-        #        ActsAsMessageable::Message.create()
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
       end
       redirect_to :back, notice: "Message success Send!"
     when "1"
       current_bar.swigers.where("created_at >= ?", params[:acts_as_messageable_message][:days].to_i.days.ago.beginning_of_day).pluck(:user_id).uniq.each do |user|
-        current_bar.send_message(User.find(user), params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
       end
       redirect_to :back, notice: "Message success Send to User last #{params[:number_days]}!"
     when "2"
       current_bar.points.where(loyalty_points: 1).group("user_id").count.each_pair do |key, val|
         swigs_required = current_bar.loyalty.swigs_number - val
         if swigs_required.eql?(params[:required_swigs])
-          current_bar.send_message(user, params[:acts_as_messageable_message][:topic], params[:acts_as_messageable_message][:body])
+          current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
         end
       end
       redirect_to :back, notice: "Message success Send!"
