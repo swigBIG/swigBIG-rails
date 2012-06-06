@@ -29,21 +29,21 @@ class ApplicationController < ActionController::Base
     end
 
     #get timezone
-    if session["offset_#{set_current_ip}"].blank?
-      url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
-      xml_content = url.open.read
-      offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
-      session["offset_#{set_current_ip}"] = offset
-    else
-      offset = session["offset_#{set_current_ip}"]
-    end
-    
-    if offset.blank?
-      Time.zone = 'Pacific Time (US & Canada)'
-    else
-      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
-      Time.zone = timezone  
-    end
+#    if session["offset_#{set_current_ip}"].blank?
+#      url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
+#      xml_content = url.open.read
+#      offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
+#      session["offset_#{set_current_ip}"] = offset
+#    else
+#      offset = session["offset_#{set_current_ip}"]
+#    end
+#
+#    if offset.blank?
+#      Time.zone = 'Pacific Time (US & Canada)'
+#    else
+#      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
+#      Time.zone = timezone
+#    end
     
   end
 
