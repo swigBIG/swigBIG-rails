@@ -45,7 +45,8 @@
               <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% if bar_signed_in? %>
-               <li><b><%= link_to "My Bar", bars_dashboard_path, style: "color: white;" %></b></li>
+                <li><b><%= link_to "My Bar", bars_dashboard_path, style: "color: white;" %></b></li>
+                <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
                 <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
                 <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
               <% else %>

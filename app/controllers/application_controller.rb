@@ -15,12 +15,15 @@ class ApplicationController < ActionController::Base
     if session["geo_#{set_current_ip}"].blank?
       begin
         geos = Geocoder.search(set_current_ip)
+        geo = geos.first
+        @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
+        session["geo_#{set_current_ip}"] = @city_lat_lng
       rescue
-        geos = Geocoder.search("75.85.54.184")
+        @city_lat_lng = ["Los Angeles", 34.0863, -118.49]
+        session["geo_75.85.54.184"] = @city_lat_lng
       end
-      geo = geos.first
-      @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
-      session["geo_#{set_current_ip}"] = @city_lat_lng
+      
+     
     else
       @city_lat_lng = session["geo_#{set_current_ip}"]
     end
@@ -51,7 +54,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_current_ip
-   return request.ip.to_s if Rails.env.eql?("development")
+    return request.ip.to_s if Rails.env.eql?("development")
     "75.85.54.184"
   end
 end
