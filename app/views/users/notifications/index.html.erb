@@ -14,3 +14,46 @@
     </tr>
   <% end %>
 </table>
+<br/>
+<br/>
+<table class="zebra-striped">
+  <th>Subject</th>
+  <th>Content</th>
+  <% @notifications.each do |notification| %>
+    <tr>
+      <% if notification.activity.eql?("swig") and @bar_ids.include?(notification.actor.id)%>
+        <td>
+          <b><%= link_to  notification.actor.name, bar_profile_path(notification.actor_id) %></b>
+        </td>
+        <% if notification.object.swig_type.eql?("Big") %>
+          <td>
+            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= notification.object.swig_type %>
+            </button>
+            <b>Required: </b><%= notification.object.people %> people
+          </td>
+        <% elsif notification.object.swig_type.eql?("Standard") %>
+          <td>
+            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= notification.object.swig_type %>
+            </button>
+          </td>
+        <% end %>
+        <td>
+                <%= notification.object.deal %>
+              </td>
+      <% elsif notification.object_type.eql?("Winner") %>
+      <tr>
+        <td>
+          <%= notification.verb %>
+        </td>
+        <td>
+          <%= User.find(notification.actor_id).name %>
+        </td>
+        <td>
+          <%= Winner.find(notification.object_id) %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

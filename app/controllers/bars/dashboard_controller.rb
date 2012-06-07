@@ -2,6 +2,9 @@ class Bars::DashboardController < ApplicationController
   layout "bars"
   before_filter :authenticate_bar!
 
+  log_activity_streams :current_bar, :name, "Active Swigs",
+    :@swig, :deal, :active_swig, :swig
+
   def index
     @bar = current_bar
     @swigers = @bar.swigers

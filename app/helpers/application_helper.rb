@@ -29,4 +29,8 @@ module ApplicationHelper
     GeoRadius.order("radius").all.map{ |g| [g.radius, g.radius] }
   end
 
+  def gift_collections
+    Gift.all.map{ |g| [g.name, g.id] }
+  end
+
 end

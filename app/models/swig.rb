@@ -16,13 +16,13 @@ class Swig < ActiveRecord::Base
   scope :big, where(swig_type: "Big")
   scope :lock_status_active, where(status: "active")
   #days
-  scope :monday, where("swig_day = 'Monday' OR swig_day = 'all'")
-  scope :tuesday, where("swig_day = 'Tuesday' OR swig_day = 'all'")
-  scope :wednesday, where("swig_day = 'Wednesday' OR swig_day = 'all'")
-  scope :thursday, where("swig_day = 'Thursday' OR swig_day = 'all'")
-  scope :friday, where("swig_day = 'Friday' OR swig_day = 'all'")
-  scope :saturday, where("swig_day = 'Saturday' OR swig_day = 'all'")
-  scope :sunday, where("swig_day = 'Sunday' OR swig_day = 'all'")
+  scope :monday, where("swig_day = 'Monday'")
+  scope :tuesday, where("swig_day = 'Tuesday'")
+  scope :wednesday, where("swig_day = 'Wednesday'")
+  scope :thursday, where("swig_day = 'Thursday'")
+  scope :friday, where("swig_day = 'Friday'")
+  scope :saturday, where("swig_day = 'Saturday'")
+  scope :sunday, where("swig_day = 'Sunday'")
   def swig_lock
     self.people
   end

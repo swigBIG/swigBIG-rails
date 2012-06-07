@@ -1,5 +1,7 @@
 Swprototype::Application.routes.draw do
 
+  get "notifications/index"
+
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config

@@ -73,8 +73,7 @@
     <br/>
     <b>Sport Team : </b><%= @bar.sports_team rescue nil %>
     <br/>
-    <b>Sport Team : </b><%= @bar.sports_team rescue nil %>
-    <br/>
+
     <div class="clearfix"></div>
     <br/>
     <div id="map_canvas" style="margin-left: -25px;">
@@ -93,7 +92,7 @@
       <br/>
       <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
         <% @swigers.each do |swiger| %>
-          <%#= swiger.user.name %>
+    <%#= swiger.user.name %>
           <%= swiger.user.name %>
           <br/>
         <% end %>
@@ -135,10 +134,30 @@
         </div>
       </div>
     </div>
-    <div id="popularityandloyalty" class="accordion-body collapse">
-      <div class="accordion-inner">
+    <!--<div id="popularityandloyalty" class="accordion-body collapse">
+    <div class="accordion-inner">-->
+    <div class="span10 well">
+      <div class="span4 pull-left" style="margin-left: -5px;">
+        <b>Phone Number : </b><%= @bar.phone_number rescue nil %>
+        <br/>
+        <b>Website : </b><%= link_to  @bar.website_link, @bar.website_link.to_s rescue nil %>
+        <br/>
+        <b>Facebook : </b><%= link_to  @bar.facebook_link.to_s, @bar.facebook_link.to_s rescue nil %>
+        <br/>
+        <b>Twitter : </b><%= link_to @bar.twitter_link.to_s, @bar.twitter_link.to_s rescue nil %>
+        <br/>
+        <b>Google+ : </b><%= link_to @bar.google_plus_link.to_s, @bar.google_plus_link.to_s rescue nil %>
+        <br/>
+      </div>
+      <div class="span6 pull-left" style="background-color: white;border-radius: 2px;margin-right: -15px;">
+        <br/>
+        <%= @bar.description rescue nil %>
+        <br/>
+      </div>
+      <div class="span10 pull-right" style="margin-top: 30px;">
+
         <ul class="tabs" data-tabs="tabs">
-          <li><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+          <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
           <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
         </ul>
         <div id="my-tab-content" class="tab-content">
@@ -157,6 +176,7 @@
         </div>
       </div>
     </div>
+    <!--</div>-->
     <br/>
     <div class="clearfix"></div>
     <br/>

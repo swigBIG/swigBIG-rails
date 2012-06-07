@@ -18,13 +18,13 @@ class Bar < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
   mount_uploader :bar_background, ImageUploader
 
-  before_update  :set_full_address, :set_coordinates
+  before_update  :set_full_address, :set_coordinates, :set_http_website
 
   after_update :update_swig_location
   
-#  geocoded_by :full_address, :latitude  => :latitude, :longitude => :longitude
+  #  geocoded_by :full_address, :latitude  => :latitude, :longitude => :longitude
 
-#  after_validation :geocode, :if => :full_address_changed?
+  #  after_validation :geocode, :if => :full_address_changed?
 
   after_create :create_hour
 
@@ -86,5 +86,11 @@ class Bar < ActiveRecord::Base
       logger.error "failed to get coordinates"
     end
   end
-  
+
+  def set_http_website
+    self.website_link = "http://#{self.website_link}" if !self.website_link.blank? and !self.website_link.include?("http://")
+    self.facebook_link = "http://#{self.facebook_link}" if !self.facebook_link.blank? and !self.facebook_link.include?("http://")
+    self.twitter_link = "http://#{self.twitter_link}" if !self.twitter_link.blank? and !self.twitter_link.include?("http://")
+    self.google_plus_link = "http://#{self.google_plus_link}" if !self.google_plus_link.blank? and !self.google_plus_link.include?("http://")
+  end
 end

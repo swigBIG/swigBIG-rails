@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   require 'open-uri'
   before_filter :reject_bot_request, :set_time_zone, :swigbig_content
-#  include LogActivityStreams
+  include LogActivityStreams
   
   def reject_bot_request
     user_agent = request.env['HTTP_USER_AGENT']

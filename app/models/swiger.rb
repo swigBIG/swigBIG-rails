@@ -7,25 +7,35 @@ class Swiger < ActiveRecord::Base
   after_create :get_loyalty
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
-  
+
+
+  #  log_activity_streams self.user_id, :name, "test",
+  #    :loyalty_points, :id, :get_loyalty, :swig
   def get_loyalty
     today_swiger = self.bar.swigers.today.count
     today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger)
     
     today_swigs.each do |swig|
       swig.update_attributes(lock_status: "unlock")
+      ActivityStream.create(activity: "unlockswig", verb: "Unlock Swig", actor_id: swig.bar.id, actor_type: swig, object_id: swig.id, object_type: "swig")
       swig.today_swiger.each do |swiger|
         swiger.update(swig_message: "test")
       end
     end
     unless self.bar.loyalty.blank?
-#      Point.create(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1)
+      #      Point.create(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1)
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
-        Winner.create(bar_id: self.bar_id, user_id: self.user_id)
+        win = Winner.create(bar_id: self.bar_id, user_id: self.user_id)
+        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
       end
     end
+  end
+
+
+  def create_activity(actor, object)
+    ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
   end
 
 end
