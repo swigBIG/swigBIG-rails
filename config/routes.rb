@@ -1,5 +1,7 @@
 Swprototype::Application.routes.draw do
 
+  mount Ckeditor::Engine => '/ckeditor'
+
   get "notifications/index"
 
   ActiveAdmin.routes(self)
@@ -100,14 +102,14 @@ Swprototype::Application.routes.draw do
     post "remove_friend/:id" => "friends#remove_friend", as: :remove_friend
     post "approve_friend/:id" => "friends#approve_friend", as: :approve_friend
 
-    #    resources :messages do
-    #      collection do
-    #        get 'sent'
-    #        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
-    #        get 'trash'
-    #        get 'new(/:student_id(--:user_type))' => "messages#new", as: :new
-    #      end
-    #    end
+    resources :messages do
+      collection do
+        get 'sent'
+        post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
+        get 'trash'
+        get 'new(/:bar_id)' => "messages#new", as: :new
+      end
+    end
   end
 
   # The priority is based upon order of creation:

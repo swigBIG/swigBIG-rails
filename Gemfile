@@ -43,6 +43,7 @@ gem 'omniauth-facebook'
 gem "fb_graph", "~> 2.4.15"
 gem "mini_fb"
 gem "amistad"
+gem "ckeditor", "3.7.1"
 #gem "amistad", git: 'https://github.com/raw1z/amistad.git'
 gem "simple_geolocation", "~> 0.0.7"
 #gem 'geo_location'

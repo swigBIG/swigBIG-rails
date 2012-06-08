@@ -69,6 +69,7 @@ class Users::DashboardController < ApplicationController
   def rewards
     @winners = current_user.winners
     @loyalty_points = current_user.points.where(popularity_points: nil).group(:bar_id)
+    @gifts = current_user.received_messages
     #    @loyalty_points = Bar.loyalty.nil?
   end
 

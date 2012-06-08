@@ -30,6 +30,8 @@
   <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>Earned Rewards</b></a>
   <br/>
   <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#redeemed" data-toggle="tab"><b>Redeemed Rewards</b></a>
+  <br/>
+  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#gift" data-toggle="tab"><b>Gift</b></a>
 </div>
 <div class="span11 pull-right">
   <div class="tab-content">
@@ -95,26 +97,41 @@
             </td>
             <td>
               <%= current_user.id %>
-              <% unless winner.reward_messages.nill? %>
-                <%= winner.reward_messages.each do |m| %>
-      <%#= RewardMessage.where(user_id: current_user.id).each do |m| %>
-                  <%= m.subject %>
-                  <%= m.content %>
-                <% end %>
+  <%# unless winner.reward_messages.nill? %>
+              <%= winner.reward_messages.each do |m| %>
+    <%#= RewardMessage.where(user_id: current_user.id).each do |m| %>
+                <%= m.subject %>
+                <%= m.content %>
               <% end %>
-            </td>
-          </tr>
-        <% end %>
+            <% end %>
+          </td>
+        </tr>
+<%# end %>
       </table>
     </div>
     <div class="tab-pane" id="redeemed">
       Popularity content
     </div>
+    <div class="tab-pane" id="gift">
+      <table>
+
+        <% @gifts.each do |gift| %>
+          <tr>
+            <td>
+              <%= Gift.find(gift.gift_id).name %>
+            </td>
+            <td>
+              <%= Gift.find(gift.gift_id).descriptions %>
+            </td>
+          </tr>
+        <% end %>
+
+      </table>
+    </div>
   </div>
 </div>
 
 
---------------------------------------------------
 <!--
 <%# @messages.each do |message| %>
   <tr style="cursor: pointer;background-color: <%#= message.opened ? "white" : "darkgrey" %>">

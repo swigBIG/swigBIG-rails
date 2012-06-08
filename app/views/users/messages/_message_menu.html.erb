@@ -1,0 +1,88 @@
+
+<!--<div style="float:left;width: 20%;border-right: 1px solid black;padding:10px;min-height: 400px;">-->
+<div class="span3">
+  <div class="well sidebar-nav">
+    <ul class="nav nav-list">
+      <li class="nav-header">Message</li>
+      <li class="span3">
+        <!--<a class=""  href="#bar_message" data-toggle="modal" >New</a>-->
+      </li>
+      <li class="span3">
+        <%= link_to "Inbox", users_messages_path %>
+      </li>
+      <li class="span3">
+        <%= link_to "Sent", sent_bars_messages_path %>
+      </li>
+      <li class="span3">
+        <%= link_to "Trash", trash_bars_messages_path %>
+      </li>
+    </ul>
+    <div style="clear: both"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<%= content_for :outer do %>
+  <div id="bar_message" class="modal hide fade">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal"><b>x</b></a>
+      <h3>New Message</h3>
+    </div>
+    <div class="modal-body well">
+      <ul class="tabs" data-tabs="tabs">
+        <li><a href="#all_user" class="btn" data-toggle="tab"><b>All User</b></a></li>
+        <li><a href="#last_visit" class="btn" data-toggle="tab"><b>Last Visit</b></a></li>
+        <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b>Almost Rewarded</b></a></li>
+        <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b>Unused Rewarded</b></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="all_user">
+          <% @bar_message = ActsAsMessageable::Message.new %>
+          <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+            <div style="text-align: center;">
+              <%= m.input :category, as: :hidden, input_html: {value: 0} %>
+              <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -185px;width: 445px;"} %>
+              <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+            </div>
+            <div class="form-actions">
+              <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+              <%= m.submit "Send", class: "btn-success pull-right" %>
+              </div>
+            <% end %>
+          </div>
+          <div class="tab-pane" id="last_visit">
+            <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+              <%= m.input :category, as: :hidden, input_html: {value: 1} %>
+              <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
+                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                <div style="text-align: center;">
+                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                </div>
+                <div class="form-actions">
+                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="tab-pane" id="almost_rewarded">
+                <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                  <%= m.input :category, as: :hidden, input_html: {value: 2} %>
+                  <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
+                    <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                    <div style="text-align: center;">
+                      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                    </div>
+                    <div class="form-actions">
+                      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                      <%= m.submit "Send", class: "btn-success pull-right" %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="tab-pane" id="unused_rewards">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>

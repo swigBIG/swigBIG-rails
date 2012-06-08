@@ -4,6 +4,9 @@ class Bars::DashboardController < ApplicationController
 
   log_activity_streams :current_bar, :name, "Active Swigs",
     :@swig, :deal, :active_swig, :swig
+#
+#  log_activity_streams :current_bar, :name, "Message",
+#    :message, :deal, :create_bar_message, :swig
 
   def index
     @bar = current_bar
@@ -153,7 +156,7 @@ class Bars::DashboardController < ApplicationController
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id]})
       end
       redirect_to :back, notice: "Message success Send!"
     when "1"

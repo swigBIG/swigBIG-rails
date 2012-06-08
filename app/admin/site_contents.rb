@@ -50,7 +50,7 @@ menu parent: "Site Settings"
   end
 
   form do |f|
-    f.inputs "Adding City" do
+    f.inputs "" do
       f.input :site_background
       f.input :site_logo
       f.input :term_of_service
