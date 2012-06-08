@@ -15,4 +15,5 @@
 //= require jquery-ui.min
 //= require bootstrap-tab
 //= require jquery.smartWizard-2.0
+//= require ckeditor/init
 //= require_tree .
