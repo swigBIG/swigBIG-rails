@@ -65,6 +65,7 @@ Swprototype::Application.routes.draw do
     get "rewards/index"
     match "rewards" => "rewards#index", as: "rewards"
     post "create_bar_message" => "dashboard#create_bar_message", as: "create_bar_message"
+    post "create_gift" => "dashboard#create_gift", as: "create_gift"
 
     resources :messages do
       collection do

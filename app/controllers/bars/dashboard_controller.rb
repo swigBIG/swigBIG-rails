@@ -4,15 +4,16 @@ class Bars::DashboardController < ApplicationController
 
   log_activity_streams :current_bar, :name, "Active Swigs",
     :@swig, :deal, :active_swig, :swig
-#
-#  log_activity_streams :current_bar, :name, "Message",
-#    :message, :deal, :create_bar_message, :swig
+  #
+  #  log_activity_streams :current_bar, :name, "Message",
+  #    :message, :deal, :create_bar_message, :swig
 
   def index
     @bar = current_bar
     @swigers = @bar.swigers
     @swig = @bar.swigs.new
     @swigs = @bar.swigs
+    @gift = @bar.gifts.new
     #    @reward = @bar.rewards.new
     @reward = []
     @loyal = Loyalty.new
@@ -190,6 +191,16 @@ class Bars::DashboardController < ApplicationController
 
   def completion
     @bar = current_bar
+  end
+
+  def create_gift
+    @gift = current_bar.gifts.new(params[:gift])
+    if @gift.save
+      redirect_to :back, notice: "Gift success create!"
+    else
+      redirect_to :back, notice: "Gift failed create!"
+    end
+
   end
 
 end

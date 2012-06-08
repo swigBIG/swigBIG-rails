@@ -33,6 +33,7 @@ class Bar < ActiveRecord::Base
   
   with_options dependent: :destroy do
     has_many :bar_hours
+    has_many :gifts
     has_many :swigs
     has_many :swigers
     has_many :products
