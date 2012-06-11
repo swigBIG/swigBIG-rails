@@ -57,16 +57,16 @@
                   <%= point.bar.name %>
                 </td>
                 <td>
-                  <%= point.bar.loyalty.reward_detail %>
+                  <%= point.bar.loyalty.reward_detail rescue nil %>
                 </td>
                 <td>
-                  <%= point.bar.loyalty.swigs_number %>
+                  <%= point.bar.loyalty.swigs_number rescue nil %>
                   <b> of </b>
                   <%= point.bar.points.count %>
-                  <%= number_to_percentage(point.bar.loyalty.swigs_number / point.bar.points.count) %>
+                  <%= number_to_percentage(point.bar.loyalty.swigs_number / point.bar.points.count) rescue nil %>
                 </td>
                 <td>
-                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  %>
+                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
                 </td>
               </tr>
             <% end %>
@@ -93,7 +93,7 @@
               <%= winner.bar.name %>
             </td>
             <td>
-              <%= winner.bar.loyalty.reward_detail %>
+              <%= winner.bar.loyalty.reward_detail rescue nil %>
             </td>
             <td>
               <%= current_user.id %>
