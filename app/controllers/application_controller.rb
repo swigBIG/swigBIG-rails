@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     #get timezone
     if session["offset_#{set_current_ip}"].blank?
       url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
-      xml_content = url.open.read
+      xml_content = url.open.read rescue nil
       offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
       session["offset_#{set_current_ip}"] = offset
     else
