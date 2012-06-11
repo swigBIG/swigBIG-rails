@@ -1,6 +1,8 @@
 class Reward < ActiveRecord::Base
   
-  attr_accessible :bar_id, :lock_status, :reward_detail, :reward_type, :swigs_number, :type
+  attr_accessible :bar_id, :lock_status, :reward_detail, :reward_type, :swigs_number, :type, :status
 
 #  belongs_to :bar
+
+  scope :active, where(status: "active")
 end

@@ -200,7 +200,24 @@ class Bars::DashboardController < ApplicationController
     else
       redirect_to :back, notice: "Gift failed create!"
     end
-
   end
 
+  def activate_loyalty
+    @loyalty = Loyalty.find(params[:loyalty_id])
+    if @loyalty.update_attributes(status: "active")
+      redirect_to :back, notice: "#{@loyalty.reward_detail} status Active!"
+    else
+      redirect_to :back, notice: "#{@loyalty.reward_detail} failed Active!"
+    end
+  end
+
+  def deactivate_loyalty
+    @loyalty = Loyalty.find(params[:loyalty_id])
+    if @loyalty.update_attributes(status: nil)
+      redirect_to :back, notice: "#{@loyalty.reward_detail} status Deactive!"
+    else
+      redirect_to :back, notice: "#{@loyalty.reward_detail} failed Deactive!"
+    end
+
+  end
 end

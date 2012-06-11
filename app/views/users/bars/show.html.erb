@@ -162,10 +162,12 @@
         </ul>
         <div id="my-tab-content" class="tab-content">
           <div class="tab-pane active" id="reward_loyalty">
-            <% @loyalty.each do |l| %>
-              <%= l.reward_detail %>
+            <% if @loyalty.status.eql?("active") %>
+              <b>Swig required : </b><%= @loyalty.swigs_number %>
               <br/>
+              <b>Reward : </b><%= @loyalty.reward_detail %>
             <% end %>
+            <br/>
           </div>
           <div class="tab-pane" id="reward_popularity">
             <% @popularity.each do |l| %>
