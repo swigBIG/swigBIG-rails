@@ -303,24 +303,25 @@
         <div class="tab-pane active" id="reward_loyalty">
 
           <div class="clearfix"></div>
-<%# @loyalty.each do |l| %>
           <div class="span6">
             <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
             <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
             <br/>
-            <% if @loyalty.status.eql?("active") %>
-              <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
-              <% else %>
-                <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
-                <% end %>
-              </div>
-              <div class="span4 pull-right">
-                <a class="" data-toggle="modal" href="#update_bar_loyalty">Change</a>
-    <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
-                <%= content_for :outer do %>
-                  <div id="update_bar_loyalty" class="modal hide fade">
-                    <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
-                  </div>
+            <% unless @loyalty.blank? %>
+              <% if @loyalty.status.eql?("active") %>
+                <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
+                <% else %>
+                  <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
+                  <% end %>
+                </div>
+                <div class="span4 pull-right">
+                  <a class="" data-toggle="modal" href="#update_bar_loyalty">Change</a>
+      <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
+                  <%= content_for :outer do %>
+                    <div id="update_bar_loyalty" class="modal hide fade">
+                      <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
+                    </div>
+                  <% end %>
                 <% end %>
               </div>
     <%# end %>

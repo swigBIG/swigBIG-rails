@@ -1,3 +1,14 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    var available_tags = [];
+<% SportTeam.all.each do |team| %>
+      available_tags.push('<%= team.team_name %>');
+<% end %>
+    $.noConflict();
+    $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
+  });
+</script>
+
 <h2>Edit <%= current_bar.name %> Profile</h2>
 <ul class="tabs" data-tabs="tabs">
   <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
@@ -11,8 +22,9 @@
       <div class="tab-pane active" id="bar">
         <%= f.input :email %>
         <%= f.input :name %>
-        <%#= f.input :bar_hour, label: "Bar Hour" %>
+    <%#= f.input :bar_hour, label: "Bar Hour" %>
         <%= f.input :phone_number %>
+        <%= f.input :sports_team, label: false, required: false, input_html: {id: "mytags", multiple: true,  style: "width:150px;overflow: hidden;"}%>
         <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;"} %>
         <div class="form-actions">
           <%= f.submit "Update", class: "btn-primary" %>
@@ -29,7 +41,6 @@
           </div>
           <div class="tab-pane" id="location">
             <%= f.input :address %>
-            <%= f.input :sports_team, as: :select, collection: sport_teams_collection %>
             <%= f.input :zip_code %>
             <%= f.input :city, as: :select, collection: avaliable_cities %>
             <div class="form-actions">

@@ -1,6 +1,9 @@
 class Bars::MessagesController < ApplicationController
   layout "bars"
-  
+
+  log_activity_streams :current_bar, :name, "Active Swigs",
+    :@swig, :deal, :active_swig, :swig
+
   def index
     @messages = current_bar.received_messages.page(params[:page]).per(10)
   end
