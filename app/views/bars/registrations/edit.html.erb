@@ -8,6 +8,24 @@
     $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
   });
 </script>
+<!--<script type="text/javascript">
+  $(document).ready(function(){
+    $("input#same").click(function(){
+      if ($("input#same").is(':checked'))
+      {
+        // Checked, copy values
+        $("input#open-hour").val($("input#email").val());
+        $("input#close-hour").val($("input#name").val());
+      }
+      else
+      {
+        // Clear on uncheck
+        $("input#open-hour").val("");
+        $("input#close-hour").val("");
+      }
+    });
+  });
+</script>-->
 
 <h2>Edit <%= current_bar.name %> Profile</h2>
 <ul class="tabs" data-tabs="tabs">
@@ -48,11 +66,16 @@
               </div>
             </div>
             <div class="tab-pane" id="hour">
+
               <%= f.fields_for :bar_hours do |ff| %>
                 <div class="span2">
+
                   <b><%= ff.object.day %></b>
-                  <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <% unless ff.object.day.eql?("Monday") %>
+                    Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
+                  <% end %>
                 </div>
               <% end %>
               <div class="clearfix"></div>
@@ -69,3 +92,22 @@
 
             <%= link_to "Back", :back %>
 
+            <script type="text/javascript">
+              $(document).ready(function(){
+                $(".day_bar").click(function(){
+                  var day = $("#"+this.id).attr("day_bar");
+                  day_last = day - 1
+                  var open = $("#open_hour"+day_last+" > option:selected").text();
+                  var close = $("#close_hour"+day_last+" > option:selected").text();
+                  if (open != "" && close != ""){
+
+                    $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
+                    $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+
+                  }else{
+                  $("#"+this.id).attr('checked', false);
+                  }
+
+                });
+              });
+            </script>
