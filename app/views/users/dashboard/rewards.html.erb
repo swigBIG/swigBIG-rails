@@ -109,7 +109,7 @@
 <%# end %>
       </table>
     </div>
-    
+
     <div class="tab-pane" id="redeemed">
       Popularity content
     </div>
@@ -119,10 +119,10 @@
         <% @gifts.each do |gift| %>
           <tr>
             <td>
-              <%= Gift.find(gift.gift_id).name %>
+              <%= Gift.find(gift).name %>
             </td>
             <td>
-              <%= Gift.find(gift.gift_id).descriptions %>
+              <%= Gift.find(gift).descriptions %>
             </td>
           </tr>
         <% end %>

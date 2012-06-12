@@ -3,8 +3,8 @@
     <%= content_for :side do %>
       <%= render "message_menu" %>
     <% end %>
-    <div class="span9">
-      <h2>Show <%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h2>
+    <div class="span8">
+      <h2><%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h2>
       <table width="100%;">
         <tr>
           <td style="width: 10%">From : </td>
@@ -13,17 +13,30 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2"><%= @message_show.topic %></td>
+          <td><%= @message_show.topic %></td>
         </tr>
         <tr>
-          <td colspan="2"><%= @message_show.body.html_safe %></td>
+          <td><%= @message_show.body.html_safe %></td>
         </tr>
-        <tr>
-          <td colspan="2"><%= Gift.find(@message_show.gift_id).name %></td>
-        </tr>
-        <tr>
-          <td colspan="2"><%= Gift.find(@message_show.gift_id).descriptions %></td>
-        </tr>
+        <% if !@message_show.gift_id.blank? %>
+          <tr>
+            <td><b>Gift: </b></td>
+            <td><%= Gift.find(@message_show.gift_id).name %> </td>
+          </tr>
+          <tr>
+            <td><%= Gift.find(@message_show.gift_id).descriptions %></td>
+          </tr>
+        <% elsif !@message_show.reward_id.blank? %>
+          <tr>
+            <td><h4>Reward</h4></td>
+          </tr>
+          <tr>
+            <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name %></td>
+          </tr>
+          <tr>
+            <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content %></td>
+          </tr>
+        <% end %>
       </table>
     </div>
   </div>
