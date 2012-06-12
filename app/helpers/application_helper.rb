@@ -9,8 +9,8 @@ module ApplicationHelper
   end
 
   def user_collection
-#  User.all.map{|u| [u.name, u.id]}
-  User.all
+    #  User.all.map{|u| [u.name, u.id]}
+    User.all
   end
 
   def days
@@ -30,7 +30,11 @@ module ApplicationHelper
   end
 
   def gift_collections
-    Gift.all.map{ |g| [g.name, g.id] }
+    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).map{ |g| [g.name, g.id] }
+  end
+
+  def reward_collections
+    Reward.where(["bar_id = (?) OR bar_id = (?)", nil, current_bar.id ]).all.map{ |g| [g.name, g.id] }
   end
 
 end

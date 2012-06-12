@@ -323,6 +323,12 @@
                     </div>
                   <% end %>
                 <% end %>
+                <a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>
+                <%= content_for :outer do %>
+                  <div id="message_all_winner" class="modal hide fade">
+                    <%= render partial: "all_winner_loyalty_reward" %>
+                  </div>
+                <% end %>
               </div>
     <%# end %>
 
@@ -337,22 +343,13 @@
                         <%=  w.user.name %>
                       </td>
                       <td>
-                        <%=  w.created_at.strftime("%%%") %>
+                        <%=  w.created_at.strftime("%m %d, %Y") %>
                       </td>
                       <td>
                         <a href="#loyalty_reward_message<%= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
                         <%= content_for :outer do %>
-                          <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade"><div class="modal-header">
-                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                              <h3>Reward for <%=  w.user.name %></h3>
-                            </div>
-                            <div class="modal-body well">
-                              <div style="text-align: center;">
-                                <%= simple_form_for(@loyalty_reward ,url: bars_create_reward_message_path(w.user_id, w.id)) do |lr| %>
-                                  <%= render partial: "loyalty_reward", locals: {lr: lr} %>
-                                <% end %>
-                              </div>
-                            </div>
+                          <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade">
+                            <%= render partial: "loyalty_reward", locals: { w: w.user} %>
                           </div>
                         <% end %>
                       </td>

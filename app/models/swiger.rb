@@ -12,14 +12,14 @@ class Swiger < ActiveRecord::Base
   #  log_activity_streams self.user_id, :name, "test",
   #    :loyalty_points, :id, :get_loyalty, :swig
   def get_loyalty
-    today_swiger = self.bar.swigers.today.count
-    today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger)
+    today_swiger = self.bar.swigers.today
+    today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
     
     today_swigs.each do |swig|
       swig.update_attributes(lock_status: "unlock")
-      ActivityStream.create(activity: "unlockswig", verb: "Unlock Swig", actor_id: swig.bar.id, actor_type: swig, object_id: swig.id, object_type: "swig")
-      swig.today_swiger.each do |swiger|
-        swiger.update(swig_message: "test")
+      swig.today_swiger.pluck(:user_id).each do |swiger|
+        user = User.find(swiger)
+        self.bar.send_message(user, {topic: "#{swig.deal} unlock", body: "You Unlock #{swig.deal}"})
       end
     end
     unless self.bar.loyalty.blank?

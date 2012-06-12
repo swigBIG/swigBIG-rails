@@ -53,14 +53,17 @@
               <% end %>
               <% if user_signed_in? %>
                 <li>
-                  <b><%=  link_to "Notifications", users_notifications_path, style: "color: white;" %></b><div style="color: red;margin-top: -30px;border-radius: 2px;"><%= ActivityStream.count %></div>
+                  <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
+                </li>
+                <li>
+                  <span class="badge badge-error"><%= current_user.received_messages.where("opened is false").count unless current_user.received_messages.where("opened is false").blank? %></span>
                 </li>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
                   <ul class="dropdown-menu">
                     <li>
-                        <%= link_to "Rewards", users_rewards_path %><%= "!" unless current_user.received_messages.where("opened is false").blank? %>
-                      </li>
+                      <%= link_to "Rewards", users_rewards_path %><%= "!" unless current_user.received_messages.where("opened is false").blank? %>
+                    </li>
 
                     <li>
                       <% unless current_user.access_token.blank? %>

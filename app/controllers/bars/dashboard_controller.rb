@@ -173,6 +173,16 @@ class Bars::DashboardController < ApplicationController
         end
       end
       redirect_to :back, notice: "Message success Send!"
+    when "3"
+      user = User.find(params[:acts_as_messageable_message][:to])
+      current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id]})
+      redirect_to :back, notice: "Reward Message success Send!"
+    when "4"
+      current_bar.winners.pluck(:user_id).each do |u_id|
+        user = User.find(u_id)
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id]})
+      end
+      redirect_to :back, notice: "Reward Message success Send!"
     else
       redirect_to :back, notice: "Failed sent message!"
     end

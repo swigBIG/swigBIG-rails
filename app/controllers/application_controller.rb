@@ -2,8 +2,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   require 'open-uri'
   before_filter :reject_bot_request, :set_time_zone, :swigbig_content
-  include LogActivityStreams
   
+  #  if user_signed_in?
+  before_filter :bar_ids
+  #  end
+  
+  include LogActivityStreams
+
   def reject_bot_request
     user_agent = request.env['HTTP_USER_AGENT']
     if user_agent.include?('bot') or user_agent.include?('spider')
@@ -24,7 +29,6 @@ class ApplicationController < ActionController::Base
         @city_lat_lng = ["Beijing", 39.9289, 116.388]
         session["geo_211.157.105.218"] = @city_lat_lng
       end
-      
      
     else
       @city_lat_lng = session["geo_#{set_current_ip}"]
@@ -33,7 +37,7 @@ class ApplicationController < ActionController::Base
     #get timezone
     if session["offset_#{set_current_ip}"].blank?
       url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
-      xml_content = url.open.read rescue nil
+      xml_content = url.open.read 
       offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
       session["offset_#{set_current_ip}"] = offset
     else
@@ -60,4 +64,15 @@ class ApplicationController < ActionController::Base
     "211.157.105.218"
     #    "75.85.54.184"
   end
+
+  #  if user_signed_in?
+  def bar_ids
+    if user_signed_in?
+      @bar_ids = current_user.swigers.pluck(:bar_id).uniq
+    else
+      @bar_ids = []
+    end
+  end
+  #  end
+  
 end

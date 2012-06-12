@@ -4,20 +4,6 @@ class HomeController < ApplicationController
   layout "users"
 
   def main
-    
-#    @loyalty = Loyalty.all
-#    @popularity = Popularity.all
-#    @city = City.new
-#    #    @search = Bar.search(params[:search])
-#    #    @bars = @search.all
-#    @search = Swig.search(params[:search])
-#    if !params[:search].nil?
-#      @swigs = @search.where(status: "active")
-#    else
-#      @swigs = @search.joins("INNER JOIN bars ON swigs.bar_id = bars.id").where(["bars.city = ? AND swigs.status = ? ", @city_lat_lng.first, "active"])
-#    end
-#@city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
-
     if params[:radius].blank? and params[:search].blank?
 
       @city = City.where(name: @city_lat_lng[0].to_s).first
