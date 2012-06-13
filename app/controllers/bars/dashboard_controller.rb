@@ -11,6 +11,7 @@ class Bars::DashboardController < ApplicationController
   def index
     @bar = current_bar
     @swigers = @bar.swigers
+    @gifts = @bar.gifts
     @swig = @bar.swigs.new
     @swigs = @bar.swigs
     @gift = @bar.gifts.new
@@ -157,30 +158,30 @@ class Bars::DashboardController < ApplicationController
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id]})
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
       end
       redirect_to :back, notice: "Message success Send!"
     when "1"
       current_bar.swigers.where("created_at >= ?", params[:acts_as_messageable_message][:days].to_i.days.ago.beginning_of_day).pluck(:user_id).uniq.each do |user|
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
       end
       redirect_to :back, notice: "Message success Send to User last #{params[:number_days]}!"
     when "2"
       current_bar.points.where(loyalty_points: 1).group("user_id").count.each_pair do |key, val|
         swigs_required = current_bar.loyalty.swigs_number - val
         if swigs_required.eql?(params[:required_swigs])
-          current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+          current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
         end
       end
       redirect_to :back, notice: "Message success Send!"
     when "3"
       user = User.find(params[:acts_as_messageable_message][:to])
-      current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id]})
+      current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
       redirect_to :back, notice: "Reward Message success Send!"
     when "4"
       current_bar.winners.pluck(:user_id).each do |u_id|
         user = User.find(u_id)
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id]})
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
       end
       redirect_to :back, notice: "Reward Message success Send!"
     else
@@ -228,6 +229,20 @@ class Bars::DashboardController < ApplicationController
     else
       redirect_to :back, notice: "#{@loyalty.reward_detail} failed Deactive!"
     end
+  end
 
+  def update_gift
+    @gift = Gift.find(params[:id])
+    if @gift.update_attributes(params[:gift])
+      redirect_to :back, notice: "gift success change!"
+    else
+      redirect_to :back, notice: "gift not change!"
+    end
+  end
+
+  def destroy_gift
+    @gift = Gift.find(params[:id])
+    @gift.destroy
+    redirect_to :back, notice: "Gift Success delete"
   end
 end

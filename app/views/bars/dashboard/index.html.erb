@@ -2,7 +2,6 @@
 <style type="text/css">
   #map_canvas { height: 250px ; width: 275px;}
 </style>
-
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
@@ -13,6 +12,11 @@
         CKEDITOR.instances[instance].updateElement();
       }
     });
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
   });
 </script>
 <script type="text/javascript">
@@ -542,13 +546,41 @@
                         <h3>Gift</h3>
                       </div>
                       <div class="modal-body well">
-                        <%= simple_form_for(@gift, url: bars_create_gift_path, html: { :class => "form-horizontal"}) do |f| %>
-                          <%= f.input :name %>
-                          <%= f.input :descriptions , as: :text, input_html: { style: "width: 300px;height: 100px"}%>
-                          <div class="form-actions">
-                            <%= f.submit "Create Gift", class: "btn-primary" %>
+                        <ul class="tabs" data-tabs="tabs">
+                          <li class="active"><a href="#new_gift" class="btn" data-toggle="tab"><b>Create Gift</b></a></li>
+                          <li><a href="#gift_list" class="btn" data-toggle="tab"><b>Gifts List</b></a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="new_gift">
+                            <%= simple_form_for(@gift, url: bars_create_gift_path, html: { :class => "form-horizontal"}) do |f| %>
+                              <%= f.input :name %>
+                              <%= f.input :descriptions , as: :text, input_html: { style: "width: 300px;height: 100px"}%>
+                              <div class="form-actions">
+                                <%= f.submit "Create Gift", class: "btn-primary" %>
+                                </div>
+                              <% end %>
                             </div>
-                          <% end %>
+                            <div class="tab-pane active" id="gift_list">
+                              <table>
+                                <th></th>
+                                <th></th>
+                                <% @gifts.each do |gift| %>
+                                  <tr>
+                                    <td>
+                                      <%= gift.name %>
+                                    </td>
+                                    <td>
+                                      <%= gift.descriptions %>
+                                    </td>
+                                    <!--<td>
+                                      <%#= link_to "Change", bars_update_gift_path(gift.id), method: :post %>
+                                      <%#= link_to "Delete", bars_destroy_gift_path(gift.id) %>
+                                    </td>-->
+                                  </tr>
+                                <% end %>
+                              </table>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
@@ -568,39 +600,33 @@
                             <div class="tab-pane active" id="all_user">
                               <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
                                 <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
-                                <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: 15px;" %>
-                                <%= m.input :category, as: :hidden, input_html: {value: 0} %>
-                                <div style="text-align: center;">
-                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                <div style="margin-left: -105px;">
+                                  <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
                                 </div>
-                                <div class="form-actions">
-                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                                <div style="margin-top: -45px;">
+                                  <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
                                   </div>
-                                <% end %>
-                              </div>
-                              <div class="tab-pane" id="last_visit">
-                                <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                  <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
-                                    <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                    <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: 15px;" %>
-                                    <%= m.input :category, as: :hidden, input_html: {value: 1} %>
-                                    <div style="text-align: center;">
-                                      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                  <%= m.input :category, as: :hidden, input_html: {value: 0} %>
+                                  <div style="text-align: center;">
+                                    <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                  </div>
+                                  <div class="form-actions">
+                                    <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                    <%= m.submit "Send", class: "btn-success pull-right" %>
                                     </div>
-                                    <div class="form-actions">
-                                      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                      <%= m.submit "Send", class: "btn-success pull-right" %>
+                                  <% end %>
+                                </div>
+                                <div class="tab-pane" id="last_visit">
+                                  <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                    <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
+                                      <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                      <div style="margin-left: -105px;">
+                                        <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
                                       </div>
-                                    <% end %>
-                                  </div>
-
-                                  <div class="tab-pane" id="almost_rewarded">
-                                    <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                      <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
-                                        <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                        <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: 15px;" %>
-                                        <%= m.input :category, as: :hidden, input_html: {value: 2} %>
+                                      <div style="margin-top: -45px;">
+                                        <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                                        </div>
+                                        <%= m.input :category, as: :hidden, input_html: {value: 1} %>
                                         <div style="text-align: center;">
                                           <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                                         </div>
@@ -610,12 +636,33 @@
                                           </div>
                                         <% end %>
                                       </div>
-                                      <div class="tab-pane" id="unused_rewards">
 
+                                      <div class="tab-pane" id="almost_rewarded">
+                                        <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                          <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
+                                            <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                            <div style="margin-left: -105px;">
+                                              <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+                                            </div>
+                                            <div style="margin-top: -45px;">
+                                              <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                                              </div>
+                                              <%= m.input :category, as: :hidden, input_html: {value: 2} %>
+                                              <div style="text-align: center;">
+                                                <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                              </div>
+                                              <div class="form-actions">
+                                                <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                </div>
+                                              <% end %>
+                                            </div>
+                                            <div class="tab-pane" id="unused_rewards">
+
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </div>
-                                </div>
 
-                              <% end %>
-                            </body>
+                                    <% end %>
+                                  </body>
