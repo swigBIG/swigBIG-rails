@@ -162,10 +162,14 @@
         </ul>
         <div id="my-tab-content" class="tab-content">
           <div class="tab-pane active" id="reward_loyalty">
-            <% if @loyalty.status.eql?("active") %>
-              <b>Swig required : </b><%= @loyalty.swigs_number %>
-              <br/>
-              <b>Reward : </b><%= @loyalty.reward_detail %>
+            <% if user_signed_in? %>
+              <% unless @loyalty.blank? %>
+                <% if @loyalty.status.eql?("active") %>
+                  <b>Swig required : </b><%= @loyalty.swigs_number %>
+                  <br/>
+                  <b>Reward : </b><%= @loyalty.reward_detail %>
+                <% end %>
+              <% end %>
             <% end %>
             <br/>
           </div>
