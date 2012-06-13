@@ -101,7 +101,7 @@
       $('#goto_sport_team').click();
     }
   }
-  function validate_sports_team(){
+ function validate_sports_team(){
     if($('#mytags').val() == ''){
       $('#mytags').css('border', '1px solid red');
       valid_description = false;
@@ -114,6 +114,8 @@
       get_all_data();
     }
   }
+      $('#goto_check_data').click();
+      get_all_data();
 
   function get_all_data(){
     $('#address_text').html($('#bar_address').val());
@@ -210,8 +212,8 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <%= f.input :google_plus_link %>
           </div>
           <div class="modal-footer">
-            <a class="btn" onclick="return validate_link()">Continue</a>
-            <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal" id="goto_hour" style="display: none;">Continue</a>
+            <!--<a class="btn" onclick="return validate_link()">Continue</a>-->
+            <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal" id="goto_hour" >Continue</a>
             <a class="btn" href="#phone" data-dismiss="modal" data-toggle="modal">Back</a>
           </div>
         </div>
@@ -261,8 +263,8 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <%= f.input :sports_team, label: false, placeholder: "Sports Team" ,input_html: {id: "mytags", multiple: true,  style: "width:250px"}%>
           </div>
           <div class="modal-footer">
-            <a class="btn" onclick="return validate_sports_team();">Continue</a>
-            <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" id="goto_check_data" style="display: none;">Continue</a>
+            <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->
+            <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
             <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal">Back</a>
           </div>
         </div>
