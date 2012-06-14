@@ -1,5 +1,5 @@
 class BarHour < ActiveRecord::Base
-  attr_accessible :bar_id, :close, :open_hour, :day
+  attr_accessible :bar_id, :close, :open_hour, :day, :open_time, :close_time, :open_word, :close_word
 
   belongs_to :bar
 
@@ -10,4 +10,11 @@ class BarHour < ActiveRecord::Base
   scope :friday, where(day: 'Friday')
   scope :saturday, where(day: 'Saturday')
   scope :sunday, where(day: 'Sunday')
+
+  before_update :bar_time_hour
+
+  def bar_time_hour
+    self.open_time = "#{self.open_hour}.#{self.open_word}"
+    self.close_time = "#{self.close}.#{self.close_word}"
+  end
 end

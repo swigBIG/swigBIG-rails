@@ -41,8 +41,8 @@ Swprototype::Application.routes.draw do
 
   devise_for :members, controllers: {registrations: "members/registrations"}
   
+  
   namespace :bars do
-   
     match  "completion" => "dashboard#completion", as: "completion"
     get  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "dashboard" => "dashboard#index", as: "dashboard"
@@ -68,7 +68,9 @@ Swprototype::Application.routes.draw do
     post "create_gift" => "dashboard#create_gift", as: "create_gift"
     post "activate_loyalty/:loyalty_id" => "dashboard#activate_loyalty", as: "activate_loyalty"
     post "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
-
+    post "update_gift/:id" => "bars/dashboard#update_gift", as: "update_gift"
+    post "destroy_gift/:id" => "bars/dashboard#destroy_gift", as: "destroy_gift"
+    
     resources :messages do
       collection do
         get 'sent'
@@ -85,6 +87,8 @@ Swprototype::Application.routes.draw do
 
 
   namespace :users do
+    match  "completion" => "dashboard#completion", as: "completion"
+    get  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "notifications" => "notifications#index", as: "notifications"
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"

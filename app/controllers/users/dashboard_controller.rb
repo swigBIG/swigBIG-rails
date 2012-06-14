@@ -92,4 +92,19 @@ class Users::DashboardController < ApplicationController
       redirect_to :back, notice: "Update Failed!"
     end
   end
+
+  def completion
+    @user = current_user
+  end
+
+  def update_completion
+    @user = current_user
+    if @user.update_attributes(params[:bar])
+      sign_in @user, :bypass => true
+      redirect_to users_dashboard_path, notice: "Profile Completion Success!"
+    else
+      redirect_to :back, notice: "Profile Completion Failed!"
+    end
+  end
+
 end

@@ -8,6 +8,16 @@
     $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
   });
 </script>
+<script>
+  function countChar(val){
+    var len = val.value.length;
+    if (len >= 500) {
+      val.value = val.value.substring(0, 500);
+    }else {
+      $('#charNum').text(len);
+    }
+  };
+</script>
 <!--<script type="text/javascript">
   $(document).ready(function(){
     $("input#same").click(function(){
@@ -43,7 +53,8 @@
     <%#= f.input :bar_hour, label: "Bar Hour" %>
         <%= f.input :phone_number %>
         <%= f.input :sports_team, label: false, required: false, input_html: {id: "mytags", multiple: true,  style: "width:150px;overflow: hidden;"}%>
-        <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;"} %>
+        <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;", onkeyup: "countChar(this)"} %>
+        <div id="charNum"></div>
         <div class="form-actions">
           <%= f.submit "Update", class: "btn-primary" %>
           </div>
@@ -68,14 +79,19 @@
             <div class="tab-pane" id="hour">
 
               <%= f.fields_for :bar_hours do |ff| %>
-                <div class="span2">
-
-                  <b><%= ff.object.day %></b>
-                  <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  <% unless ff.object.day.eql?("Monday") %>
-                    Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
-                  <% end %>
+                <div class="span4">
+                  <div class="span2">
+                    <b style="margin-left: 30px;"><%= ff.object.day %></b>
+                    <%= ff.input :open_hour, as: :select, label: false, collection: 1..12, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <%= ff.input :close, as: :select, label: false, collection: 1..12, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  </div>
+                  <div class="span1" style="margin-top: 12px;">
+                    <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <% unless ff.object.day.eql?("Monday") %>
+                      Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
+                    <% end %>
+                  </div>
                 </div>
               <% end %>
               <div class="clearfix"></div>
@@ -105,7 +121,7 @@
                     $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
 
                   }else{
-                  $("#"+this.id).attr('checked', false);
+                    $("#"+this.id).attr('checked', false);
                   }
                 });
               });

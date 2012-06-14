@@ -1,3 +1,13 @@
+<script>
+  function countChar(val){
+    var len = val.value.length;
+    if (len >= 500) {
+      val.value = val.value.substring(0, 500);
+    }else {
+      $('#charNum').text(len);
+    }
+  };
+</script>
 <script type="text/javascript">
   var available_tags = [];
 <% SportTeam.all.each do |team| %>
@@ -101,7 +111,7 @@
       $('#goto_sport_team').click();
     }
   }
- function validate_sports_team(){
+  function validate_sports_team(){
     if($('#mytags').val() == ''){
       $('#mytags').css('border', '1px solid red');
       valid_description = false;
@@ -114,8 +124,8 @@
       get_all_data();
     }
   }
-      $('#goto_check_data').click();
-      get_all_data();
+  $('#goto_check_data').click();
+  get_all_data();
 
   function get_all_data(){
     $('#address_text').html($('#bar_address').val());
@@ -245,7 +255,8 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           </div>
           <div class="modal-body">
             <div style="margin-left: -50px;">
-              <%= f.input :bar_description, label: false, placeholder: "Bar Description...", input_html: {style: "width: 400px;height: 200px;margin-left: -30px;"} %>
+              <%= f.input :bar_description, label: false, placeholder: "Bar Description...", input_html: {style: "width: 400px;height: 200px;margin-left: -30px;", onkeyup: "countChar(this)"} %>
+              <div class="pull-right" id="charNum"></div>
             </div>
           </div>
           <div class="modal-footer">

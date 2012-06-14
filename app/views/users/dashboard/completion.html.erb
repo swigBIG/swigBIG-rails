@@ -1,0 +1,171 @@
+
+<script type="text/javascript">
+  function validate_email(){
+    if($('#user_email').val() != '<%= current_user.email %>'){
+      $('#user_email').css('border', '1px solid red');
+      $('#validate_email').text('Email not match!');
+      valid_email = false;
+    }else{
+      $('#user_email').css('border', '1px solid black');
+      //$('#user_email').html('email not match');
+      valid_email = true;
+    }
+    if(valid_email){
+      $('#goto_link').click();
+    }
+  }
+  
+  
+  
+  function validate_sports_team(){
+    if($('#mytags').val() == ''){
+      $('#mytags').css('border', '1px solid red');
+      valid_description = false;
+    }else{
+      $('#mytags').css('border', '1px solid black');
+      valid_description = true;
+    }
+    if(valid_description){
+      $('#goto_check_data').click();
+      get_all_data();
+    }
+  }
+  $('#goto_check_data').click();
+  get_all_data();
+
+  function get_all_data(){
+    
+    $('#name').html($('#user_name').val());
+    $('#born_date').html($('#user_bird_date').val());
+    $('#user_phone').html($('#user_phone_number').val());
+    $('#user_address_text').html($('#user_address').val());
+    $('#zip_code').html($('#user_zip_code').val());
+    $('#user_city_text').html($('#user_city').val());
+    $('#user_state_text').html($('#user_state').val());
+  }
+
+  
+  $(document).ready(function(){
+    $('#completion_link').click();
+  })
+</script>
+<style type="text/css">
+  .modal{
+    width: 600px!important;
+    overflow: hidden!important;
+  }
+</style>
+
+<h4>Please Complete your bar profile!</h4>
+
+click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete
+
+<%= content_for :outer do %>
+  <div id="ask" class="modal hide fade">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal"><b>x</b></a>
+      <h3 style="text-align: center;">Profile Verification </h3>
+    </div>
+    <div class="modal-body">
+      <div style="text-align: center;">
+        <b>Your Bar Profile not Complete Yet, Would you like to complete now?</b>
+      </div>
+      <div style="text-align: center;">
+        <a href="#user_details" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
+        <%= link_to "No", root_path, class: "btn" %>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    <div id="user_details" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Where is the located?</h3>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(@user,url: users_update_completion_path, method: :get, html: {class: "form-horizontal" }) do |f| %>
+        <%#= devise_error_messages! %>
+        <b style="color: red;"><div id="validate_email"></div></b>
+            <%= f.input :email, input_html: {value: ""} %>
+            <%= f.input :name %>
+            <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
+          <%#= f.input :avatar %>
+              <%= f.input :phone_number %>
+            </div>
+            <div class="modal-footer">
+              <a class="btn" onclick="return validate_email()">Continue</a>
+              <!--<a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
+
+              <a class="btn" onclick="return validate_address()">Continue</a>-->
+              <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>
+            </div>
+          </div>
+
+          <div id="user_location" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3 style="text-align: center;">What Sports Teams does support?</h3>
+            </div>
+            <div class="modal-body">
+              <%= f.input :address %>
+              <%= f.input :zip_code %>
+              <%= f.input :city %>
+              <%= f.input :state %>
+            </div>
+            <div class="modal-footer">
+              <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->
+              <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
+              <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
+            </div>
+          </div>
+          <div id="check_data" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3 style="text-align: center;">Did we get it all?</h3>
+            </div>
+            <div class="modal-body">
+              <table style="border-style: none;">
+                <tr>
+                  <td>Email : </td>
+                  <td><div id="email"></div></td>
+                </tr>
+                <tr>
+                  <td>Name : </td>
+                  <td><div id="name"></div></td>
+                </tr>
+                <tr>
+                  <td>Bird Date : </td>
+                  <td><div id="born_date"></div></td>
+                </tr>
+                <tr>
+                  <td>Phone Number : </td>
+                  <td><div id="user_phone"></div></td>
+                </tr>
+                <tr>
+                  <td>Address : </td>
+                  <td><div id="user_address_text"></div></td>
+                </tr>
+                <tr>
+                  <td>Zip Code : </td>
+                  <td><div id="zip_code"></div></td>
+                <tr>
+                  <td>City : </td>
+                  <td><div  id="user_city_text"></div></td>
+                </tr>
+                <tr>
+                  <td>State : </td>
+                  <td><div  id="user_state_text"></div></td>
+                </tr>
+                </tr>
+              </table>
+
+            </div>
+            <div class="modal-footer">
+              <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+              <a class="btn" href="#user_location" data-dismiss="modal" data-toggle="modal">Back</a>
+              <%= f.submit "Submit", class: "btn-primary" %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
