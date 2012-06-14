@@ -234,11 +234,16 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           </div>
           <div class="modal-body">
             <%= f.fields_for :bar_hours do |ff| %>
-              <div class="span2" style="margin-right: 10px;">
+              <div class="span4" style="margin-right: 10px;">
+                <div class="span2">
                 <b><%= ff.object.day %></b>
-                <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
-                <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
-
+                  <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                </div>
+                <div class="span1" style="margin-top: 15px;">
+                  <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                </div>
               </div>
             <% end %>
           </div>

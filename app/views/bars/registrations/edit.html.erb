@@ -86,8 +86,8 @@
                     <%= ff.input :close, as: :select, label: false, collection: 1..12, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
                   </div>
                   <div class="span1" style="margin-top: 12px;">
-                    <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                    <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
                     <% unless ff.object.day.eql?("Monday") %>
                       Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
                     <% end %>
@@ -115,10 +115,14 @@
                   day_last = day - 1
                   var open = $("#open_hour"+day_last+" > option:selected").text();
                   var close = $("#close_hour"+day_last+" > option:selected").text();
-                  if (open != "" && close != ""){
+                  var openw = $("#open_w"+day_last+" > option:selected").text();
+                  var closew = $("#close_w"+day_last+" > option:selected").text();
+                  if (open != "" && close != "" && openw != "" && closew != ""){
 
                     $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
                     $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+                    $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
+                    $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
 
                   }else{
                     $("#"+this.id).attr('checked', false);
