@@ -164,75 +164,77 @@
     <div id="map_canvas" style="margin-left: -25px;">
       <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
+    <br/>
+    
+    <br/>
+    <div class="span4">
+      <div class="accordion">
+        <div class="accordion-group">
+          <div class="accordion-heading" style="margin-left: 40px;">
+            <div class="accordion-inner">
+              <a class=""  href="#bar_message" data-toggle="modal" style="color: black;"><b>Message</b></a>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading" style="margin-left: 40px;">
+            <div class="accordion-inner">
+              <a class=""  href="#gift" data-toggle="modal" style="color: black;"><b>Gift</b></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion">
+        <div class="accordion-group">
+          <div class="accordion-heading" style="margin-left: 40px;">
+            <div class="accordion-inner">
+              <!--<a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>-->
+              <a class=""  href="#swigModal" data-toggle="modal" style="color: black;"><b>Swigs</b></a>
+            </div>
+          </div>
+          <div id="swig" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <a class="" data-toggle="modal" href="#swigModal">Create Swig</a>
+              <br />
+              <a class="" data-toggle="modal" href="#stat_swig">Stat</a><br />
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading" style="margin-left: 40px;">
+            <div class="accordion-inner">
+              <!--<a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>-->
+              <a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>
+            </div>
+          </div>
+          <div id="reward" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />
+              <a class="" data-toggle="modal" href="#">Stat</a><br />
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading"style="margin-left: 40px;">
+            <div class="accordion-inner">
+              <a class="" data-toggle="collapse" data-target="#stat" style="color: black;"><b>Stats</b></a>
+            </div>
+          </div>
+          <div id="stat" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <a class="" data-toggle="modal" href="#">Stat</a><br />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
 
   <h3><%= @bar.name rescue nil %></h3>
   <div class="span4">
 <%#= image_tag(@bar.logo_url(:thumb)) rescue nil %>
   </div>
-  <div class="span6">
-    <div class="accordion">
-      <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <a class=""  href="#bar_message" data-toggle="modal" style="color: black;"><b>Message</b></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="accordion">
-      <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <a class=""  href="#gift" data-toggle="modal" style="color: black;"><b>Gift</b></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="accordion">
-      <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <!--<a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>-->
-            <a class=""  href="#swigModal" data-toggle="modal" style="color: black;"><b>Swigs</b></a>
-          </div>
-        </div>
-        <div id="swig" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <a class="" data-toggle="modal" href="#swigModal">Create Swig</a>
-            <br />
-            <a class="" data-toggle="modal" href="#stat_swig">Stat</a><br />
-          </div>
-        </div>
-      </div>
-      <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <!--<a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>-->
-            <a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>
-          </div>
-        </div>
-        <div id="reward" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />
-            <a class="" data-toggle="modal" href="#">Stat</a><br />
-          </div>
-        </div>
-      </div>
-      <div class="accordion-group">
-        <div class="accordion-heading"style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#stat" style="color: black;"><b>Stats</b></a>
-          </div>
-        </div>
-        <div id="stat" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <a class="" data-toggle="modal" href="#">Stat</a><br />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <br/>
   <div class="clearfix"></div>
 
@@ -573,8 +575,8 @@
                                       <%= gift.descriptions %>
                                     </td>
                                     <!--<td>
-                                      <%#= link_to "Change", bars_update_gift_path(gift.id), method: :post %>
-                                      <%#= link_to "Delete", bars_destroy_gift_path(gift.id) %>
+                      <%#= link_to "Change", bars_update_gift_path(gift.id), method: :post %>
+                      <%#= link_to "Delete", bars_destroy_gift_path(gift.id) %>
                                     </td>-->
                                   </tr>
                                 <% end %>
