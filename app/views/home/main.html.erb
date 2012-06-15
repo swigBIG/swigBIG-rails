@@ -7,13 +7,13 @@
   .select{margin-left: -80px;}
 </style>
 <script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=false">
 </script>
 <script type="text/javascript">
   function initialize() {
     var latlo = new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>);
     var myOptions = {
-      center: latlo,
+      center: new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil %>),
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -25,6 +25,8 @@
       x.push(<%= b.latitude %>);
       x.push(<%= b.longitude %>);
       x.push('<%= link_to  b.name, bar_profile_path(b) %>');
+      x.push('<%= b.zip_code %>');
+      x.push('<%= b.phone_number %>');
       bar.push(x);
 <% end %>
 
@@ -46,12 +48,11 @@
         map: map
       });
 
-      var htmlcontent = '<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+
-        '<br/>'+bar[i][3]+'</div>';
+      var htmlcontent = '<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]+'</div>';
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent('<b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]);
+          infowindow.setContent('<b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]+'<br/>'+bar[i][4]+'<br/>');
           /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
             '<br/>'+
             '<ul class="tabs" data-tabs="tabs">'+
@@ -77,6 +78,7 @@
 <body onload="initialize()">
 
   <%= content_for :side do %>
+  <%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
@@ -98,7 +100,7 @@
           </div>
         </div>
       </div>
-      <!--<div id="search" class="accordion-body collapse">-->
+      <div id="search" class="accordion-body collapse">
         <div class="accordion-inner" style="margin-left: 0px;">
           <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
           <b style="margin-left: 60px;">Radius in Mile</b>
@@ -111,7 +113,7 @@
           <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
-        <!--</div>-->
+        </div>
       <% end %>
     <% end %>
 
@@ -126,9 +128,9 @@
 
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="map"><!-----bar map------>
-        <div id="map_home_canvas">
-  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
+        <div id="map_home_canvas" >
         </div>
+  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
       </div>
 
       <div class="tab-pane" id="list"><!-----list of swig------>
