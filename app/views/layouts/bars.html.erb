@@ -28,7 +28,7 @@
         <div class="container">
           <div class="nav pull-right">
             <li>
-              <h2 class="brand" style="color: gray;"><%= current_bar.blank? ? "SwigBig" : current_bar.name %></h2>
+             <%= image_tag(@site_content.site_logo, style: "height: 45px;") rescue nil %>
             </li>
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>
@@ -63,12 +63,8 @@
       <div class="span4 pull-left">
         <br />
         <%= yield :side %>
-        <br />
-        <br />
-        <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'apple.com');"><%=  image_tag("available_on_app_store.png") %></a>
-        <br />
-        <br />
-        <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"><%= image_tag("available_on_android.png") %></a>
+        <!--<a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'apple.com');"><%=  image_tag("available_on_app_store.png") %></a>-->
+        <!--<a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"><%= image_tag("available_on_android.png") %></a>-->
       </div>
       <div class="span11 pull-right">
 

@@ -5,15 +5,19 @@
 </div>
 <div class="modal-body well">
   <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+
     <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
-    <%= m.input :reward_id, as: :select, collection: reward_collections,  style: "margin-left: 15px;" %>
-    <%= m.input :category, as: :hidden, input_html: {value: 4} %>
-    <div style="text-align: center;">
-      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+  <div style="margin-bottom: -20px;margin-left: 20px;"><b>Reward</b></div><%= m.input :reward_id, label: false, as: :select, collection: reward_collections, input_html: {style: "margin-left: -45px;"} %>
+    <div style="margin-top: -45px;">
+      <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+      </div>
+      <%= m.input :category, as: :hidden, input_html: {value: 4} %>
+      <div style="text-align: center;">
+        <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+      </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-    <%= m.submit "Send to All Winners", class: "btn-success pull-right" %>
-    </div>
-  <% end %>
+    <div class="modal-footer">
+      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+      <%= m.submit "Send to All Winners", class: "btn-success pull-right" %>
+      </div>
+    <% end %>

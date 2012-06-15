@@ -27,7 +27,7 @@
         <div class="container">
           <div class="nav pull-right">
             <li>
-              <h2 class="brand" style="color: gray;">SwigBig</h2>
+              <%= image_tag(@site_content.site_logo, style: "height: 45px;") rescue nil %>
             </li>
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>

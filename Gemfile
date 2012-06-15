@@ -20,6 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'timezone'
 gem "formtastic", "~> 2.1.1"
 gem "activeadmin", "~> 0.4.3"
 #gem 'activeadmin', :git => "git://github.com/gregbell/active_admin.git"

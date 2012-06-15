@@ -1,10 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   require 'open-uri'
-  before_filter :reject_bot_request, :set_time_zone, :swigbig_content
+  before_filter :reject_bot_request, :swigbig_content, :set_time_zone
+  #  
   
   #  if user_signed_in?
-  before_filter :bar_ids
+  #  before_filter :bar_ids
   #  end
   
   include LogActivityStreams
@@ -34,21 +35,24 @@ class ApplicationController < ActionController::Base
       @city_lat_lng = session["geo_#{set_current_ip}"]
     end
 
-    #get timezone
-    if session["offset_#{set_current_ip}"].blank?
-      url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
-      xml_content = url.open.read rescue nil
-      offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
-      session["offset_#{set_current_ip}"] = offset
-    else
-      offset = session["offset_#{set_current_ip}"]
-    end
+    #    #get timezone
+    #    if session["offset_#{set_current_ip}"].blank?
+    #      #      url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
+    #      #      xml_content = url.open.read rescue nil
+    #      #      offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
+    #
+    #      timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}"])
+    #      session["offset_#{set_current_ip}"] = timezone.zone
+    #    else
+    #      offset = session["offset_#{set_current_ip}"]
+    #    end
     
-    if offset.blank?
-      Time.zone = 'Pacific Time (US & Canada)'
+    if session["offset_#{set_current_ip}"].blank?
+      timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}" ])
+      Time.zone = timezone.zone
     else
-      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
-      Time.zone = timezone
+      #      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
+      Time.zone = 'Pacific Time (US & Canada)'
     end
     
   end
@@ -60,19 +64,19 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("development")
-    "211.157.105.218"
-    #    "75.85.54.184"
+    #    return request.ip.to_s if Rails.env.eql?("development")
+    #    "211.157.105.218"
+    "75.85.54.184"
   end
 
   #  if user_signed_in?
-  def bar_ids
-    if user_signed_in?
-      @bar_ids = current_user.swigers.pluck(:bar_id).uniq
-    else
-      @bar_ids = []
-    end
-  end
+  #  def bar_ids
+  #    if user_signed_in?
+  #      @bar_ids = current_user.swigers.pluck(:bar_id).uniq
+  #    else
+  #      @bar_ids = []
+  #    end
+  #  end
   #  end
   
 end
