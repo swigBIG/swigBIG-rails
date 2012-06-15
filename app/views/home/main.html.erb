@@ -78,7 +78,6 @@
 <body onload="initialize()">
 
   <%= content_for :side do %>
-  <%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
