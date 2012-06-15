@@ -66,96 +66,96 @@
     })
   </script>
 <% end %>
-<script type="text/javascript">
+<!--<script type="text/javascript">
   function check_monday(){
-<% if current_bar.swigs.monday.where("swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
+<%# if current_bar.swigs.monday.where("swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
       $('#big_and_standard_swig').modal();
-<% elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Standard").blank? %>
       $('#swigmessage').modal();
-<% elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Big" ).blank? %>
       $('#setup_big_swig').modal();
-<% elsif !current_bar.swigs.where("swig_day = 'Monday' AND swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
-<% end %>
+<%# elsif !current_bar.swigs.where("swig_day = 'Monday' AND swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
+<%# end %>
   }
-<% if current_bar.swigs.where(swig_day: "Tuesday").blank? %>
+<%# if current_bar.swigs.where(swig_day: "Tuesday").blank? %>
     function check_tuesday(){
       $('#big_and_standard_swig').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Standard").blank? %>
     function check_tuesday(){
       $('#swigmessage').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Big" ).blank? %>
     function check_tuesday(){
       $('#setup_big_swig').modal();
     }
-<% end %>
-<% if current_bar.swigs.where(swig_day: "Wednesday").blank? %>
+<%# end %>
+<%# if current_bar.swigs.where(swig_day: "Wednesday").blank? %>
     function check_wednesday(){
       $('#big_and_standard_swig').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Standard").blank? %>
     function check_wednesday(){
       $('#swigmessage').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Big" ).blank? %>
     function check_wednesday(){
       $('#setup_big_swig').modal();
     }
-<% end %>
-<% if current_bar.swigs.where(swig_day: "Thursday").blank? %>
+<%# end %>
+<%# if current_bar.swigs.where(swig_day: "Thursday").blank? %>
     function check_thursday(){
       $('#big_and_standard_swig').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Standard").blank? %>
     function check_thursday(){
       $('#swigmessage').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Big" ).blank? %>
     function check_thursday(){
       $('#setup_big_swig').modal();
     }
-<% end %>
-<% if current_bar.swigs.where(swig_day: "Friday").blank? %>
+<%# end %>
+<%# if current_bar.swigs.where(swig_day: "Friday").blank? %>
     function check_friday(){
       $('#big_and_standard_swig').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Standard").blank? %>
     function check_friday(){
       $('#swigmessage').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Big" ).blank? %>
     function check_friday(){
       $('#setup_big_swig').modal();
     }
-<% end %>
-<% if current_bar.swigs.where(swig_day: "Saturday").blank? %>
+<%# end %>
+<%# if current_bar.swigs.where(swig_day: "Saturday").blank? %>
     function check_saturday(){
       $('#big_and_standard_swig').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Standard").blank? %>
     function check_saturday(){
       $('#swigmessage').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Big" ).blank? %>
     function check_saturday(){
       $('#setup_big_swig').modal();
     }
-<% end %>
-<% if current_bar.swigs.where(swig_day: "Sunday").blank? %>
+<%# end %>
+<%# if current_bar.swigs.where(swig_day: "Sunday").blank? %>
     function check_sunday(){
       $('#big_and_standard_swig').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Standard").blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Standard").blank? %>
     function check_sunday(){
       $('#swigmessage').modal();
     }
-<% elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Big" ).blank? %>
+<%# elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Big" ).blank? %>
     function check_sunday(){
       $('#setup_big_swig').modal();
     }
-<% end %>
-</script>
+<%# end %>
+</script>-->
 
 <body onload="initialize()">
   <a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
