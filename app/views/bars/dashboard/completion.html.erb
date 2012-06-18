@@ -180,7 +180,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
       <div class="modal-footer">
       </div>
     </div>
-    <%= simple_form_for(@bar, url: bars_update_completion_path, method: :get, :html => {multipart: true , class: "form-horizontal"}) do |f| %>
+    <%= simple_form_for(@bar, url: bars_update_completion_path, method: :post, :html => {multipart: true , class: "form-horizontal"}) do |f| %>
         <div id="location" class="modal hide fade">
           <div class="modal-header">
             <a class="close" data-dismiss="modal"><b>x</b></a>
