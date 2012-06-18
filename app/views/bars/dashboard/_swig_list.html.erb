@@ -9,52 +9,57 @@
 </script>-->
 
 <div class="well row-fluid span10" style="margin-left: -20px;">
-  <div class="span2 pull-left">
+
+  &nbsp;
+  <div class="span6 pull-left">
+    <div class="pull-left">
+      <%= swig.deal.html_safe rescue nil %>
+<%#= truncate(swig.deal.html_safe, length: 20) rescue nil %>
+    </div>
+    <% if  swig.swig_type.eql?("Big") %>
+      <div class="span2">
+        <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+          <%= swig.swig_type %>
+        </button>
+      </div>
+    <% else %>
+      <div class="span2">
+        <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+          <%= swig.swig_type %>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="span2 pull-right">
     <% if swig.status.blank? %>
       <%= button_to "Acivate", bars_active_swig_path(swig.id), method: :post, class: "label-success", style: "color: white;padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;"  %>
       <% else %>
         <%= button_to "Deacivate", bars_deactive_swig_path(swig.id), method: :post, class: "label-important", style: "color: white;padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;"  %>
         <% end %>
+        <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
       </div>
-      &nbsp;
-      <div class="span6 pull-right">
-        <% if  swig.swig_type.eql?("Big") %>
-          <div class="span2">
-            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
-          </div>
-        <% else %>
-          <div class="span2">
-            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-              <%= swig.swig_type %>
-            </button>
+      <button class="btn" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
+    </div>
+    <%= content_for :outer do %>
+      <div id="editswig<%= swig.id %>" class="modal hide fade">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Update Swig</h3>
+        </div>
+        <div class="modal-body well">
+          <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
+            <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_update", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
+          <%#= f.input :deal, :as => :ckeditor, :label => false, :input_html => {id: "update_deal", :toolbar => 'Full' } %>
+              <% if swig.swig_type.eql?("Big") %>
+                <%= f.input :swig_day, as: :select, collection: days %>
+                <%= f.input :people, label: "people required" %>
+              <% end %>
+              <div class="form-actions">
+                <%= f.submit "Update Swig", class: "btn-primary" %>
+                </div>
+              <% end %>
+            </div>
           </div>
         <% end %>
-    <%#= truncate(swig.deal.html_safe, length: 20) %>
-        <%= swig.deal.html_safe %>
-      </div>
-      <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
-      <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
-      <%= content_for :outer do %>
-        <div id="editswig<%= swig.id %>" class="modal hide fade">
-          <div class="modal-header">
-            <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3>Update Swig</h3>
-          </div>
-          <div class="modal-body well">
-            <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
-              <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_update", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
-            <%#= f.input :deal, :as => :ckeditor, :label => false, :input_html => {id: "update_deal", :toolbar => 'Full' } %>
-                <% if swig.swig_type.eql?("Big") %>
-                  <%= f.input :swig_day, as: :select, collection: days %>
-                  <%= f.input :people, label: "people required" %>
-                <% end %>
-                <div class="form-actions">
-                  <%= f.submit "Update Swig", class: "btn-primary" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
         </div>

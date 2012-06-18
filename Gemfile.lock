@@ -51,6 +51,8 @@ GEM
       activesupport (>= 3.0.0)
       ancestry (~> 1.2.4)
       railties (>= 3.0.0)
+    acts-as-taggable-on (2.3.1)
+      rails (~> 3.0)
     amistad (0.7.5)
     ancestry (1.2.4)
       activerecord (>= 2.2.2)
@@ -266,6 +268,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin (~> 0.4.3)
   acts-as-messageable
+  acts-as-taggable-on (~> 2.3.1)
   amistad
   capistrano-ext
   carmen

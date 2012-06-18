@@ -20,6 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'timezone'
 gem "formtastic", "~> 2.1.1"
 gem "activeadmin", "~> 0.4.3"

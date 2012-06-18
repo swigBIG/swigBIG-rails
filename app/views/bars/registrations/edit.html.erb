@@ -52,9 +52,10 @@
         <%= f.input :name %>
     <%#= f.input :bar_hour, label: "Bar Hour" %>
         <%= f.input :phone_number %>
-        <%= f.input :sports_team, label: false, required: false, input_html: {id: "mytags", multiple: true,  style: "width:150px;overflow: hidden;"}%>
+        <%#= f.input :sports_team, label: false, required: false, input_html: {id: "mytags", multiple: true,  style: "width:150px;overflow: hidden;"}%>
+        <%= f.input :sports_team, required: false %>
         <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;", onkeyup: "countChar(this)"} %>
-        <div id="charNum"></div>
+        <div class="pull-right"id="charNum"></div>
         <div class="form-actions">
           <%= f.submit "Update", class: "btn-primary" %>
           </div>
@@ -117,15 +118,21 @@
                   var close = $("#close_hour"+day_last+" > option:selected").text();
                   var openw = $("#open_w"+day_last+" > option:selected").text();
                   var closew = $("#close_w"+day_last+" > option:selected").text();
-                  if (open != "" && close != "" && openw != "" && closew != ""){
+                 
+                  //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
+                  if ($("#"+this.id).attr('checked', true)){
 
                     $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
                     $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
                     $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
                     $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
-
+                   
                   }else{
                     $("#"+this.id).attr('checked', false);
+                    $("#open_hour"+day+" > option").eq(open).attr("selected","")
+                    $("#close_hour"+day+" > option").eq(close).attr("selected","")
+                    $("#open_w"+day+" > option").eq(openw).attr("selected","")
+                    $("#close_w"+day+" > option").eq(closew).attr("selected","")
                   }
                 });
               });
