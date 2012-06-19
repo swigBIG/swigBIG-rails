@@ -13,7 +13,7 @@
   &nbsp;
   <div class="span6 pull-left">
     <div class="pull-left">
-      <%= swig.deal.html_safe rescue nil %>
+      <%= n_line(swig.deal) rescue nil %>
 <%#= truncate(swig.deal.html_safe, length: 20) rescue nil %>
     </div>
     <% if  swig.swig_type.eql?("Big") %>
@@ -41,6 +41,7 @@
       </div>
       <button class="btn" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
     </div>
+
     <%= content_for :outer do %>
       <div id="editswig<%= swig.id %>" class="modal hide fade">
         <div class="modal-header">
@@ -62,4 +63,3 @@
             </div>
           </div>
         <% end %>
-        </div>

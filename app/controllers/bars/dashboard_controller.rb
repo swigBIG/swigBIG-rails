@@ -184,6 +184,10 @@ class Bars::DashboardController < ApplicationController
         current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], reward_id: params[:acts_as_messageable_message][:reward_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
       end
       redirect_to :back, notice: "Reward Message success Send!"
+    when "5"
+      user = User.find(params[:acts_as_messageable_message][:to])
+      current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
+      redirect_to :back, notice: "Message success Send!"
     else
       redirect_to :back, notice: "Failed sent message!"
     end
@@ -192,7 +196,9 @@ class Bars::DashboardController < ApplicationController
 
   def update_completion
     @bar = current_bar
+    debugger
     if @bar.update_attributes(params[:bar])
+
       sign_in @bar, :bypass => true
       redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
     else
@@ -245,4 +251,27 @@ class Bars::DashboardController < ApplicationController
     @gift.destroy
     redirect_to :back, notice: "Gift Success delete"
   end
+
+  def sport_lists
+    #    sport_groups = SportTeam.all(fields: ['id', 'team_name'], conditions: ["team_name LIKE ?", "%#{params[:q]}%"])
+    sport_groups = SportTeam.select('id, team_name').where(["team_name LIKE ?", "%#{params[:q]}%"])
+  
+    @sport_lists = []
+  
+    sport_groups.each do |sport_group|
+      @sport_lists << {id: sport_group.team_name, name: sport_group.team_name}
+    end
+  
+    respond_to do |format|
+      format.json  { render :json => @sport_lists }
+    end
+  end
+
+  #  def sport_lists
+  #    @sport_teams = SportTeam.where("name like ?", "%#{params[:q]}%")
+  #    respond_to do |format|
+  #      format.html
+  #      format.json { render :json => @sport_teams.map(&:attributes) }
+  #    end
+  #  end
 end

@@ -1,7 +1,5 @@
 Swprototype::Application.routes.draw do
 
-  mount Ckeditor::Engine => '/ckeditor'
-
   get "notifications/index"
 
   ActiveAdmin.routes(self)
@@ -43,8 +41,9 @@ Swprototype::Application.routes.draw do
   
   
   namespace :bars do
+    match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
     match  "completion" => "dashboard#completion", as: "completion"
-    get  "update_completion" => "dashboard#update_completion", as: "update_completion"
+    post  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "dashboard" => "dashboard#index", as: "dashboard"
     match  "product" => "products#index", as: "product"
     post  "create_reward_message/:user_id/:winner_id" => "dashboard#create_reward_message", as: "create_reward_message"

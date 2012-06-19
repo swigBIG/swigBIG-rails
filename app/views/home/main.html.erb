@@ -141,7 +141,7 @@
           <% @swigs.each do |swig| %>
             <tr>
               <td>
-                <b class="pull-left"><%= link_to  truncate(swig.deal, length: 30), bar_profile_path(swig.bar), input_html: {rel: "popover", title: swig.deal.to_s} %></b>
+                <b class="pull-left"><%= link_to  truncate(swig.deal, length: 20), bar_profile_path(swig.bar), input_html: {rel: "popover", title: swig.deal.to_s} %></b>
               </td>
               <td>
                 <% if  swig.swig_type.eql?("Big") %>

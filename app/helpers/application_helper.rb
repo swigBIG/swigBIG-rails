@@ -22,7 +22,8 @@ module ApplicationHelper
   end
 
   def sport_teams_collection
-    SportTeam.all.map{ |s| [s.team_name, s.team_name] }
+#    SportTeam.all.map{ |s| [s.team_name, s.team_name] }
+    SportTeam.all.map{ |s| s.team_name }
   end
 
   def radius_collection
@@ -35,6 +36,12 @@ module ApplicationHelper
 
   def reward_collections
     Reward.where(["bar_id = (?) OR bar_id = (?)", nil, current_bar.id ]).all.map{ |g| [g.name, g.id] }
+  end
+
+  #  scope :n_line, gsub("\r\n","<br/>").html_safe
+
+  def n_line(des)
+    des.gsub("\r\n","<br/>").html_safe
   end
 
 end

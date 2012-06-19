@@ -66,96 +66,6 @@
     })
   </script>
 <% end %>
-<!--<script type="text/javascript">
-  function check_monday(){
-<%# if current_bar.swigs.monday.where("swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
-      $('#big_and_standard_swig').modal();
-<%# elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Standard").blank? %>
-      $('#swigmessage').modal();
-<%# elsif current_bar.swigs.where(swig_day: "Monday", swig_type: "Big" ).blank? %>
-      $('#setup_big_swig').modal();
-<%# elsif !current_bar.swigs.where("swig_day = 'Monday' AND swig_type = 'Standard' AND swig_type = 'Big'").blank? %>
-<%# end %>
-  }
-<%# if current_bar.swigs.where(swig_day: "Tuesday").blank? %>
-    function check_tuesday(){
-      $('#big_and_standard_swig').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Standard").blank? %>
-    function check_tuesday(){
-      $('#swigmessage').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Tuesday", swig_type: "Big" ).blank? %>
-    function check_tuesday(){
-      $('#setup_big_swig').modal();
-    }
-<%# end %>
-<%# if current_bar.swigs.where(swig_day: "Wednesday").blank? %>
-    function check_wednesday(){
-      $('#big_and_standard_swig').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Standard").blank? %>
-    function check_wednesday(){
-      $('#swigmessage').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Wednesday", swig_type: "Big" ).blank? %>
-    function check_wednesday(){
-      $('#setup_big_swig').modal();
-    }
-<%# end %>
-<%# if current_bar.swigs.where(swig_day: "Thursday").blank? %>
-    function check_thursday(){
-      $('#big_and_standard_swig').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Standard").blank? %>
-    function check_thursday(){
-      $('#swigmessage').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Thursday", swig_type: "Big" ).blank? %>
-    function check_thursday(){
-      $('#setup_big_swig').modal();
-    }
-<%# end %>
-<%# if current_bar.swigs.where(swig_day: "Friday").blank? %>
-    function check_friday(){
-      $('#big_and_standard_swig').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Standard").blank? %>
-    function check_friday(){
-      $('#swigmessage').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Friday", swig_type: "Big" ).blank? %>
-    function check_friday(){
-      $('#setup_big_swig').modal();
-    }
-<%# end %>
-<%# if current_bar.swigs.where(swig_day: "Saturday").blank? %>
-    function check_saturday(){
-      $('#big_and_standard_swig').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Standard").blank? %>
-    function check_saturday(){
-      $('#swigmessage').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Saturday", swig_type: "Big" ).blank? %>
-    function check_saturday(){
-      $('#setup_big_swig').modal();
-    }
-<%# end %>
-<%# if current_bar.swigs.where(swig_day: "Sunday").blank? %>
-    function check_sunday(){
-      $('#big_and_standard_swig').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Standard").blank? %>
-    function check_sunday(){
-      $('#swigmessage').modal();
-    }
-<%# elsif current_bar.swigs.where(swig_day: "Sunday", swig_type: "Big" ).blank? %>
-    function check_sunday(){
-      $('#setup_big_swig').modal();
-    }
-<%# end %>
-</script>-->
 
 <body onload="initialize()">
   <a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
@@ -165,7 +75,6 @@
       <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
     <br/>
-    
     <br/>
     <div class="span4">
       <div class="accordion">
@@ -231,23 +140,13 @@
   <% end %>
 
   <h3><%= @bar.name rescue nil %></h3>
-  <div class="span4">
-<%#= image_tag(@bar.logo_url(:thumb)) rescue nil %>
-  </div>
-
-  <br/>
-  <div class="clearfix"></div>
-
-
-  <br/>
-
-  <div class="clearfix"></div>
 
   <ul class="tabs" data-tabs="tabs">
     <li class="active"><a href="#swig_tab" data-toggle="tab"><h3>Swig</h3></a></li>
     <li><a href="#reward_tab" data-toggle="tab"><h3>Reward</h3></a></li>
     <li><a href="#stat_chart" data-toggle="tab"><h3>Stat</h3></a></li>
   </ul>
+
   <div class="tab-content">
     <div class="tab-pane active" id="swig_tab">
       <ul class="tabs" data-tabs="tabs">
@@ -297,14 +196,13 @@
           <% end %>
         </div>
       </div>
-
     </div>
+
     <div class="tab-pane" id="reward_tab">
       <ul class="tabs" data-tabs="tabs">
         <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
         <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
       </ul>
-
       <div class="tab-content">
         <div class="tab-pane active" id="reward_loyalty">
 
@@ -387,8 +285,8 @@
         <div class="tab-pane" id="stat_chart">
           <div id="chart_div" style="width: 700px; height: 300px;"></div>
         </div>
-
       </div>
+
 
       <%= content_for :outer do %>
         <div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
@@ -593,13 +491,34 @@
                         </div>
                         <div class="modal-body well">
                           <ul class="tabs" data-tabs="tabs">
-                            <li><a href="#all_user" class="btn" data-toggle="tab"><b>All User</b></a></li>
-                            <li><a href="#last_visit" class="btn" data-toggle="tab"><b>Last Visit</b></a></li>
-                            <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b>Almost Rewarded</b></a></li>
-                            <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b>Unused Rewarded</b></a></li>
+                            <li><a href="#personal" class="btn" data-toggle="tab"><b style="font-size: 11px;">Personal</b></a></li>
+                            <li><a href="#all_user" class="btn" data-toggle="tab"><b style="font-size: 11px;">All User</b></a></li>
+                            <li><a href="#last_visit" class="btn" data-toggle="tab"><b style="font-size: 11px;">Last Visit</b></a></li>
+                            <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b style="font-size: 11px;">Almost Rewarded</b></a></li>
+                            <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b style="font-size: 11px;">Unused Rewarded</b></a></li>
                           </ul>
                           <div class="tab-content">
-                            <div class="tab-pane active" id="all_user">
+                            <div class="tab-pane active" id="personal">
+                              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                <%= m.input :to, as: :select, collection: User.all.map{ |u| [u.name, u.id] }, label: false, placeholder: "To", input_html: {style: "margin-left: -145px;width: 445px;"} %>
+                                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
+                                <div style="margin-left: -105px;">
+                                  <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+                                </div>
+                                <div style="margin-top: -45px;">
+                                  <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                                  </div>
+                                  <%= m.input :category, as: :hidden, input_html: {value: 5} %>
+                                  <div style="text-align: center;">
+                                    <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                  </div>
+                                  <div class="form-actions">
+                                    <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                    <%= m.submit "Send", class: "btn-success pull-right" %>
+                                    </div>
+                                  <% end %>
+                                </div>
+                            <div class="tab-pane" id="all_user">
                               <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
                                 <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
                                 <div style="margin-left: -105px;">

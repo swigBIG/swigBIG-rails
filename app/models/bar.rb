@@ -9,11 +9,11 @@ class Bar < ActiveRecord::Base
     :zip_code, :phone_number, :city, :state, :country, :latitude, :longitude, :logo, :slug,
     :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background, :sports_team, :website_link,
     :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description, :bar_hour,
-    :bar_hours_attributes, :full_address
+    :bar_hours_attributes, :full_address, :sports_team_list
   # attr_accessible :title, :body
   validates :terms, :acceptance => true
   validates :address, :zip_code, :city, :sports_team, :presence => true, :on => :update
-  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
+#  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
 
   mount_uploader :logo, ImageUploader
   mount_uploader :bar_background, ImageUploader
@@ -21,7 +21,9 @@ class Bar < ActiveRecord::Base
   before_update  :set_full_address, :set_coordinates, :set_http_website
 
   after_update :update_swig_location
-  
+
+  acts_as_taggable_on :sports_teams
+
   #  geocoded_by :full_address, :latitude  => :latitude, :longitude => :longitude
 
   #  after_validation :geocode, :if => :full_address_changed?

@@ -49,9 +49,11 @@ class HomeController < ApplicationController
       @geo = City.find(params[:id])
       @loyalty = Loyalty.all
       @popularity = Popularity.all
+      @city_bar = Bar.where(city: @city.name)
       @search = Swig.search(params[:search])
       @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
     elsif !params[:search].blank? or !params[:radius].blank?
+      @city_bar = Bar.where(city: @city.name)
       @city = City.find(params[:id])
       @loyalty = Loyalty.all
       @popularity = Popularity.all
@@ -71,10 +73,12 @@ class HomeController < ApplicationController
         @swigs = @search.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).where(swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
       end
     elsif !params[:radius].blank?
+      @city_bar = Bar.where(city: @city.name)
       @city = City.find(params[:id])
       @search = Swig.near(@city.name.to_s, params[:radius], :order => :distance).search(params[:search])
       @swigs = @search.all
     else
+      @city_bar = Bar.where(city: @city.name)
       @search = Swig.search(params[:search])
       @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
     end
