@@ -11,23 +11,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
       users_completion_url
     else
       users_dashboard_url
-#      main_home_path
+      #      main_home_path
     end
   end
 
   
-#  def after_update_path_for(resource)
-#    users_dashboard_url
-#  end
+  #  def after_update_path_for(resource)
+  #    users_dashboard_url
+  #  end
 
   def update
     @user = User.find(current_user.id)
-    if @user.update_attributes(params[:user])
-      # Sign in the user by passing validation in case his password changed
-      sign_in @user, :bypass => true
-      redirect_to users_dashboard_url
+    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+      if @user.update_attributes(params[:user])
+        # Sign in the user by passing validation in case his password changed
+        sign_in @user, :bypass => true
+        redirect_to users_dashboard_url
+      else
+        render action: :edit
+      end
     else
-      render action: :edit
+      @user.destroy
+      redirect_to :root, notice: "Age under 21 can't register!"
     end
   end
   

@@ -44,4 +44,9 @@ module ApplicationHelper
     des.gsub("\r\n","<br/>").html_safe
   end
 
+  def age(user)
+    now = Time.now.utc.to_date
+    now.year - student.date_of_birth.year - (student.date_of_birth.change(:year => now.year) > now ? 1 : 0)
+  end
+
 end
