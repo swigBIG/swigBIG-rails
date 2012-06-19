@@ -28,7 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_in @user, :bypass => true
         redirect_to users_dashboard_url
       else
-        render action: :edit
+        render action: :edit, notice: "Edit profile success"
       end
     else
       @user.destroy

@@ -75,11 +75,16 @@ class Users::DashboardController < ApplicationController
 
   def update_account
     @user = current_user
-    if @user.update_attributes(params[:user])
-      sign_in @user, :bypass => true
-      redirect_to :back, notice: "Update Success!"
+    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+      if @user.update_attributes(params[:user])
+        sign_in @user, :bypass => true
+        redirect_to :back, notice: "Update Success!"
+      else
+        redirect_to :back, notice: "Update Failed!"
+      end
     else
-      redirect_to :back, notice: "Update Failed!"
+      @user.destroy
+      redirect_to :root, notice: "Age under 21 can't register!"
     end
   end
   
