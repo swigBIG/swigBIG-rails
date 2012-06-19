@@ -29,8 +29,8 @@
       x.push('<%= b.zip_code %>');//4
       x.push('<%= b.phone_number %>');//5
       x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
-      x.push('<%= b.swigs.today.first.lock_status %>');//7
-      x.push('<%= b.swigs.today.first.people %>');//8
+      x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
+      x.push('<%= b.swigs.today.first.people rescue nil %>');//8
 
       bar.push(x);
 <% end %>
