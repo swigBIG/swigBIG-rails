@@ -1,3 +1,5 @@
+<%= javascript_include_tag "jquery.tokeninput" %>
+<%= stylesheet_link_tag "token-input-facebook" %>
 <script>
   function countChar(val){
     var len = val.value.length;
@@ -7,6 +9,33 @@
       $('#charNum').text(len);
     }
   };
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var sport_teams = [];
+<% SportTeam.all.each do |b| %>
+      var x = [];
+      x.push('name: <%= b.to_json %>');//0
+      x.push('id: <%= b.to_json %>');//0
+
+      sport_teams.push(x);
+<% end %>
+    var include_sport_list = [];
+<%  unless current_bar.blank?%>
+  <%  unless current_bar.sports_teams.blank?%>
+    <%  sports_team = current_bar.sports_team.split(',') %>
+    <%  sports_team.each do |team| %>
+          include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+    <% end%>
+  <% end%>
+<% end%>
+
+    $("#tk_sports").tokenInput( "/bars/sport_lists", {
+      theme: "facebook",
+      preventDuplicates: true,
+      prePopulate: include_sport_list
+    });
+  });
 </script>
 <script type="text/javascript">
   var available_tags = [];
@@ -236,7 +265,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <%= f.fields_for :bar_hours do |ff| %>
               <div class="span4" style="margin-right: 10px;">
                 <div class="span2">
-                <b><%= ff.object.day %></b>
+                  <b><%= ff.object.day %></b>
                   <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
                   <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
                 </div>
@@ -246,8 +275,6 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
                 </div>
               </div>
             <% end %>
-          </div>
-          <div class="modal-footer">
             <a class="btn" onclick="return validate_hour()">Continue</a>
             <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal" id="goto_description" style="display: none;">Continue</a>
             <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
@@ -276,7 +303,8 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <h3 style="text-align: center;">What Sports Teams does <%= @bar.name %> support?</h3>
           </div>
           <div class="modal-body">
-            <%= f.input :sports_team, label: false, placeholder: "Sports Team" ,input_html: {id: "mytags", multiple: true,  style: "width:250px"}%>
+        <%#= f.input :sports_team, label: false, placeholder: "Sports Team" ,input_html: {id: "mytags", multiple: true,  style: "width:250px"}%>
+            <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
           </div>
           <div class="modal-footer">
             <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->

@@ -75,16 +75,11 @@ class Users::DashboardController < ApplicationController
 
   def update_account
     @user = current_user
-    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
-      if @user.update_attributes(params[:user])
-        sign_in @user, :bypass => true
-        redirect_to :back, notice: "Update Success!"
-      else
-        redirect_to :back, notice: "Update Failed!"
-      end
+    if @user.update_attributes(params[:user])
+      sign_in @user, :bypass => true
+      redirect_to :back, notice: "Update Success!"
     else
-      @user.destroy
-      redirect_to :root, notice: "Age under 21 can't register!"
+      redirect_to :back, notice: "Update Failed!"
     end
   end
   
@@ -104,11 +99,16 @@ class Users::DashboardController < ApplicationController
 
   def update_completion
     @user = current_user
-    if @user.update_attributes(params[:bar])
-      sign_in @user, :bypass => true
-      redirect_to users_dashboard_path, notice: "Profile Completion Success!"
+    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+      if @user.update_attributes(params[:bar])
+        sign_in @user, :bypass => true
+        redirect_to users_dashboard_path, notice: "Profile Completion Success!"
+      else
+        redirect_to :back, notice: "Profile Completion Failed!"
+      end
     else
-      redirect_to :back, notice: "Profile Completion Failed!"
+      @user.destroy
+      redirect_to :root, notice: "Age under 21 can't register!"
     end
   end
 
