@@ -22,6 +22,20 @@ ActiveAdmin.register User do
     column  :state
     column  :country
     column  :bird_date
+    column  :lock_status
+
+    column("Lock") do |user|
+      if user.lock_status.eql?(false)
+        link_to("Lock", lock_admin_user_path(user))
+      end
+    end
+    column("Unlock") do |user|
+      if user.lock_status.eql?(true)
+        link_to("Unlock", unlock_admin_user_path(user))
+      end
+    end
+
+#    column("Lock"){  |user| link_to("Unlock", unlock_admin_user_path(user)) }
     default_actions
   end
 
@@ -76,10 +90,16 @@ ActiveAdmin.register User do
     end
   end
 
-#  member_action :lock, :method => :put do
-#    user = User.find(params[:id])
-#    user.lock!
-#    redirect_to {:action => :show}, :notice => "Locked!"
-#  end
+  member_action :lock, :method => :get do
+    user = User.find(params[:id])
+    user.update_attributes(lock_status: 1)
+    redirect_to admin_users_url, :notice => "Locked!"
+  end
+  member_action :unlock, :method => :get do
+    user = User.find(params[:id])
+    user.update_attributes(lock_status: 0)
+    redirect_to admin_users_url, :notice => "Locked!"
+  end
+
 
 end
