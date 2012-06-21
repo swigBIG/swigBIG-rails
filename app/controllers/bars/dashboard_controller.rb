@@ -221,7 +221,6 @@ class Bars::DashboardController < ApplicationController
 
   def update_completion
     @bar = current_bar
-    debugger
     if @bar.update_attributes(params[:bar])
 
       sign_in @bar, :bypass => true
