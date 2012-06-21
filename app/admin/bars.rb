@@ -12,19 +12,31 @@ ActiveAdmin.register Bar do
   filter  :logo
   filter  :sports_team
 
-#  index do
-#    column  :email
-#    column  :name
-#    column  :address
-#    column  :zip_code
-#    column  :phone_number
-#    column  :city
-#    column  :state
-#    column  :country
-#    column  :logo
-#    column  :sports_team
-#    default_actions
-#  end
+  index do
+    column  :email
+    column  :name
+    column  :address
+    column  :zip_code
+    column  :phone_number
+    column  :city
+    column  :state
+    column  :country
+    column  :logo
+    column  :sports_team
+
+    column("Lock") do |bar|
+      if bar.lock_status.eql?(false)
+        link_to("Lock", lock_admin_bar_path(bar))
+      end
+    end
+    column("Unlock") do |bar|
+      if bar.lock_status.eql?(true)
+        link_to("Unlock", unlock_admin_bar_path(bar))
+      end
+    end
+
+    default_actions
+  end
 
   show do |b|
 
@@ -75,6 +87,17 @@ ActiveAdmin.register Bar do
       f.input :sports_team
       f.buttons
     end
+  end
+
+  member_action :lock, :method => :get do
+    bar = Bar.find(params[:id])
+    bar.update_attributes(lock_status: 1)
+    redirect_to admin_bars_url, :notice => "Locked!"
+  end
+  member_action :unlock, :method => :get do
+    bar = Bar.find(params[:id])
+    bar.update_attributes(lock_status: 0)
+    redirect_to admin_bars_url, :notice => "Locked!"
   end
   
 end
