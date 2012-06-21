@@ -11,7 +11,8 @@ class HomeController < ApplicationController
       @loyalty = Loyalty.all
       @popularity = Popularity.all
       @search = Swig.search(params[:search])
-      @swigs = @search.where(city: @city_lat_lng[0].to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+#      @swigs = @search.where(city: @city_lat_lng[0].to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
+      @swigs = @search.where(city: @city_lat_lng[0].to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
     elsif !params[:search].blank? or !params[:radius].blank?
       @city = City.where(name: @city_lat_lng[0].to_s).first
       @loyalty = Loyalty.all
@@ -51,7 +52,7 @@ class HomeController < ApplicationController
       @popularity = Popularity.all
       @city_bar = Bar.where(city: @city.name)
       @search = Swig.search(params[:search])
-      @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.strftime("%A").to_s)
+       @swigs = @search.where(city: @city_lat_lng[0].to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
     elsif !params[:search].blank? or !params[:radius].blank?
       @city_bar = Bar.where(city: @city.name)
       @city = City.find(params[:id])
