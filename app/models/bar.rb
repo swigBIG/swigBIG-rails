@@ -9,7 +9,7 @@ class Bar < ActiveRecord::Base
     :zip_code, :phone_number, :city, :state, :country, :latitude, :longitude, :logo, :slug,
     :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background, :sports_team, :website_link,
     :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description, :bar_hour,
-    :bar_hours_attributes, :full_address, :sports_team_list
+    :bar_hours_attributes, :full_address, :sports_team_list, :lock_status
   # attr_accessible :title, :body
   validates :terms, :acceptance => true
   validates :address, :zip_code, :city, :sports_team, :presence => true, :on => :update

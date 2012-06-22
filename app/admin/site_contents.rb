@@ -1,5 +1,5 @@
 ActiveAdmin.register SiteContent do
-menu parent: "Site Settings"
+  menu parent: "Site Settings"
 
   index do
     column :site_background
@@ -12,18 +12,18 @@ menu parent: "Site Settings"
     column :learn_more
     column :contact_us
     default_actions
-#    render partial: "data_site"
+    #    render partial: "data_site"
   end
 
   show do |b|
 
     attributes_table do
-      row :site_background do
-        image_tag(b.site_background_url(:thumb))
-      end
-      row :site_logo do
-        b.site_logo
-      end
+#      row :site_background do
+#        image_tag(b.site_background_url(:thumb))
+#      end
+#      row :site_logo do
+#        b.site_logo
+#      end
       row :term_of_service do
         b.term_of_service
       end
@@ -45,6 +45,19 @@ menu parent: "Site Settings"
       row :contact_us do
         b.contact_us
       end
+      #      row :logos do
+      #        b.logos.each do |logo|
+      #          logo.name
+      #        end
+      #      end
+      b.logos.each do |logo|
+        #          row("Name") { logo.name }
+        row("Logo") { image_tag(logo.image, style: "height: 70px;") }
+      end
+      b.backgrounds.each do |background|
+        #        row("Name") { background.name }
+        row("Background") { image_tag(background.image, style: "height: 70px;") }
+      end
     end
 
   end
@@ -60,18 +73,26 @@ menu parent: "Site Settings"
       f.input :about_us
       f.input :learn_more
       f.input :contact_us
+      f.inputs "Logo" do
+        f.has_many :logos do |logo|
+          logo.input :name
+          logo.input :image
+        end
+      end
+      f.inputs "Background" do
+        f.has_many :backgrounds do |background|
+          background.input :name
+          background.input :image
+        end
+      end
       f.buttons
     end
   end
 
-#  data_site do
-#
-#  end
-#
-#  controller do
-#    def data_site
-#
-#    end
-#  end
+  #  member_action :activate_logo, :method => :get do
+  #    site = SiteContent.find(params[:id])
+  #    site.logos.find(params[:logo_id]).update_attributes(lock_status: 1)
+  #    redirect_to admin_bars_url, :notice => "Locked!"
+  #  end
 
 end
