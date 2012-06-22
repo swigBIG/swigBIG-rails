@@ -93,7 +93,11 @@
 <body onload="initialize()">
 
   <%= content_for :side do %>
-
+    <%= @city_lat_lng[0] %>
+    <br/>
+    <% Swig.where(city: @city_lat_lng[0].to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s).each do |swig| %>
+    <%= swig.deal %>
+    <% end %>
     <h4><%= @city.name.titleize %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
