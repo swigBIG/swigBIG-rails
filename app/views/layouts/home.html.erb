@@ -28,7 +28,15 @@
         <div class="container">
           <div class="nav pull-right">
             <li>
-              <%= image_tag(@site_content.site_logo, style: "height: 45px;") rescue nil %>
+              <% if !@site_content.blank? %>
+                <% if !@site_content.site_logo.blank? %>
+                  <%= image_tag(@site_content.site_logo, style: "height: 45px;") %>
+                <% else %>
+                  <b class="brand" style="color: white;">SwigBIG</b>
+                <% end %>
+              <% else %>
+                <h3 class="brand" style="color: white;">SwigBIG</h3>
+              <% end %>
             </li>
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>

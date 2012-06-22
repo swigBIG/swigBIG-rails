@@ -190,7 +190,8 @@ class Bars::DashboardController < ApplicationController
       redirect_to :back, notice: "Message success Send!"
 
     when "6" #buat pie chart 25%
-      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
+      current_bar.points.group(:user_id).count.each_pair do |key, val|
+#      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
         if (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) <= 25 && (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) >= 2
           user = User.find(key)
           current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
@@ -199,7 +200,8 @@ class Bars::DashboardController < ApplicationController
       redirect_to :back, notice: "Message success Send! to 25%"
 
     when "7" #buat pie chart
-      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
+      current_bar.points.group(:user_id).count.each_pair do |key, val|
+#      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
         if (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) <= 50 && (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) >= 26
           user = User.find(key)
           current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
@@ -207,7 +209,8 @@ class Bars::DashboardController < ApplicationController
       end
       redirect_to :back, notice: "Message success Send! to 25%"
     when "8" #buat pie chart
-      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
+      current_bar.points.group(:user_id).count.each_pair do |key, val|
+#      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
         if (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) <= 75 && (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) >= 51
           user = User.find(key)
           current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})

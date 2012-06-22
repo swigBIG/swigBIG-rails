@@ -35,7 +35,7 @@ module ApplicationHelper
   end
 
   def reward_collections
-    Reward.where(["bar_id = (?) OR bar_id = (?)", nil, current_bar.id ]).all.map{ |g| [g.name, g.id] }
+    Reward.where(["bar_id = (?) OR bar_id = (?)", nil, current_bar.id ]).all.map{ |g| [g.name , g.id] }
   end
 
   #  scope :n_line, gsub("\r\n","<br/>").html_safe

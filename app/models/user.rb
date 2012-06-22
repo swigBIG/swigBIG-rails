@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :terms, :bird_date,
     :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen, :access_token,
-    :fb_id
+    :fb_id, :lock_status
 
   # attr_accessible :title, :body
   with_options dependent: :destroy do

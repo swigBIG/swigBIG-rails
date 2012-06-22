@@ -4,4 +4,9 @@ class SiteContent < ActiveRecord::Base
 
   mount_uploader :site_background, ImageUploader
   mount_uploader :site_logo, ImageUploader
+
+  with_options dependent: :destroy do
+    has_many :logos
+    has_many :backgrounds
+  end
 end
