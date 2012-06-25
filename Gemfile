@@ -37,6 +37,7 @@ gem 'carrierwave'
 gem 'geocoder'
 gem 'geokit'
 gem "mini_magick"
+gem 'rmagick'
 gem "friendly_id"
 gem 'carmen'
 gem 'whenever', :require => false
