@@ -49,4 +49,12 @@ module ApplicationHelper
     now.year - student.date_of_birth.year - (student.date_of_birth.change(:year => now.year) > now ? 1 : 0)
   end
 
+  def bar_collection
+    Bar.all.map { |b| [b.name, b.id] }
+  end
+  
+  def user_collection
+    User.all.map { |u| [u.name, u.id]}
+  end
+
 end
