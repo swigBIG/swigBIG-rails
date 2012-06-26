@@ -64,9 +64,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("development")
+#    return request.ip.to_s if Rails.env.eql?("development")
     #    "211.157.105.218"
-    "75.85.54.184"
+        "64.90.182.55"
+#    "75.85.54.184"
   end
 
   #  if user_signed_in?

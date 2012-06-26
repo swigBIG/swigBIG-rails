@@ -27,7 +27,7 @@
       x.push('<%= b.id %>');//2
       x.push('<%= link_to  b.name, bar_profile_path(b) %>');//3
       x.push('<%= b.zip_code %>');//4
-      x.push('<%= b.phone_number %>');//5
+      x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe %>');//5
       x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
       x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
       x.push('<%= b.swigs.today.first.people rescue nil %>');//8
@@ -66,7 +66,7 @@
         
           infowindow.setContent('<h4>'+bar[i][3]+'</h4>'
             +'<div class="span2 pull-left well">'+bar[i][6]+'</br>'+lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
-            +'<div class="span2 pull-right">'+bar[i][5]+bar[i][4]+'</div>'
+            +'<div class="span2"><b>Sports Teams</b><br/>'+bar[i][5]+'</div>'
         );
           /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
             '<br/>'+
@@ -95,9 +95,6 @@
   <%= content_for :side do %>
     <%= @city_lat_lng[0] %>
     <br/>
-    <% Swig.where(city: @city.name, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s).each do |swig| %>
-    <%= swig.deal %>
-    <% end %>
     <h4><%= @city.name.titleize %></h4>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
@@ -119,21 +116,21 @@
           </div>
         </div>
       </div>
-      <div id="search" class="accordion-body collapse">
-        <div class="accordion-inner" style="margin-left: 0px;">
-          <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
-          <b style="margin-left: 60px;">Radius in Mile</b>
+      <!--<div id="search" class="accordion-body collapse">-->
+      <div class="accordion-inner" style="margin-left: 0px;">
+        <%= f.input :bar_zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+        <b style="margin-left: 60px;">Radius in Mile</b>
     <%#= select(:geo, :radius,  radius_collection, {:include_blank => true}) %>
-          <%= text_field_tag :radius %>
-          <br/>
-          <br/>
-          <b style="margin-left: 60px;">Swig Type</b>
-          <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
-          <b style="margin-left: 60px;">Sports teams</b>
-          <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
-          <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
-          </div>
+        <%= text_field_tag :radius %>
+        <br/>
+        <br/>
+        <b style="margin-left: 60px;">Swig Type</b>
+        <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
+        <b style="margin-left: 60px;">Sports teams</b>
+        <%= f.input :bar_sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
+        <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
         </div>
+        <!--</div>-->
       <% end %>
     <% end %>
 

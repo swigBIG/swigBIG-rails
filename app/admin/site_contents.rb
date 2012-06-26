@@ -1,7 +1,7 @@
 ActiveAdmin.register SiteContent do
   menu parent: "Site Settings"
 
-  index do
+  index do |idx|
     column :site_background
     column :site_logo
     column :term_of_service
@@ -18,12 +18,12 @@ ActiveAdmin.register SiteContent do
   show do |b|
 
     attributes_table do
-#      row :site_background do
-#        image_tag(b.site_background_url(:thumb))
-#      end
-#      row :site_logo do
-#        b.site_logo
-#      end
+      #      row :site_background do
+      #        image_tag(b.site_background_url(:thumb))
+      #      end
+      #      row :site_logo do
+      #        b.site_logo
+      #      end
       row :term_of_service do
         b.term_of_service
       end
@@ -45,15 +45,20 @@ ActiveAdmin.register SiteContent do
       row :contact_us do
         b.contact_us
       end
+
       #      row :logos do
       #        b.logos.each do |logo|
       #          logo.name
       #        end
       #      end
       b.logos.each do |logo|
-        #          row("Name") { logo.name }
-        row("Logo") { image_tag(logo.image, style: "height: 70px;") }
+        row("Logo") do
+          link_to("active", activate_logo_admin_site_content_path(logo))+
+          image_tag(logo.image, style: "height: 70px;") +
+          link_to("unactive", unactivate_logo_admin_site_content_path(logo))
+        end
       end
+      
       b.backgrounds.each do |background|
         #        row("Name") { background.name }
         row("Background") { image_tag(background.image, style: "height: 70px;") }
@@ -89,10 +94,18 @@ ActiveAdmin.register SiteContent do
     end
   end
 
-  #  member_action :activate_logo, :method => :get do
-  #    site = SiteContent.find(params[:id])
-  #    site.logos.find(params[:logo_id]).update_attributes(lock_status: 1)
-  #    redirect_to admin_bars_url, :notice => "Locked!"
-  #  end
+  member_action :activate_logo, :method => :get do
+    #    site = SiteContent.find(params[:id])
+    SiteContent.first.logos.each do |logo|
+      logo.update_attributes(active_status: 0)
+    end
+    SiteContent.first.logos.find(params[:id]).update_attributes(active_status: 1)
+    redirect_to :back, :notice => "Logo Change!"
+  end
+  member_action :unactivate_logo, :method => :get do
+    #    site = SiteContent.find(params[:id])
+    SiteContent.first.logos.find(params[:id]).update_attributes(active_status: 0)
+    redirect_to :back, :notice => "Logo Change!"
+  end
 
 end

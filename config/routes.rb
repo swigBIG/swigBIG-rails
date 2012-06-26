@@ -1,5 +1,6 @@
 Swprototype::Application.routes.draw do
 
+
   get "notifications/index"
 
   ActiveAdmin.routes(self)
@@ -35,11 +36,12 @@ Swprototype::Application.routes.draw do
     collection do
     end
   end
+  
   devise_for :bars, controllers: {registrations: "bars/registrations", sessions: "bars/sessions", confirmations: "bars/confirmations", passwords: "bars/passwords"}
 
   devise_for :members, controllers: {registrations: "members/registrations"}
   
-  
+  match "upgrade" => "bars/payment_gateway#index", as: "upgrade"
   namespace :bars do
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
     match  "completion" => "dashboard#completion", as: "completion"

@@ -53,8 +53,8 @@ module ApplicationHelper
     Bar.all.map { |b| [b.name, b.id] }
   end
   
-  def user_collection
-    User.all.map { |u| [u.name, u.id]}
+  def user_message_collection
+    User.all.map { |u| [u.name, u.id] unless u.name.blank?}.compact
   end
 
 end

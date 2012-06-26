@@ -1,4 +1,6 @@
 ActiveAdmin.register ActsAsMessageable::Message do
+  menu parent: "Message"
+
   filter :topic
   filter :body
   #  filter :sent_messageable_id
@@ -38,6 +40,7 @@ ActiveAdmin.register ActsAsMessageable::Message do
   end
 
   form do |f|
+    
 #    render partial: "form"
     f.inputs "New Message" do
       #      f.input :sent_messageable_id, as: :select, collection: bar_collection
@@ -57,5 +60,7 @@ ActiveAdmin.register ActsAsMessageable::Message do
       redirect_to action: :index
     end
   end
+
+
 
 end

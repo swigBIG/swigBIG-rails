@@ -2,38 +2,37 @@
   <%= render "message_menu" %>
 <% end %>
 
-<div class="container-fluid">
-  <div class="row-fluid" style="margin-top: 15px">
-    <div class="span9">
-      <h2>INBOX</h2>
-      <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
-        <table class="table">
-          <thead>
-            <tr>
-              <td colspan="4">
-                <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-                <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <% @messages.each do |message| %>
-              <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
-                <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
-                <td class="span7"><%= link_to  message.sent_messageable.full_name.titleize, business_student_path(current_business.id, message.sent_messageable) %></td>
-                <td class="span10" onclick="window.location.href='<%= businesses_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 40) %></td>
-                <td class="span4" onclick="window.location.href='<%= businesses_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
-              </tr>
-              </tr>
+<div class="span10">
+  <h2>INBOX</h2>
+  <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
+    <table class="table">
+      <thead>
+        <tr>
+          <td colspan="4">
+            <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
+            <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @messages.each do |message| %>
+          <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
+            <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
+            <!--<td class="span7"><%#= link_to  message.sent_messageable.email.titleize, bars_message_url(message) %></td>-->
+            <% if message.sent_messageable_type.eql?("AdminUser") %>
+              <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= "SwigBIG.com" %></b></td>
             <% end %>
-          </tbody>
-        </table>
+            <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 20) %></td>
+            <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+          </tr>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-        <%= paginate @messages %>
+    <%= paginate @messages %>
 
-      <% end %>
-    </div>
-  </div>
+  <% end %>
 </div>
 
 

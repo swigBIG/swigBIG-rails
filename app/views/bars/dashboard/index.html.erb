@@ -122,6 +122,9 @@
         renderTo: 'pie_chart',
         defaultSeriesType: 'pie'
       },
+      title: {
+        text: 'Users Swig Presentage Loyalty Reward'
+      },
       plotOptions: {
         pie: {
           allowPointSelect: true,
@@ -150,9 +153,9 @@
       },
       series: [{
           data: [
-            ['25%', 25],
-            ['50%', 50],
-            ['75%', 75]
+            ['25% Swig', 25],
+            ['50% Swig', 50],
+            ['75% Swig', 75]
 
           ]
         }]
@@ -339,7 +342,7 @@
     <%# end %>
 
               <div class="clearfix"></div>
-              <div id="pie_chart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+              <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
               <div class="span7">
                 <table class="zebra-striped">
                   <th>Name</th>
@@ -694,57 +697,69 @@
                                               <h3>Message for 25% Swig</h3>
                                             </div>
                                             <div class="modal-body">
-                                              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                <%= m.input :category, as: :hidden, input_html: {value: 6} %>
-                                                <div style="text-align: center;">
-                                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                </div>
-                                                <div class="form-actions">
-                                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                                              <ul>
+                                                <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                                  <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                                  <%= m.input :category, as: :hidden, input_html: {value: 6} %>
+                                                  <div style="text-align: center;">
+                                                    <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                                                   </div>
-                                                <% end %>
+                                                  <div class="form-actions">
+                                                    <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                    <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                    </div>
+                                                  <% end %>
                                               </div>
                                             </div>
-                                          <div id="bar_message1" class="modal hide fade">
-                                            <div class="modal-header">
-                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                              <h3>Message for 50% Swig</h3>
-                                            </div>
-                                            <div class="modal-body">
-                                              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                <%= m.input :category, as: :hidden, input_html: {value: 6} %>
-                                                <div style="text-align: center;">
-                                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                </div>
-                                                <div class="form-actions">
-                                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                  <%= m.submit "Send", class: "btn-success pull-right" %>
-                                                  </div>
-                                                <% end %>
+                                            <div id="bar_message1" class="modal hide fade">
+                                              <div class="modal-header">
+                                                <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                <h3>Message for 50% Swig</h3>
                                               </div>
-                                            </div>
-                                          <div id="bar_message2" class="modal hide fade">
-                                            <div class="modal-header">
-                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                              <h3>Message for 75% Swig</h3>
-                                            </div>
-                                            <div class="modal-body">
-                                              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                <%= m.input :category, as: :hidden, input_html: {value: 6} %>
-                                                <div style="text-align: center;">
-                                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                </div>
-                                                <div class="form-actions">
-                                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                                              <div class="modal-body">
+                                                <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                                  <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                                  <%= m.input :category, as: :hidden, input_html: {value: 6} %>
+                                                  <div style="text-align: center;">
+                                                    <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                                                   </div>
-                                                <% end %>
+                                                  <div class="form-actions">
+                                                    <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                    <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                    </div>
+                                                  <% end %>
+                                                </div>
                                               </div>
-                                            </div>
+                                              <div id="bar_message2" class="modal hide fade">
+                                                <div class="modal-header">
+                                                  <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                  <h3>Message for 75% Swig</h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <ul class="tabs" data-tabs="tabs">
+                                                    <li><a href="#message" class="btn" data-toggle="tab"><b style="font-size: 11px;">Personal</b></a></li>
+                                                    <li><a href="#list" class="btn" data-toggle="tab"><b style="font-size: 11px;">All User</b></a></li>
+                                                  </ul>
+                                                  <div class="tab-content">
+                                                    <div class="tab-pane active" id="message">
+                                                      <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                                        <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                                        <%= m.input :category, as: :hidden, input_html: {value: 6} %>
+                                                        <div style="text-align: center;">
+                                                          <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                                        </div>
+                                                        <div class="form-actions">
+                                                          <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                          <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                          </div>
+                                                        <% end %>
+                                                      </div>
+                                                      <div class="tab-pane active" id="personal">
 
-                                          <% end %>
-                                        </body>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                              <% end %>
+                                            </body>

@@ -4,6 +4,7 @@ class Swiger < ActiveRecord::Base
   belongs_to :bar
   belongs_to :user
 
+  before_create :check_swiger
   after_create :get_loyalty
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
@@ -36,6 +37,25 @@ class Swiger < ActiveRecord::Base
 
   def create_activity(actor, object)
     ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
+  end
+
+  def check_swiger
+    user_swig = self.user.swigers.last
+    radius = BarRadius.where(status: true).first.distance
+
+    if (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) >= 3600
+      return true
+    else
+      unless user_swig.bar.latitude.eql?(self.bar.latitude)
+        if (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
+          return true
+        else
+          return false
+        end
+      else
+        return false
+      end
+    end
   end
 
 end

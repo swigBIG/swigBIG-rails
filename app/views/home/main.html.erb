@@ -20,13 +20,19 @@
     var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
 
     var bar = [];
-<% Bar.where(city: @city_lat_lng[0].to_s).each do |b| %>
+<% swig_bars = Swig.pluck(:bar_id).uniq %>
+<% Bar.where(city: @city_lat_lng[0].to_s, id: swig_bars).each do |b| %>
       var x = [];
-      x.push(<%= b.latitude %>);
-      x.push(<%= b.longitude %>);
-      x.push('<%= link_to  b.name, bar_profile_path(b) %>');
-      x.push('<%= b.zip_code %>');
-      x.push('<%= b.phone_number %>');
+      x.push(<%= b.latitude %>);//0
+      x.push(<%= b.longitude %>);//1
+      x.push('<%= b.id %>');//2
+      x.push('<%= link_to  b.name, bar_profile_path(b) %>');//3
+      x.push('<%= b.zip_code %>');//4
+      x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe %>');//5
+      x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
+      x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
+      x.push('<%= b.swigs.today.first.people rescue nil %>');//8
+
       bar.push(x);
 <% end %>
 
@@ -52,7 +58,16 @@
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent('<b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]+'<br/>'+bar[i][4]+'<br/>');
+          if (bar[i][5] == "unlock"){
+            var lock_status =  '<%= image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>'
+          }else{
+            var lock_status =  '<%= image_tag("/assets/Lock-icon.png", style: "height: 30px;") %>'
+          };
+
+          infowindow.setContent('<h4>'+bar[i][3]+'</h4>'
+            +'<div class="span2 pull-left well">'+bar[i][6]+'</br>'+lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
+            +'<div class="span2"><b>Sports Teams</b><br/>'+bar[i][5]+'</div>'
+        );
           /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
             '<br/>'+
             '<ul class="tabs" data-tabs="tabs">'+
