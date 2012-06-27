@@ -14,7 +14,7 @@ class BarHour < ActiveRecord::Base
   before_update :bar_time_hour
 
   def bar_time_hour
-    self.open_time = "#{self.open_hour}.#{self.open_word}"
-    self.close_time = "#{self.close}.#{self.close_word}"
+    self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
+    self.close_time = "#{self.close.to_i}.#{self.close_word}"
   end
 end

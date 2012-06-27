@@ -55,7 +55,8 @@ ActiveAdmin.register SiteContent do
         row("Logo") do
           link_to("active", activate_logo_admin_site_content_path(logo))+
           image_tag(logo.image, style: "height: 70px;") +
-          link_to("unactive", unactivate_logo_admin_site_content_path(logo))
+          link_to("unactive", unactivate_logo_admin_site_content_path(logo)) +
+          link_to("delete", admin_logo_path(logo), method: :delete)
         end
       end
       

@@ -20,6 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'chronic'
 gem 'fog'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'timezone'
@@ -70,10 +71,10 @@ gem "exception_notification"
 # gem 'capistrano'
 
 # To use debugger
-group :development do
-  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
-  #  gem 'linecache19'
-  gem 'ruby-debug19', :require => 'ruby-debug'
-  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-end
+#group :development do
+#  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+#  #  gem 'linecache19'
+#  gem 'ruby-debug19', :require => 'ruby-debug'
+#  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
+#end
 

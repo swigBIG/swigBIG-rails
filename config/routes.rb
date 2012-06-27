@@ -1,6 +1,8 @@
 Swprototype::Application.routes.draw do
 
 
+  get "swig_friends_list/index"
+
   get "notifications/index"
 
   ActiveAdmin.routes(self)

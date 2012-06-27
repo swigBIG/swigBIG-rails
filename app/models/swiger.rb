@@ -1,11 +1,15 @@
 class Swiger < ActiveRecord::Base
+  require 'chronic'
+
   attr_accessible :swig_id, :user_id, :bar_id
 
   belongs_to :bar
   belongs_to :user
 
-  before_create :check_swiger
+  #  before_create :check_swiger
   after_create :get_loyalty
+
+  validate :time_and_distance_valid?
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
@@ -39,22 +43,38 @@ class Swiger < ActiveRecord::Base
     ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
   end
 
-  def check_swiger
-    user_swig = self.user.swigers.last
-    radius = BarRadius.where(status: true).first.distance
 
-    if (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) >= 3600
-      return true
-    else
-      unless user_swig.bar.latitude.eql?(self.bar.latitude)
-        if (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
-          return true
+  def time_and_distance_valid?
+    bar_hour = self.bar.bar_hours.where(day: Time.now.to_time.in_time_zone.strftime("%A")).first
+    unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
+      #--
+      if (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0","")).to_time.in_time_zone) && (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.close_time.gsub(".0","")).to_time.in_time_zone)
+        #    if (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+        user_swig = self.user.swigers.last
+        radius = BarRadius.where(status: true).first.distance
+        unless user_swig.blank?
+          if (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) >= 3600
+            return true
+          else
+            unless user_swig.bar.latitude.eql?(self.bar.latitude)
+              unless (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
+                return true
+              else
+                self.errors.add("time and distance", "Permision denied(Near Bar)!")
+              end
+            else
+              self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
+            end
+          end
         else
-          return false
+          return true
         end
       else
-        return false
-      end
+        self.errors.add("#{self.bar.name} is not open yet, please stop by #{bar_hour.close_time} - #{bar_hour.open_time}")
+      end#----
+
+    else
+        self.errors.add("#{self.bar.name} not set yet!")
     end
   end
 
