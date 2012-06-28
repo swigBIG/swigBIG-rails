@@ -27,11 +27,9 @@ gem 'timezone'
 gem "formtastic", "~> 2.1.1"
 gem "activeadmin", "~> 0.4.3"
 #gem 'activeadmin', :git => "git://github.com/gregbell/active_admin.git"
-#gem 'execjs'
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise'
-#gem "devise_invitable", "~> 1.0.1"
 gem 'mysql2'
 gem 'simple_form'
 gem 'carrierwave'
@@ -71,10 +69,10 @@ gem "exception_notification"
 # gem 'capistrano'
 
 # To use debugger
-#group :development do
-#  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
-#  #  gem 'linecache19'
-#  gem 'ruby-debug19', :require => 'ruby-debug'
-#  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
-#end
+group :development do
+  gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
+  #  gem 'linecache19'
+  gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
+end
 

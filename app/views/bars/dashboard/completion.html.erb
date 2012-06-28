@@ -37,13 +37,13 @@
     });
   });
 </script>
-<script type="text/javascript">
+<!--<script type="text/javascript">
   var available_tags = [];
-<% SportTeam.all.each do |team| %>
-    available_tags.push('<%= team.team_name %>');
-<% end %>
+<%# SportTeam.all.each do |team| %>
+    available_tags.push('<%#= team.team_name %>');
+<%# end %>
   $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
-</script>
+</script>-->
 <script type="text/javascript">
   function validate_address(){
     if($('#bar_address').val() == ''){
@@ -129,11 +129,11 @@
     }
   }
   function validate_standard_swig(){
-    if($('#bar_swig_deal').val() == ''){
-      $('#bar_swig_deal').css('border', '1px solid red');
+    if($('#swig').val() == ''){
+      $('#swig').css('border', '1px solid red');
       valid_standard_swig = false;
     }else{
-      $('#bar_swig_deal').css('border', '1px solid black');
+      $('#swig').css('border', '1px solid black');
       valid_standard_swig = true;
     }
     if(valid_standard_swig){
@@ -180,9 +180,9 @@
     $('#hour_text').html($('#bar_bar_hour').val());
     $('#description_text').html($('#bar_bar_description').val());
     $('#sport_text').html($('#mytags').val());
-    $('#swig_text').html($('#bar_swig_deal').val());
+    $('#swig_text').html($('#swig').val());
   }
- //str.split("\n").join("<br />");
+  //str.split("\n").join("<br />");
   
 
   //var name_element = document.getElementById('bar_address');
@@ -307,19 +307,21 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>'s Standard Swig in <%= Time.now.to_time.in_time_zone.strftime("%A") %>?</h3>
           </div>
           <div class="modal-body">
-            <div style="margin-left: -50px;">
-              <%= f.fields_for :swig do |ff| %>
-                <%= ff.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
-                <%= ff.input :swig_day, as: :hidden, input_html: {value: Time.now.to_time.in_time_zone.strftime("%A")} %>
-                <%= ff.input :deal, as: :text, :label => false, input_html: {style: "width: 200px;height: 200px" } %>
-                <div class="span2 pull-right" style="margin-top: -210px;" id="example">
-                  <%= @site_content.swig_example.gsub('"r\n\"',"<br/>").html_safe rescue "Not set <br>example yet!".html_safe %>
-                </div>
-                <div class="span2 pull-right" style="margin-top: -80px;" id="example">
-                  <a class="btn btn-info" id="copy_example">Use Example</a>
-                </div>
-              <% end %>
+            <div class="span4">
+              <%#= text_area_tag :swig, :size=> "20x55" %>
+              <%= text_area_tag :swig %>
+        <%#= f.fields_for :swig do |ff| %>
+        <%#= ff.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
+        <%#= ff.input :swig_day, as: :hidden, input_html: {value: Time.now.to_time.in_time_zone.strftime("%A")} %>
+        <%#= ff.input :deal, as: :text, :label => false, input_html: {style: "width: 200px;height: 200px" } %>
             </div>
+            <div class="span2 pull-right" style="margin-top: -210px;" id="example">
+              <%= @site_content.swig_exampl.gsub('"r\n\"',"<br/>").html_safe rescue "Not set example yet!".html_safe %>
+            </div>
+            <div class="span2 pull-right" style="margin-top: -80px;" id="example">
+              <a class="btn btn-info" id="copy_example">Use Example</a>
+            </div>
+        <%# end %>
           </div>
           <div class="modal-footer">
             <a class="btn" onclick="return validate_standard_swig()">Continue</a>
@@ -398,8 +400,8 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
                 <td><div  id="description_text"></div></td>
               </tr>
               <tr>
-                <button class="btn-primary" style="padding: 4px;border-radius: 3px;">Standard Swig</button>
-                <div  id="swig_text" style="margin-bottom: 10px;"></div>
+              <button class="btn-primary" style="padding: 4px;border-radius: 3px;">Standard Swig</button>
+              <div  id="swig_text" style="margin-bottom: 10px;"></div>
               </tr>
             </table>
 

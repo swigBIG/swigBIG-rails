@@ -2,8 +2,8 @@ ActiveAdmin.register SiteContent do
   menu parent: "Site Settings"
 
   index do |idx|
-    column :site_background
-    column :site_logo
+#    column :site_background
+#    column :site_logo
     column :term_of_service
     column :privacy_policy
     column :corp_information
@@ -11,6 +11,7 @@ ActiveAdmin.register SiteContent do
     column :about_us
     column :learn_more
     column :contact_us
+    column :swig_example
     default_actions
     #    render partial: "data_site"
   end
@@ -24,6 +25,9 @@ ActiveAdmin.register SiteContent do
       #      row :site_logo do
       #        b.site_logo
       #      end
+      row :swig_example do
+        b.swig_example.gsub("\r\n", "<br/>").html_safe
+      end
       row :term_of_service do
         b.term_of_service
       end
@@ -70,8 +74,9 @@ ActiveAdmin.register SiteContent do
 
   form do |f|
     f.inputs "" do
-      f.input :site_background
-      f.input :site_logo
+#      f.input :site_background
+#      f.input :site_logo
+      f.input :swig_example, input_html: {style: "width: 300px;", cols: 3}
       f.input :term_of_service
       f.input :privacy_policy
       f.input :corp_information
