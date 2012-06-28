@@ -128,6 +128,18 @@
       $('#goto_description').click();
     }
   }
+  function validate_standard_swig(){
+    if($('#bar_swig_deal').val() == ''){
+      $('#bar_swig_deal').css('border', '1px solid red');
+      valid_standard_swig = false;
+    }else{
+      $('#bar_swig_deal').css('border', '1px solid black');
+      valid_standard_swig = true;
+    }
+    if(valid_standard_swig){
+      $('#goto_description').click();
+    }
+  }
   function validate_description(){
     if($('#bar_bar_description').val() == ''){
       $('#bar_bar_description').css('border', '1px solid red');
@@ -168,8 +180,9 @@
     $('#hour_text').html($('#bar_bar_hour').val());
     $('#description_text').html($('#bar_bar_description').val());
     $('#sport_text').html($('#mytags').val());
+    $('#swig_text').html($('#bar_swig_deal').val());
   }
-
+ //str.split("\n").join("<br />");
   
 
   //var name_element = document.getElementById('bar_address');
@@ -178,6 +191,13 @@
 
   $(document).ready(function(){
     $('#completion_link').click();
+  })
+</script>
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    $('#copy_example').click(function() {
+      $('#bar_swig_deal').html($.trim($('#example').html()))
+    })
   })
 </script>
 <style type="text/css">
@@ -275,9 +295,37 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
                 </div>
               </div>
             <% end %>
-            <a class="btn" onclick="return validate_hour()">Continue</a>
-            <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal" id="goto_description" style="display: none;">Continue</a>
+            <!--<a class="btn" onclick="return validate_hour()">Continue</a>
+            <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig" style="display: none;">Continue</a>-->
+            <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig">Continue</a>
             <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+        <div id="standard_swig" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>'s Standard Swig in <%= Time.now.to_time.in_time_zone.strftime("%A") %>?</h3>
+          </div>
+          <div class="modal-body">
+            <div style="margin-left: -50px;">
+              <%= f.fields_for :swig do |ff| %>
+                <%= ff.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
+                <%= ff.input :swig_day, as: :hidden, input_html: {value: Time.now.to_time.in_time_zone.strftime("%A")} %>
+                <%= ff.input :deal, as: :text, :label => false, input_html: {style: "width: 200px;height: 200px" } %>
+                <div class="span2 pull-right" style="margin-top: -210px;" id="example">
+                  <%= @site_content.swig_example.gsub('"r\n\"',"<br/>").html_safe rescue "Not set <br>example yet!".html_safe %>
+                </div>
+                <div class="span2 pull-right" style="margin-top: -80px;" id="example">
+                  <a class="btn btn-info" id="copy_example">Use Example</a>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_standard_swig()">Continue</a>
+            <!--<a class="btn" href="#description" data-dismiss="modal" data-toggle="modal">Continue</a>-->
+            <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal" id="goto_description" style="display: none;">Continue</a>
+            <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal">Back</a>
           </div>
         </div>
         <div id="description" class="modal hide fade">
@@ -294,7 +342,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           <div class="modal-footer">
             <a class="btn" onclick="return validate_description()">Continue</a>
             <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal" id="goto_sport_team" style="display: none;">Continue</a>
-            <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal">Back</a>
+            <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal">Back</a>
           </div>
         </div>
         <div id="sport_team" class="modal hide fade">
@@ -344,16 +392,14 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
                 <td><div  id="google_text"></div></td>
               </tr>
               <tr>
-                <td>Hour : </td>
-                <td><div  id="hour_text"></div></td>
+                <td>Sport Team : </td>
+                <td><div  id="sport_text"></div></td>
                 <td>Description : </td>
                 <td><div  id="description_text"></div></td>
               </tr>
               <tr>
-                <td>Sport Team : </td>
-                <td><div  id="sport_text"></div></td>
-                <td></td>
-                <td></td>
+                <button class="btn-primary" style="padding: 4px;border-radius: 3px;">Standard Swig</button>
+                <div  id="swig_text" style="margin-bottom: 10px;"></div>
               </tr>
             </table>
 
