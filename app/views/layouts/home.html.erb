@@ -32,7 +32,7 @@
                 <% if !@site_content.site_logo.blank? %>
                   <%= image_tag(@site_content.site_logo, style: "height: 45px;") %>
                 <% else %>
-                  <b class="brand" style="color: white;">SwigBIG</b>
+                  <h3 class="brand" style="color: white;">SwigBIG</h3>
                 <% end %>
               <% else %>
                 <h3 class="brand" style="color: white;">SwigBIG</h3>
@@ -45,7 +45,7 @@
               <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% if user_signed_in? %>
-              <li>
+                <li>
                   <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
                 </li>
                 <li>
