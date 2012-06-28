@@ -26,7 +26,7 @@ ActiveAdmin.register SiteContent do
       #        b.site_logo
       #      end
       row :swig_example do
-        b.swig_example.gsub("\r\n", "<br/>").html_safe
+        b.swig_example.gsub("\r\n", "<br/>").html_safe rescue nil
       end
       row :term_of_service do
         b.term_of_service
