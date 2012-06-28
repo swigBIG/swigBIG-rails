@@ -48,7 +48,8 @@ class Swiger < ActiveRecord::Base
     bar_hour = self.bar.bar_hours.where(day: Time.now.to_time.in_time_zone.strftime("%A")).first
     unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
       #--
-      if (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0","")).to_time.in_time_zone) && (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.close_time.gsub(".0","")).to_time.in_time_zone)
+      if (Date.today.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0","")).to_time.in_time_zone) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")).to_time.in_time_zone)
+        #      if (Time.now.to_time.in_time_zone <= Chronic.parse(anghour.close_time.gsub("0.", ""))) && (Time.now.to_time.in_time_zone >= Chronic.parse(anghour.open_time.gsub("0.", "")))
         #    if (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.now.to_time.in_time_zone >= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
         radius = BarRadius.where(status: true).first.distance
@@ -70,11 +71,11 @@ class Swiger < ActiveRecord::Base
           return true
         end
       else
-        self.errors.add("#{self.bar.name} is not open yet, please stop by #{bar_hour.close_time} - #{bar_hour.open_time}")
+        self.errors.add("time and distance","#{self.bar.name} is not open yet, please Swig at #{bar_hour.open_time} - #{bar_hour.close_time}")
       end#----
 
     else
-        self.errors.add("#{self.bar.name} not set yet!")
+      self.errors.add("time and distance","#{self.bar.name} not set yet!")
     end
   end
 
