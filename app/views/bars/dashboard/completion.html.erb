@@ -131,6 +131,7 @@
   function validate_standard_swig(){
     if($('#swig').val() == ''){
       $('#swig').css('border', '1px solid red');
+      $('#swig_notice').text('Bar must have at least 1 standard swig!');
       valid_standard_swig = false;
     }else{
       $('#swig').css('border', '1px solid black');
@@ -143,6 +144,7 @@
   function validate_description(){
     if($('#bar_bar_description').val() == ''){
       $('#bar_bar_description').css('border', '1px solid red');
+      $('#bar_description_validation').text('Please describe your bar!!');
       valid_description = false;
     }else{
       $('#bar_bar_description').css('border', '1px solid black');
@@ -196,7 +198,7 @@
 <script type="text/javascript">
   jQuery(document).ready(function() {
     $('#copy_example').click(function() {
-      $('#bar_swig_deal').html($.trim($('#example').html()))
+      $('#swig').html($.trim($('#example').html()))
     })
   })
 </script>
@@ -286,12 +288,15 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
               <div class="span4" style="margin-right: 10px;">
                 <div class="span2">
                   <b><%= ff.object.day %></b>
-                  <%= ff.input :open_hour, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close, as: :select, label: false, collection: 1..24, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {style: "width: 45px;margin-left: -160px;"} %>
                 </div>
                 <div class="span1" style="margin-top: 15px;">
                   <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
                   <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <% unless ff.object.day.eql?("Monday") %>
+                    Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
+                  <% end %>
                 </div>
               </div>
             <% end %>
@@ -308,18 +313,19 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           </div>
           <div class="modal-body">
             <div class="span4">
-              <%#= text_area_tag :swig, :size=> "20x55" %>
+        <%#= text_area_tag :swig, :size=> "20x55" %>
+              <div id="swig_notice" style="color: red;"></div>
               <%= text_area_tag :swig %>
+            </div>
+            <div class="span3 pull-right" style="" id="example">
+              <%= @site_content.swig_exampl.gsub('"r\n\"',"<br/>").html_safe rescue "Not set example yet!".html_safe %>
+            </div>
+            <a class="btn btn-info" style="margin-left: 20px;margin-top: 10px;" id="copy_example">Use Example</a>
         <%#= f.fields_for :swig do |ff| %>
         <%#= ff.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
         <%#= ff.input :swig_day, as: :hidden, input_html: {value: Time.now.to_time.in_time_zone.strftime("%A")} %>
         <%#= ff.input :deal, as: :text, :label => false, input_html: {style: "width: 200px;height: 200px" } %>
-            </div>
-            <div class="span2 pull-right" style="margin-top: -210px;" id="example">
-              <%= @site_content.swig_exampl.gsub('"r\n\"',"<br/>").html_safe rescue "Not set example yet!".html_safe %>
-            </div>
-            <div class="span2 pull-right" style="margin-top: -80px;" id="example">
-              <a class="btn btn-info" id="copy_example">Use Example</a>
+            <div class="span2 pull-right" style="margin-top: 0px;" id="example">
             </div>
         <%# end %>
           </div>
@@ -337,6 +343,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           </div>
           <div class="modal-body">
             <div style="margin-left: -50px;">
+              <div id="bar_description_validation" style="margin-left: 50px;color: red;"></div>
               <%= f.input :bar_description, label: false, placeholder: "Bar Description...", input_html: {style: "width: 400px;height: 200px;margin-left: -30px;", onkeyup: "countChar(this)"} %>
               <div class="pull-right" id="charNum"></div>
             </div>
@@ -414,3 +421,61 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           </div>
         <% end %>
       <% end %>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $(".day_bar").click(function(){
+            var day = $("#"+this.id).attr("day_bar");
+            day_last = day - 1
+            var open = document.getElementById("#bar_bar_hours_attributes_"+day_last+"_open_hour").value();
+            var close = $("#close_hour"+day_last+" > option:selected").text();
+            var openw = $("#open_w"+day_last+" > option:selected").text();
+            var closew = $("#close_w"+day_last+" > option:selected").text();
+
+            //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
+            if ($("#"+this.id).attr('checked', true)){
+
+              $("#bar_bar_hours_attributes_"+day+"_open_hour > option").eq(open).attr("selected","selected")
+              $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+              $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
+              $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
+
+            }else{
+              $("#"+this.id).attr('checked', false);
+              $("#open_hour"+day+" > option").eq(open).attr("selected","")
+              $("#close_hour"+day+" > option").eq(close).attr("selected","")
+              $("#open_w"+day+" > option").eq(openw).attr("selected","")
+              $("#close_w"+day+" > option").eq(closew).attr("selected","")
+            }
+          });
+        });
+      </script>
+
+      <!--<script type="text/javascript">
+        $(document).ready(function(){
+          $(".day_bar").click(function(){
+            var day = $("#"+this.id).attr("day_bar");
+            day_last = day - 1
+            var open = $("#bar_bar_hours_attributes_"+day_last+"_open_hour > option:selected").text();
+            var close = $("#close_hour"+day_last+" > option:selected").text();
+            var openw = $("#open_w"+day_last+" > option:selected").text();
+            var closew = $("#close_w"+day_last+" > option:selected").text();
+
+            //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
+            if ($("#"+this.id).attr('checked', true)){
+
+              $("#bar_bar_hours_attributes_"+day+"_open_hour > option").eq(open).attr("selected","selected")
+              $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+              $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
+              $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
+
+            }else{
+              $("#"+this.id).attr('checked', false);
+              $("#open_hour"+day+" > option").eq(open).attr("selected","")
+              $("#close_hour"+day+" > option").eq(close).attr("selected","")
+              $("#open_w"+day+" > option").eq(openw).attr("selected","")
+              $("#close_w"+day+" > option").eq(closew).attr("selected","")
+            }
+          });
+        });
+      </script>-->
