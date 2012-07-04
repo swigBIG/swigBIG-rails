@@ -104,7 +104,7 @@ Swprototype::Application.routes.draw do
     match  "update_password" => "dashboard#update_password", as: "update_password"
     #    get "bar_swigs/show"
     get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
-    get  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
+    post  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
     post "create_popularity/:bar_id" => "bars#create_popularity", as: "create_popularity"
     #--- friendship
     match "friendship" => "friends#index", as: "friend_index"
