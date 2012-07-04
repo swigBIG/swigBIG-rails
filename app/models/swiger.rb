@@ -75,7 +75,7 @@ class Swiger < ActiveRecord::Base
       end#----
 
     else
-      self.errors.add("time and distance","#{self.bar.name} not set yet!")
+      self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
     end
   end
 
