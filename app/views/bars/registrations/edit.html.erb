@@ -43,12 +43,11 @@
       var x = [];
       x.push('name: <%= b.to_json %>');//0
       x.push('id: <%= b.to_json %>');//0
-
       sport_teams.push(x);
 <% end %>
     var include_sport_list = [];
-<%  unless current_bar.blank?%>
-  <%  unless current_bar.sports_teams.blank?%>
+<%  unless current_bar.blank? %>
+  <%  unless current_bar.sports_teams.blank? %>
     <%  sports_team = current_bar.sports_team.split(',') %>
     <%  sports_team.each do |team| %>
           include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
@@ -111,8 +110,8 @@
                 <div class="span4">
                   <div class="span2">
                     <b style="margin-left: 30px;"><%= ff.object.day %></b>
-                    <%= ff.input :open_hour, as: :select, label: false, collection: 1..12, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                    <%= ff.input :close, as: :select, label: false, collection: 1..12, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
                   </div>
                   <div class="span1" style="margin-top: 12px;">
                     <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
