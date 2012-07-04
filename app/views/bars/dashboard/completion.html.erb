@@ -435,7 +435,9 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
             if ($("#"+this.id).attr('checked', true)){
 
-              $("#bar_bar_hours_attributes_"+day+"_open_hour > option").eq(open).attr("selected","selected")
+              $('#bar_bar_hours_attributes_'+day+'_open_hour').val($('#bar_bar_hours_attributes_'+day_last+'_open_hour').val())
+
+              //$("#bar_bar_hours_attributes_"+day+"_open_hour > option").eq(open).attr("selected","selected")
               $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
               $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
               $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
