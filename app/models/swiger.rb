@@ -9,7 +9,7 @@ class Swiger < ActiveRecord::Base
   #  before_create :check_swiger
   after_create :get_loyalty
 
-  validate :time_and_distance_valid?, :popularity_reward_valid?
+  validate :time_and_distance_valid?
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
@@ -80,20 +80,25 @@ class Swiger < ActiveRecord::Base
     end
   end
 
-  def popularity_reward_valid?
-    user_guesses = self.user.popularity_inviters.today.last.users_inviters_id.split(",")
-    today_friends_swiger = self.bar.swigers.today.where(user_id: user_guesses).count
-    unless self.bar.popularity.blank?
-      if self.bar.popularity.swigs_number.eql?(today_friends_swiger)
-        User.where(id: user_guesses).each do |user|
-          self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
-        end
-      else
-        self.errors.add("popularity reward","#{self.bar.name} popularity not archive yet!!")
-      end
-    else
-      self.errors.add("popularity reward","#{self.bar.name} not create popularity yet!!")
-    end
-  end
+#  def popularity_reward_valid?
+##    user_guesses = self.user.popularity_inviters.today.last.users_inviters_id.split(",")
+#
+#
+#    today_friends_swiger = self.bar.swigers.today.where(user_id: user_guesses).count
+#    if self.user.popularity_inviters.today.last.blank
+#    unless self.bar.popularity.blank?
+#      if self.bar.popularity.swigs_number.eql?(today_friends_swiger)
+#        User.where(id: user_guesses).each do |user|
+#          self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
+#        end
+#      else
+#        self.errors.add("popularity reward","#{self.bar.name} popularity not archive yet!!")
+#      end
+#    else
+#      self.errors.add("popularity reward","#{self.bar.name} not create popularity yet!!")
+#    end
+#  end
+
+
 
 end
