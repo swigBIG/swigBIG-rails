@@ -207,7 +207,7 @@ class Bars::DashboardController < ApplicationController
           current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
         end
       end
-      redirect_to :back, notice: "Message success Send! to 25%"
+      redirect_to :back, notice: "Message success Send! to 50%"
     when "8" #buat pie chart
       current_bar.points.group(:user_id).count.each_pair do |key, val|
         #      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
@@ -216,7 +216,7 @@ class Bars::DashboardController < ApplicationController
           current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
         end
       end
-      redirect_to :back, notice: "Message success Send! to 25%"
+      redirect_to :back, notice: "Message success Send! to 75%"
     else
       redirect_to :back, notice: "Failed sent message!"
     end
@@ -224,7 +224,7 @@ class Bars::DashboardController < ApplicationController
 
   def update_completion
     @bar = current_bar
-    current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.now.to_time.in_time_zone.strftime("%A"))
+    current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
     if @bar.update_attributes(params[:bar])
       sign_in @bar, :bypass => true
       redirect_to bars_dashboard_path, notice: "Profile Completion Success!"

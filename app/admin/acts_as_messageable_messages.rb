@@ -56,7 +56,7 @@ ActiveAdmin.register ActsAsMessageable::Message do
   controller do
     def create
       bar = Bar.find(params[:acts_as_messageable_message][:to])
-      current_admin_user.send_message(bar, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+      current_admin_user.send_message(bar, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: 22})
       redirect_to action: :index
     end
   end

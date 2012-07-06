@@ -19,7 +19,7 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "message_user" do
     end
     def create
       bar = Bar.find(params[:message_user][:to])
-      current_admin_user.send_message(bar, {topic: params[:message_user][:topic], body: params[:message_user][:body], category: params[:message_user][:category]})
+      current_admin_user.send_message(bar, {topic: params[:message_user][:topic], body: params[:message_user][:body], category: params[:message_user][:category], category: 22})
      redirect_to admin_dashboard_url, notice: "Send Successfull"
     end
   end

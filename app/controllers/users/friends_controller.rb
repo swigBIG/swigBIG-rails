@@ -1,13 +1,16 @@
 class Users::FriendsController < ApplicationController
-  layout "users_no_side"
+  layout "users"
 
   def index
     @search = User.search(params[:search])
     @users = @search
+    friends = current_user.friendships.pluck(:friend_id).uniq
+    @friends_at_bar = Swiger.where(user_id: friends).where(["created_at >= ? AND created_at <= ?", Time.now.to_time.in_time_zone - 1.hours, Time.now.to_time.in_time_zone + 1.hours])
     @current = current_user
     @friends = @current.friends
     @user_pending = current_user.pending_invited
     @user_request = current_user.pending_invited_by
+
   end
 
   def show

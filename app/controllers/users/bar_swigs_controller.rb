@@ -29,7 +29,7 @@ class Users::BarSwigsController < ApplicationController
           redirect_to :back, notice: "You added as Swiger in this BigSwig!"
         end
       else
-        redirect_to :back, notice: @swiger.errors["time and distance"].first
+        redirect_to :back, notice: "#{@swiger.errors["time and distance"].first} #{@swiger.errors["time and distance"].first}"
       end
     else
       redirect_to :back, notice: "You must sign in first!"

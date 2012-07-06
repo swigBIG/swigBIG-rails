@@ -6,10 +6,12 @@ class Swiger < ActiveRecord::Base
   belongs_to :bar
   belongs_to :user
 
+  has_many :popularity_guesses
+
   #  before_create :check_swiger
   after_create :get_loyalty
 
-  validate :time_and_distance_valid?
+  validate :time_and_distance_valid?, :popularity_reward_valid?
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
@@ -50,7 +52,7 @@ class Swiger < ActiveRecord::Base
   def time_and_distance_valid?
     bar_hour = self.bar.bar_hours.where(day: Time.now.to_time.in_time_zone.strftime("%A")).first
     unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
-#      debugger
+      #      debugger
       Chronic.time_class = Time.zone
       if (Date.today.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
@@ -80,24 +82,36 @@ class Swiger < ActiveRecord::Base
     end
   end
 
-#  def popularity_reward_valid?
-##    user_guesses = self.user.popularity_inviters.today.last.users_inviters_id.split(",")
-#
-#
-#    today_friends_swiger = self.bar.swigers.today.where(user_id: user_guesses).count
-#    if self.user.popularity_inviters.today.last.blank
-#    unless self.bar.popularity.blank?
-#      if self.bar.popularity.swigs_number.eql?(today_friends_swiger)
-#        User.where(id: user_guesses).each do |user|
-#          self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
-#        end
-#      else
-#        self.errors.add("popularity reward","#{self.bar.name} popularity not archive yet!!")
-#      end
-#    else
-#      self.errors.add("popularity reward","#{self.bar.name} not create popularity yet!!")
-#    end
-#  end
+  def popularity_reward_valid?
+    if !self.bar.popularity.blank?
+
+      if !self.user.popularity_inviters.today.first.blank?
+        self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
+        popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
+            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
+          end
+        end
+      elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
+        user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
+        user_guess.update_attributes(enter_status: "swig")
+        popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
+            self.bar.send_message(guess.user, {topic: "#{self.bar.name} popularity has unlock", body: "You can get our Popularity reward #{self.bar.popularity.reward_detail}", category: 9})
+#            test
+          end
+        end
+      else
+        return true
+      end
+
+    else
+      return true
+    end
+
+  end
 
 
 

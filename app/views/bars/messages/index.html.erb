@@ -16,16 +16,23 @@
       </thead>
       <tbody>
         <% @messages.each do |message| %>
-          <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
-            <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
-            <!--<td class="span7"><%#= link_to  message.sent_messageable.email.titleize, bars_message_url(message) %></td>-->
-            <% if message.sent_messageable_type.eql?("AdminUser") %>
-              <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= "SwigBIG.com" %></b></td>
-            <% end %>
-            <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 20) %></td>
-            <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
-          </tr>
-          </tr>
+          <% if message.category.eql?(22) %>
+            <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
+              <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
+              <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= "SwigBIG.com" %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 20) %></td>
+              <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+            </tr>
+          <% else %>
+            <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
+              <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
+              <!--<td class="span7"><%#= link_to  message.sent_messageable.email.titleize, bars_message_url(message) %></td>-->
+              <% if message.sent_messageable_type.eql?("AdminUser") %>
+                <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= "SwigBIG.com" %></b></td>
+              <% end %>
+              <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 20) %></td>
+              <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>

@@ -35,18 +35,37 @@ class Users::BarsController < ApplicationController
 
   def create_popularity
     @bar = Bar.find(params[:bar_id])
-    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id)
+    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id, users_inviters_id: params[:guess_ids].join(",") )
     if @popularity_inviter.save
       if  !params[:guess_ids].blank?
+        @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id)
         params[:guess_ids].each do |guess_id|
-          @popularity_inviter.popularity_guesses.create(user_id: guess_id)
-          redirect_to :back, notice: "Success Create Popularity!"
+          @popularity_inviter.popularity_guesses.create(user_id: guess_id, bar_id: @popularity_inviter.bar_id)
         end
+          redirect_to :back, notice: "Success Create Popularity!"
       else
+        @popularity_inviter.destroy
         redirect_to :back, notice: "Empty Guess!"
       end
     else
       redirect_to :back, notice: "Fail Create Popularity!"
     end
   end
+
+  #  def create_popularity
+  #    @bar = Bar.find(params[:bar_id])
+  #    debugger
+  #    if !params[:guess_ids].blank?
+  #      @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id, users_inviters_id: params[:guess_ids].join(",") )
+  #      if @popularity_inviter.save
+  #        redirect_to :back, notice: "Popularity Success created!"
+  #      else
+  #        redirect_to :back, notice: "Popularity Failed created!"
+  #      end
+  #    else
+  #      redirect_to :back, notice: "Empty Guess! Please check your swig friends!"
+  #    end
+  #  end
+
+  
 end
