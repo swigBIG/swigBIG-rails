@@ -255,47 +255,47 @@
   <div class="tab-content">
     <div class="tab-pane active" id="swig_tab">
       <ul class="tabs" data-tabs="tabs">
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab" onclick="check_monday()"><h3>Mon</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab" onclick="check_tuesday()"><h3>Tue</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab" onclick="check_wednesday()"><h3>Wed</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab" onclick="check_thursday()"><h3>Thu</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab" onclick="check_friday()"><h3>Fri</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab" onclick="check_saturday()"><h3>Sat</h3></a></li>
-        <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab" onclick="check_sunday()"><h3>Sun</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab" onclick="check_monday()"><h3>Mon</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab" onclick="check_tuesday()"><h3>Tue</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab" onclick="check_wednesday()"><h3>Wed</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab" onclick="check_thursday()"><h3>Thu</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab" onclick="check_friday()"><h3>Fri</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab" onclick="check_saturday()"><h3>Sat</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab" onclick="check_sunday()"><h3>Sun</h3></a></li>
       </ul>
 
       <div class="tab-content">
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
           <% @swigs.monday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
           <% @swigs.tuesday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
           <% @swigs.wednesday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
           <% @swigs.thursday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
           <% @swigs.friday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
           <% @swigs.saturday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>
         </div>
-        <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
+        <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
           <% @swigs.sunday.each do |swig|%>
             <%= render partial: "swig_list", locals: {swig: swig} %>
           <% end %>

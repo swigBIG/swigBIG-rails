@@ -17,10 +17,11 @@
 <%#= truncate(swig.deal.html_safe, length: 20) rescue nil %>
     </div>
     <% if  swig.swig_type.eql?("Big") %>
-      <div class="span2">
+      <div class="span3">
         <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
           <%= swig.swig_type %>
         </button>
+        <b>req: </b><%= pluralize(swig.people, "person") %>
       </div>
     <% else %>
       <div class="span2">
