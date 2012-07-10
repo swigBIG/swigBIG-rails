@@ -57,7 +57,7 @@
                   <span class="badge badge-error"><%= current_user.received_messages.where("opened is false").count unless current_user.received_messages.where("opened is false").blank? %></span>
                 </li>
                 <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name.split(" ").first}!" %></b></a>
                   <ul class="dropdown-menu">
                     <% unless current_user.access_token.blank? %>
                       <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>

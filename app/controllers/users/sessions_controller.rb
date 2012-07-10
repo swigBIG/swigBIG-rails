@@ -32,7 +32,8 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    users_dashboard_url
+#    users_dashboard_url
+    root_url
   end
   
 end
