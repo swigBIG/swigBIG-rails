@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   require 'open-uri'
   before_filter :reject_bot_request, :swigbig_content, :set_time_zone
+  before_filter :set_access_control_headers
   #  
   
   #  if user_signed_in?
@@ -62,11 +63,17 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+  
+  def set_access_control_headers
+    headers["Access-Control-Allow-Origin"] = "*"
+    headers["Access-Control-Request-Method"] = "*"
+  end
 
   def set_current_ip
-    return request.ip.to_s if Rails.env.eql?("development")
+    # return request.ip.to_s if Rails.env.eql?("development")
     #    "211.157.105.218"
-    "75.85.54.184"
+#    "75.85.54.184"
+    "64.90.182.55"
   end
 
   #  if user_signed_in?
