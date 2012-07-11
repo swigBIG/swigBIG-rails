@@ -122,6 +122,23 @@ Swprototype::Application.routes.draw do
     end
   end
 
+  #  devise_for :users, :controllers => {:sessions => "api/v1/mobiles"}
+  namespace :api do
+    namespace :v1 do
+      resource :swig_mobiles do
+        post 'register', 'home'
+      end
+    end
+  end
+  
+  devise_for :users, :controllers => {:sessions => "api/v1/mobiles"}
+
+  devise_scope :user do
+    get "api/v1/user/login", :to => "api/v1/mobiles#create"
+    post "api/v1/user/login", :to => "api/v1/mobiles#create"
+    get "api/v1/user/logout", :to => "api/v1/mobiles#destroy"
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
