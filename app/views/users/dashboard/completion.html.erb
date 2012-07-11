@@ -14,8 +14,23 @@
       $('#goto_link').click();
     }
   }
-  
-  
+  function validate_bird_date(){
+    if($('#user_bird_date').val() == ""){
+      $('#user_bird_date').css('border', '1px solid red');
+      $('#validate_bird_date').text('Bird Date Must Fill!');
+      valid_bird_date = false;
+    }else{
+      $('#user_bird_date').css('border', '1px solid black');
+      //$('#user_email').html('email not match');
+      valid_bird_date = true;
+    }
+    if(valid_bird_date){
+      $('#goto_second_link').click();
+    }
+  }
+  </script>
+
+  <script type="text/javascript">
   
   function validate_sports_team(){
     if($('#mytags').val() == ''){
@@ -26,8 +41,8 @@
       valid_description = true;
     }
     if(valid_description){
-      $('#goto_check_data').click();
-      get_all_data();
+      $('#goto_second_link').click();
+      //get_all_data();
     }
   }
   $('#goto_check_data').click();
@@ -68,7 +83,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
     </div>
     <div class="modal-body">
       <div style="text-align: center;">
-        <b>Your Bar Profile not Complete Yet, Would you like to complete now?</b>
+        <b>Your User Profile not Complete Yet, Would you like to complete now?</b>
       </div>
       <div style="text-align: center;">
         <a href="#user_details" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
@@ -86,26 +101,42 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
       <div class="modal-body">
         <%= simple_form_for(@user,url: users_update_completion_path, method: :get, html: {class: "form-horizontal" }) do |f| %>
         <%#= devise_error_messages! %>
-        <b style="color: red;"><div id="validate_email"></div></b>
+            <b style="color: red;"><div id="validate_email"></div></b>
             <%= f.input :email, input_html: {value: ""} %>
             <%= f.input :name %>
-            <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
-          <%#= f.input :avatar %>
-              <%= f.input :phone_number %>
+            
             </div>
             <div class="modal-footer">
-              <a class="btn" onclick="return validate_email()">Continue</a>
+              <a class="btn" onclick="return validate_email() ">Continue</a>
               <!--<a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
 
               <a class="btn" onclick="return validate_address()">Continue</a>-->
-              <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>
+              <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>
+            </div>
+          </div>
+
+          <div id="user_second_profile" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3 style="text-align: center;">User Profile Detail?</h3>
+            </div>
+            <div class="modal-body">
+              <b style="color: red;"><div id="validate_bird_date"></div></b>
+            <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
+              <%= f.input :avatar %>
+              <%= f.input :phone_number %>
+            </div>
+            <div class="modal-footer">
+              <a class="btn" onclick="return validate_bird_date();">Continue</a>
+              <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_second_link" style="display:none;">Continue</a>
+              <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
             </div>
           </div>
 
           <div id="user_location" class="modal hide fade">
             <div class="modal-header">
               <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3 style="text-align: center;">What Sports Teams does support?</h3>
+              <h3 style="text-align: center;">What Your Address?</h3>
             </div>
             <div class="modal-body">
               <%= f.input :address %>
@@ -116,7 +147,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <div class="modal-footer">
               <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->
               <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
-              <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
+              <a class="btn" href="#user_second_profile" data-dismiss="modal" data-toggle="modal">Back</a>
             </div>
           </div>
           <div id="check_data" class="modal hide fade">

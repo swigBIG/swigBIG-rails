@@ -9,10 +9,10 @@ class Bar < ActiveRecord::Base
     :zip_code, :phone_number, :city, :state, :country, :latitude, :longitude, :logo, :slug,
     :status, :qrcode, :plan_id, :service_uid, :terms, :bar_background, :sports_team, :website_link,
     :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description, :bar_hour,
-    :bar_hours_attributes, :full_address, :sports_team_list, :lock_status
+    :bar_hours_attributes, :full_address, :sports_team_list, :lock_status#, :swigs_attributes
   # attr_accessible :title, :body
   validates :terms, :acceptance => true
-  validates :address, :zip_code, :city, :sports_team, :presence => true, :on => :update
+  validates :address, :zip_code, :city, :presence => true, :on => :update
 #  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
 
   mount_uploader :logo, ImageUploader
@@ -48,7 +48,7 @@ class Bar < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :bar_hours#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
-  accepts_nested_attributes_for :swigs, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+#  accepts_nested_attributes_for :swigs #, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
   #  before_update  :set_lat_lng
 
@@ -80,7 +80,8 @@ class Bar < ActiveRecord::Base
 
   def set_coordinates
     begin
-      geo = Geocoder.coordinates("#{self.address},#{self.city},#{self.zip_code}, United States")
+      geo = Geocoder.coordinates("#{self.address},#{self.city}, US")
+#      geo = Geocoder.coordinates("#{self.address},#{self.city},#{self.zip_code}, US")
       self.latitude = geo.first
       self.longitude = geo.last
     rescue

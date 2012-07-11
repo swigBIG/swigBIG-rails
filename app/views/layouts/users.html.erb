@@ -33,14 +33,14 @@
                 <% if !@site_content.site_logo.blank? %>
                   <%= image_tag(@site_content.site_logo, style: "height: 45px;") %>
                 <% else %>
-                  <b class="brand" style="color: white;">SwigBIG</b>
+                  <h3 class="brand" style="color: white;">SwigBIG</h3>
                 <% end %>
               <% else %>
                 <h3 class="brand" style="color: white;">SwigBIG</h3>
               <% end %>
             </li>
             <li>
-              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>
+              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
             </li>
             <div class="nav pull-right" style="margin-left: 200px;">
               <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
@@ -58,7 +58,7 @@
                   <span class="badge badge-error"><%= current_user.received_messages.where("opened is false").count unless current_user.received_messages.where("opened is false").blank? %></span>
                 </li>
                 <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name.split(" ").first}!" %></b></a>
                   <ul class="dropdown-menu">
                     <% unless current_user.access_token.blank? %>
                       <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
@@ -72,6 +72,9 @@
                     <% end %>
                     <li>
                       <%= link_to "Rewards", users_rewards_path %>
+                    </li>
+                    <li>
+                      <%= link_to "friendship", users_friend_index_path %>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -92,10 +95,10 @@
 
     <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;">
       <% if notice %>
-        <div class="alert alert-success"><%= notice %><a class="close"><b>x</b></a></div>
+      <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
       <% end %>
       <% if alert %>
-        <div class="alert alert-success"><%= alert %><a class="close"><b>x</b></a></div>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
       <% end %>
       <div class="span4 pull-left">
         <br />

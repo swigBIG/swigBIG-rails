@@ -1,3 +1,16 @@
+<%= content_for :side do %>
+  <table>
+    <% @friends_at_bar.each do |swiger| %>
+      <tr>
+        <td>
+          <%= swiger.user.name %> @<%= swiger.bar.name %>
+        </td>
+      </tr>
+    <% end %>
+
+  </table>
+<% end %>
+
 <%= simple_form_for(@search, url: users_friend_index_path) do |f| %>
   <%= f.input :name_contains, label: false, placeholder: "Search by Name", required: false, input_html: {style: "margin-left: -160px;"} %>
   <%= f.submit "Search", class: "btn-primary", input_html: {style: "margin-top: -50px; margin-right: -70px;"} %>

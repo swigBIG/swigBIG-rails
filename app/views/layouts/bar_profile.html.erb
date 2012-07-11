@@ -28,51 +28,57 @@
     <%= yield :facebook_like %>
     <!--facebook like box-->
     <!------>
-    <div class="navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
+    <div class="navbar-fixed-top" style="">
+      <div class="navbar-inner" >
+        <div class="container" >
           <div class="nav pull-right">
             <li>
               <% if !@site_content.blank? %>
                 <% if !@site_content.site_logo.blank? %>
                   <%= image_tag(@site_content.site_logo, style: "height: 45px;") %>
                 <% else %>
-                  <b class="brand" style="color: white;">SwigBIG</b>
+                  <h3 class="brand" style="color: white;">SwigBIG</h3>
                 <% end %>
               <% else %>
                 <h3 class="brand" style="color: white;">SwigBIG</h3>
               <% end %>
             </li>
             <li>
-              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>
+             <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
             </li>
             <div class="nav pull-right" style="margin-left: 200px;">
-              <li><b><a href="#" id="fat-menu" style="color: white;">Home</a></b></li>
+              <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% unless user_signed_in? %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Sign up for FREE</b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <%= link_to "User Sign Up", new_user_registration_path,style: "color:#fff" %>
-                    </li>
-                    <li>
-                      <%= link_to "Bar Sign Up", new_bar_registration_path, style: "color: white;" %>
-                    </li>
-                    <li class="divider"></li>
-                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
-                  </ul>
+                <li>
+                  <b><%= link_to "Sign Up for Free", new_user_registration_path,style: "color:#fff" %></b>
                 </li>
               <% end %>
               <% if user_signed_in? %>
+                <li>
+                  <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
+                </li>
+                <li>
+                  <span class="badge badge-error"><%= current_user.received_messages.where("opened is false").count unless current_user.received_messages.where("opened is false").blank? %></span>
+                </li>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{current_user.name}!" %></b></a>
                   <ul class="dropdown-menu">
+                    <% unless current_user.access_token.blank? %>
+                      <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
+                    <% else %>
+                      <li>
+                        <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
+                      </li>
+                      <li>
+                        <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
+                      </li>
+                    <% end %>
                     <li>
-                      <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
+                      <%= link_to "Rewards", users_rewards_path %>
                     </li>
                     <li>
-                      <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
+                      <%= link_to "friendship", users_friend_index_path %>
                     </li>
                     <li class="divider"></li>
                     <li>
@@ -80,18 +86,8 @@
                     </li>
                   </ul>
                 <% else %>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Log In</b></a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <%= link_to "User log in", new_user_session_path %>
-                    </li>
-                    <li>
-                      <%= link_to "Bar log in", new_bar_session_path %>
-                    </li>
-                    <li class="divider"></li>
-                    <li><%#= link_to "Log Out", destroy_student_session_path, method: :delete %></li>
-                  </ul>
+                <li>
+                  <b><%= link_to "Log In", new_user_session_path, style: "color: white" %></b>
                 </li>
               <% end %>
             </div>
@@ -103,7 +99,7 @@
 
     <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;">
       <% if notice %>
-        <div class="alert alert-success"><%= notice %></div>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
       <% end %>
       <% if alert %>
         <div class="alert alert-success"><%= alert %></div>

@@ -20,22 +20,23 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'chronic'
+gem 'fog'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'timezone'
 gem "formtastic", "~> 2.1.1"
 gem "activeadmin", "~> 0.4.3"
 #gem 'activeadmin', :git => "git://github.com/gregbell/active_admin.git"
-#gem 'execjs'
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise'
-#gem "devise_invitable", "~> 1.0.1"
 gem 'mysql2'
 gem 'simple_form'
 gem 'carrierwave'
 gem 'geocoder'
 gem 'geokit'
 gem "mini_magick"
+gem 'rmagick'
 gem "friendly_id"
 gem 'carmen'
 gem 'whenever', :require => false

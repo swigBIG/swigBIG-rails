@@ -1,5 +1,8 @@
 Swprototype::Application.routes.draw do
 
+
+  get "swig_friends_list/index"
+
   get "notifications/index"
 
   ActiveAdmin.routes(self)
@@ -35,11 +38,12 @@ Swprototype::Application.routes.draw do
     collection do
     end
   end
+  
   devise_for :bars, controllers: {registrations: "bars/registrations", sessions: "bars/sessions", confirmations: "bars/confirmations", passwords: "bars/passwords"}
 
   devise_for :members, controllers: {registrations: "members/registrations"}
   
-  
+  match "upgrade" => "bars/payment_gateway#index", as: "upgrade"
   namespace :bars do
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
     match  "completion" => "dashboard#completion", as: "completion"
@@ -100,7 +104,7 @@ Swprototype::Application.routes.draw do
     match  "update_password" => "dashboard#update_password", as: "update_password"
     #    get "bar_swigs/show"
     get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
-    get  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
+    post  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
     post "create_popularity/:bar_id" => "bars#create_popularity", as: "create_popularity"
     #--- friendship
     match "friendship" => "friends#index", as: "friend_index"

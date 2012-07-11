@@ -49,4 +49,16 @@ module ApplicationHelper
     now.year - student.date_of_birth.year - (student.date_of_birth.change(:year => now.year) > now ? 1 : 0)
   end
 
+  def bar_collection
+    Bar.all.map { |b| [b.name, b.id] }
+  end
+  
+  def user_message_collection
+    User.all.map { |u| [u.name, u.id] unless u.name.blank?}.compact
+  end
+
+  def hours_collection
+    [[1,1.0],[2,2.0],[3,3.0],[4,4.0],[5,5.0],[6,6.0],[7,7.0],[8,8.0],[9,9.0],[10,10.0],[11,11.0],[12,12.0]]
+  end
+
 end

@@ -8,7 +8,7 @@ ActiveAdmin.register User do
   filter  :phone_number
   filter  :city
   filter  :state
-  filter  :country
+#  filter  :country
   filter  :sports_team
 
   index do
@@ -20,7 +20,7 @@ ActiveAdmin.register User do
     column  :phone_number
     column  :city
     column  :state
-    column  :country
+#    column  :country
     column  :bird_date
     column  :lock_status
 
@@ -69,9 +69,9 @@ ActiveAdmin.register User do
       row :state do
         b.state
       end
-      row :country do
-        b.country
-      end
+#      row :country do
+#        b.country
+#      end
     end
   end
 
@@ -85,7 +85,7 @@ ActiveAdmin.register User do
       f.input :zip_code
       f.input :phone_number
       f.input :state
-      f.input :country
+#      f.input :country
       f.buttons
     end
   end

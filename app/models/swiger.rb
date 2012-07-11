@@ -1,13 +1,21 @@
 class Swiger < ActiveRecord::Base
+  require 'chronic'
+
   attr_accessible :swig_id, :user_id, :bar_id
 
   belongs_to :bar
   belongs_to :user
 
+  has_many :popularity_guesses
+
+  #  before_create :check_swiger
   after_create :get_loyalty
 
-  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
+  validate :time_and_distance_valid?, :popularity_reward_valid?
 
+  #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
+
+  scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
 
   #  log_activity_streams self.user_id, :name, "test",
   #    :loyalty_points, :id, :get_loyalty, :swig
@@ -36,6 +44,75 @@ class Swiger < ActiveRecord::Base
 
   def create_activity(actor, object)
     ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
+    user = User.find(actor)
+    self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
   end
+
+
+  def time_and_distance_valid?
+    bar_hour = self.bar.bar_hours.where(day: Time.now.to_time.in_time_zone.strftime("%A")).first
+    unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
+      #      debugger
+      Chronic.time_class = Time.zone
+      if (Date.today.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+        user_swig = self.user.swigers.last
+        radius = BarRadius.where(status: true).first.distance
+        unless user_swig.blank?
+          if (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) >= 3600
+            return true
+          else
+            unless user_swig.bar.latitude.eql?(self.bar.latitude)
+              unless (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
+                return true
+              else
+                self.errors.add("time and distance", "Permision denied(Near Bar)!")
+              end
+            else
+              self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
+            end
+          end
+        else
+          return true
+        end
+      else
+        self.errors.add("time and distance","#{self.bar.name} is not open yet, please Swig at #{bar_hour.open_time} - #{bar_hour.close_time}")
+      end
+    else
+      self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
+    end
+  end
+
+  def popularity_reward_valid?
+    if !self.bar.popularity.blank?
+
+      if !self.user.popularity_inviters.today.first.blank?
+        self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
+        popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
+            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
+          end
+        end
+      elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
+        user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
+        user_guess.update_attributes(enter_status: "swig")
+        popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
+            self.bar.send_message(guess.user, {topic: "#{self.bar.name} popularity has unlock", body: "You can get our Popularity reward #{self.bar.popularity.reward_detail}", category: 9})
+#            test
+          end
+        end
+      else
+        return true
+      end
+
+    else
+      return true
+    end
+
+  end
+
+
 
 end
