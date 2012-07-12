@@ -134,10 +134,12 @@ Swprototype::Application.routes.draw do
   devise_for :users, :controllers => {:sessions => "api/v1/mobiles"}
 
   devise_scope :user do
-    get "api/v1/user/login", :to => "api/v1/mobiles#create"
-    post "api/v1/user/login", :to => "api/v1/mobiles#create"
-    get "api/v1/user/logout", :to => "api/v1/mobiles#destroy"
+        get "api/v1/user/login", :to => "api/v1/mobiles#create"
+        post "api/v1/user/login", :to => "api/v1/mobiles#create"
+        get "api/v1/user/logout", :to => "api/v1/mobiles#destroy"
   end
+
+  match "failure",  to: "api/v1/mobiles#failure", via: :get
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
