@@ -1,7 +1,7 @@
 module ApplicationHelper
 
-  def bar_products
-    current_bar.products.map {|p| [p.name, p.id]}
+  def bar_collection
+    Bar.all.map{|b| [b.name, b.id]}
   end
 
   def states_collection

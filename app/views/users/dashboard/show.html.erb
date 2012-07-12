@@ -1,4 +1,5 @@
-
+<%= javascript_include_tag "chosen.jquery" %>
+<%= stylesheet_link_tag "chosen" %>
 <script type="text/javascript">
 
   $(document).ready(function(){
@@ -9,12 +10,23 @@
       hideButtonsOnDisabled: false
     });
     $('.actionBar').hide();
-
+    
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var available_tags = [];
+<% User.where(city: current_user.city).pluck(:email).each do |email| %>
+      available_tags.push('<%= email %>');
+<% end %>
+    $.noConflict();
+    $("#mytags").tagit({tagSource: available_tags, trigerKeys: ['enter', 'comma', 'tab']});
+    $('.chzn-select').chosen();
   });
 </script>
 <style type="text/css">
   .stepContainer .content{
-    width: 650px!important;
+    width: 675px!important;
   }
 </style>
 
@@ -79,27 +91,25 @@
         <div id="invite">
           <h2 class="StepTitle"><b>Invite</b></h2>
           <%= link_to "Find Friends in SwigBig", users_friend_index_path %>
-<%# @users.each do |u| %>
-<%#= u.name %>
-<%#= check_friend(current_user, u) %>
-<%# end %>
 
           <table>
             <%= form_tag(users_invite_by_email_path) do %>
               <%= submit_tag "invite", class: "btn-primary" %>
-                <% @friends.each do |f| %>
-                  <tr>
+                <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+                <%= text_field_tag(:mytags)  %>
+                <%# @friends.each do |f| %>
+                  <!--<tr>
                     <td>
-                      <%= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
+                      <%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
                     </td>
                     <td>
-                      <%= f.name %>
+                      <%#= f.name %>
                     </td>
                     <td>
-                      <%= f.email %>
+                      <%#= f.email %>
                     </td>
-                  </tr>
-                <% end %>
+                  </tr>-->
+                <%# end %>
               <% end %>
             </table>
           </div>

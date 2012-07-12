@@ -1,5 +1,6 @@
+<%= javascript_include_tag "chosen.jquery" %>
+<%= stylesheet_link_tag "chosen" %>
 <script type="text/javascript">
-
   $(document).ready(function(){
     // Smart Wizard
     $('#wizard').smartWizard({
@@ -8,7 +9,7 @@
       hideButtonsOnDisabled: false
     });
     $('.actionBar').hide();
-
+  $('.chzn-select').chosen();
   });
 </script>
 <script type="text/javascript" charset="utf-8">
@@ -172,11 +173,13 @@
           <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
         </div>
         <button class="btn btn-mini">Search:</button>
-        <input type="text" name="q" value="" style="width: 500px"></input>
+        <input type="text" name="q" value="" style="width: 450px"></input>
         <span id="count"></span>
         <p id="none" style="display:none">There were no names to match your search!</p>
       </div>
       <%= form_tag(users_invite_swigbig_path) do %>
+      <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+      <%#= select_tag "bar_id", options_for_select(bar_collection), html: {class: "chzn-select"} %>
         <div class="modal-body" style="height:350px">
           <ul id="fb">
             <% @friends.each do |friend| %>

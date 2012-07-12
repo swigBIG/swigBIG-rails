@@ -7,11 +7,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    if current_user.name.blank?
-      users_completion_url
+    guess = PopularityGuess.today.where(email: current_user.email).first
+    unless guess.blank?
+      guess.update_attributes(user_id: current_user.id)
+      if current_user.name.blank?
+        users_completion_url
+      else
+        users_dashboard_url
+      end
     else
-      users_dashboard_url
-      #      main_home_path
+      if current_user.name.blank?
+        users_completion_url
+      else
+        users_dashboard_url
+        #      main_home_path
+      end
     end
   end
 

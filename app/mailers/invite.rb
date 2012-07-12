@@ -1,9 +1,10 @@
 class Invite < ActionMailer::Base
   default from: "from@example.com"
 
-  def send_invite_email(friend, sender)
+  def send_invite_email(friend, sender, bar)
     @friend = friend
     @sender = sender
-    mail(:to => @friend, :subject => "Swigbig Invitation")
+    @bar = bar
+    mail(to: @friend, subject: "#{@sender.name} invite you to visit #{@bar.name} or join http://swigbig.com/")
   end
 end

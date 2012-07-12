@@ -33,22 +33,75 @@ class Users::DashboardController < ApplicationController
     redirect_to :back
   end
 
+  #  def invite_swigbig
+  #    fb = MiniFB::OAuthSession.new(current_user.access_token)
+  #
+  #    params[:fb_ids].each do |fb_id|
+  #      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit http://swigbig.com/"})
+  #    end
+  #
+  #    redirect_to :back, notice: "invite success"
+  #  end
   def invite_swigbig
     fb = MiniFB::OAuthSession.new(current_user.access_token)
-
-    params[:fb_ids].each do |fb_id|
-      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit swigbig.com"})
+    @bar = Bar.find(params[:bar_ids][:bar_id])
+    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
+    if @popularity_inviter.save
+      if  !params[:fb_ids].blank?
+        @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id, fb_id: current_user.fb_id)
+        params[:fb_ids].each do |fb_id|
+          #          unless User.where(fb_id: fb_id).first.blank?
+          fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit #{@bar.name} or join http://swigbig.com/"})
+          user = User.where(fb_id: fb_id).first
+          if user
+            @popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: @popularity_inviter.bar_id)
+          else
+            @popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: @popularity_inviter.bar_id)
+          end
+          #          end
+        end
+        redirect_to :back, notice: "Success Create Popularity!"
+      else
+        @popularity_inviter.destroy
+        redirect_to :back, notice: "Empty Guess!"
+      end
+    else
+      redirect_to :back, notice: "Fail Create Popularity!"
     end
-    
-    redirect_to :back, notice: "invite success"
   end
 
-  def invite_by_email
-    params[:emails_address].each do |e|
-      Invite.send_invite_email(e, current_user).deliver
-    end
+#  def invite_by_email
+#    debugger
+#    params[:mytags].each do |e|
+#      Invite.send_invite_email(e, current_user).deliver
+#    end
+#
+#    redirect_to :back, notice: "invite has been sent"
+#  end
 
-    redirect_to :back, notice: "invite has been sent"
+  def invite_by_email
+    @bar = Bar.find(params[:bar_ids][:bar_id])
+    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
+    if @popularity_inviter.save
+      if  !params[:mytags].blank?
+        @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id, fb_id: current_user.fb_id)
+        params[:mytags].split(",").each do |email|
+          Invite.send_invite_email(email, current_user, @bar).deliver
+          user = User.where(email: email).first
+          if user
+            @popularity_inviter.popularity_guesses.create(user_id: user.id, email: email, bar_id: @popularity_inviter.bar_id)
+          else
+            @popularity_inviter.popularity_guesses.create(user_id: nil, email: email, bar_id: @popularity_inviter.bar_id)
+          end
+        end
+        redirect_to :back, notice: "Success Create Popularity!"
+      else
+        @popularity_inviter.destroy
+        redirect_to :back, notice: "Empty Guess!"
+      end
+    else
+      redirect_to :back, notice: "Fail Create Popularity!"
+    end
   end
 
   def costum_invite
@@ -113,3 +166,9 @@ class Users::DashboardController < ApplicationController
   end
 
 end
+
+
+
+
+
+

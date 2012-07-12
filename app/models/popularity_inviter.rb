@@ -4,7 +4,8 @@ class PopularityInviter < ActiveRecord::Base
   belongs_to :popularity
   has_many :popularity_guesses, dependent: :destroy
 
-  validate :popularity_invitations, :popularity_valid?
+  validate :popularity_valid?
+#  validate :popularity_invitations, :popularity_valid?
 
   attr_accessible :bar_id, :fb_id, :user_id, :users_inviters_id
 
