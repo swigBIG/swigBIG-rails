@@ -3,11 +3,6 @@ class ApplicationController < ActionController::Base
   require 'open-uri'
   before_filter :reject_bot_request, :swigbig_content, :set_time_zone
   before_filter :set_access_control_headers
-  #  
-  
-  #  if user_signed_in?
-  #  before_filter :bar_ids
-  #  end
   
   include LogActivityStreams
 
@@ -70,10 +65,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-    # return request.ip.to_s if Rails.env.eql?("development")
+    return request.ip.to_s if Rails.env.eql?("development")
     #    "211.157.105.218"
-#    "75.85.54.184"
-    "64.90.182.55"
+    #    "75.85.54.184"
+    #    "64.90.182.55"
   end
 
   #  if user_signed_in?
