@@ -11,27 +11,19 @@ class Api::V1::SwigMobilesController < ApplicationController
   end
   
   def home
-#    address = City.get_lat_lang_for_api(params[:user][:city], params[:user][:state], params[:user][:country])
-    
-    city = @city_lat_lng
-#    loyalty = Loyalty.all
-#    popularity = Popularity.all
-#    city_bar = Bar.where(city: city[0])
-    swigs = Swig.where(city: city[0], status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
-    
-
     data_bar = []
-#    data_city = []
-    
-        
-    swigs.each do |swig|
-      data_bar << [swig.deal, swig.people, swig.city, swig.bar.name]
+    city = @city_lat_lng
+    city_bar = Bar.where(city: city[0])
+    city_bar.each do |bar|
+      data_bar << [bar.name, bar.id, bar.latitude, bar.longitude]
     end
-    
-    render json: {data: "current user", swigs: data_bar, city: city}
-    
+
+    render json: {bars: data_bar}
   end
-  
+
+  def swigbig_content
+    site_content = SiteContent.first
+  end
   
   
 end
