@@ -178,7 +178,7 @@
               </td>
               <td>
                 <%=begin
-                  sprintf("%.2f",Geocoder::Calculations.distance_between([@city.latitude,@city.longitude], [swig.latitude, swig.longitude]))
+                  sprintf("%.2f",Geocoder::Calculations.distance_between([@geo.latitude, @geo.longitude], [swig.latitude, swig.longitude]))
                 rescue
                 end %> miles
               </td>
