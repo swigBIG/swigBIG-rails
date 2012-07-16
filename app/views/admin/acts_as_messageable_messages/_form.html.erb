@@ -1,0 +1,32 @@
+
+<ul class="tabs" data-tabs="tabs">
+  <li><a href="#all_bar" data-toggle="tab">All Bar</a></li>
+  <li><a href="#all_user" data-toggle="tab">All User</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-content" id="all_bar">
+<%= semantic_form_for(ActsAsMessageable::Message.new , url: new_admin_acts_as_messageable_message_path ) do |f| %>
+  <%= f.input :to, as: :select, collection: bar_collection %>
+  <br/>
+  <%= f.input :topic, input_html: {cols: 3}  %>
+  <br/>
+  <%= f.input :body, input_html: {rows: 10, cols: 20} %>
+  <br/>
+  <%= f.buttons :commit %>
+<% end %>
+<%#= semantic_form_for [:admin, @post] do |f| %>
+<%#= f.inputs :title, :body %>
+<%#= f.buttons :commit %>
+<%# end %>
+  </div>
+
+  <div class="tab-content" id="all_user">
+    testet
+<%#= semantic_form_for [:admin, @post] do |f| %>
+<%#= f.inputs :title, :body %>
+<%#= f.buttons :commit %>
+<%# end %>
+  </div>
+</div>
+
+

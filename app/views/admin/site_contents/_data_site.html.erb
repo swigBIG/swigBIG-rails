@@ -1,0 +1,36 @@
+<div style="width: 50%;float: right ">
+  <h3>Logo</h3>
+  <table>
+    <th></th>
+    <th></th>
+    <% @site_content.logos.each do |logo| %>
+      <tr>
+        <td><%=  image_tag(logo.image_url, style: "height: 70px;") %></td>
+        <% if  logo.active_status.eql?(true) %>
+          <td><b><%=  link_to("Unactive", unactivate_logo_admin_site_content_path(logo), style: "margin-top: -20px;padding: 30px;text-decoration: none;") %></b></td>
+        <% else %>
+          <td><b><%=  link_to("Active", activate_logo_admin_site_content_path(logo), style: "margin-top: -20px;padding: 5px;text-decoration: none;") %></b></td>
+        <% end %>
+        <td><b><%=  link_to("Delete", admin_logo_path(logo), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+<div style="width: 50%;float: left">
+  <h3>Background</h3>
+  <table>
+    <th></th>
+    <th></th>
+    <% @site_content.backgrounds.each do |background| %>
+      <tr>
+        <td><%=  image_tag(background.image_url, style: "height: 70px;") %></td>
+        <% if  background.active_status.eql?(true) %>
+          <td><b><%=  link_to("Unactive", unactivate_background_admin_site_content_path(background), style: "margin-top: -20px;padding: 30px;text-decoration: none;") %></b></td>
+        <% else %>
+          <td><b><%=  link_to("Active", activate_background_admin_site_content_path(background), style: "margin-top: -20px;padding: 5px;text-decoration: none;") %></b></td>
+        <% end %>
+        <td><b><%=  link_to("Delete", admin_background_path(background), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
