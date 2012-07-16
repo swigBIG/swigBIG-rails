@@ -25,6 +25,7 @@ class HomeController < ApplicationController
       elsif !params[:search][:zip_code_contains].blank?
         @geos = Geocoder.search("#{params[:search][:zip_code_contains]},#{@city}")
         @geo = @geos.first
+        @search = Swig.search(params[:search])
         @swigs = @search.where(city: @city.name.to_s, zip_code: params[:search][:zip_code_contains], status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
       elsif !params[:radius].blank?
         @geo = City.find(params[:id])
@@ -69,10 +70,11 @@ class HomeController < ApplicationController
       elsif !params[:search][:zip_code_contains].blank?
         @geos = Geocoder.search("#{params[:search][:zip_code_contains]},#{@city}")
         @geo = @geos.first
+        @search = Swig.search(params[:search])
         @swigs = @search.where(city: @city.name.to_s, zip_code: params[:search][:zip_code_contains], status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
       elsif !params[:radius].blank?
         @geo = City.find(params[:id])
-        @search = Swig.near("#{@geo.data["geometry"]["location"]["lat"]},#{@geo.data["geometry"]["location"]["lng"]}", params[:radius], :order => :distance).search(params[:search])
+        @search = Swig.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).search(params[:search])
         @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Date.today.to_time.in_time_zone.strftime("%A").to_s)
       else
         @geo = City.find(params[:id])

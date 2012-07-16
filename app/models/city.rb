@@ -11,6 +11,7 @@ class City < ActiveRecord::Base
 
   def set_city_lat_lng
     begin
+      self.country = "US"
       coordinates = Geocoder.coordinates("#{self.name}, #{self.state}, #{self.country}")
       self.latitude = coordinates.first
       self.longitude = coordinates.last
