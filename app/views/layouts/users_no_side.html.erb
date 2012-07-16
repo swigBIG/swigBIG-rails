@@ -8,7 +8,7 @@
     <style type="text/css">
       body{
         background-color: rgba(107, 214, 0, 0.2);
-        background-image: url(<%= @site_content.site_background_url rescue nil %>);
+        background-image: url(<%= @site_content.backgrounds.status_active.first rescue nil %>);
         background-repeat: repeat;
       }
       .navbar-inner{
@@ -29,7 +29,7 @@
             <li>
               <% if !@site_content.blank? %>
                 <% if !@site_content.site_logo.blank? %>
-                  <%= image_tag(@site_content.site_logo, style: "height: 45px;") %>
+                  <%= image_tag(@site_content.logos.status_active.first, style: "height: 45px;") rescue nil %>
                 <% else %>
                   <h3 class="brand" style="color: white;">SwigBIG</h3>
                 <% end %>
