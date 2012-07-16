@@ -9,7 +9,7 @@ class Swiger < ActiveRecord::Base
   has_many :popularity_guesses
 
   #  before_create :check_swiger
-  after_create :get_loyalty
+  after_create :get_loyalty, :unlock_bigswig
 
   validate :time_and_distance_valid?, :popularity_reward_valid?
 
@@ -23,13 +23,13 @@ class Swiger < ActiveRecord::Base
     today_swiger = self.bar.swigers.today
     today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
     
-    today_swigs.each do |swig|
-      swig.update_attributes(lock_status: "unlock")
-      swig.today_swiger.pluck(:user_id).each do |swiger|
-        user = User.find(swiger)
-        self.bar.send_message(user, {topic: "#{swig.deal} unlock", body: "You Unlock #{swig.deal}"})
-      end
-    end
+    #    today_swigs.each do |swig|
+    #      swig.update_attributes(lock_status: "unlock")
+    #      swig.today_swiger.pluck(:user_id).each do |swiger|
+    #        user = User.find(swiger)
+    #        self.bar.send_message(user, {topic: "#{swig.deal} unlock", body: "You Unlock #{swig.deal}"})
+    #      end
+    #    end
     unless self.bar.loyalty.blank?
       #      Point.create(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1)
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
@@ -56,7 +56,7 @@ class Swiger < ActiveRecord::Base
       Chronic.time_class = Time.zone
       if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
-        radius = BarRadius.where(status: true).first.distance
+        radius = BarRadius.where(status: true).first.distance rescue 25
         unless user_swig.blank?
           if (Time.zone.now - user_swig.created_at) >= 3600
             return true
@@ -100,7 +100,7 @@ class Swiger < ActiveRecord::Base
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
             self.bar.send_message(guess.user, {topic: "#{self.bar.name} popularity has unlock", body: "You can get our Popularity reward #{self.bar.popularity.reward_detail}", category: 9})
-#            test
+            #            test
           end
         end
       else
@@ -113,6 +113,17 @@ class Swiger < ActiveRecord::Base
 
   end
 
-
+  def unlock_bigswig
+    today_swiger = self.bar.swigers.today
+    today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
+    debugger
+    today_swigs.each do |swig|
+      swig.update_attributes(lock_status: "unlock")
+      today_swiger.pluck(:user_id).each do |swiger|
+        user = User.find(swiger)
+        self.bar.send_message(user, {topic: "#{swig.deal} unlock", body: "You Unlock #{swig.deal}", category: 15})
+      end
+    end
+  end
 
 end

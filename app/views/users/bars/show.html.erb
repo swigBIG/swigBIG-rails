@@ -166,47 +166,47 @@
     <div class="clearfix"></div>
     <br/>
     <ul class="tabs" data-tabs="tabs">
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Moday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.monday.first.open_time %><b>/</b><%= @bar_hours.monday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3><%= pluralize(@swigs.tuesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.tuesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.tuesday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3><%= pluralize(@swigs.wednesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.wednesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.wednesday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3><%= pluralize(@swigs.thursday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.thursday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.thursday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3><%= pluralize(@swigs.friday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.friday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.friday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3><%= pluralize(@swigs.saturday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.saturday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3><%= pluralize(@swigs.sunday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.sunday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.monday.first.open_time %><b>/</b><%= @bar_hours.monday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3><%= pluralize(@swigs.tuesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.tuesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.tuesday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3><%= pluralize(@swigs.wednesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.wednesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.wednesday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3><%= pluralize(@swigs.thursday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.thursday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.thursday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3><%= pluralize(@swigs.friday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.friday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.friday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3><%= pluralize(@swigs.saturday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.saturday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3><%= pluralize(@swigs.sunday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.sunday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Moday') ? 'active' : '' %>" id="monday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
         <% @swigs.monday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
         <% @swigs.tuesday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
         <% @swigs.wednesday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
         <% @swigs.thursday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
         <% @swigs.friday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
         <% @swigs.saturday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
-      <div class="tab-pane <%= Date.today.to_time.in_time_zone.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
         <% @swigs.sunday.each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>

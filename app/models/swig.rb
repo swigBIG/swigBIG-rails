@@ -13,7 +13,7 @@ class Swig < ActiveRecord::Base
   geocoded_by :address
   after_validation :geocode
 
-  scope :today, where(swig_day: Date.today.to_time.in_time_zone.strftime("%A"))
+  scope :today, where(swig_day: Time.zone.now.strftime("%A"))
   scope :big, where(swig_type: "Big")
   scope :lock_status_active, where(status: "active")
   #days
