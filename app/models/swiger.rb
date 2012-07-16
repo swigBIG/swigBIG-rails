@@ -54,11 +54,11 @@ class Swiger < ActiveRecord::Base
     unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
       #      debugger
       Chronic.time_class = Time.zone
-      if (Date.today.to_time.in_time_zone >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
         radius = BarRadius.where(status: true).first.distance
         unless user_swig.blank?
-          if (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) >= 3600
+          if (Time.zone.now - user_swig.created_at) >= 3600
             return true
           else
             unless user_swig.bar.latitude.eql?(self.bar.latitude)
@@ -68,7 +68,7 @@ class Swiger < ActiveRecord::Base
                 self.errors.add("time and distance", "Permision denied(Near Bar)!")
               end
             else
-              self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.now.to_time.in_time_zone - user_swig.created_at.to_time.in_time_zone) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
+              self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
             end
           end
         else

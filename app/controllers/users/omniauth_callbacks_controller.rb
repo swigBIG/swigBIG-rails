@@ -25,7 +25,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, name: request.env["omniauth.auth"].info.name, fb_id: request.env["omniauth.auth"].uid)
     guess_by_fb_id = PopularityGuess.today.where(fb_id: current_user.fb_id).first
     guess_by_email = PopularityGuess.today.where(email: current_user.email).first
-    debugger
     if !guess_by_fb_id.blank?
       guess_by_fb_id.update_attributes(user_id: current_user.id)
       users_facebook_page_url

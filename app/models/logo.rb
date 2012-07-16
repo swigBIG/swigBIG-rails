@@ -4,5 +4,6 @@ class Logo < Picture
 
   mount_uploader :image, ImageUploader
 
+  scope :status_active, where(active_status: true)
 end
 
