@@ -164,7 +164,7 @@
 </script>
 
 
-<% if current_bar.swigs.where(swig_day: Date.today.to_time.in_time_zone.strftime('%A')).blank? %>
+<% if current_bar.swigs.where(swig_day: Time.zone.now.strftime('%A')).blank? %>
   <script type="text/javascript">
     $(document).ready(function(){
       $('#completion_link').click();

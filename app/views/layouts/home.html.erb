@@ -54,7 +54,9 @@
                   <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
                 </li>
                 <li>
-                  <span class="badge badge-error"><%= current_user.received_messages.where("opened is false").count unless current_user.received_messages.where("opened is false").blank? %></span>
+                  <% unless  current_user.received_messages.where("opened is false").blank? %>
+                    <span class="badge badge-error" onclick="window.location.href='<%= users_messages_path %>'"><%=  current_user.received_messages.where("opened is false").count  %></span>
+                  <% end %>
                 </li>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || "" ).split(" ").first}!" %></b></a>

@@ -7,13 +7,12 @@
       <h2><%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h2>
       <table width="100%;">
         <tr>
-          <td style="width: 10%">From : </td>
-          <td>
-            <%= @message_show.sent_messageable.name %>
-          </td>
+        <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %>
+          
+        </div>
         </tr>
         <tr>
-          <td><%= @message_show.topic %></td>
+        <div style="width: 400px;"><b><%= @message_show.topic %></b></div>
         </tr>
         <tr>
           <td><%= @message_show.body.html_safe %></td>

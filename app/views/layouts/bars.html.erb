@@ -53,6 +53,11 @@
                   <li><b><%= link_to "My Bar", bars_dashboard_path, style: "color: white;" %></b></li>
                 <% end %>
                 <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
+                <li>
+                  <% unless  current_bar.received_messages.where("opened is false").blank? %>
+                    <span class="badge badge-error" onclick="window.location.href='<%= bars_messages_path %>'"><%=  current_bar.received_messages.where("opened is false").count  %></span>
+                  <% end %>
+                </li>
                 <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
                 <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
               <% else %>

@@ -55,7 +55,9 @@
                   <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
                 </li>
                 <li>
-                  <span class="badge badge-error"><%= current_user.received_messages.where("opened is false").count unless current_user.received_messages.where("opened is false").blank? %></span>
+                  <% unless  current_user.received_messages.where("opened is false").blank? %>
+                    <span class="badge badge-error" onclick="window.location.href='<%= users_messages_path %>'"><%=  current_user.received_messages.where("opened is false").count  %></span>
+                  <% end %>
                 </li>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || "" ).split(" ").first }!" %></b></a>
@@ -82,7 +84,7 @@
                     </li>
                   </ul>
                 </li>
-                <% else %>
+              <% else %>
                 <li>
                   <b><%= link_to "Log In", new_user_session_path, style: "color: white" %></b>
                 </li>
@@ -96,7 +98,7 @@
 
     <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;">
       <% if notice %>
-      <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
       <% end %>
       <% if alert %>
         <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
