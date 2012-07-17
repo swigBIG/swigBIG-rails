@@ -48,7 +48,7 @@
             </li>
             <div class="nav pull-right" style="margin-left: 200px;">
               <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
-              <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
+              <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% unless user_signed_in? %>
                 <li>
                   <b><%= link_to "Sign Up for Free", new_user_registration_path,style: "color:#fff" %></b>
@@ -133,6 +133,8 @@
             <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
             &nbsp;
             <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            &nbsp;
+            <b><%= link_to "swigBIG.com", "http://#{with_subdomain(false)}", style: "color: white;"  %></b>
           </div>
         </div>
       </div>
@@ -156,7 +158,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-          swigBig is a Bar connected with user
+          <%= @site_content.about_us rescue nil %>
         </div>
       </div>
     </div>
@@ -167,7 +169,18 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-          swigBig contact
+           <%= @site_content.contact_us rescue nil %>
+        </div>
+      </div>
+    </div>
+    <div id="learn_more" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Learn More</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <%= @site_content.learn_more rescue nil %>
         </div>
       </div>
     </div>

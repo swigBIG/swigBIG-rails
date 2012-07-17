@@ -59,6 +59,11 @@
                   <li><b><%= link_to "My Bar", bars_dashboard_path, style: "color: white;" %></b></li>
                 <% end %>
                 <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
+                <li>
+                  <% unless  current_bar.received_messages.where("opened is false").blank? %>
+                    <span class="badge badge-error" onclick="window.location.href='<%= bars_messages_path %>'"><%=  current_bar.received_messages.where("opened is false").count  %></span>
+                  <% end %>
+                </li>
                 <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
                 <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
               <% else %>
@@ -119,7 +124,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-          swigBig is a Bar connected with user
+          <%= @site_content.about_us rescue nil %>
         </div>
       </div>
     </div>
@@ -130,7 +135,18 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-          swigBig contact
+           <%= @site_content.contact_us rescue nil %>
+        </div>
+      </div>
+    </div>
+    <div id="learn_more" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h3 style="text-align: center;">Learn More</h3>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center;">
+          <%= @site_content.learn_more rescue nil %>
         </div>
       </div>
     </div>
