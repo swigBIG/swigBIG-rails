@@ -50,11 +50,11 @@ class Swiger < ActiveRecord::Base
 
 
   def time_and_distance_valid?
-    bar_hour = self.bar.bar_hours.where(day: Time.now.to_time.in_time_zone.strftime("%A")).first
+    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first
     unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
       #      debugger
       Chronic.time_class = Time.zone
-      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Date.today.to_time.in_time_zone <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
         radius = BarRadius.where(status: true).first.distance rescue 25
         unless user_swig.blank?
@@ -121,7 +121,7 @@ class Swiger < ActiveRecord::Base
       swig.update_attributes(lock_status: "unlock")
       today_swiger.pluck(:user_id).each do |swiger|
         user = User.find(swiger)
-        self.bar.send_message(user, {topic: "#{swig.deal} unlock", body: "You Unlock #{swig.deal}", category: 15})
+        self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
       end
     end
   end
