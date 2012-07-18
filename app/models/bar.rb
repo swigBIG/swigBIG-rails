@@ -80,7 +80,7 @@ class Bar < ActiveRecord::Base
 
   def set_coordinates
     begin
-      geo = Geocoder.coordinates("#{self.address},#{self.city}, US")
+      geo = Geocoder.coordinates("#{self.address},#{self.zip_code},#{self.city}, US")
 #      geo = Geocoder.coordinates("#{self.address},#{self.city},#{self.zip_code}, US")
       self.latitude = geo.first
       self.longitude = geo.last

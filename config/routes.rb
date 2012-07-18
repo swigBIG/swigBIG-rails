@@ -43,7 +43,6 @@ Swprototype::Application.routes.draw do
 
   devise_for :members, controllers: {registrations: "members/registrations"}
   
-  match "upgrade" => "bars/payment_gateway#index", as: "upgrade"
   namespace :bars do
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
     match  "completion" => "dashboard#completion", as: "completion"
@@ -84,7 +83,7 @@ Swprototype::Application.routes.draw do
     end
   end
   resources :bars do
-
+    match "upgrade" => "bars/payment_gateway#index", as: "upgrade"
   end
 
 
@@ -134,9 +133,9 @@ Swprototype::Application.routes.draw do
   devise_for :users, :controllers => {:sessions => "api/v1/mobiles"}
 
   devise_scope :user do
-        get "api/v1/user/login", :to => "api/v1/mobiles#create"
-        post "api/v1/user/login", :to => "api/v1/mobiles#create"
-        get "api/v1/user/logout", :to => "api/v1/mobiles#destroy"
+    get "api/v1/user/login", :to => "api/v1/mobiles#create"
+    post "api/v1/user/login", :to => "api/v1/mobiles#create"
+    get "api/v1/user/logout", :to => "api/v1/mobiles#destroy"
   end
 
   match "failure",  to: "api/v1/mobiles#failure", via: :get
