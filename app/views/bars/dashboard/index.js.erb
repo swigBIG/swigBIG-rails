@@ -1,0 +1,21 @@
+$('#swigs_monday').html('<%= escape_javascript(render("swig_list_monday")) %>');
+$('#monday_paginator').html('<%= escape_javascript(paginate(@swigs_monday, :remote => true).to_s) %>');
+
+$('#swigs_tuesday').html('<%= escape_javascript(render("swig_list_tuesday")) %>');
+$('#tuesday_paginator').html('<%= escape_javascript(paginate(@swigs_tuesday, :remote => true).to_s) %>');
+
+$('#swigs_wednesday').html('<%= escape_javascript(render("swig_list_wednesday")) %>');
+$('#wednesday_paginator').html('<%= escape_javascript(paginate(@swigs_wednesday, :remote => true).to_s) %>');
+
+$('#swigs_thursday').html('<%= escape_javascript(render("swig_list_thursday")) %>');
+$('#thursday_paginator').html('<%= escape_javascript(paginate(@swigs_thursday, :remote => true).to_s) %>');
+
+$('#swigs_friday').html('<%= escape_javascript(render("swig_list_friday")) %>');
+$('#friday_paginator').html('<%= escape_javascript(paginate(@swigs_friday, :remote => true).to_s) %>');
+
+$('#swigs_saturday').html('<%= escape_javascript(render("swig_list_saturday")) %>');
+$('#saturday_paginator').html('<%= escape_javascript(paginate(@swigs_saturday, :remote => true).to_s) %>');
+
+$('#swigs_sunday').html('<%= escape_javascript(render("swig_list_sunday")) %>');
+$('#sunday_paginator').html('<%= escape_javascript(paginate(@swigs_sunday, :remote => true).to_s) %>');
+

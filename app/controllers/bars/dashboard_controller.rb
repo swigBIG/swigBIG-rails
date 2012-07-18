@@ -11,9 +11,16 @@ class Bars::DashboardController < ApplicationController
   def index
     @bar = current_bar
     @swigers = @bar.swigers
+    @swigs_monday = @bar.swigs.monday.page(params[:page]).per(3)
+    @swigs_tuesday = @bar.swigs.tuesday.page(params[:page]).per(3)
+    @swigs_wednesday = @bar.swigs.wednesday.page(params[:page]).per(3)
+    @swigs_thursday = @bar.swigs.thursday.page(params[:page]).per(3)
+    @swigs_friday = @bar.swigs.friday.page(params[:page]).per(3)
+    @swigs_saturday = @bar.swigs.saturday.page(params[:page]).per(3)
+    @swigs_sunday = @bar.swigs.sunday.page(params[:page]).per(3)
     @gifts = @bar.gifts
     @swig = @bar.swigs.new
-    @swigs = @bar.swigs
+#    @swigs = @bar.swigs
     @gift = @bar.gifts.new
     #    @reward = @bar.rewards.new
     @reward = []

@@ -44,7 +44,7 @@
       ['Days', 'Swiger'],
       ['Mon',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
       ['Tue',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
-      ['Wed', <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
+      ['Wed',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
       ['Thu',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
       ['Fri',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
       ['Sat',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
@@ -60,61 +60,7 @@
     chart.draw(data, options);
   }
 </script>
-<!--PieChart
-<script type="text/javascript">
-  $(function () {
-    var chart;
-    $(document).ready(function() {
-      chart = new Highcharts.Chart({
-        chart: {
-          renderTo: 'pie_chart',
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false
-        },
-        title: {
-          text: 'Browser market shares at a specific website, 2010'
-        },
-        tooltip: {
-          formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-          }
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              color: '#000000',
-              connectorColor: '#000000',
-              formatter: function() {
-                return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-              }
-            }
-          },
-          events: {
-            click: function(event) {
-              alert(event.point.x);
-            }
-          }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Browser share',
-            data: [
-              ['<b><a href="" onclick="alert(\'aaa\')">xxxxx</a></b>',   45.0],
-              ['<a href="#bar_message" data-toggle="modal" style="color: black;">Message</a>',       26.8],
-              ['Safari',    8.5],
-              ['Opera',     6.2],
-              ['Others',   0.7]
-            ]
-          }]
-      });
-    });
 
-  });
-</script>---->
 <script type="text/javascript">
   $(document).ready(function() {
     var chart = new Highcharts.Chart({
@@ -162,7 +108,6 @@
     });
   });
 </script>
-
 
 <% if current_bar.swigs.where(swig_day: Time.zone.now.strftime('%A')).blank? %>
   <script type="text/javascript">
@@ -255,50 +200,71 @@
   <div class="tab-content">
     <div class="tab-pane active" id="swig_tab">
       <ul class="tabs" data-tabs="tabs">
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab" onclick="check_monday()"><h3>Mon</h3></a></li>
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab" onclick="check_tuesday()"><h3>Tue</h3></a></li>
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab" onclick="check_wednesday()"><h3>Wed</h3></a></li>
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab" onclick="check_thursday()"><h3>Thu</h3></a></li>
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab" onclick="check_friday()"><h3>Fri</h3></a></li>
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab" onclick="check_saturday()"><h3>Sat</h3></a></li>
-        <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab" onclick="check_sunday()"><h3>Sun</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+        <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
       </ul>
 
       <div class="tab-content">
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
-          <% @swigs.monday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_monday">
+            <%= render partial: "swig_list_monday" %>
+          </div>
+          <div id="monday_paginator">
+            <%= paginate @swigs_monday, remote: true %>
+          </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
-          <% @swigs.tuesday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_tuesday">
+            <%= render partial: "swig_list_tuesday" %>
+          </div>
+          <div id="tuesday_paginator">
+            <%= paginate @swigs_tuesday, remote: true %>
+          </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
-          <% @swigs.wednesday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_wednesday">
+            <%= render partial: "swig_list_wednesday" %>
+          </div>
+          <div id="wednesday_paginator">
+            <%= paginate @swigs_wednesday, remote: true %>
+          </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
-          <% @swigs.thursday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_thursday">
+            <%= render partial: "swig_list_thursday" %>
+          </div>
+          <div id="thursday_paginator">
+            <%= paginate @swigs_thursday, remote: true %>
+          </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
-          <% @swigs.friday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_friday">
+            <%= render partial: "swig_list_friday" %>
+          </div>
+          <div id="friday_paginator">
+            <%= paginate @swigs_friday, remote: true %>
+          </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
-          <% @swigs.saturday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_saturday">
+            <%= render partial: "swig_list_saturday" %>
+          </div>
+          <div id="saturday_paginator">
+            <%= paginate @swigs_saturday, remote: true %>
+          </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
-          <% @swigs.sunday.each do |swig|%>
-            <%= render partial: "swig_list", locals: {swig: swig} %>
-          <% end %>
+          <div id="swigs_sunday">
+            <%= render partial: "swig_list_sunday" %>
+          </div>
+          <div id="sunday_paginator">
+            <%= paginate @swigs_sunday, remote: true %>
+          </div>
         </div>
       </div>
     </div>
