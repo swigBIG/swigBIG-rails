@@ -1,0 +1,3 @@
+$('tbody#swigs_list').html('<%= escape_javascript(render("swigs")) %>');
+$('#swig_paginator').html('<%= escape_javascript(paginate(@swigs, :remote => true).to_s) %>');
+
