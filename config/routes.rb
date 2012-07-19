@@ -44,6 +44,8 @@ Swprototype::Application.routes.draw do
   devise_for :members, controllers: {registrations: "members/registrations"}
   
   namespace :bars do
+    match  "invite_friend" => "dashboard#after_join_invite_friends", as: "after_join_invite_friends"
+    post  "invite_friend_by_email" => "dashboard#invite_friend_by_email", as: "invite_friend_by_email"
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
     match  "completion" => "dashboard#completion", as: "completion"
     post  "update_completion" => "dashboard#update_completion", as: "update_completion"
@@ -104,6 +106,7 @@ Swprototype::Application.routes.draw do
     #    get "bar_swigs/show"
     get  "show_swig/:bar_id/:swig_id" => "bar_swigs#show_swig", as: "show_swig"
     post  "enter_bar/:bar_id" => "bar_swigs#enter_bar", as: "enter_bar"
+    post  "redeem/:bar_id" => "bars#redeem_reward", as: "redeem_reward"
     post "create_popularity/:bar_id" => "bars#create_popularity", as: "create_popularity"
     #--- friendship
     match "friendship" => "friends#index", as: "friend_index"

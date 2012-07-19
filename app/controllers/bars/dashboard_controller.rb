@@ -20,7 +20,7 @@ class Bars::DashboardController < ApplicationController
     @swigs_sunday = @bar.swigs.sunday.page(params[:page]).per(3)
     @gifts = @bar.gifts
     @swig = @bar.swigs.new
-#    @swigs = @bar.swigs
+    #    @swigs = @bar.swigs
     @gift = @bar.gifts.new
     #    @reward = @bar.rewards.new
     @reward = []
@@ -301,6 +301,22 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
+  def after_join_invite_friends
+
+  end
+
+  def invite_friend_by_email
+    unless params[:mytags].blank?
+      params[:mytags].split(",").each do |email|
+        Invite.invite_to_swigbig(email, current_bar).deliver
+      end
+      redirect_to bars_completion_url, notice: "invite success!"
+    else
+      redirect_to :back, notice: "undefine email address!"
+    end
+
+  end
+
   #  def sport_lists
   #    @sport_teams = SportTeam.where("name like ?", "%#{params[:q]}%")
   #    respond_to do |format|
@@ -309,3 +325,41 @@ class Bars::DashboardController < ApplicationController
   #    end
   #  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+#def invite_by_email
+#    @bar = Bar.find(params[:bar_ids][:bar_id])
+#    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
+#    if @popularity_inviter.save
+#      if  !params[:mytags].blank?
+#        @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id, fb_id: current_user.fb_id)
+#        params[:mytags].split(",").each do |email|
+#          Invite.send_invite_email(email, current_user, @bar).deliver
+#          user = User.where(email: email).first
+#          if user
+#            @popularity_inviter.popularity_guesses.create(user_id: user.id, email: email, bar_id: @popularity_inviter.bar_id)
+#          else
+#            @popularity_inviter.popularity_guesses.create(user_id: nil, email: email, bar_id: @popularity_inviter.bar_id)
+#          end
+#        end
+#        redirect_to :back, notice: "Success Create Popularity!"
+#      else
+#        @popularity_inviter.destroy
+#        redirect_to :back, notice: "Empty Guess!"
+#      end
+#    else
+#      redirect_to :back, notice: "Fail Create Popularity!"
+#    end
+#  end
+

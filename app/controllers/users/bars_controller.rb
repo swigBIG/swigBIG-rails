@@ -42,13 +42,26 @@ class Users::BarsController < ApplicationController
         params[:guess_ids].each do |guess_id|
           @popularity_inviter.popularity_guesses.create(user_id: guess_id, bar_id: @popularity_inviter.bar_id)
         end
-          redirect_to :back, notice: "Success Create Popularity!"
+        redirect_to :back, notice: "Success Create Popularity!"
       else
         @popularity_inviter.destroy
         redirect_to :back, notice: "Empty Guess!"
       end
     else
       redirect_to :back, notice: "Fail Create Popularity!"
+    end
+  end
+
+  def redeem_reward
+    coupon = Bar.find(params[:bar_id]).winners.where(coupon: params[:coupon]).first
+    debugger
+    unless coupon.blank?
+      user_coupon = current_user.messages.where(coupon: params[:coupon]).first
+      coupon.update_attributes(coupon_status: 1)
+      user_coupon.update_attributes(coupon_status: 1)
+      redirect_to :back, notice: "success claim reward"
+    else
+      redirect_to :back, notice: "failed claim reward! unregistered coupon!"
     end
   end
 

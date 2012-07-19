@@ -23,7 +23,9 @@ module ActsAsMessageable
       :category,
       :gift_id,
       :reward_id,
-      :expirate_reward
+      :expirate_reward,
+      :coupon,
+      :coupon_status
 
     attr_accessor   :removed, :restored
     cattr_accessor  :required

@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Welcome to swigbig.com</h1>
+    <p>Hi <%= @friend %>,</p>
+    <p>
+     <b><%= @bar.name %></b>, <%= @bar.full_address %> have been joined with <a href="swigbig.com">SwigBIG</a>
+    </p>
+    <p>
+      please check our bar <a href="swigbig.com/bar/'<%= @bar.name.gsub(" ","-").gsub("'","-") %>'"><%= @bar.name %></a>
+    </p>
+    <p>or join as member to get more advantage from Bars <a href="swigbig.com/users/sign_in">here</a>!</p>
+    <p>Thanks and have a great day!</p>
+  </body>
+</html>
+

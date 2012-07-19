@@ -316,6 +316,13 @@
                   <% @winner.each do |w| %>
                     <tr>
                       <td>
+                        <% if w.coupon_status %>
+                        <b>Used</b>
+                        <% else %>
+                        <b>Unused</b>
+                        <% end %>
+                      </td>
+                      <td>
                         <%=  w.user.name %>
                       </td>
                       <td>

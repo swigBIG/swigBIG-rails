@@ -6,7 +6,7 @@
   <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
     <%= m.input :to, as: :hidden, label: false, placeholder: "User", input_html: {value: w.id, style: "margin-left: -145px;width: 445px;"} %>
     <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
-    <div style="margin-bottom: -20px;margin-left: 20px;"><b>Reward</b></div><%= m.input :reward_id, label: false, as: :select, collection: reward_collections, input_html: {style: "margin-left: -45px;"} %>
+    <div style="margin-bottom: -20px;margin-left: 20px;"><b>Reward</b></div><%#= m.input :reward_id, label: false, as: :select, collection: reward_collections, input_html: {style: "margin-left: -45px;"} %>
     <div style="margin-top: -45px;">
       <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
       </div>
