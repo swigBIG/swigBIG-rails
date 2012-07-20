@@ -91,6 +91,10 @@ Swprototype::Application.routes.draw do
 
 
   namespace :users do
+    match  "invite_friend" => "dashboard#after_join_invite_friends_by_email", as: "after_join_invite_friends_by_email"
+    match  "invite_friends" => "dashboard#after_join_invite_friends_by_fb", as: "after_join_invite_friends_by_fb"
+    post  "invite_friend_by_email" => "dashboard#after_sign_up_invite_friend_by_email", as: "after_sign_up_invite_friend_by_email"
+    post  "invite_friend_by_fb" => "dashboard#after_sign_up_invite_friend_by_fb", as: "after_sign_up_invite_friend_by_fb"
     match  "completion" => "dashboard#completion", as: "completion"
     get  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "notifications" => "notifications#index", as: "notifications"
