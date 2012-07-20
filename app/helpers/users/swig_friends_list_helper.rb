@@ -1,0 +1,2 @@
+module Users::SwigFriendsListHelper
+end
