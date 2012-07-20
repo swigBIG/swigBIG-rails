@@ -15,6 +15,7 @@ class Users::DashboardController < ApplicationController
     end
     @swigs = Swig.where(status: "active")
   end
+
   def facebook_page
     @top_bar = Swiger.select(:bar_id).group(:bar_id).max
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
@@ -70,14 +71,14 @@ class Users::DashboardController < ApplicationController
     end
   end
 
-#  def invite_by_email
-#    debugger
-#    params[:mytags].each do |e|
-#      Invite.send_invite_email(e, current_user).deliver
-#    end
-#
-#    redirect_to :back, notice: "invite has been sent"
-#  end
+  #  def invite_by_email
+  #    debugger
+  #    params[:mytags].each do |e|
+  #      Invite.send_invite_email(e, current_user).deliver
+  #    end
+  #
+  #    redirect_to :back, notice: "invite has been sent"
+  #  end
 
   def invite_by_email
     @bar = Bar.find(params[:bar_ids][:bar_id])
@@ -163,6 +164,32 @@ class Users::DashboardController < ApplicationController
       @user.destroy
       redirect_to :root, notice: "Age under 21 can't register!"
     end
+  end
+
+  def after_join_invite_friends_by_email
+  end
+
+  def after_join_invite_friends_by_fb
+    @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
+  end
+
+  def after_sign_up_invite_friend_by_email
+    unless params[:mytags].blank?
+      params[:mytags].split(",").each do |email|
+        Invite.user_invite_to_swigbig(email, current_user).deliver
+      end
+      redirect_to users_completion_url, notice: "invite success!"
+    else
+      redirect_to :back, notice: "undefine email address!"
+    end
+  end
+
+  def after_sign_up_invite_friend_by_fb
+    fb = MiniFB::OAuthSession.new(current_user.access_token)
+    params[:fb_ids].each do |fb_id|
+      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit http://swigbig.com/"})
+    end
+    redirect_to :back, notice: "invite success"
   end
 
 end

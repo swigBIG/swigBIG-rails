@@ -61,4 +61,8 @@ module ApplicationHelper
     [[1,1.0],[2,2.0],[3,3.0],[4,4.0],[5,5.0],[6,6.0],[7,7.0],[8,8.0],[9,9.0],[10,10.0],[11,11.0],[12,12.0]]
   end
 
+  def geo_radius_collection
+    GeoRadius.all.map{ |gr| [gr.radius, gr.radius]}
+  end
+
 end

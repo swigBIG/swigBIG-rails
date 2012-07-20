@@ -118,7 +118,8 @@
         <div class="accordion-inner" style="margin-left: 0px;">
           <%= f.input :zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
           <b style="margin-left: 60px;">Radius in Mile</b>
-          <%= text_field_tag :radius %>
+          <%= select(:radius, nil, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift(nil))) %>
+    <%#= text_field_tag :radius %>
           <br/>
           <br/>
           <b style="margin-left: 60px;">Swig Type</b>

@@ -11,7 +11,7 @@ class Swiger < ActiveRecord::Base
   #  before_create :check_swiger
   after_create :get_loyalty, :unlock_bigswig
 
-  #  validate :time_and_distance_valid?, :popularity_reward_valid?
+  validate :time_and_distance_valid?, :popularity_reward_valid?
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 

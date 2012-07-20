@@ -13,4 +13,10 @@ class Invite < ActionMailer::Base
     @bar = bar
     mail(to: @friend, subject: "#{@bar.name} have been joined SwigBIG")
   end
+  
+  def user_invite_to_swigbig(friend, user)
+    @friend = friend
+    @user = user
+    mail(to: @friend, subject: "#{@user.name} have been joined SwigBIG")
+  end
 end

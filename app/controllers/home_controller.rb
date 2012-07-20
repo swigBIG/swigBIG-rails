@@ -16,7 +16,6 @@ class HomeController < ApplicationController
       @loyalty = Loyalty.all
       @popularity = Popularity.all
       @search = Swig.search(params[:search])
-      debugger
       if !params[:search][:zip_code_contains].blank? and !params[:radius].blank?
         @geos = Geocoder.search("#{params[:search][:zip_code_contains]},#{@city}")
         @geo = @geos.first
@@ -30,7 +29,8 @@ class HomeController < ApplicationController
         @search = Swig.search(params[:search])
         @swigs = @search.where(city: @city.name.to_s, zip_code: params[:search][:zip_code_contains], status: "active", swig_day: Time.zone.now.strftime("%A").to_s).page(params[:page]).per(10)
       elsif !params[:radius].blank?
-        @geo = City.find(params[:id])
+        @geo = City.where(name: @city_lat_lng[0].to_s).first
+        #        @geo = City.find(params[:id])
         @search = Swig.near("#{@geo.latitude},#{@geo.longitude}", params[:radius], :order => :distance).search(params[:search])
         @swigs = @search.where(city: @city.name.to_s, status: "active", swig_day: Time.zone.now.strftime("%A").to_s).page(params[:page]).per(10)
       else
