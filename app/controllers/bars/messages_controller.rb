@@ -81,7 +81,8 @@ class Bars::MessagesController < ApplicationController
   end
 
   def notification
-    @notification = current_bar.sent_messages.where(["category = (?) OR category = (?)", 9, 15]).order("created_at DESC")
+    @notification_unlock_swig = current_bar.sent_messages.where(["category = (?)", 15]).order("created_at DESC").page(params[:page]).per(1)
+    @notification_unlock_popularity = current_bar.sent_messages.where(["category = (?)", 9]).order("created_at DESC").page(params[:page]).per(1)
 #    @messages_all_user = current_bar.sent_messages.where(category: 0).group(:created_at).page(params[:page]).per(10)
 #    @messages_last_visit = current_bar.sent_messages.where(category: 1).group(:created_at).page(params[:page]).per(10)
 #    @messages_almost_rewarded = current_bar.sent_messages.where(category: 2).group(:created_at).page(params[:page]).per(10)

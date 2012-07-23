@@ -1,0 +1,5 @@
+$('#swigs_list_unlock').html('<%= escape_javascript(render("notification_list")) %>');
+$('#unlock_swig_paginator').html('<%= escape_javascript(paginate(@notification_unlock_swig, :remote => true).to_s) %>');
+
+$('#popularity_list_unlock').html('<%= escape_javascript(render("popularity_notification_list")) %>');
+$('#unlock_popularity_paginator').html('<%= escape_javascript(paginate(@notification_unlock_popularity, :remote => true).to_s) %>');
