@@ -234,7 +234,8 @@ class Bars::DashboardController < ApplicationController
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
     if @bar.update_attributes(params[:bar])
       sign_in @bar, :bypass => true
-      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
+#      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
+      redirect_to bars_second_completion_path, notice: "Profile Completion Success!"
     else
       redirect_to :back, notice: "Profile Completion Failed!"
     end
@@ -242,6 +243,25 @@ class Bars::DashboardController < ApplicationController
 
   def completion
     @bar = current_bar
+  end
+
+  def second_completion
+    @bar = current_bar
+    @popularity = Popularity.new
+    @loyalty = Loyalty.new
+    @bar_loyalty = current_bar.loyalty
+    @bar_popularity = current_bar.popularity
+  end
+
+  def update_second_completion
+    @bar = current_bar
+    current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
+    if @bar.update_attributes(params[:bar])
+      sign_in @bar, :bypass => true
+      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
+    else
+      redirect_to :back, notice: "Profile Completion Failed!"
+    end
   end
 
   def create_gift

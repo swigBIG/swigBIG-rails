@@ -49,6 +49,8 @@ Swprototype::Application.routes.draw do
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
     match  "completion" => "dashboard#completion", as: "completion"
     post  "update_completion" => "dashboard#update_completion", as: "update_completion"
+    match  "second_completion" => "dashboard#second_completion", as: "second_completion"
+    post  "update_second_completion" => "dashboard#update_second_completion", as: "update_second_completion"
     match  "dashboard" => "dashboard#index", as: "dashboard"
     match  "product" => "products#index", as: "product"
     post  "create_reward_message/:user_id/:winner_id" => "dashboard#create_reward_message", as: "create_reward_message"

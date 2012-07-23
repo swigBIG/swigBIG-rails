@@ -1,0 +1,108 @@
+<%= content_for :side do %>
+  <!--<a class="btn" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>
+  <div class="clearfix"></div>-->
+  <h4>Loyalty</h4>
+  <div style="border: gray;border-style: solid;border-radius: 4px;padding: 2px;">
+    <% unless @bar_loyalty.blank? %>
+      <% if @bar_loyalty.status.eql?("active") %>
+        <%= link_to "Deacivate", bars_deactivate_loyalty_path(@bar_loyalty.id), class: "btn-danger btn-mini", method: :post %>
+        <% else %>
+          <%= link_to "Acivate", bars_activate_loyalty_path(@bar_loyalty.id), class: "btn-success btn-mini", method: :post %>
+          <% end %>
+    <a class="btn btn-mini" data-toggle="modal" href="#update_bar_loyalty"><i class="icon-edit"></i>Change</a>
+          <br/>
+          <b>Swig Require : </b><%= @bar_loyalty.swigs_number rescue "" %><br/>
+          <b>Detail : </b><%= @bar_loyalty.reward_detail rescue "" %>
+          <br/>
+          <div class="span4 pull-right">
+        <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
+            <%= content_for :outer do %>
+              <div id="update_bar_loyalty" class="modal hide fade">
+                <%= render partial: "update_loyalty", locals: {l: @bar_loyalty} %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+<h4>Popularity</h4>
+      <div style="border: gray;border-style: solid;border-radius: 4px;padding: 2px;">
+        <% unless @bar_popularity.blank? %>
+          <% if @bar_popularity.status.eql?("active") %>
+            <%= link_to "Deacivate", bars_deactivate_loyalty_path(@bar_popularity.id), class: "btn-danger btn-mini", method: :post %>
+            <% else %>
+              <%= link_to "Acivate", bars_activate_loyalty_path(@bar_popularity.id), class: "btn-success btn-mini", method: :post %>
+              <% end %>
+              <a class="btn btn-mini" data-toggle="modal" href="#update_bar_popularity"><i class="icon-edit"></i>Change</a>
+              <br/>
+              <b>Swig Require : </b><%= @bar_popularity.swigs_number rescue "" %><br/>
+              <b>Detail : </b><%= @bar_popularity.reward_detail rescue "" %>
+              <br/>
+            <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
+              <%= content_for :outer do %>
+                <div id="update_bar_popularity" class="modal hide fade">
+                  <%= render partial: "update_popularity", locals: {l: @bar_popularity} %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+        <% end %>
+<div class="span11"><h2>Reward for Customer</h3></div>
+        <div class="span5"><h4><strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#loyalty">Loyalty</a></strong></h4>
+          <p>This works like a punch card system. Every time a general user Swigs at a bar, they earn 1 point. The bar sets the amount of points a general user needs to earn a reward. For example, The bar sets their reward so that the user gets 20% off their bill when the user gets 10 points.</p>
+        </div>
+        <div class="span5"><h4><strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#popularity">Popularity</a></strong></h4>
+          <p>This works almost the same, but is more short term. The user gets a point every time another user that they invited Swigs at the bar. The bar sets the amount of points the general user needs to earn the reward. For example, the bar sets their reward so that the user gets a free beer when they have earned 5 points. When the first general user Swigs they are prompted to invite friends, and if these friends show up and Swig themselves, the first user gets a point for each friend that does so.</p>
+        </div>
+        <%= content_for :outer do %>
+          <div id="rewardModal" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3>Reward Type</h3>
+            </div>
+            <div class="modal-body well">
+              <div class="span3" style="text-align: center;"><p>ters</p></div>
+              <div class="span3" style="text-align: center;"><p>ters</p></div>
+              <div style="text-align: center;">
+                <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#loyalty">Loyalty</a></strong>
+                &nbsp; &nbsp;
+                <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#popularity">Popularity</a></strong>
+              </div>
+            </div>
+          </div>
+
+          <div id="popularity" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3>Popularity</h3>
+            </div>
+            <div class="modal-body well">
+              <%= simple_form_for(@popularity, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
+                <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
+                <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                <%= f.input :swigs_number %>
+                <div class="form-actions">
+                  <%= f.submit "Create Popularity", class: "btn-primary" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div id="loyalty" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal"><b>x</b></a>
+                <h3>Loyalty</h3>
+              </div>
+              <div class="modal-body well">
+                <%= simple_form_for(@loyalty, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
+                  <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
+                  <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                  <%= f.input :swigs_number %>
+                  <div class="form-actions">
+                    <%= f.submit "Create Loyalty", class: "btn-primary" %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+
+            <% end %>
