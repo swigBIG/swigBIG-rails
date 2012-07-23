@@ -49,7 +49,7 @@
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
             </li>
 
-            <div class="nav pull-right" style="margin-left: 200px;">
+            <div class="nav pull-right" style="margin-left: 100px;">
               <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
               <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% if bar_signed_in? %>
@@ -62,6 +62,12 @@
                 <li>
                   <% unless  current_bar.received_messages.where("opened is false").blank? %>
                     <span class="badge badge-error" onclick="window.location.href='<%= bars_messages_path %>'"><%=  current_bar.received_messages.where("opened is false").count  %></span>
+                  <% end %>
+                </li>
+                <li><b><%= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>
+                <li>
+                  <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
+                    <span class="badge badge-error" onclick="window.location.href='<%= bars_notification_path %>'"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count  %></span>
                   <% end %>
                 </li>
                 <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
@@ -135,7 +141,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-           <%= @site_content.contact_us rescue nil %>
+          <%= @site_content.contact_us rescue nil %>
         </div>
       </div>
     </div>
