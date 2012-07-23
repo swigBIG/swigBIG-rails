@@ -77,6 +77,7 @@ Swprototype::Application.routes.draw do
     post "update_gift/:id" => "bars/dashboard#update_gift", as: "update_gift"
     post "destroy_gift/:id" => "bars/dashboard#destroy_gift", as: "destroy_gift"
     
+    get 'notification' => "messages#notification"
     resources :messages do
       collection do
         get 'sent'

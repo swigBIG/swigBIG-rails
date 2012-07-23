@@ -21,6 +21,8 @@ end
 
 gem 'jquery-rails'
 gem 'chronic'
+#gem "barby", "~> 0.5.0"
+#gem 'tod'
 gem 'fog'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'timezone'

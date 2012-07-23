@@ -1,0 +1,15 @@
+<%= javascript_include_tag "tag-it" %>
+<%= stylesheet_link_tag "tagit-simple-blue" %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $.noConflict();
+    $("#mytags").tagit({ trigerKeys: ['enter', 'comma', 'tab']});
+  });
+</script>
+<p>Invite your friends and your customers to increase your benefit!</p>
+<table>
+  <%= form_tag(bars_invite_friend_by_email_path) do %>
+    <%= text_field_tag(:mytags) %>
+    <%= submit_tag "invite", class: "btn-primary" %>
+    <% end %>
+  </table>
