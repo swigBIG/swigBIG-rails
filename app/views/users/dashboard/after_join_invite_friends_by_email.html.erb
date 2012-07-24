@@ -1,8 +1,6 @@
-<%= javascript_include_tag "tag-it" %>
 <%= stylesheet_link_tag "tagit-simple-blue" %>
 <script type="text/javascript">
   $(document).ready(function() {
-    $.noConflict();
     $("#mytags").tagit({ trigerKeys: ['enter', 'comma', 'tab']});
   });
 </script>
