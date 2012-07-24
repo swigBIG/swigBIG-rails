@@ -1,5 +1,5 @@
-<%= javascript_include_tag "jquery.tokeninput" %>
-<%= stylesheet_link_tag "token-input-facebook" %>
+<%#= javascript_include_tag "jquery.tokeninput" %>
+<%#= stylesheet_link_tag "token-input-facebook" %>
 <script>
   function countChar(val){
     var len = val.value.length;
@@ -10,6 +10,7 @@
     }
   };
 </script>
+<%= content_for :outer do %>
 <script type="text/javascript">
   $(document).ready(function() {
     var sport_teams = [];
@@ -17,26 +18,25 @@
       var x = [];
       x.push('name: <%= b.to_json %>');//0
       x.push('id: <%= b.to_json %>');//0
-
       sport_teams.push(x);
 <% end %>
     var include_sport_list = [];
-<%  unless current_bar.blank?%>
-  <%  unless current_bar.sports_teams.blank?%>
-    <%  sports_team = current_bar.sports_team.split(',') %>
-    <%  sports_team.each do |team| %>
-          include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
-    <% end%>
-  <% end%>
+<%  unless current_bar.sports_team.blank? %>
+  <%  sports_team = current_bar.sports_team.split(',') %>
+  <%  sports_team.each do |team| %>
+        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+  <% end %>
 <% end%>
 
-    $("#tk_sports").tokenInput( "/bars/sport_lists", {
+    $("#tk_sports").tokenInput("/bars/sport_lists", {
       theme: "facebook",
       preventDuplicates: true,
       prePopulate: include_sport_list
     });
   });
+
 </script>
+<% end %>
 <!--<script type="text/javascript">
   var available_tags = [];
 <%# SportTeam.all.each do |team| %>
