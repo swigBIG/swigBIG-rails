@@ -49,4 +49,8 @@ class Swig < ActiveRecord::Base
     end
   end
 
+  def self.reset_swig_unlock
+    where(swig_day: (Time.now - 2.days).strftime("%A"), lock_status: "unlock").update_all("lock_status = NULL")
+  end
+
 end

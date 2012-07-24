@@ -23,6 +23,7 @@
 #   runner "Swiger.prune_old_records"
 # end
 
+#every 1.minute do
 every 1.day, :at => '4:30 am' do
   runner "Swig.reset_swig_unlock"
 end
