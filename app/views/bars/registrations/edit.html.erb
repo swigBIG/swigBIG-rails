@@ -1,13 +1,4 @@
-<script type="text/javascript">
-  $(document).ready(function() {
-    var available_tags = [];
-<% SportTeam.all.each do |team| %>
-      available_tags.push('<%= team.team_name %>');
-<% end %>
-    $.noConflict();
-    $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
-  });
-</script>
+
 <script>
   function countChar(val){
     var len = val.value.length;
