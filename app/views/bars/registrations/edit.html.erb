@@ -37,13 +37,11 @@
       sport_teams.push(x);
 <% end %>
     var include_sport_list = [];
-<%  unless current_bar.blank? %>
-  <%  unless current_bar.sports_teams.blank? %>
-    <%  sports_team = current_bar.sports_team.split(',') %>
-    <%  sports_team.each do |team| %>
-          include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
-    <% end%>
-  <% end%>
+<%  unless current_bar.sports_team.blank? %>
+  <%  sports_team = current_bar.sports_team.split(',') %>
+  <%  sports_team.each do |team| %>
+        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+  <% end %>
 <% end%>
 
     $("#tk_sports").tokenInput("/bars/sport_lists", {
@@ -54,7 +52,7 @@
   });
 
 </script>
-
+<h2>Edit <%= current_bar.sports_team %> Profile</h2>
 <h2>Edit <%= current_bar.name %> Profile</h2>
 <ul class="tabs" data-tabs="tabs">
   <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
