@@ -7,35 +7,39 @@
       <h2><%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h2>
       <table width="100%;">
         <tr>
-        <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %>
-          
-        </div>
-        </tr>
-        <tr>
-        <div style="width: 400px;"><b><%= @message_show.topic %></b></div>
-        </tr>
-        <tr>
-          <td><%= @message_show.body.html_safe %></td>
-        </tr>
-        <% if !@message_show.gift_id.blank? %>
-          <tr>
-            <td><b>Gift: </b></td>
-            <td><%= Gift.find(@message_show.gift_id).name %> </td>
+          <% if @message_show.category.eql?(22) %>
+          <div style="width: 400px;"><b>From : SwigBIG</b>
+          <% else %>
+            <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %>
+            <% end %>
+
+          </div>
           </tr>
           <tr>
-            <td><%= Gift.find(@message_show.gift_id).descriptions %></td>
-          </tr>
-        <% elsif !@message_show.reward_id.blank? %>
-          <tr>
-            <td><h4>Reward</h4></td>
+          <div style="width: 400px;"><b><%= @message_show.topic %></b></div>
           </tr>
           <tr>
-            <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name %></td>
+            <td><%= @message_show.body.html_safe %></td>
           </tr>
-          <tr>
-            <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content %></td>
-          </tr>
-        <% end %>
+          <% if !@message_show.gift_id.blank? %>
+            <tr>
+              <td><b>Gift: </b></td>
+              <td><%= Gift.find(@message_show.gift_id).name %> </td>
+            </tr>
+            <tr>
+              <td><%= Gift.find(@message_show.gift_id).descriptions %></td>
+            </tr>
+          <% elsif !@message_show.reward_id.blank? %>
+            <tr>
+              <td><h4>Reward</h4></td>
+            </tr>
+            <tr>
+              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name %></td>
+            </tr>
+            <tr>
+              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content %></td>
+            </tr>
+          <% end %>
       </table>
     </div>
   </div>
