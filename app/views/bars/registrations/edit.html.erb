@@ -132,17 +132,15 @@
                   var close = $("#close_hour"+day_last+" > option:selected").text();
                   var openw = $("#open_w"+day_last+" > option:selected").text();
                   var closew = $("#close_w"+day_last+" > option:selected").text();
-                 
                   //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
-                  if ($("#"+this.id).attr('checked', true)){
-
+                  if ($("#"+this.id).attr('checked') == "checked"){
+                    
                     $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
                     $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
-                    $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
-                    $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
+                    $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
+                    $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
                    
                   }else{
-                    $("#"+this.id).attr('checked', false);
                     $("#open_hour"+day+" > option").eq(open).attr("selected","")
                     $("#close_hour"+day+" > option").eq(close).attr("selected","")
                     $("#open_w"+day+" > option").eq(openw).attr("selected","")

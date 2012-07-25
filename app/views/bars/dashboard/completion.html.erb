@@ -11,31 +11,31 @@
   };
 </script>
 <%= content_for :outer do %>
-<script type="text/javascript">
-  $(document).ready(function() {
-    var sport_teams = [];
-<% SportTeam.all.each do |b| %>
-      var x = [];
-      x.push('name: <%= b.to_json %>');//0
-      x.push('id: <%= b.to_json %>');//0
-      sport_teams.push(x);
-<% end %>
-    var include_sport_list = [];
-<%  unless current_bar.sports_team.blank? %>
-  <%  sports_team = current_bar.sports_team.split(',') %>
-  <%  sports_team.each do |team| %>
-        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var sport_teams = [];
+  <% SportTeam.all.each do |b| %>
+        var x = [];
+        x.push('name: <%= b.to_json %>');//0
+        x.push('id: <%= b.to_json %>');//0
+        sport_teams.push(x);
   <% end %>
-<% end%>
+      var include_sport_list = [];
+  <%  unless current_bar.sports_team.blank? %>
+    <%  sports_team = current_bar.sports_team.split(',') %>
+    <%  sports_team.each do |team| %>
+          include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+    <% end %>
+  <% end%>
 
-    $("#tk_sports").tokenInput("/bars/sport_lists", {
-      theme: "facebook",
-      preventDuplicates: true,
-      prePopulate: include_sport_list
+      $("#tk_sports").tokenInput("/bars/sport_lists", {
+        theme: "facebook",
+        preventDuplicates: true,
+        prePopulate: include_sport_list
+      });
     });
-  });
 
-</script>
+  </script>
 <% end %>
 <!--<script type="text/javascript">
   var available_tags = [];
@@ -288,12 +288,12 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
               <div class="span4" style="margin-right: 10px;">
                 <div class="span2">
                   <b><%= ff.object.day %></b>
-                  <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
                 </div>
                 <div class="span1" style="margin-top: 15px;">
-                  <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                  <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
                   <% unless ff.object.day.eql?("Monday") %>
                     Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
                   <% end %>
@@ -427,23 +427,19 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
           $(".day_bar").click(function(){
             var day = $("#"+this.id).attr("day_bar");
             day_last = day - 1
-            var open = document.getElementById("#bar_bar_hours_attributes_"+day_last+"_open_hour").value();
+            var open = $("#open_hour"+day_last+" > option:selected").text();
             var close = $("#close_hour"+day_last+" > option:selected").text();
             var openw = $("#open_w"+day_last+" > option:selected").text();
             var closew = $("#close_w"+day_last+" > option:selected").text();
-
             //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
-            if ($("#"+this.id).attr('checked', true)){
+            if ($("#"+this.id).attr('checked') == "checked"){
 
-              $('#bar_bar_hours_attributes_'+day+'_open_hour').val($('#bar_bar_hours_attributes_'+day_last+'_open_hour').val())
-
-              //$("#bar_bar_hours_attributes_"+day+"_open_hour > option").eq(open).attr("selected","selected")
+              $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
               $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
-              $("#open_w"+day+" > option").eq(openw).attr("selected","selected")
-              $("#close_w"+day+" > option").eq(closew).attr("selected","selected")
+              $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
+              $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
 
             }else{
-              $("#"+this.id).attr('checked', false);
               $("#open_hour"+day+" > option").eq(open).attr("selected","")
               $("#close_hour"+day+" > option").eq(close).attr("selected","")
               $("#open_w"+day+" > option").eq(openw).attr("selected","")
