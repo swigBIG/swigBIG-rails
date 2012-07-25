@@ -124,6 +124,8 @@ class Users::DashboardController < ApplicationController
     @winners = current_user.winners
     @loyalty_points = current_user.points.where(popularity_points: nil).group(:bar_id)
     @gifts = current_user.received_messages.pluck(:gift_id).compact
+    @rewards = current_user.received_messages.where(["coupon_status = false AND category = ? OR category = ?", 9, 15]).order("created_at DESC")
+    @reedem_rewards = current_user.received_messages.where(["coupon_status = true AND category = ? OR category = ?", 9, 15]).order("created_at DESC")
     #    @loyalty_points = Bar.loyalty.nil?
   end
 
@@ -156,7 +158,8 @@ class Users::DashboardController < ApplicationController
     if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
       if @user.update_attributes(params[:user])
         sign_in @user, :bypass => true
-        redirect_to users_dashboard_path, notice: "Profile Completion Success!"
+#        redirect_to users_dashboard_path, notice: "Profile Completion Success!"
+        redirect_to root_path, notice: "Profile Completion Success!"
       else
         redirect_to :back, notice: "Profile Completion Failed!"
       end

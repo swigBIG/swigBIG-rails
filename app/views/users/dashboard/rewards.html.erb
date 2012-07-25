@@ -73,7 +73,7 @@
           </table>
         </div>
         <div class="tab-pane" id="popularity">
-          pop
+
         </div>
       </div>
     </div>
@@ -111,7 +111,18 @@
     </div>
 
     <div class="tab-pane" id="redeemed">
-      Popularity content
+      <table>
+        <th></th>
+        <th></th>
+        <th></th>
+        <% @rewards.each do |reward| %>
+          <tr>
+            <td><%= reward.topic %></td>
+            <td><%= reward.body %></td>
+            <td><%= reward.created_at %></td>
+          </tr>
+        <% end %>
+      </table>
     </div>
     <div class="tab-pane" id="gift">
       <table>

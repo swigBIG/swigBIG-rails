@@ -12,17 +12,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
       guess.update_attributes(user_id: current_user.id)
       if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
         users_after_join_invite_friends_by_email_url
-#        users_completion_url
+        #        users_completion_url
       else
-        users_dashboard_url
+        root_url
       end
     else
       if current_user.name.blank?
         users_after_join_invite_friends_by_email_url
-#        users_completion_url
+        #        users_completion_url
       else
-        users_dashboard_url
-        #      main_home_path
+        root_url
       end
     end
   end

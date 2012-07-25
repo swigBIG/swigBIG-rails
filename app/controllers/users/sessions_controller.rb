@@ -32,8 +32,11 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-#    users_dashboard_url
-    root_url
+    if current_user.name.blank?
+      users_after_join_invite_friends_by_email_url
+    else
+      root_url
+    end
   end
   
 end
