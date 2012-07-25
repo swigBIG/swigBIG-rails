@@ -1,0 +1,2 @@
+$('#message_list').html('<%= escape_javascript(render("message_content")) %>');
+$('#message_paginator').html('<%= escape_javascript(paginate(@messages, :remote => true).to_s) %>');
