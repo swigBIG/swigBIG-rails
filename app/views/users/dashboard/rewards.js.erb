@@ -1,0 +1,5 @@
+$('#earned_reward_list').html('<%= escape_javascript(render("earned_reward_partial")) %>');
+$('#earned_reward_paginator').html('<%= escape_javascript(paginate(@rewards, :remote => true).to_s) %>');
+
+$('#redeem_reward_list').html('<%= escape_javascript(render("redeem_reward_partial")) %>');
+$('#redeem_reward_paginator').html('<%= escape_javascript(paginate(@redeem_rewards, :remote => true).to_s) %>');
