@@ -20,6 +20,9 @@ class Bar < ActiveRecord::Base
 
   before_update  :set_full_address, :set_coordinates, :set_http_website
 
+  geocoded_by :address
+  after_validation :geocode
+
   after_update :update_swig_location
 
   acts_as_taggable_on :sports_teams

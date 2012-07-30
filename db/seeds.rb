@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'carmen'
+include Carmen
+
+Carmen.states("US").each do |st|
+  States.create(name: st[0])
+end

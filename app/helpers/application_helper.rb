@@ -65,4 +65,8 @@ module ApplicationHelper
     GeoRadius.all.map{ |gr| [gr.radius, gr.radius]}
   end
 
+  def states_collection
+    States.all.map{ |s| [s.name, s.name] }
+  end
+
 end
