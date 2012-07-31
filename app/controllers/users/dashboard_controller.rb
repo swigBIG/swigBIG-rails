@@ -121,11 +121,12 @@ class Users::DashboardController < ApplicationController
   end
 
   def rewards
+    @bar_rewards = current_user.received_messages.where(["coupon_status = false AND category = ? OR category = ?", 9, 15]).order("created_at DESC").page(params[:page]).per(5)
     @winners = current_user.winners
-    @loyalty_points = current_user.points.where(popularity_points: nil).group(:bar_id)
-    @gifts = current_user.received_messages.pluck(:gift_id).compact
-    @rewards = current_user.received_messages.where(["coupon_status = false AND category = ? OR category = ?", 9, 15]).order("created_at DESC")
-    @reedem_rewards = current_user.received_messages.where(["coupon_status = true AND category = ? OR category = ?", 9, 15]).order("created_at DESC")
+    @loyalty_points = current_user.points.where(loyalty_points: 1).group(:bar_id)
+    @populrity_points = current_user.points.where(popularity_points: 1).group(:bar_id)
+    @rewards = current_user.received_messages.where(coupon_status: false).where(["category = ? OR category = ? OR category = ?", 9, 15, 16]).order("created_at DESC").page(params[:page]).per(5)
+    @redeem_rewards = current_user.received_messages.where(coupon_status: true).where(["category = ? OR category = ? OR category = ?", 9, 15, 16]).order("created_at DESC").page(params[:page]).per(5)
     #    @loyalty_points = Bar.loyalty.nil?
   end
 

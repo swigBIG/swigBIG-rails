@@ -136,6 +136,7 @@ Swprototype::Application.routes.draw do
     namespace :v1 do
       resource :swig_mobiles do
         post 'register', 'home'
+        get 'get_lat_lon'
       end
     end
   end

@@ -28,9 +28,9 @@
       $('#goto_second_link').click();
     }
   }
-  </script>
+</script>
 
-  <script type="text/javascript">
+<script type="text/javascript">
   
   function validate_sports_team(){
     if($('#mytags').val() == ''){
@@ -104,99 +104,101 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <b style="color: red;"><div id="validate_email"></div></b>
             <%= f.input :email, input_html: {value: ""} %>
             <%= f.input :name %>
-            
-            </div>
-            <div class="modal-footer">
-              <a class="btn" onclick="return validate_email() ">Continue</a>
-              <!--<a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
 
-              <a class="btn" onclick="return validate_address()">Continue</a>-->
-              <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_email() ">Continue</a>
+            <!--<a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
+
+            <a class="btn" onclick="return validate_address()">Continue</a>-->
+            <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>
+          </div>
+        </div>
+
+        <div id="user_second_profile" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">User Profile Detail?</h3>
+          </div>
+          <div class="modal-body">
+            <b style="color: red;"><div id="validate_bird_date"></div></b>
+        <%#= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
+            <%= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 20,
+              :order => [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;"},  required: true %>
+            <%= f.input :avatar %>
+            <%= f.input :phone_number %>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_bird_date();">Continue</a>
+            <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_second_link" style="display:none;">Continue</a>
+            <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+
+        <div id="user_location" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">What Your Address?</h3>
+          </div>
+          <div class="modal-body">
+            <%= f.input :address %>
+            <%= f.input :zip_code %>
+            <%= f.input :city %>
+            <%= f.input :state %>
+          </div>
+          <div class="modal-footer">
+            <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->
+            <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
+            <a class="btn" href="#user_second_profile" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+        <div id="check_data" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">Did we get it all?</h3>
+          </div>
+          <div class="modal-body">
+            <table style="border-style: none;">
+              <tr>
+                <td>Email : </td>
+                <td><div id="email"></div></td>
+              </tr>
+              <tr>
+                <td>Name : </td>
+                <td><div id="name"></div></td>
+              </tr>
+              <tr>
+                <td>Bird Date : </td>
+                <td><div id="born_date"></div></td>
+              </tr>
+              <tr>
+                <td>Phone Number : </td>
+                <td><div id="user_phone"></div></td>
+              </tr>
+              <tr>
+                <td>Address : </td>
+                <td><div id="user_address_text"></div></td>
+              </tr>
+              <tr>
+                <td>Zip Code : </td>
+                <td><div id="zip_code"></div></td>
+              <tr>
+                <td>City : </td>
+                <td><div  id="user_city_text"></div></td>
+              </tr>
+              <tr>
+                <td>State : </td>
+                <td><div  id="user_state_text"></div></td>
+              </tr>
+              </tr>
+            </table>
+
+          </div>
+          <div class="modal-footer">
+            <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+            <a class="btn" href="#user_location" data-dismiss="modal" data-toggle="modal">Back</a>
+            <%= f.submit "Submit", class: "btn-primary" %>
             </div>
           </div>
-
-          <div id="user_second_profile" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3 style="text-align: center;">User Profile Detail?</h3>
-            </div>
-            <div class="modal-body">
-              <b style="color: red;"><div id="validate_bird_date"></div></b>
-            <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
-              <%= f.input :avatar %>
-              <%= f.input :phone_number %>
-            </div>
-            <div class="modal-footer">
-              <a class="btn" onclick="return validate_bird_date();">Continue</a>
-              <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_second_link" style="display:none;">Continue</a>
-              <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
-            </div>
-          </div>
-
-          <div id="user_location" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3 style="text-align: center;">What Your Address?</h3>
-            </div>
-            <div class="modal-body">
-              <%= f.input :address %>
-              <%= f.input :zip_code %>
-              <%= f.input :city %>
-              <%= f.input :state %>
-            </div>
-            <div class="modal-footer">
-              <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->
-              <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
-              <a class="btn" href="#user_second_profile" data-dismiss="modal" data-toggle="modal">Back</a>
-            </div>
-          </div>
-          <div id="check_data" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3 style="text-align: center;">Did we get it all?</h3>
-            </div>
-            <div class="modal-body">
-              <table style="border-style: none;">
-                <tr>
-                  <td>Email : </td>
-                  <td><div id="email"></div></td>
-                </tr>
-                <tr>
-                  <td>Name : </td>
-                  <td><div id="name"></div></td>
-                </tr>
-                <tr>
-                  <td>Bird Date : </td>
-                  <td><div id="born_date"></div></td>
-                </tr>
-                <tr>
-                  <td>Phone Number : </td>
-                  <td><div id="user_phone"></div></td>
-                </tr>
-                <tr>
-                  <td>Address : </td>
-                  <td><div id="user_address_text"></div></td>
-                </tr>
-                <tr>
-                  <td>Zip Code : </td>
-                  <td><div id="zip_code"></div></td>
-                <tr>
-                  <td>City : </td>
-                  <td><div  id="user_city_text"></div></td>
-                </tr>
-                <tr>
-                  <td>State : </td>
-                  <td><div  id="user_state_text"></div></td>
-                </tr>
-                </tr>
-              </table>
-
-            </div>
-            <div class="modal-footer">
-              <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
-              <a class="btn" href="#user_location" data-dismiss="modal" data-toggle="modal">Back</a>
-              <%= f.submit "Submit", class: "btn-primary" %>
-              </div>
-            </div>
-          <% end %>
         <% end %>
+      <% end %>

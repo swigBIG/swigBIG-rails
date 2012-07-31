@@ -22,7 +22,10 @@ class Users::BarsController < ApplicationController
     @saturday_hour = @bar.bar_hours.where(day: "Saturday")
     @sunday_hour = @bar.bar_hours.where(day: "Sunday")
     if user_signed_in?
-      @friends = current_user.friends
+      #      @friends = current_user.friends
+      unless current_user.fb_id.blank?
+        @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
+      end
     else
       @friends = []
     end

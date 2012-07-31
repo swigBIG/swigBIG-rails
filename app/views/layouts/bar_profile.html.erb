@@ -44,7 +44,7 @@
               <% end %>
             </li>
             <li>
-             <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
+              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
             </li>
             <div class="nav pull-right" style="margin-left: 200px;">
               <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
@@ -117,10 +117,11 @@
       <div class="container span11 pull-right">
         <%= yield %>
       </div>
-      <%= yield :outer %>
       <div style="margin-top: 30px;"></div>
-
     </div>
+
+    <%= yield :outer %>
+    
     <div class="navbar-fixed-bottom">
       <div class="navbar-inner" style="background-image: none;height: 25px;">
         <div class="container" style="padding-top: 5px;">
@@ -169,7 +170,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-           <%= @site_content.contact_us rescue nil %>
+          <%= @site_content.contact_us rescue nil %>
         </div>
       </div>
     </div>
