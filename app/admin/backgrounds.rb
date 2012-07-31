@@ -7,4 +7,5 @@ ActiveAdmin.register Background do
       redirect_to admin_site_content_url, notice: "Delete Successfull!"
     end
   end
+
 end

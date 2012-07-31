@@ -8,8 +8,22 @@
     <style type="text/css">
       body{
         background-color: rgba(107, 214, 0, 0.2);
-        background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
-        background-repeat: repeat;
+        <% unless @site_content.blank? %>
+          <% unless @site_content.backgrounds.blank? %>
+            <% unless @site_content.backgrounds.status_active.first.blank? %>
+              <% if @site_content.backgrounds.status_active.first.background_style.eql?("Fit") %>
+                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
+                background-size: 100% 100%;
+              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Original") %>
+                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
+                background-size: auto;
+              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Tiled") %>
+                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
+                background-repeat: repeat;
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
       }
       .navbar-inner{
         background-color: rgba(102, 153, 51, 1);

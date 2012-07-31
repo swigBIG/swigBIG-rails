@@ -60,7 +60,7 @@ ActiveAdmin.register SiteContent do
 
   form do |f|
     f.inputs "" do
-      #      f.input :site_background
+      #      f.input :site_bac1kground
       #      f.input :site_logo
       f.input :swig_example, input_html: {style: "width: 300px;", cols: 3}
       f.input :term_of_service
@@ -109,6 +109,12 @@ ActiveAdmin.register SiteContent do
   member_action :unactivate_background, :method => :get do
     SiteContent.first.backgrounds.find(params[:id]).update_attributes(active_status: 0)
     redirect_to :back, :notice => "Background Change!"
+  end
+
+  member_action :pick_background_style, :method => :post do
+    background = SiteContent.first.backgrounds.find(params[:background_id])
+    background.update_attributes(background_style: params[:background][:style])
+    redirect_to :back, :notice => "Background style #{background.background_style}!"
   end
 
 end
