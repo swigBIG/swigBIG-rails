@@ -28,7 +28,7 @@
       x.push('<%= b.id %>');//2
       x.push('<%=j link_to  b.name, bar_profile_path(b) %>');//3
       x.push('<%= b.zip_code %>');//4
-      x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe %>');//5
+      x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe rescue nil %>');//5
       x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
       x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
       x.push('<%= b.swigs.today.first.people rescue nil %>');//8
