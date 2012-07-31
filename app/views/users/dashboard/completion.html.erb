@@ -1,5 +1,5 @@
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
   function validate_email(){
     if($('#user_email').val() != '<%= current_user.email %>'){
       $('#user_email').css('border', '1px solid red');
@@ -14,6 +14,8 @@
       $('#goto_link').click();
     }
   }
+</script>-->
+<script type="text/javascript">
   function validate_bird_date(){
     if($('#user_bird_date').val() == ""){
       $('#user_bird_date').css('border', '1px solid red');
@@ -73,7 +75,7 @@
 
 <h4>Please Complete your bar profile!</h4>
 
-click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete
+Click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete your profile!
 
 <%= content_for :outer do %>
   <div id="ask" class="modal hide fade">
@@ -96,22 +98,22 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
     <div id="user_details" class="modal hide fade">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3 style="text-align: center;">Where is the located?</h3>
+        <h3 style="text-align: center;">Complete your Profile.</h3>
       </div>
       <div class="modal-body">
         <%= simple_form_for(@user,url: users_update_completion_path, method: :get, html: {class: "form-horizontal" }) do |f| %>
         <%#= devise_error_messages! %>
             <b style="color: red;"><div id="validate_email"></div></b>
-            <%= f.input :email, input_html: {value: ""} %>
+            <%#= f.input :email, input_html: {value: ""} %>
             <%= f.input :name %>
 
           </div>
           <div class="modal-footer">
-            <a class="btn" onclick="return validate_email() ">Continue</a>
-            <!--<a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
-
-            <a class="btn" onclick="return validate_address()">Continue</a>-->
-            <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>
+            <!--<a class="btn" onclick="return validate_email() ">Continue</a>
+            <a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
+            <a class="btn" onclick="return validate_address()">Continue</a>
+            <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>-->
+            <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link">Continue</a>
           </div>
         </div>
 
@@ -124,7 +126,7 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <b style="color: red;"><div id="validate_bird_date"></div></b>
         <%#= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
             <%= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 20,
-              :order => [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;"},  required: true %>
+              order: [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;"}, include_blank: true, required: true %>
             <%= f.input :avatar %>
             <%= f.input :phone_number %>
           </div>
