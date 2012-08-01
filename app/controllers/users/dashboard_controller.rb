@@ -45,7 +45,8 @@ class Users::DashboardController < ApplicationController
   #  end
   def invite_swigbig
     fb = MiniFB::OAuthSession.new(current_user.access_token)
-    @bar = Bar.find(params[:bar_ids][:bar_id])
+#    @bar = Bar.find(params[:bar_ids][:bar_id])
+    @bar = Bar.find(params[:bar_id])
     @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
     if @popularity_inviter.save
       if  !params[:fb_ids].blank?
@@ -197,9 +198,4 @@ class Users::DashboardController < ApplicationController
   end
 
 end
-
-
-
-
-
 

@@ -107,10 +107,6 @@
 <% end %>
 <body onload="initialize()">
 
-  <%= content_for :background do %>
-    <%= @bar.bar_background_url %>
-  <% end %>
-
   <%= content_for :side do %>
     <h3><%= @bar.name rescue nil %></h3>
     <b>Address : </b><%= @bar.address rescue nil %>, <b><%= @bar.city rescue nil %></b>
@@ -124,18 +120,18 @@
   <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
     <br />
+    <% if user_signed_in? %>
+      <% unless current_user.fb_id.blank? %>
+        <a class="btn" data-toggle="modal" href="#invite_modal">invite to <%= @bar.name %></a>
+      <% end %>
+    <% end %>
+    <div class="clearfix"></div>
     <fieldset class="well" style="margin-left: -15px;">
       <div id="fb-root"></div>
       <!--<fb:like send="false" width="210px" show_faces="true" />-->
       <fb:like send="false"  width="210px" show_faces="true" />
       <a name="fb_share"></a>
       <br/>
-      <% if user_signed_in? %>
-        <% unless current_user.fb_id.blank? %>
-          <a class="btn btn-success" data-toggle="modal" href="#invite_modal">invite to <%= @bar.name %></a>
-          <button class="btn btn-success" data-toggle="modal" href="#invite_modal">Invite</button>
-        <% end %>
-      <% end %>
       <br/>
       <%= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
       <b>Who's There</b>
@@ -289,7 +285,8 @@
         <p id="none" style="display:none">There were no names to match your search!</p>
       </div>
       <%= form_tag(users_invite_swigbig_path) do %>
-        <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+      <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+        <%= hidden_field_tag 'bar_id', @bar.id %>
         <div class="modal-body" style="height:350px">
           <ul id="fb">
             <% @friends.each do |friend| %>
