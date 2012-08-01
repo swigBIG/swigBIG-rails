@@ -36,7 +36,7 @@
         <td><b><%=  link_to("Delete", admin_background_path(background), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
         <%= form_tag(pick_background_style_admin_site_content_path(@site_content.id)) do %>
             <%= hidden_field_tag "background_id", background.id %>
-          <td><%= select("background", "style", [nil,["Original","Original"],["Tiled","Tiled"],["Fit","Fit"]], {},) %></td>
+          <td><%= select("background", "style", [nil,["Original","Original"],["Tiled","Tiled"],["Fit","Fit"],["Center","Center"]], {},) %></td>
           <td><%= submit_tag "change" %></td>
         <% end %>
       </tr>

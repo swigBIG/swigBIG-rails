@@ -14,12 +14,19 @@
               <% if @site_content.backgrounds.status_active.first.background_style.eql?("Fit") %>
                 background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
                 background-size: 100% 100%;
+                padding-bottom: 90px;
+                background-repeat: no-repeat;
               <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Original") %>
                 background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
                 background-size: auto;
+                background-repeat: no-repeat;
               <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Tiled") %>
                 background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
                 background-repeat: repeat;
+              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Center") %>
+                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
+                background-position:center;
+                background-repeat: no-repeat;
               <% end %>
             <% end %>
           <% end %>
@@ -145,7 +152,7 @@
             &nbsp;
             <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
             &nbsp;
-             <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
+            <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
           </div>
         </div>
       </div>
@@ -180,7 +187,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-           <%= @site_content.contact_us rescue nil %>
+          <%= @site_content.contact_us rescue nil %>
         </div>
       </div>
     </div>
@@ -196,8 +203,8 @@
       </div>
     </div>
 
-    </body>
-    <%= yield :bottom_js %>
-  </html>
+  </body>
+  <%= yield :bottom_js %>
+</html>
 
 

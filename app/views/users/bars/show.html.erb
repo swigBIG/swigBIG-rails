@@ -132,7 +132,8 @@
       <br/>
       <% if user_signed_in? %>
         <% unless current_user.fb_id.blank? %>
-          <a class="" data-toggle="modal" href="#invite_modal">invite friends <%= @bar.name %></a>
+          <a class="btn btn-success" data-toggle="modal" href="#invite_modal">invite to <%= @bar.name %></a>
+          <button class="btn btn-success" data-toggle="modal" href="#invite_modal">Invite</button>
         <% end %>
       <% end %>
       <br/>

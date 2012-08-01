@@ -7,7 +7,7 @@
     <%= stylesheet_link_tag "token-input-facebook" %>
     <%= csrf_meta_tags %>
     <style type="text/css">
-      body{
+     body{
         background-color: rgba(107, 214, 0, 0.2);
         <% unless @site_content.blank? %>
           <% unless @site_content.backgrounds.blank? %>
@@ -15,12 +15,19 @@
               <% if @site_content.backgrounds.status_active.first.background_style.eql?("Fit") %>
                 background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
                 background-size: 100% 100%;
+                padding-bottom: 90px;
+                background-repeat: no-repeat;
               <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Original") %>
                 background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
                 background-size: auto;
+                background-repeat: no-repeat;
               <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Tiled") %>
                 background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
                 background-repeat: repeat;
+              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Center") %>
+                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
+                background-position:center;
+                background-repeat: no-repeat;
               <% end %>
             <% end %>
           <% end %>
@@ -160,7 +167,7 @@
       </div>
       <div class="modal-body">
         <div style="text-align: center;">
-           <%= @site_content.contact_us rescue nil %>
+          <%= @site_content.contact_us rescue nil %>
         </div>
       </div>
     </div>
