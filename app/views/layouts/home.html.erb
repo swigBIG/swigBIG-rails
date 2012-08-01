@@ -62,7 +62,7 @@
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>
             </li>
-            <div class="nav pull-right" style="margin-left: 200px;">
+            <div class="nav pull-right">
               <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
               <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
               <% unless user_signed_in? %>
