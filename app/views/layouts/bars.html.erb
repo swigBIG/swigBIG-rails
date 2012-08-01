@@ -7,7 +7,7 @@
     <%= stylesheet_link_tag "token-input-facebook" %>
     <%= csrf_meta_tags %>
     <style type="text/css">
-     body{
+      body{
         background-color: rgba(107, 214, 0, 0.2);
         <% unless @site_content.blank? %>
           <% unless @site_content.backgrounds.blank? %>
@@ -85,8 +85,13 @@
                     <span class="badge badge-error" onclick="window.location.href='<%= bars_notification_path %>'"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count  %></span>
                   <% end %>
                 </li>
-                <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
-                <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Setting</b></a>
+                  <ul class="dropdown-menu">
+                    <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
+                    <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
+                  </ul>
+                </li>
               <% else %>
                 <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
                 <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
