@@ -9,6 +9,11 @@
       body{
         background-color: rgba(107, 214, 0, 0.2);
         <% unless @site_content.blank? %>
+          <% unless @site_content.site_color.blank? %>
+            background-color: <%= "##{@site_content.site_color.background_color}" rescue "rgba(107, 214, 0, 0.2)"%>;
+          <% else %>
+            background-color: rgba(107, 214, 0, 0.2);
+          <% end %>
           <% unless @site_content.backgrounds.blank? %>
             <% unless @site_content.backgrounds.status_active.first.blank? %>
               <% if @site_content.backgrounds.status_active.first.background_style.eql?("Fit") %>
@@ -33,8 +38,17 @@
         <% end %>
       }
       .navbar-inner{
-        background-color: rgba(102, 153, 51, 1);
+        <% unless @site_content.blank? %>
+          <% unless @site_content.site_color.blank? %>
+            background-color: <%= "##{@site_content.site_color.nav_bar_color}" rescue "rgba(102, 153, 51, 1)"%>;
+          <% else %>
+            background-color: rgba(102, 153, 51, 1);
+          <% end %>
+        <% else %>
+          background-color: rgba(102, 153, 51, 1);
+        <% end %>
         background-image: none;
+        /*background: -moz-linear-gradient(top, rgba(102, 153, 51, 1), rgba(102, 153, 51, 1), black 150%);*/
       }
       .tab-pane{
         margin-left: 10px;
@@ -54,10 +68,10 @@
     <div class="navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <div class="nav pull-right">
+          <div class="nav pull-left">
             <li>
               <% if !@site_content.blank? %>
-                <% if !@site_content.logos.status_active.blank? %>
+                <% if !@site_content.logos.blank? %>
                   <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;") rescue nil %>
                 <% else %>
                   <h3 class="brand" style="color: white;">SwigBIG</h3>
@@ -69,44 +83,42 @@
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
             </li>
-
-            <div class="nav pull-right">
-              <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
-              <li><b><a href="#" id="fat-menu" style="color: white;">Learn More</a></b></li>
-              <% if bar_signed_in? %>
-                <% if current_bar.address.blank? %>
-                  <li><b><%= link_to "Completion", bars_dashboard_path, style: "color: white;" %></b></li>
-                <% else %>
-                  <li><b><%= link_to "My Bar", bars_dashboard_path, style: "color: white;" %></b></li>
-                <% end %>
-                <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
-                <li>
-                  <% unless  current_bar.received_messages.where("opened is false").blank? %>
-                    <span class="badge badge-error" onclick="window.location.href='<%= bars_messages_path %>'"><%=  current_bar.received_messages.where("opened is false").count  %></span>
-                  <% end %>
-                </li>
-                <li><b><%= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>
-                <li>
-                  <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
-                    <span class="badge badge-error" onclick="window.location.href='<%= bars_notification_path %>'"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count  %></span>
-                  <% end %>
-                </li>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Setting</b></a>
-                  <ul class="dropdown-menu">
-                    <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
-                    <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
-                  </ul>
-                </li>
-              <% else %>
-                <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
-                <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
-              <% end %>
-            </div>
           </div>
+          <div class="nav pull-right" >
+            <% if bar_signed_in? %>
+              <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
+              <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
+              <li>
+                <% unless  current_bar.received_messages.where("opened is false").blank? %>
+                  <span class="badge badge-error" onclick="window.location.href='<%= bars_messages_path %>'"><%=  current_bar.received_messages.where("opened is false").count  %></span>
+                <% end %>
+              </li>
+              <li><b><%= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>
+              <li>
+                <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
+                  <span class="badge badge-error" onclick="window.location.href='<%= bars_notification_path %>'"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count  %></span>
+                <% end %>
+              </li>
+              <li id="fat-menu" class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Welcome back <%= current_bar.name %>!</b></a>
+                <ul class="dropdown-menu">
+                  <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
+                  <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
+                  <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
+                </ul>
+              </li>
+            <% else %>
+              <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
+              <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
+              <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
+              <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
+            <% end %>
+          </div>
+
         </div>
       </div>
     </div>
+
     <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
       <% if notice %>
         <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
