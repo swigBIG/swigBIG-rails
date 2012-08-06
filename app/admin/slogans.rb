@@ -59,6 +59,7 @@ ActiveAdmin.register Slogan do
 
   form do |f|
     f.inputs "" do
+      f.input :site_content_id, as: :hidden, input_html: {value: SiteContent.first.id}
       f.input :first_title
       f.input :first_image
       f.input :first_paragraph
