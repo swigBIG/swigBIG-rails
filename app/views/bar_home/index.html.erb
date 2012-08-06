@@ -1,47 +1,44 @@
+<style type="text/css">
+  #p1, #p2, #p3, #p4 {
+    background: none repeat scroll 0 0 white;
+    border-radius: 3px 3px 3px 3px;
+    display: none;
+    margin-top: -5px;
+    padding: 5px;
+    position: absolute;
+    text-align: justify;
+    width: 210px;
+    z-index: 10;
+  }
+</style>
 <div class="row-fluid">
   <div class="span3" style="text-align: center;">
-    <h5 id="slogan1" style="padding-bottom: 35px;">CUSTOMER REWARDS<br/> </h5>
-    <p id="p1" style="display: none;text-align: justify;padding: 5px;border-radius: 3px;">
-      Swig give custumer reward for user in everywhere. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-      sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <h5 id="slogan1" style="padding-bottom: 35px;"><%= @site_content.slogan.first_title %><br/> </h5>
+    <p id="p1">
+      <%= @site_content.slogan.first_paragraph %>
     </p>
+    <%= image_tag(@site_content.slogan.first_image_url) %>
   </div>
   <div class="span3" style="text-align: center;">
-    <h5 id="slogan2" >INNOVATIVE TIERED <br/>SWIG SPECIALS</h5>
-    <p id="p2" style="display: none;text-align: justify;padding: 5px;border-radius: 3px;">
-      Swig give custumer reward for user in everywhere. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-      sunt in culpa qui officia deserunt mollit anim id est laborum.
+    <h5 id="slogan2" style="padding-bottom: 35px;"><%= @site_content.slogan.second_title %><br/> </h5>
+    <p id="p2">
+      <%= @site_content.slogan.second_paragraph %>
     </p>
+    <%= image_tag(@site_content.slogan.second_image_url) %>
   </div>
   <div class="span3" style="text-align: center;">
-    <h5 id="slogan3" style="padding-bottom: 35px;">INTEGRATED MARKETING</h5>
+    <h5 id="slogan3" style="padding-bottom: 35px;"><%= @site_content.slogan.third_title %></h5>
     <p id="p3" style="display: none;text-align: justify;padding: 5px;border-radius: 3px;">
-      Swig give custumer reward for user in everywhere. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-      sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <%= @site_content.slogan.third_paragraph %>
     </p>
+    <%= image_tag(@site_content.slogan.third_image_url) %>
   </div>
   <div class="span3" style="text-align: center;">
-    <h5 id="slogan4" style="padding-bottom: 35px;">REDUCED EXPENSES</h5>
+    <h5 id="slogan4" style="padding-bottom: 35px;"><%= @site_content.slogan.fourth_title %></h5>
     <p id="p4" style="display: none;text-align: justify;padding: 5px;border-radius: 3px;">
-      Swig give custumer reward for user in everywhere. Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-      sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <%= @site_content.slogan.third_paragraph %>
     </p>
+    <%= image_tag(@site_content.slogan.third_image_url) %>
   </div>
   <div class="clearfix"></div>
   <div class="span11">

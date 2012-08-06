@@ -55,6 +55,8 @@ Swprototype::Application.routes.draw do
     match  "product" => "products#index", as: "product"
     post  "create_reward_message/:user_id/:winner_id" => "dashboard#create_reward_message", as: "create_reward_message"
     post  "create_swig" => "dashboard#create_swig", as: "create_swig"
+    post  "create_big_swig" => "dashboard#create_big_swig", as: "create_big_swig"
+    post  "update_big_swig" => "dashboard#update_big_swig", as: "update_big_swig"
     post  "update_swig/:id" => "dashboard#update_swig", as: "update_swig"
     delete  "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
     post  "active_swig/:id" => "dashboard#active_swig", as: "active_swig"
@@ -135,7 +137,7 @@ Swprototype::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :swig_mobiles do
-        post 'register', 'home'
+        post 'register', 'home', 'bar_swigs', 'swig_bar'
         get 'get_lat_lon'
       end
     end

@@ -48,7 +48,7 @@ ActiveAdmin.register SiteContent do
       row :contact_us do
         b.contact_us
       end
-      
+
       #      b.logos.each do |logo|
       div do
         render "data_site"
@@ -70,51 +70,76 @@ ActiveAdmin.register SiteContent do
       f.input :about_us
       f.input :learn_more
       f.input :contact_us
-      f.inputs "Logo" do
-        f.has_many :logos do |logo|
-          logo.input :name
-          logo.input :image
+      
+      f.inputs "Site Color", :for => [:site_color, f.object.site_color || SiteColor.new] do |site_color|
+        site_color.input :nav_bar_color, input_html: {class: "color"}
+          site_color.input :background_color, input_html: {class: "color"}
+          end
+
+          #      f.inputs "Site Color" do
+          #        f.has_one :site_color do |color|
+          #          logo.input :site_content_id, as: :hidden, input_html: {value: SiteContent.first.id}
+          #          logo.input :nav_bar_color
+          #          logo.input :background_color
+          #        end
+          #      end
+          f.inputs "Logo" do
+            f.has_many :logos do |logo|
+              logo.input :name
+              logo.input :image
+            end
+          end
+          f.inputs "Background" do
+            f.has_many :backgrounds do |background|
+              background.input :name
+              background.input :image
+            end
+          end
+          f.buttons
         end
       end
-      f.inputs "Background" do
-        f.has_many :backgrounds do |background|
-          background.input :name
-          background.input :image
+
+      member_action :activate_logo, :method => :get do
+        #    site = SiteContent.find(params[:id])
+        SiteContent.first.logos.each do |logo|
+          logo.update_attributes(active_status: 0)
         end
+        SiteContent.first.logos.find(params[:id]).update_attributes(active_status: 1)
+        redirect_to :back, :notice => "Logo Change!"
       end
-      f.buttons
-    end
-  end
+      member_action :unactivate_logo, :method => :get do
+        #    site = SiteContent.find(params[:id])
+        SiteContent.first.logos.find(params[:id]).update_attributes(active_status: 0)
+        redirect_to :back, :notice => "Logo Change!"
+      end
+      member_action :activate_background, :method => :get do
+        SiteContent.first.backgrounds.each do |background|
+          background.update_attributes(active_status: 0)
+        end
+        SiteContent.first.backgrounds.find(params[:id]).update_attributes(active_status: 1)
+        redirect_to :back, :notice => "Background Change!"
+      end
+      member_action :unactivate_background, :method => :get do
+        SiteContent.first.backgrounds.find(params[:id]).update_attributes(active_status: 0)
+        redirect_to :back, :notice => "Background Change!"
+      end
 
-  member_action :activate_logo, :method => :get do
-    #    site = SiteContent.find(params[:id])
-    SiteContent.first.logos.each do |logo|
-      logo.update_attributes(active_status: 0)
-    end
-    SiteContent.first.logos.find(params[:id]).update_attributes(active_status: 1)
-    redirect_to :back, :notice => "Logo Change!"
-  end
-  member_action :unactivate_logo, :method => :get do
-    #    site = SiteContent.find(params[:id])
-    SiteContent.first.logos.find(params[:id]).update_attributes(active_status: 0)
-    redirect_to :back, :notice => "Logo Change!"
-  end
-  member_action :activate_background, :method => :get do
-    SiteContent.first.backgrounds.each do |background|
-      background.update_attributes(active_status: 0)
-    end
-    SiteContent.first.backgrounds.find(params[:id]).update_attributes(active_status: 1)
-    redirect_to :back, :notice => "Background Change!"
-  end
-  member_action :unactivate_background, :method => :get do
-    SiteContent.first.backgrounds.find(params[:id]).update_attributes(active_status: 0)
-    redirect_to :back, :notice => "Background Change!"
-  end
+      member_action :pick_background_style, :method => :post do
+        background = SiteContent.first.backgrounds.find(params[:background_id])
+        background.update_attributes(background_style: params[:background][:style])
+        redirect_to :back, :notice => "Background style #{background.background_style}!"
+      end
 
-  member_action :pick_background_style, :method => :post do
-    background = SiteContent.first.backgrounds.find(params[:background_id])
-    background.update_attributes(background_style: params[:background][:style])
-    redirect_to :back, :notice => "Background style #{background.background_style}!"
-  end
+      #  member_action :create_site_color, :method => :post do
+      #    background = SiteContent.first.site_color.find(params[:background_id])
+      #    background.update_attributes(background_style: params[:background][:style])
+      #    redirect_to :back, :notice => "Background style #{background.background_style}!"
+      #  end
 
-end
+      member_action :update_site_color, :method => :post do
+        site_color = SiteContent.first.site_color.find(params[:site_color])
+        site_color.update_attributes(background_color: params[:site_color][:background_color], nav_bar_color: params[:site_color][:nav_bar_color])
+        redirect_to :back, :notice => "Color has Change!"
+      end
+
+    end
