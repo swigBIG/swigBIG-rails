@@ -18,6 +18,11 @@ ActiveAdmin.register SiteColor do
 
   form do |f|
     f.inputs "" do
+      unless SiteContent.first.blank?
+        f.input :site_content_id, as: :hidden, input_html: { value: SiteContent.first.id }
+      else
+        f.input :site_content_id, as: :hidden, input_html: { value: 1 }
+      end
       f.input :nav_bar_color, input_html: {class: "color"}
         f.input :background_color, input_html: {class: "color"}
           f.buttons
