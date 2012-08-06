@@ -8,6 +8,7 @@ class SiteContent < ActiveRecord::Base
   with_options dependent: :destroy do
     has_many :logos
     has_many :backgrounds
+    has_one :site_color
   end
   accepts_nested_attributes_for :logos#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :backgrounds#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
