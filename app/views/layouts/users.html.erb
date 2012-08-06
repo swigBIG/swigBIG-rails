@@ -6,7 +6,12 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <style type="text/css">
-      body{
+      html, body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background-color: #0055cc;
         background-color: rgba(107, 214, 0, 0.2);
         <% unless @site_content.blank? %>
           <% unless @site_content.site_color.blank? %>
@@ -124,13 +129,12 @@
                 </li>
               <% end %>
             </div>
-
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container" style="background-color: white;margin-top: -30px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
+    <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
       <% if notice %>
         <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
       <% end %>
