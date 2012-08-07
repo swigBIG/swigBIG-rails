@@ -69,4 +69,8 @@ module ApplicationHelper
     States.all.map{ |s| [s.name, s.name] }
   end
 
+  def bigswig_collection
+    BigSwigList.all.map{ |b| [b.big_swig, b.big_swig] }
+  end
+
 end

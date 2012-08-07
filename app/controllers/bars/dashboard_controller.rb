@@ -20,7 +20,6 @@ class Bars::DashboardController < ApplicationController
     @swigs_sunday = @bar.swigs.sunday.page(params[:page]).per(3)
     @gifts = @bar.gifts
     @swig = @bar.swigs.new
-    #    @swigs = @bar.swigs
     @gift = @bar.gifts.new
     #    @reward = @bar.rewards.new
     @reward = []
@@ -35,6 +34,7 @@ class Bars::DashboardController < ApplicationController
     @loyalty_reward = RewardMessage.new
     @bar_message = ActsAsMessageable::Message.new
     #    @bar_message = BarMessage.new
+    @bigswig_list = BigSwigList.new
   end
 
   def show
@@ -51,13 +51,28 @@ class Bars::DashboardController < ApplicationController
   end
 
   def create_swig
-    @swig = current_bar.swigs.new(params[:swig])
-    if @swig.save
-      redirect_to :back, notice: "Swig created"
+    swig = current_bar.swigs.new(params[:swig])
+    if swig.save
+      redirect_to :back, notice: "Standard Swig created!"
     else
-      redirect_to :back, notice: "Swig fail created"
+      redirect_to :back, notice: "Standard Swig Fail created!"
     end
   end
+
+  def create_big_swig
+    params[:deals].each_with_index do |deal, x|
+      current_bar.swigs.create(:deal => deal, people: params[:peoples][x], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
+    end unless params[:deals].blank?
+    redirect_to :back, notice: "Swig created"
+  end
+
+  #  def update_big_swig
+  #
+  #    params[:ids].each_with_index do |deal, x|
+  #      current_bar.swigs.create(:deal => deal, people: params[:peoples][x], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
+  #    end unless params[:deals].blank?
+  #    redirect_to :back, notice: "Swig created"
+  #  end
 
   def update_swig
     @swig = current_bar.swigs.find(params[:id])
@@ -234,7 +249,7 @@ class Bars::DashboardController < ApplicationController
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
     if @bar.update_attributes(params[:bar])
       sign_in @bar, :bypass => true
-#      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
+      #      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
       redirect_to bars_second_completion_path, notice: "Profile Completion Success!"
     else
       redirect_to :back, notice: "Profile Completion Failed!"
@@ -335,6 +350,19 @@ class Bars::DashboardController < ApplicationController
       redirect_to :back, notice: "undefine email address!"
     end
 
+  end
+
+  def add_bigswig_list
+    @bigswig_list = current_bar.big_swig_lists.new(params[:big_swig_list])
+    if @bigswig_list.save
+#      if request.xhr?
+        respond_to { |format| format.js }
+#      else
+#        fwefweffe
+#        flash[:notice] = "big swig successfully created"
+#        redirect_to :back
+#      end
+    end
   end
 
   #  def sport_lists
