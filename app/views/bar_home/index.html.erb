@@ -2,7 +2,6 @@
   #p1, #p2, #p3, #p4 {
     background: none repeat scroll 0 0 white;
     border-radius: 3px 3px 3px 3px;
-    display: none;
     margin-top: -5px;
     padding: 5px;
     position: absolute;
@@ -11,52 +10,47 @@
     z-index: 10;
   }
 </style>
-<div class="row-fluid">
+<div class="row-fluid" style="height: 450px;">
   <div id="slogan1" class="span3" style="text-align: center;">
     <h5  style="padding-bottom: 35px;"><%= @site_content.slogan.first_title rescue "not set yet" %><br/> </h5>
-    <p id="p1">
-      <%= @site_content.slogan.first_paragraph rescue "not set yet" %>
-    </p>
-    <%= image_tag(@site_content.slogan.first_image_url) rescue "not set yet" %>
+    <div id="p1">
+      <div id="p1text" style="display:none;"><%= @site_content.slogan.first_paragraph rescue "not set yet" %></div>
+      <div id="p1image">
+        <%= image_tag(@site_content.slogan.first_image_url) rescue "not set yet" %>
+      </div>
+    </div>
   </div>
   <div id="slogan2" class="span3" style="text-align: center;">
     <h5  style="padding-bottom: 35px;"><%= @site_content.slogan.second_title rescue "not set yet" %><br/> </h5>
-    <p id="p2">
-      <%= @site_content.slogan.second_paragraph rescue "not set yet" %>
-    </p>
-    <%= image_tag(@site_content.slogan.second_image_url) rescue "not set yet" %>
+    <div id="p2">
+      <div id="p2text" style="display:none;"><%= @site_content.slogan.second_paragraph rescue "not set yet" %></div>
+      <div id="p2image"><%= image_tag(@site_content.slogan.second_image_url) rescue "not set yet" %></div>
+    </div>
   </div>
   <div id="slogan3" class="span3" style="text-align: center;">
     <h5  style="padding-bottom: 35px;"><%= @site_content.slogan.third_title rescue "not set yet" %></h5>
-    <p id="p3">
-      <%= @site_content.slogan.third_paragraph rescue "not set yet" %>
-    </p>
-    <%= image_tag(@site_content.slogan.third_image_url, id: "second_picture") rescue "not set yet" %>
+    <div id="p3">
+      <div id="p3text" style="display:none;"><%= @site_content.slogan.third_paragraph rescue "not set yet" %></div>
+      <div id="p3image"><%= image_tag(@site_content.slogan.third_image_url, id: "second_picture") rescue "not set yet" %></div>
+    </div>
   </div>
   <div id="slogan4" class="span3" style="text-align: center;">
     <h5  style="padding-bottom: 35px;"><%= @site_content.slogan.fourth_title rescue "not set yet" %></h5>
-    <p id="p4">
-      <%= @site_content.slogan.fourth_paragraph rescue "not set yet" %>
-    </p>
-    <%= image_tag(@site_content.slogan.fourth_image_url, id: "third_picture") rescue "not set yet" %>
+    <div id="p4">
+      <div id="p4text" style="display:none;"><%= @site_content.slogan.fourth_paragraph rescue "not set yet" %></div>
+      <div id="p4image"><%= image_tag(@site_content.slogan.fourth_image_url, id: "third_picture") rescue "not set yet" %></div>
+    </div>
   </div>
   <div class="clearfix"></div>
-  <div class="span11">
-    <div style="text-align: center;">
-      <br/>
-<%#= button_to "Go To SwigBIG", main_home_path, method: :get, class: "btn-primary" %>
-      <% unless current_bar %>
-        <%= button_to  "Sign up FREE!", "/sign_up", :class => "btn-primary btn-large", method: :get %>
-      <% end %>
-      <%= image_tag "/assets/available_on_android.png" %>
-      <%= image_tag "/assets/available_on_app_store.png" %>
-    </div>
-
-  </div>
-  <div class="span11">
-    <div style="text-align: center;">
-      <br/>
-    </div>
+</div>
+<div class="span11">
+  <div style="text-align: center;">
+    <br/>
+    <% unless current_bar %>
+      <%= button_to  "Sign up FREE!", "/sign_up", :class => "btn-primary btn-large", method: :get %>
+    <% end %>
+    <%= image_tag "/assets/available_on_android.png" %>
+    <%= image_tag "/assets/available_on_app_store.png" %>
   </div>
 </div>
 
@@ -79,10 +73,35 @@
     <% end %>
 
     <script type="text/javascript">
-      $("#slogan1").hover(function () {
-        $("#p1").slideToggle("slow");
+      $("#p1").hover(function () {
+        $("#p1text").slideDown();
+        $("#p1image").slideUp();
+      }, function(){
+        $("#p1text").slideUp();
+        $("#p1image").slideDown();
       });
-      $("#slogan2").hover(function () {
+      $("#p2").hover(function () {
+        $("#p2text").slideDown();
+        $("#p2image").slideUp();
+      }, function(){
+        $("#p2text").slideUp();
+        $("#p2image").slideDown();
+      });
+      $("#p3").hover(function () {
+        $("#p3text").slideDown();
+        $("#p3image").slideUp();
+      }, function(){
+        $("#p3text").slideUp();
+        $("#p3image").slideDown();
+      });
+      $("#p4").hover(function () {
+        $("#p4text").slideDown();
+        $("#p4image").slideUp();
+      }, function(){
+        $("#p4text").slideUp();
+        $("#p4image").slideDown();
+      });
+      /*$("#slogan2").hover(function () {
         $("#p2").slideToggle("slow");
       });
       $("#slogan3").hover(function () {
@@ -91,5 +110,5 @@
       });
       $("#slogan4").hover(function () {
         $("#p4").slideToggle("slow");
-      });
+      });*/
     </script>
