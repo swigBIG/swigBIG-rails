@@ -19,7 +19,6 @@
 <% User.where(city: current_user.city).pluck(:email).each do |email| %>
       available_tags.push('<%= email %>');
 <% end %>
-    $.noConflict();
     $("#mytags").tagit({tagSource: available_tags, trigerKeys: ['enter', 'comma', 'tab']});
     $('.chzn-select').chosen();
   });
@@ -97,19 +96,19 @@
               <%= submit_tag "invite", class: "btn-primary" %>
                 <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
                 <%= text_field_tag(:mytags)  %>
-                <%# @friends.each do |f| %>
-                  <!--<tr>
-                    <td>
-                      <%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
-                    </td>
-                    <td>
-                      <%#= f.name %>
-                    </td>
-                    <td>
-                      <%#= f.email %>
-                    </td>
-                  </tr>-->
-                <%# end %>
+    <%# @friends.each do |f| %>
+                <!--<tr>
+                  <td>
+    <%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
+                  </td>
+                  <td>
+    <%#= f.name %>
+                  </td>
+                  <td>
+    <%#= f.email %>
+                  </td>
+                </tr>-->
+    <%# end %>
               <% end %>
             </table>
           </div>
