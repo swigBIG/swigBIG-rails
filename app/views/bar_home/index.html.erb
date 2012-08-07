@@ -31,14 +31,14 @@
     <p id="p3">
       <%= @site_content.slogan.third_paragraph rescue "not set yet" %>
     </p>
-    <%= image_tag(@site_content.slogan.third_image_url) rescue "not set yet" %>
+    <%= image_tag(@site_content.slogan.third_image_url, id: "second_picture") rescue "not set yet" %>
   </div>
   <div id="slogan4" class="span3" style="text-align: center;">
     <h5  style="padding-bottom: 35px;"><%= @site_content.slogan.fourth_title rescue "not set yet" %></h5>
     <p id="p4">
-      <%= @site_content.slogan.third_paragraph rescue "not set yet" %>
+      <%= @site_content.slogan.fourth_paragraph rescue "not set yet" %>
     </p>
-    <%= image_tag(@site_content.slogan.third_image_url) rescue "not set yet" %>
+    <%= image_tag(@site_content.slogan.fourth_image_url, id: "third_picture") rescue "not set yet" %>
   </div>
   <div class="clearfix"></div>
   <div class="span11">
@@ -87,6 +87,7 @@
       });
       $("#slogan3").hover(function () {
         $("#p3").slideToggle("slow");
+        //$("#third_picture").hide();
       });
       $("#slogan4").hover(function () {
         $("#p4").slideToggle("slow");
