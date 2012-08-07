@@ -70,8 +70,8 @@ ActiveAdmin.register Slogan do
       f.input :third_image
       f.input :third_paragraph
       f.input :fourth_title
-      f.input :fourth_paragraph
       f.input :fourth_image
+      f.input :fourth_paragraph
       f.buttons
     end
   end
