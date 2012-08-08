@@ -70,7 +70,8 @@ module ApplicationHelper
   end
 
   def bigswig_collection
-    BigSwigList.all.map{ |b| [b.big_swig, b.big_swig] }
+#    BigSwigList.all.map{ |b| [b.big_swig, b.big_swig] }
+    BigSwigList.where(["bar_id IS NULL OR bar_id = ?", current_bar.id]).map{ |b| [b.big_swig, b.big_swig] }
   end
 
 end

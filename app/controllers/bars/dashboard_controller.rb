@@ -34,7 +34,6 @@ class Bars::DashboardController < ApplicationController
     @loyalty_reward = RewardMessage.new
     @bar_message = ActsAsMessageable::Message.new
     #    @bar_message = BarMessage.new
-    @bigswig_list = BigSwigList.new
   end
 
   def show
@@ -66,13 +65,12 @@ class Bars::DashboardController < ApplicationController
     redirect_to :back, notice: "Swig created"
   end
 
-  #  def update_big_swig
-  #
-  #    params[:ids].each_with_index do |deal, x|
-  #      current_bar.swigs.create(:deal => deal, people: params[:peoples][x], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
-  #    end unless params[:deals].blank?
-  #    redirect_to :back, notice: "Swig created"
-  #  end
+  def update_big_swig
+    params[:swig_ids].each_with_index do |id, x|
+      Swig.find(id).update_attributes(deal: params[:deals][x],people: params[:people][x])
+    end
+    redirect_to :back, notice: "Swig updated"
+  end
 
   def update_swig
     @swig = current_bar.swigs.find(params[:id])
@@ -355,13 +353,14 @@ class Bars::DashboardController < ApplicationController
   def add_bigswig_list
     @bigswig_list = current_bar.big_swig_lists.new(params[:big_swig_list])
     if @bigswig_list.save
-#      if request.xhr?
-        respond_to { |format| format.js }
-#      else
-#        fwefweffe
-#        flash[:notice] = "big swig successfully created"
-#        redirect_to :back
-#      end
+      respond_to { |format| format.js }
+    end
+  end
+
+  def add_bigswig_list_on_update
+    @bigswig_list = current_bar.big_swig_lists.new(params[:big_swig_list])
+    if @bigswig_list.save
+      respond_to { |format| format.js }
     end
   end
 
