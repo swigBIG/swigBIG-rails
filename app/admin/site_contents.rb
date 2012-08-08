@@ -5,7 +5,7 @@ ActiveAdmin.register SiteContent do
     #    column :site_background
     #    column :site_logo
     column :term_of_service
-    column :privacy_policy
+#    column :privacy_policy
     column :corp_information
     column :site_slogan
     column :about_us
@@ -30,9 +30,9 @@ ActiveAdmin.register SiteContent do
       row :term_of_service do
         b.term_of_service
       end
-      row :privacy_policy do
-        b.privacy_policy
-      end
+#      row :privacy_policy do
+#        b.privacy_policy
+#      end
       row :corp_information do
         b.corp_information
       end
@@ -64,7 +64,7 @@ ActiveAdmin.register SiteContent do
       #      f.input :site_logo
       f.input :swig_example, input_html: {style: "width: 300px;", cols: 3}
       f.input :term_of_service
-      f.input :privacy_policy
+#      f.input :privacy_policy
       f.input :corp_information
       f.input :site_slogan
       f.input :about_us
