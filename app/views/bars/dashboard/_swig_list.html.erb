@@ -1,64 +1,89 @@
-<!--<script type='text/javascript' charset='UTF-8'>
-  $(document).ready(function(){
-    $('form[data-remote]').bind("ajax:before", function(){
-      for (instance in CKEDITOR.instances){
-        CKEDITOR.instances[instance].updateElement();
-      }
-    });
-  });
-</script>-->
-
-<div class="well row-fluid span10" style="margin-left: -20px;">
-
-  &nbsp;
-  <div class="span6 pull-left">
-    <div class="pull-left">
-      <%= n_line(swig.deal) rescue nil %>
-<%#= truncate(swig.deal.html_safe, length: 20) rescue nil %>
+<% unless @swigs_monday.standard.blank? %>
+  <% @swigs_monday.standard.each do |swig|%>
+    <h4>Standard Swig</h4>
+    <div class="span8 pull-left">
+      <%= swig.deal %>
     </div>
-    <% if  swig.swig_type.eql?("Big") %>
-      <div class="span3">
-        <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-          <%= swig.swig_type %>
-        </button>
-        <b>req: </b><%= pluralize(swig.people, "person") %>
-      </div>
-    <% else %>
-      <div class="span2">
-        <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-          <%= swig.swig_type %>
-        </button>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="span2 pull-right">
-    <% if swig.status.blank? %>
-      <%= button_to "Acivate", bars_active_swig_path(swig.id), method: :post, class: "label-success", style: "color: white;padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;"  %>
-      <% else %>
-        <%= button_to "Deacivate", bars_deactive_swig_path(swig.id), method: :post, class: "label-important", style: "color: white;padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;"  %>
-        <% end %>
-        <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
-      </div>
-      <button class="btn" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
+    <div class="span2 pull-left">
+      <a href="#edit_monday_standard_swig<%= swig.id %>" data-toggle="modal" ><b>Update</b></a>
     </div>
-
     <%= content_for :outer do %>
-      <div id="editswig<%= swig.id %>" class="modal hide fade">
+      <div id="edit_monday_standard_swig<%= swig.id %>" class="modal hide fade">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Update Swig</h3>
+          <h4>Standard Swig on Monday</h4>
         </div>
         <div class="modal-body well">
-          <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
-            <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_update", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
-          <%#= f.input :deal, :as => :ckeditor, :label => false, :input_html => {id: "update_deal", :toolbar => 'Full' } %>
-              <% if swig.swig_type.eql?("Big") %>
-                <%= f.input :swig_day, as: :select, collection: days %>
-                <%= f.input :people, label: "people required" %>
+          <%= simple_form_for(swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+            <%= f.input :deal, as: :text, :label => false %>
+            <div class="form-actions">
+              <%= f.submit "Update Swig", class: "btn-primary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+  <% else %>
+    <h4>Standard Swig</h4>
+    <div class="span10">
+      <p>Your Standard Swigs have not been setup for this day</p>
+      <br/>
+      <a href="#monday_standard_swig" data-toggle="modal" >Set them up now?</a>
+    </div>
+  <% end %>
+
+  <% unless @swigs_monday.big.blank? %>
+    <h4>Big Swig</h4>
+    <% @swigs_monday.big.each do |swig|%>
+      <div class="span6 pull-left" style="background-color: grey;">
+        <%= swig.deal %>
+      </div>
+      <div class="span2 pull-left">
+        <a href="#monday_big_swig" data-toggle="modal" >Set them up now?</a>
+      </div>
+    <% end %>
+  <% else %>
+    <h4>Big Swig</h4>
+    <a href="#monday_big_swig" data-toggle="modal" >Set them up now?</a>
+  <% end %>
+
+
+  <%= content_for :outer do %>
+    <div id="monday_standard_swig" class="modal hide fade">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal"><b>x</b></a>
+        <h4>Standard Swig on Monday</h4>
+      </div>
+      <div class="modal-body well">
+        <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+          <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
+      <%#= f.input :swig_day, as: :select, collection: days %>
+          <%= f.input :swig_day, as: :hidden, input_html: {value: "Monday"} %>
+          <%= f.input :deal, as: :text, :label => false %>
+          <div class="form-actions">
+            <%= f.submit "Create Swig", class: "btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+
+      <div id="monday_big_swig" class="modal hide fade">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h4>Standard Swig on Monday</h4>
+        </div>
+        <div class="modal-body well">
+          <%= simple_form_for(:swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+            <% 3.times do |x| %>
+              <%= text_area_tag "deals[]" %>
               <% end %>
+              <%= hidden_field_tag :swig_type, "Big" %>
+              <%= hidden_field_tag :swig_day, "Monday" %>
               <div class="form-actions">
-                <%= f.submit "Update Swig", class: "btn-primary" %>
+                <%= f.submit "Create Swig", class: "btn-primary" %>
                 </div>
               <% end %>
             </div>

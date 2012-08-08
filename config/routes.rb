@@ -78,6 +78,8 @@ Swprototype::Application.routes.draw do
     post "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
     post "update_gift/:id" => "bars/dashboard#update_gift", as: "update_gift"
     post "destroy_gift/:id" => "bars/dashboard#destroy_gift", as: "destroy_gift"
+    post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
+    post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
     
     get 'notification' => "messages#notification"
     resources :messages do
