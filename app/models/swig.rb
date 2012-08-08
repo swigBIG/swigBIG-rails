@@ -4,6 +4,7 @@ class Swig < ActiveRecord::Base
     :lock_status, :latitude, :longitude, :address, :city, :full_address, :zip_code, :sports_team
 
   belongs_to :bar
+  
   with_options dependent: :destroy do
     #    has_many :swigers
   end
@@ -15,6 +16,7 @@ class Swig < ActiveRecord::Base
 
   scope :today, where(swig_day: Time.zone.now.strftime("%A"))
   scope :big, where(swig_type: "Big")
+  scope :standard, where(swig_type: "Standard")
   scope :lock_status_active, where(status: "active")
   #days
   scope :monday, where("swig_day = 'Monday'")

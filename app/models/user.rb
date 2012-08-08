@@ -12,12 +12,12 @@ class User < ActiveRecord::Base
     :fb_id, :lock_status
 
   # attr_accessible :title, :body
-  with_options dependent: :destroy do
-    has_many :points
-    has_many :swigers
-    has_many :winners
-    has_many :popularity_inviters
-    has_many :popularity_guesses
+  with_options dependent: :destroy do |user|
+    user.has_many :points
+    user.has_many :swigers
+    user.has_many :winners
+    user.has_many :popularity_inviters
+    user.has_many :popularity_guesses
   end
 
   acts_as_messageable required: [:topic, :body, :received_messageable_id ]

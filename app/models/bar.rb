@@ -36,18 +36,19 @@ class Bar < ActiveRecord::Base
   acts_as_messageable required: [:topic, :body, :received_messageable_id]
   
   
-  with_options dependent: :destroy do
-    has_many :bar_hours
-    has_many :gifts
-    has_many :swigs
-    has_many :swigers
-    has_many :products
-    has_many :points
-    has_many :popularity_inviters
-    has_many :winner_rewards
-    has_many :winners
-    has_one :loyalty
-    has_one :popularity
+  with_options dependent: :destroy do |bar|
+    bar.has_many :bar_hours
+    bar.has_many :big_swig_lists
+    bar.has_many :gifts
+    bar.has_many :swigs
+    bar.has_many :swigers
+    bar.has_many :products
+    bar.has_many :points
+    bar.has_many :popularity_inviters
+    bar.has_many :winner_rewards
+    bar.has_many :winners
+    bar.has_one :loyalty
+    bar.has_one :popularity
   end
 
   accepts_nested_attributes_for :bar_hours#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
