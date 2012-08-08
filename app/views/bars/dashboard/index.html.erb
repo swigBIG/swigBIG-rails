@@ -5,7 +5,7 @@
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
 </script>
-<script type='text/javascript' charset='UTF-8'>
+<!--<script type='text/javascript' charset='UTF-8'>
   $(document).ready(function(){
     $('form[data-remote]').bind("ajax:before", function(){
       for (instance in CKEDITOR.instances){
@@ -13,7 +13,7 @@
       }
     });
   });
-</script>
+</script>-->
 <script type="text/javascript">
   $(document).ready(function(){
     $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
@@ -109,13 +109,13 @@
   });
 </script>
 
-<% if current_bar.swigs.where(swig_day: Time.zone.now.strftime('%A')).blank? %>
-  <script type="text/javascript">
+<%# if current_bar.swigs.where(swig_day: Time.zone.now.strftime('%A')).blank? %>
+<!--<script type="text/javascript">
     $(document).ready(function(){
       $('#completion_link').click();
     })
-  </script>
-<% end %>
+  </script>-->
+<%# end %>
 
 <body onload="initialize()">
   <a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
@@ -214,16 +214,16 @@
           <div id="swigs_monday">
             <%= render partial: "swig_list_monday" %>
           </div>
-          <div id="monday_paginator">
-            <%= paginate @swigs_monday, remote: true %>
-          </div>
+          <!--<div id="monday_paginator">
+            <%#= paginate @swigs_monday, remote: true %>
+          </div>-->
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
           <div id="swigs_tuesday">
             <%= render partial: "swig_list_tuesday" %>
           </div>
           <div id="tuesday_paginator">
-            <%= paginate @swigs_tuesday, remote: true %>
+            <%#= paginate @swigs_tuesday, remote: true %>
           </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
@@ -231,7 +231,7 @@
             <%= render partial: "swig_list_wednesday" %>
           </div>
           <div id="wednesday_paginator">
-            <%= paginate @swigs_wednesday, remote: true %>
+            <%#= paginate @swigs_wednesday, remote: true %>
           </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
@@ -239,7 +239,7 @@
             <%= render partial: "swig_list_thursday" %>
           </div>
           <div id="thursday_paginator">
-            <%= paginate @swigs_thursday, remote: true %>
+            <%#= paginate @swigs_thursday, remote: true %>
           </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
@@ -247,7 +247,7 @@
             <%= render partial: "swig_list_friday" %>
           </div>
           <div id="friday_paginator">
-            <%= paginate @swigs_friday, remote: true %>
+            <%#= paginate @swigs_friday, remote: true %>
           </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
@@ -255,7 +255,7 @@
             <%= render partial: "swig_list_saturday" %>
           </div>
           <div id="saturday_paginator">
-            <%= paginate @swigs_saturday, remote: true %>
+            <%#= paginate @swigs_saturday, remote: true %>
           </div>
         </div>
         <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
@@ -263,7 +263,7 @@
             <%= render partial: "swig_list_sunday" %>
           </div>
           <div id="sunday_paginator">
-            <%= paginate @swigs_sunday, remote: true %>
+            <%#= paginate @swigs_sunday, remote: true %>
           </div>
         </div>
       </div>
@@ -368,13 +368,13 @@
 
 
       <%= content_for :outer do %>
-        <div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
+        <!--<div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
           <div class="modal-header">
             <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3><%= Date.today.to_time.in_time_zone.strftime('%A') %> Swig</h3>
+            <h3><%#= Date.today.to_time.in_time_zone.strftime('%A') %> Swig</h3>
           </div>
           <div class="modal-body well">
-            <b style="text-align: center;">No Swigs had been setup for <%= Date.today.to_time.in_time_zone.strftime('%A') %>. Create one now?</b>
+            <b style="text-align: center;">No Swigs had been setup for <%#= Date.today.to_time.in_time_zone.strftime('%A') %>. Create one now?</b>
             <div style="text-align: center;"><br/>
               <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
               &nbsp; &nbsp;
@@ -383,7 +383,7 @@
               <a class="btn pull-right" data-dismiss="modal" data-toggle="modal">Next Time</a>
             </div>
           </div>
-        </div>
+        </div>-->
         <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
           <div class="modal-header">
             <a class="close" data-dismiss="modal"><b>x</b></a>
