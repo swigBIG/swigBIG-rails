@@ -6,8 +6,9 @@ class Bars::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
-      bars_after_join_invite_friends_url
+    #    if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
+    if current_bar.address.blank?
+      bars_completion_url
     else
       bars_dashboard_url
     end
