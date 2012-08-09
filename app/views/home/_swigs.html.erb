@@ -1,26 +1,47 @@
-<% @swigs.each do |swig| %>
+<% @bars.each do |bar| %>
   <tr>
-    <td>
-      <b class="pull-left"><%= link_to  truncate(swig.deal, length: 20), bar_profile_path(swig.bar), input_html: {rel: "popover", title: swig.deal.to_s} %></b>
-    </td>
-    <td>
-      <% if  swig.swig_type.eql?("Big") %>
-        <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-          <%= swig.swig_type %>
-        </button>
-        <b>Req: </b><%= swig.people %> people
-      <% else %>
-        <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-          <%= swig.swig_type %>
-        </button>
+
+    <% unless params[:swig_type].blank? %>
+      <% bar.swigs.where(:swig_type => params[:swig_type]).limit(1).each do |swig| %>
+        <td><%= swig.deal %></td>
+        <% if  swig.swig_type.eql?("Big") %>
+          <td>
+            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= swig.swig_type %>
+            </button>
+            <b>Req: </b><%= swig.people %> people
+          </td>
+        <% else %>
+          <td>
+            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= swig.swig_type %>
+            </button>
+          </td>
+        <% end %>
       <% end %>
-    </td>
+    <% else %>
+      <% bar.swigs.today.limit(1).each do |swig| %>
+        <td><%= n_line(swig.deal) %></td>
+        <% if  swig.swig_type.eql?("Big") %>
+          <td>
+            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= swig.swig_type %>
+            </button>
+            <b>Req: </b><%= swig.people %> people
+          </td>
+        <% else %>
+          <td>
+            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= swig.swig_type %>
+            </button>
+          </td>
+        <% end %>
+      <% end %>
+    <% end %>
+    <td><b><%= link_to  bar.name, bar_profile_path(bar) rescue nil %></b></td>
     <td>
-      <b><%= link_to  swig.bar.name, bar_profile_path(swig.bar) %></b>
-    </td>
-    <td>
-      <%=begin
-        sprintf("%.2f",Geocoder::Calculations.distance_between([@geo.latitude, @geo.longitude], [swig.latitude, swig.longitude]))
+      <%=  begin
+        sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [bar.latitude, bar.longitude])) 
       rescue
       end %> miles
     </td>

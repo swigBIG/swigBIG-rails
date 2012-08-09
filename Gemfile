@@ -21,6 +21,8 @@ end
 
 gem 'jquery-rails'
 gem 'chronic'
+gem 'geokit'
+gem 'geokit-rails3'
 #gem "barby", "~> 0.5.0"
 #gem 'tod'
 gem 'fog'

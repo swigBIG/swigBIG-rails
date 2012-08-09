@@ -124,6 +124,9 @@ GEM
     geoip (1.1.2)
     geokit (1.6.5)
       multi_json
+    geokit-rails3 (0.1.5)
+      geokit (~> 1.5)
+      rails (~> 3.0)
     has_scope (0.5.1)
     hashie (1.2.0)
     highline (1.6.11)
@@ -299,6 +302,7 @@ DEPENDENCIES
   friendly_id
   geocoder
   geokit
+  geokit-rails3
   jquery-rails
   linecache19!
   meta_search

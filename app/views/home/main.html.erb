@@ -11,17 +11,23 @@
 </script>
 <script type="text/javascript">
   function initialize() {
-    var latlo = new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil%>);
     var myOptions = {
-      center: new google.maps.LatLng(<%= @city_lat_lng[1] rescue nil %>, <%= @city_lat_lng[2] rescue nil %>),
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
-
+<% if @origin.class.eql?(String) %>
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode( {'address': '<%= @origin %>'}, function(results, status) {
+        map.setCenter(results[0].geometry.location);
+      });
+<% else %>
+      map.setCenter(new google.maps.LatLng(<%= @origin.first %>, <%= @origin.last %>));
+<% end %>
+  
     var bar = [];
-<% swig_bars = Swig.pluck(:bar_id).uniq %>
-<% Bar.where(city: @city_lat_lng[0].to_s, id: swig_bars).each do |b| %>
+<% @bars.each do |b| %>
+  <%# @bars.where(city: @city_lat_lng[0].to_s, id: swig_bars).each do |b| %>
       var x = [];
       x.push(<%= b.latitude rescue nil %>);//0
       x.push(<%= b.longitude rescue nil %>);//1
@@ -91,7 +97,6 @@
 </script>
 
 <body onload="initialize()">
-
   <%= content_for :side do %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <ul>
@@ -106,7 +111,7 @@
         </ul>
       </li>
     </ul>
-    <%= simple_form_for(@search, url: root_path) do |f|%>
+    <%= simple_form_for(:search, url: root_path) do |f|%>
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 10px;">
           <div class="accordion-inner">
@@ -116,16 +121,16 @@
       </div>
       <div id="search" class="accordion-body collapse">
         <div class="accordion-inner" style="margin-left: 0px;">
-          <%= f.input :zip_code_contains, label: false, placeholder: "Zip Code", required: false, input_html: {style: "width: 100px;"} %>
+          <%= text_field_tag :zip_code, params[:zip_code], placeholder: "Zip Code" %>
           <b style="margin-left: 60px;">Radius in Mile</b>
-          <%= select(:radius, nil, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift(nil))) %>
+          <%= select_tag(:radius, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift([""]), params[:radius])) %>
     <%#= text_field_tag :radius %>
           <br/>
           <br/>
           <b style="margin-left: 60px;">Swig Type</b>
-          <%= f.input :swig_type_contains,label: false, as: :select, collection: [["Standard","Standard"],["Big","Big"]], placeholder: "Search by Type",required: false %>
+          <%= select_tag :swig_type, options_for_select([["",""], ["Standard","Standard"],["Big","Big"]], params[:swig_type]) %>
           <b style="margin-left: 60px;">Sports teams</b>
-          <%= f.input :sports_team_contains,as: :select, label: false, collection: sport_teams_collection, placeholder: "Sports Team",required: false %>
+          <%= select_tag :sports_team, options_for_select(sport_teams_collection.unshift(""), params[:sports_team]) %>
           <%= f.submit "Search", class: "btn-mini btn-primary pull-right" %>
           </div>
         </div>
@@ -159,9 +164,10 @@
           </tbody>
 
         </table>
-        <div id="main_swig_paginator">
-          <%= paginate @swigs, remote: true %>
-        </div>
+        <!--<div id="main_swig_paginator">
+  <%#= paginate @swigs, remote: true %>
+        </div>--
+        >
       </div>
 
     </div>

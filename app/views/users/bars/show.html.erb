@@ -284,26 +284,30 @@
         <span id="count"></span>
         <p id="none" style="display:none">There were no names to match your search!</p>
       </div>
-      <%= form_tag(users_invite_swigbig_path) do %>
-      <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-        <%= hidden_field_tag 'bar_id', @bar.id %>
-        <div class="modal-body" style="height:350px">
-          <ul id="fb">
-            <% @friends.each do |friend| %>
-              <li class="span4" style="margin-top: 10px;list-style: none;">
-                <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-                <%= link_to image_tag(friend.picture) %>
-                <%= friend.name %>
-              </li>
+      <% if user_signed_in? %>
+        <% if current_user.fb_id %>
+          <%= form_tag(users_invite_swigbig_path) do %>
+          <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+            <%= hidden_field_tag 'bar_id', @bar.id %>
+            <div class="modal-body" style="height:350px">
+              <ul id="fb">
+                <% @friends.each do |friend| %>
+                  <li class="span4" style="margin-top: 10px;list-style: none;">
+                    <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
+                    <%= link_to image_tag(friend.picture) %>
+                    <%= friend.name %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <%= submit_tag "invite", class: "btn-primary " %>
+                &nbsp;
+                &nbsp;
+                <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
+              </div>
             <% end %>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <%= submit_tag "invite", class: "btn-primary " %>
-            &nbsp;
-            &nbsp;
-            <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
-          </div>
+          <% end %>
         <% end %>
       </div>
     <% end %>

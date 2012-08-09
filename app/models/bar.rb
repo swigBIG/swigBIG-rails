@@ -1,4 +1,8 @@
+require 'geokit'
+require 'geokit-rails3'
+include GeoKit::Geocoders
 class Bar < ActiveRecord::Base
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, #:omniauthable,
@@ -13,15 +17,16 @@ class Bar < ActiveRecord::Base
   # attr_accessible :title, :body
   validates :terms, :acceptance => true
   validates :address, :zip_code, :city, :presence => true, :on => :update
-#  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
+  #  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
 
   mount_uploader :logo, ImageUploader
   mount_uploader :bar_background, ImageUploader
 
-  before_update  :set_full_address, :set_coordinates, :set_http_website
+  before_update  :set_http_website
 
   geocoded_by :address
-  after_validation :geocode
+  
+  before_validation :set_full_address, :locate
 
   after_update :update_swig_location
 
@@ -52,13 +57,19 @@ class Bar < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :bar_hours#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
-#  accepts_nested_attributes_for :swigs #, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  #  accepts_nested_attributes_for :swigs #, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
   #  before_update  :set_lat_lng
 
   extend  FriendlyId
 
   friendly_id :name , use: :slugged
+  
+  acts_as_mappable :default_units => :miles,
+    :default_formula => :sphere,
+    :distance_field_name => :distance,
+    :lat_column_name => :latitude,
+    :lng_column_name => :longitude
 
   #    geocoded_by :latitude  => :latitude, :longitude => :longitude
 
@@ -82,16 +93,11 @@ class Bar < ActiveRecord::Base
     self.full_address = "#{self.address},#{self.city},#{self.zip_code}, United States"
   end
 
-  def set_coordinates
-    begin
-      geo = Geocoder.coordinates("#{self.address},#{self.zip_code},#{self.city}, US")
-#      geo = Geocoder.coordinates("#{self.address},#{self.city},#{self.zip_code}, US")
-      self.latitude = geo.first
-      self.longitude = geo.last
-    rescue
-      self.latitude = nil
-      self.longitude = nil
-      logger.error "failed to get coordinates"
+  def locate
+    loc = MultiGeocoder.geocode(set_full_address)
+    if loc.success
+      self.latitude = loc.lat
+      self.longitude = loc.lng
     end
   end
 

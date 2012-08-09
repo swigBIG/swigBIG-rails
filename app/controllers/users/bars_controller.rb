@@ -9,7 +9,7 @@ class Users::BarsController < ApplicationController
   def show
     @bar = Bar.find(params[:bar_id])
     @bar_name = @bar.name
-    @swigs = @bar.swigs.where(status: "active")
+    @swigs = @bar.swigs#.where(status: "active")
     @swigers = @bar.swigers.all
     @popularity = Popularity.where(bar_id: @bar)
     @loyalty = @bar.loyalty
