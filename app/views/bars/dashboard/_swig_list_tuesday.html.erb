@@ -1,17 +1,23 @@
-<% unless @swigs_monday.standard.blank? %>
-  <% @swigs_monday.standard.each do |swig|%>
+<script type="text/javascript">
+  function tuesday_clear_list(){
+    $("#tuesday_notice_lists").text("")
+  }
+</script>
+
+<% unless @swigs_tuesday.standard.blank? %>
+  <% @swigs_tuesday.standard.each do |swig|%>
     <h4>Standard Swig</h4>
     <div class="span8 pull-left">
       <%= n_line(swig.deal) rescue nil %>
     </div>
     <div class="span2 pull-left">
-      <a href="#edit_monday_standard_swig<%= swig.id %>" data-toggle="modal" ><b>Update</b></a>
+      <a href="#edit_tuesday_standard_swig<%= swig.id %>" data-toggle="modal" ><b>Update</b></a>
     </div>
     <%= content_for :outer do %>
-      <div id="edit_monday_standard_swig<%= swig.id %>" class="modal hide fade">
+      <div id="edit_tuesday_standard_swig<%= swig.id %>" class="modal hide fade">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h4>Standard Swig on Monday</h4>
+          <h4>Standard Swig on Tuesday</h4>
         </div>
         <div class="modal-body well">
           <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
@@ -30,18 +36,18 @@
     <div class="span10">
       <p>Your Standard Swigs have not been setup for this day</p>
       <br/>
-      <a href="#monday_standard_swig" data-toggle="modal" >Set them up now?</a>
+      <a href="#tuesday_standard_swig" data-toggle="modal" >Set them up now?</a>
     </div>
   <% end %>
   <div class="clearfix"></div>
-  <% unless @swigs_monday.big.blank? %>
+  <% unless @swigs_tuesday.big.blank? %>
     <h4>Big Swig</h4>
     <div class="span2 pull-left">
-      <a href="#update_monday_big_swig" data-toggle="modal" >Update</a>
+      <a href="#update_tuesday_big_swig" data-toggle="modal" >Update</a>
     </div>
     <div class="clearfix"></div>
     <br/>
-    <% @swigs_monday.big.each do |swig|%>
+    <% @swigs_tuesday.big.each do |swig|%>
       <div class="clearfix"></div>
       <div class="span7 pull-left">
         <%= n_line(swig.deal) %>
@@ -54,20 +60,20 @@
     <% end %>
   <% else %>
     <h4>Big Swig</h4>
-    <a href="#monday_big_swig" data-toggle="modal" >Set them up now?</a>
+    <a href="#tuesday_big_swig" data-toggle="modal" >Set them up now?</a>
   <% end %>
 
 
   <%= content_for :outer do %>
-    <div id="monday_standard_swig" class="modal hide fade">
+    <div id="tuesday_standard_swig" class="modal hide fade">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h4>Standard Swig on Monday</h4>
+        <h4>Standard Swig on Tuesday</h4>
       </div>
       <div class="modal-body well">
         <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
-          <%= f.input :swig_day, as: :hidden, input_html: {value: "Monday"} %>
+          <%= f.input :swig_day, as: :hidden, input_html: {value: "Tuesday"} %>
           <%= f.input :deal, as: :text, :label => false, input_html: { style: "width: 300px;height: 100px" } %>
         </div>
         <div class="modal-footer">
@@ -78,18 +84,19 @@
       </div>
 
 
-      <div id="monday_big_swig" class="modal hide fade">
+      <div id="tuesday_big_swig" class="modal hide fade">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h4>Big Swig on Monday</h4>
+          <h4>Big Swig on Tuesday</h4>
         </div>
         <div class="modal-body well">
+          <div id="tuesday_notice_lists" style="color: green;"></div>
           <div class="span8">
             <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
               <div id="add_list">
                 <%= f.input :big_swig, label: false, input_html: {style: "margin-left: -170px;width: 380px;"} %>
               </div>
-              <%= f.submit "Add to List", class: "btn-success pull-right", style: "margin-top: -45px;" %>
+              <%= f.submit "Add to List", class: "btn-success pull-right", style: "margin-top: -45px;", onclick: "tuesday_clear_list()" %>
 
               <% end %>
             </div>
@@ -98,7 +105,7 @@
             <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
             <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
             <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-                <div id="bigswig_lists">
+                <div id="tuesday_bigswig_lists">
                   <%= render partial: "bigswig_list" %>
                 </div>
                 <%= number_field_tag "peoples[]" %>
@@ -106,7 +113,7 @@
                 <br/>
               <% end %>
               <%= hidden_field_tag :swig_type, "Big" %>
-              <%= hidden_field_tag :swig_day, "Monday" %>
+              <%= hidden_field_tag :swig_day, "Tuesday" %>
               <div class="modal-footer">
                 <%= f.submit "Create Swig", class: "btn-primary" %>
                 </div>
@@ -114,10 +121,10 @@
             </div>
           </div>
 
-          <div id="update_monday_big_swig" class="modal hide fade">
+          <div id="update_tuesday_big_swig" class="modal hide fade">
             <div class="modal-header">
               <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h4>Update Big Swig on Monday</h4>
+              <h4>Update Big Swig on Tuesday</h4>
             </div>
             <div class="modal-body well">
               <!--<div class="span8">
@@ -130,7 +137,7 @@
           <%# end %>
                 </div>-->
               <%= simple_form_for(:swig, url: bars_update_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
-                <% @swigs_monday.big.each do |swig|%>
+                <% @swigs_tuesday.big.each do |swig|%>
                   <%= hidden_field_tag "swig_ids[]", swig.id %>
               <%#*<div id="bigswig_lists_on_update">%>
               <%#= render partial: "bigswig_list_on_update" %>
