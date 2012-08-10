@@ -63,7 +63,7 @@ ActiveAdmin.register SiteContent do
       #      f.input :site_bac1kground
       #      f.input :site_logo
       f.input :swig_example, input_html: {style: "width: 300px;", cols: 3}
-      f.input :term_of_service
+      f.input :term_of_service, input_html: {class: "ckeditor", style: "width: 560px"}
 #      f.input :privacy_policy
       f.input :corp_information
       f.input :site_slogan
@@ -98,6 +98,8 @@ ActiveAdmin.register SiteContent do
           f.buttons
         end
       end
+
+      
 
       member_action :activate_logo, :method => :get do
         #    site = SiteContent.find(params[:id])
