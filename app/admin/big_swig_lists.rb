@@ -22,15 +22,12 @@ ActiveAdmin.register BigSwigList do
   end
 
   controller do
-    #    def index
-    #      @big_swig_lists = BigSwigList.where(["bar_id IS NULL"]).page(params[:page])#.per(3)
-    #            index!
-    #    end
-
-#    index! do |format|
-#      @big_swig_lists = BigSwigList.where(["bar_id IS NULL"]).page(params[:page])#.per(3)
-#      format.html
-#    end
+    def index
+      index! do |format|
+        @big_swig_lists = BigSwigList.where(["bar_id IS NULL"]).page(params[:page])#.per(3)
+        format.html
+      end
+    end
   end
-
+  
 end

@@ -1,5 +1,7 @@
 class Bars::DashboardController < ApplicationController
   layout "bars"
+  
+  
   before_filter :authenticate_bar!
 
   log_activity_streams :current_bar, :name, "Active Swigs",
@@ -70,6 +72,11 @@ class Bars::DashboardController < ApplicationController
       Swig.find(id).update_attributes(deal: params[:deals][x],people: params[:people][x])
     end
     redirect_to :back, notice: "Swig updated"
+  end
+
+  def delete_big_swig
+    Swig.where(bar_id: params[:swig_ids]).destroy
+    redirect_to :back, notice: "BigSwig Deleted!"
   end
 
   def update_swig
@@ -256,6 +263,7 @@ class Bars::DashboardController < ApplicationController
 
   def completion
     @bar = current_bar
+    render layout: "main_bars"
   end
 
   def second_completion

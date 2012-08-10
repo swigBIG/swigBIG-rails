@@ -36,7 +36,7 @@ class Bar < ActiveRecord::Base
 
   #  after_validation :geocode, :if => :full_address_changed?
 
-  after_create :create_hour
+#  after_create :create_hour
 
   acts_as_messageable required: [:topic, :body, :received_messageable_id]
   

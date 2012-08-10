@@ -1,4 +1,3 @@
-
 <script>
   function countChar(val){
     var len = val.value.length;
@@ -8,6 +7,28 @@
       $('#charNum').text(len);
     }
   };
+</script>
+<style type="text/css">
+  #map_canvas { height: 250px ; width: 275px;}
+</style>
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var latlo = new google.maps.LatLng(<%= current_bar.latitude.to_f %>, <%= current_bar.longitude.to_f %>)
+    var myOptions = {
+      center: latlo,
+      zoom: 14,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+    myOptions);
+    var marker = new google.maps.Marker({
+      position: latlo,
+      map: map
+    });
+  }
 </script>
 <!--<script type="text/javascript">
   $(document).ready(function(){
@@ -52,100 +73,106 @@
   });
 
 </script>
-<ul class="tabs" data-tabs="tabs">
-  <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
-  <li><a href="#link" data-toggle="tab"><h5>Link</h5></a></li>
-  <li><a href="#location" data-toggle="tab"><h5>Location</h5></a></li>
-  <li><a href="#hour" data-toggle="tab"><h5>Hour</h5></a></li>
-</ul>
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
-    <%= devise_error_messages! %>
-    <div class="tab-content">
-      <div class="tab-pane active" id="bar">
-        <%= f.input :email %>
-        <%= f.input :name %>
+<body onload="initialize()">
+  <%= content_for :outer do %>
+    <div id="map_canvas" style="margin-left: -25px;">
+      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+    </div>
+  <% end %>
+  <ul class="tabs" data-tabs="tabs">
+    <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
+    <li><a href="#link" data-toggle="tab"><h5>Link</h5></a></li>
+    <li><a href="#location" data-toggle="tab"><h5>Location</h5></a></li>
+    <li><a href="#hour" data-toggle="tab"><h5>Hour</h5></a></li>
+  </ul>
+  <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, multipart: true , class: "form-horizontal"}) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="tab-content">
+        <div class="tab-pane active" id="bar">
+          <%= f.input :email %>
+          <%= f.input :name %>
     <%#= f.input :bar_hour, label: "Bar Hour" %>
-        <%= f.input :phone_number %>
+          <%= f.input :phone_number %>
     <%#= f.input :sports_team, label: false, required: false, input_html: {id: "mytags", multiple: true,  style: "width:150px;overflow: hidden;"}%>
     <%#= f.input :sports_team_list, required: false, input_html: {id: "tk_sports"} %>
-        <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
-        <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;", onkeyup: "countChar(this)"} %>
-        <div class="pull-right"id="charNum"></div>
-        <div class="form-actions">
-          <%= f.submit "Update", class: "btn-primary" %>
-          </div>
-        </div>
-        <div class="tab-pane" id="link">
-          <%= f.input :website_link %>
-          <%= f.input :facebook_link %>
-          <%= f.input :twitter_link %>
-          <%= f.input :google_plus_link %>
+          <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
+          <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;", onkeyup: "countChar(this)"} %>
+          <div class="pull-right"id="charNum"></div>
           <div class="form-actions">
             <%= f.submit "Update", class: "btn-primary" %>
             </div>
           </div>
-          <div class="tab-pane" id="location">
-            <%= f.input :address %>
-            <%= f.input :zip_code %>
-            <%= f.input :city, as: :select, collection: avaliable_cities %>
+          <div class="tab-pane" id="link">
+            <%= f.input :website_link %>
+            <%= f.input :facebook_link %>
+            <%= f.input :twitter_link %>
+            <%= f.input :google_plus_link %>
             <div class="form-actions">
               <%= f.submit "Update", class: "btn-primary" %>
               </div>
             </div>
-            <div class="tab-pane" id="hour">
-              <%= f.fields_for :bar_hours do |ff| %>
-                <div class="span4">
-                  <div class="span2">
-                    <b style="margin-left: 30px;"><%= ff.object.day %></b>
-                    <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                    <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  </div>
-                  <div class="span1" style="margin-top: 12px;">
-                    <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                    <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                    <% unless ff.object.day.eql?("Monday") %>
-                      Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
-                    <% end %>
-                  </div>
-                </div>
-              <% end %>
-              <div class="clearfix"></div>
+            <div class="tab-pane" id="location">
+              <%= f.input :address %>
+              <%= f.input :zip_code %>
+              <%= f.input :city, as: :select, collection: avaliable_cities %>
               <div class="form-actions">
                 <%= f.submit "Update", class: "btn-primary" %>
                 </div>
               </div>
-            <% end %>
-            <br/>
-            <br/>
-            <h3>Cancel my account</h3>
+              <div class="tab-pane" id="hour">
+                <%= f.fields_for :bar_hours do |ff| %>
+                  <div class="span4">
+                    <div class="span2">
+                      <b style="margin-left: 30px;"><%= ff.object.day %></b>
+                      <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                      <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                    </div>
+                    <div class="span1" style="margin-top: 12px;">
+                      <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                      <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+                      <% unless ff.object.day.eql?("Monday") %>
+                        Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+                <div class="clearfix"></div>
+                <div class="form-actions">
+                  <%= f.submit "Update", class: "btn-primary" %>
+                  </div>
+                </div>
+              <% end %>
+              <br/>
+              <br/>
+              <h3>Cancel my account</h3>
 
-            <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+              <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
-            <%= link_to "Back", :back %>
-
-            <script type="text/javascript">
-              $(document).ready(function(){
-                $(".day_bar").click(function(){
-                  var day = $("#"+this.id).attr("day_bar");
-                  day_last = day - 1
-                  var open = $("#open_hour"+day_last+" > option:selected").text();
-                  var close = $("#close_hour"+day_last+" > option:selected").text();
-                  var openw = $("#open_w"+day_last+" > option:selected").text();
-                  var closew = $("#close_w"+day_last+" > option:selected").text();
-                  //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
-                  if ($("#"+this.id).attr('checked') == "checked"){
+              <%= link_to "Back", :back %>
+          </body>
+          <script type="text/javascript">
+            $(document).ready(function(){
+              $(".day_bar").click(function(){
+                var day = $("#"+this.id).attr("day_bar");
+                day_last = day - 1
+                var open = $("#open_hour"+day_last+" > option:selected").text();
+                var close = $("#close_hour"+day_last+" > option:selected").text();
+                var openw = $("#open_w"+day_last+" > option:selected").text();
+                var closew = $("#close_w"+day_last+" > option:selected").text();
+                //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
+                if ($("#"+this.id).attr('checked') == "checked"){
                     
-                    $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
-                    $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
-                    $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
-                    $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
+                  $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
+                  $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+                  $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
+                  $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
                    
-                  }else{
-                    $("#open_hour"+day+" > option").eq(open).attr("selected","")
-                    $("#close_hour"+day+" > option").eq(close).attr("selected","")
-                    $("#open_w"+day+" > option").eq(openw).attr("selected","")
-                    $("#close_w"+day+" > option").eq(closew).attr("selected","")
-                  }
-                });
+                }else{
+                  $("#open_hour"+day+" > option").eq(open).attr("selected","")
+                  $("#close_hour"+day+" > option").eq(close).attr("selected","")
+                  $("#open_w"+day+" > option").eq(openw).attr("selected","")
+                  $("#close_w"+day+" > option").eq(closew).attr("selected","")
+                }
               });
-            </script>
+            });
+          </script>

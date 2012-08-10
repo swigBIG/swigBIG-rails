@@ -1,45 +1,51 @@
-<div style="width: 50%;float: right ">
-  <h3>Logo</h3>
-  <table>
-    <th></th>
-    <th></th>
-    <% @site_content.logos.each do |logo| %>
-      <tr>
-        <td><%=  image_tag(logo.image_url, style: "height: 70px;") %></td>
-        <% if  logo.active_status.eql?(true) %>
-          <td><b><%=  link_to("Unactive", unactivate_logo_admin_site_content_path(logo), style: "margin-top: -20px;padding: 30px;text-decoration: none;") %></b></td>
-        <% else %>
-          <td><b><%=  link_to("Active", activate_logo_admin_site_content_path(logo), style: "margin-top: -20px;padding: 5px;text-decoration: none;") %></b></td>
-        <% end %>
-        <td><b><%=  link_to("Delete", admin_logo_path(logo), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
+<div style="width: 95%;float: left;">
+  <h4 style='padding: 10px; border-radius: 5px;background-color: <%= "##{@site_content.site_color.nav_bar_color}" %>'>Navbar</h4>
+  <br/>
+  <h4 style="padding: 10px; border-radius: 5px;background-color: <%= "##{@site_content.site_color.background_color}" %>">Background</h4>
+  <br/>
 
-      </tr>
-    <% end %>
-  </table>
-</div>
-<div style="width: 50%;float: left">
-  <h3>Background</h3>
-  <table>
-    <th></th>
-    <th></th>
-    <% @site_content.backgrounds.each do |background| %>
-      <tr>
-        <td><%=  image_tag(background.image_url, style: "height: 70px;") %>
-          <br/>
-          <b>Style: </b><%= background.background_style rescue "not set yet!" %>
-        </td>
-        <% if  background.active_status.eql?(true) %>
-          <td><b><%=  link_to("Unactive", unactivate_background_admin_site_content_path(background), style: "margin-top: -20px;padding: 30px;text-decoration: none;") %></b></td>
-        <% else %>
-          <td><b><%=  link_to("Active", activate_background_admin_site_content_path(background), style: "margin-top: -20px;padding: 5px;text-decoration: none;") %></b></td>
-        <% end %>
-        <td><b><%=  link_to("Delete", admin_background_path(background), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
-        <%= form_tag(pick_background_style_admin_site_content_path(@site_content.id)) do %>
+  <div style="width: 50%;float: right ">
+    <h3>Logo</h3>
+    <table>
+      <th></th>
+      <th></th>
+      <% @site_content.logos.each do |logo| %>
+        <tr>
+          <td><%=  image_tag(logo.image_url, style: "height: 70px;") %></td>
+          <% if  logo.active_status.eql?(true) %>
+            <td><b><%=  link_to("Unactive", unactivate_logo_admin_site_content_path(logo), style: "margin-top: -20px;padding: 30px;text-decoration: none;") %></b></td>
+          <% else %>
+            <td><b><%=  link_to("Active", activate_logo_admin_site_content_path(logo), style: "margin-top: -20px;padding: 5px;text-decoration: none;") %></b></td>
+          <% end %>
+          <td><b><%=  link_to("Delete", admin_logo_path(logo), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
+
+        </tr>
+      <% end %>
+    </table>
+  </div>
+  <div style="width: 50%;float: left">
+    <h3>Background</h3>
+    <table>
+      <th></th>
+      <th></th>
+      <% @site_content.backgrounds.each do |background| %>
+        <tr>
+          <td><%=  image_tag(background.image_url, style: "height: 70px;") %>
+            <br/>
+            <b>Style: </b><%= background.background_style rescue "not set yet!" %>
+          </td>
+          <% if  background.active_status.eql?(true) %>
+            <td><b><%=  link_to("Unactive", unactivate_background_admin_site_content_path(background), style: "margin-top: -20px;padding: 30px;text-decoration: none;") %></b></td>
+          <% else %>
+            <td><b><%=  link_to("Active", activate_background_admin_site_content_path(background), style: "margin-top: -20px;padding: 5px;text-decoration: none;") %></b></td>
+          <% end %>
+          <td><b><%=  link_to("Delete", admin_background_path(background), method: :delete, style: "color: red;text-decoration: none;") %></b></td>
+          <%= form_tag(pick_background_style_admin_site_content_path(@site_content.id)) do %>
             <%= hidden_field_tag "background_id", background.id %>
-          <td><%= select("background", "style", [nil,["Original","Original"],["Tiled","Tiled"],["Fit","Fit"],["Center","Center"]], {},) %></td>
-          <td><%= submit_tag "change" %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-</div>
+            <td><%= select("background", "style", [nil,["Original","Original"],["Tiled","Tiled"],["Fit","Fit"],["Center","Center"]], {},) %></td>
+            <td><%= submit_tag "change" %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>

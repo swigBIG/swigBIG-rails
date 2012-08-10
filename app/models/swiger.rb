@@ -11,7 +11,7 @@ class Swiger < ActiveRecord::Base
   #  before_create :check_swiger
   after_create :get_loyalty, :unlock_bigswig
 
-  validate :time_and_distance_valid?, :popularity_reward_valid?
+#  validate :time_and_distance_valid?, :popularity_reward_valid?
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
@@ -34,7 +34,7 @@ class Swiger < ActiveRecord::Base
       #      Point.create(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1)
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
-#        create_activity(self.user_id, win.id)
+        #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
         chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
         serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
@@ -48,25 +48,24 @@ class Swiger < ActiveRecord::Base
           end
         end
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
-        self.bar.send_message(self.user, {topic: "You got reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial})
+        self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial})
       end
     end
   end
 
 
-#  def create_activity(actor, object)
-#    ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
-#    user = User.find(actor)
-#    self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
-#  end
+  #  def create_activity(actor, object)
+  #    ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
+  #    user = User.find(actor)
+  #    self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
+  #  end
 
 
   def time_and_distance_valid?
     bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first
     unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
-      #      debugger
+#      debugger
       Chronic.time_class = Time.zone
-      debugger
 #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
       if (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
@@ -103,20 +102,20 @@ class Swiger < ActiveRecord::Base
         self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
         popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
-            self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
-#            self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
-#            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
-#          end
+          self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
+          #            self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
+          #            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
+          #          end
         end
       elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
         user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
         user_guess.update_attributes(enter_status: "swig")
         popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
-#        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
-#          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
-#            self.bar.send_message(guess.user, {topic: "#{self.bar.name} popularity has unlock", body: "You can get our Popularity reward #{self.bar.popularity.reward_detail}", category: 9})
-#          end
-#        end
+        #        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+        #          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
+        #            self.bar.send_message(guess.user, {topic: "#{self.bar.name} popularity has unlock", body: "You can get our Popularity reward #{self.bar.popularity.reward_detail}", category: 9})
+        #          end
+        #        end
       else
         return true
       end

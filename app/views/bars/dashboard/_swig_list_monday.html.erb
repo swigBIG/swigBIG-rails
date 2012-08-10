@@ -44,6 +44,7 @@
     <h4>Big Swig</h4>
     <div class="span2 pull-left">
       <a href="#update_monday_big_swig" data-toggle="modal" >Update</a>
+      <%= link_to "Delete", bars_delete_big_swig_path(@swigs_monday.big.pluck(:id)) %>
     </div>
     <div class="clearfix"></div>
     <br/>

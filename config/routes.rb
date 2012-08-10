@@ -1,6 +1,8 @@
 Swprototype::Application.routes.draw do
 
 
+  mount Ckeditor::Engine => '/ckeditor'
+
   get "swig_friends_list/index"
 
   get "notifications/index"
@@ -57,6 +59,7 @@ Swprototype::Application.routes.draw do
     post  "create_swig" => "dashboard#create_swig", as: "create_swig"
     post  "create_big_swig" => "dashboard#create_big_swig", as: "create_big_swig"
     post  "update_big_swig" => "dashboard#update_big_swig", as: "update_big_swig"
+    delete  "delete_big_swig/:ids" => "dashboard#delete_big_swig", as: "delete_big_swig"
     post  "update_swig/:id" => "dashboard#update_swig", as: "update_swig"
     delete  "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
     post  "active_swig/:id" => "dashboard#active_swig", as: "active_swig"

@@ -1,5 +1,3 @@
-<%#= javascript_include_tag "jquery.tokeninput" %>
-<%#= stylesheet_link_tag "token-input-facebook" %>
 <script>
   function countChar(val){
     var len = val.value.length;
@@ -10,31 +8,38 @@
     }
   };
 </script>
+<style type="text/css">
+  .alert .alert-danger {
+    text-align: center;
+    padding: 5px;
+  }
+</style>
 <%= content_for :outer do %>
   <script type="text/javascript">
     $(document).ready(function() {
       var sport_teams = [];
   <% SportTeam.all.each do |b| %>
-        var x = [];
-        x.push('name: <%= b.to_json %>');//0
-        x.push('id: <%= b.to_json %>');//0
-        sport_teams.push(x);
+      var x = [];
+      x.push('name: <%= b.to_json %>');//0
+      x.push('id: <%= b.to_json %>');//0
+      sport_teams.push(x);
   <% end %>
-      var include_sport_list = [];
+    var include_sport_list = [];
   <%  unless current_bar.sports_team.blank? %>
     <%  sports_team = current_bar.sports_team.split(',') %>
     <%  sports_team.each do |team| %>
-          include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
     <% end %>
   <% end%>
 
-      $("#tk_sports").tokenInput("/bars/sport_lists", {
-        theme: "facebook",
-        preventDuplicates: true,
-        prePopulate: include_sport_list
-      });
+    $("#tk_sports").tokenInput("/bars/sport_lists", {
+      theme: "facebook",
+      preventDuplicates: true,
+      prePopulate: include_sport_list
     });
-
+    $(".alert-success").hide();
+    //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
+  });
   </script>
 <% end %>
 <!--<script type="text/javascript">
@@ -191,27 +196,26 @@
   //var name_element = document.getElementById('bar_address');
   //var name_element = document.getElementById('bar_address');
 
-  $(document).ready(function(){
-    $('#completion_link').click();
-  })
+  //$(document).ready(function(){
+  //$('#completion_link').click();
+  //})
 </script>
-<script type="text/javascript">
+<!--<script type="text/javascript">
   jQuery(document).ready(function() {
     $('#copy_example').click(function() {
       $('#swig').html($.trim($('#example').html()))
     })
   })
-</script>
+</script>-->
 <style type="text/css">
   .modal{
     width: 600px!important;
     overflow: hidden!important;
   }
 </style>
-
-<h4>Please Complete your bar profile!</h4>
-
-click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete
+<div class="alert alert-danger" style="text-align: center;">
+  <h5><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></h5>
+</div>
 
 <%= content_for :outer do %>
   <div id="ask" class="modal hide fade">
@@ -284,26 +288,36 @@ click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to comple
             <h3 style="text-align: center;">“What is <%= @bar.name %> hours?”</h3>
           </div>
           <div class="modal-body">
-            <%= f.fields_for :bar_hours do |ff| %>
-              <div class="span4" style="margin-right: 10px;">
-                <div class="span2">
-                  <b><%= ff.object.day %></b>
-                  <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                </div>
-                <div class="span1" style="margin-top: 15px;">
-                  <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                  <% unless ff.object.day.eql?("Monday") %>
-                    Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
-                  <% end %>
-                </div>
+        <%#= f.fields_for :bar_hours do |ff| %>
+            <%= select_tag "first_day", options_for_select(days), {style: "width: 500px;margin-bottom: 3px;"} %>
+            to
+            <%= select_tag "last_day", options_for_select(days), {style: "width: 500px;margin-bottom: 3px;"} %>
+            <%= select_tag "open_hour", options_for_select(hours_collection), {style: "width: 500px;margin-bottom: 3px;"} %>
+            <%= select_tag "open_word", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 500px;margin-bottom: 3px;"} %>
+            <%= select_tag "close_hour", options_for_select(hours_collection), {style: "width: 500px;margin-bottom: 3px;"} %>
+            <%= select_tag "close_word", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 500px;margin-bottom: 3px;"} %>
+        <%# end %>
+            <!--<div class="span4" style="margin-right: 10px;">
+              <div class="span2">
+                <b><%#= ff.object.day %></b>
+        <%#= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+        <%#= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
               </div>
-            <% end %>
+              <div class="span1" style="margin-top: 15px;">
+        <%#= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+        <%#= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
+        <%# unless ff.object.day.eql?("Monday") %>
+                  Same?:<input id="same<%#= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%#= ff.object.id %>"/>
+        <%# end %>
+              </div>
+            </div>-->
+        <%# end %>
             <!--<a class="btn" onclick="return validate_hour()">Continue</a>
             <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig" style="display: none;">Continue</a>-->
-            <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig">Continue</a>
-            <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
+            <div class="modal-footer">
+              <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig">Continue</a>
+              <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
+            </div>
           </div>
         </div>
         <div id="standard_swig" class="modal hide fade">
