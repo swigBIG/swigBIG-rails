@@ -28,7 +28,7 @@ ActiveAdmin.register SiteContent do
         b.swig_example.gsub("\r\n", "<br/>").html_safe rescue nil
       end
       row :term_of_service do
-        b.term_of_service
+        (b.term_of_service).html_safe
       end
 #      row :privacy_policy do
 #        b.privacy_policy
