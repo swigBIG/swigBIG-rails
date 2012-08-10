@@ -4,7 +4,7 @@ class Api::V1::MobilesController < Devise::SessionsController
   def create
     resource = User.find_by_email(params[:user][:email])
     if !resource.nil? and valid_password?(params[:user][:password], resource)
-      render json: { status: true,  notice: "Welcome back.", user: {id: resource.id}  }
+      render json: { status: true,  notice: "Welcome back.", user: {id: resource.id, name: resource.name, email: resource.email}  }
     else
       render json:  { status: false, notice: "User not found" }
     end
