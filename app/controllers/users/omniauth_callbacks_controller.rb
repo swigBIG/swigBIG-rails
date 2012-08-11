@@ -22,7 +22,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #  end
 
   def after_sign_in_path_for(resource)
-    current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, name: request.env["omniauth.auth"].info.name, fb_id: request.env["omniauth.auth"].uid)
+#    current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, name: request.env["omniauth.auth"].info.name, fb_id: request.env["omniauth.auth"].uid)
+    current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, fb_id: request.env["omniauth.auth"].uid)
     guess_by_fb_id = PopularityGuess.today.where(fb_id: current_user.fb_id).first
     guess_by_email = PopularityGuess.today.where(email: current_user.email).first
     if !guess_by_fb_id.blank?
