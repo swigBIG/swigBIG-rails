@@ -102,7 +102,7 @@
           <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
           <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
           <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-              <div id="thursday_bigswig_lists">
+              <div id="thursday_bigswig_lists<%= x + 1 %>">
                 <%= render partial: "bigswig_list" %>
               </div>
               <%= number_field_tag "peoples[]" %>

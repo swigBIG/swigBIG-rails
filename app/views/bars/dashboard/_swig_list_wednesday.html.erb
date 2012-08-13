@@ -99,10 +99,7 @@
         <div class="modal-body well">
           <%= simple_form_for(:swig, url: bars_create_big_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
             <% 3.times do |x| %>
-          <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
-          <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-          <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-              <div id="wednesday_bigswig_lists">
+              <div id="wednesday_bigswig_lists<%= x + 1 %>">
                 <%= render partial: "bigswig_list" %>
               </div>
               <%= number_field_tag "peoples[]" %>
@@ -123,8 +120,8 @@
                 </div>
                 <div style="margin-left: -160px;">
                   <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 500px;"} %>
-                <% end %>
-              </div>
+                </div>
+              <% end %>
               <!--</div>-->
               <div class="modal-footer">
                 <a class="btn btn-primary" onclick="done()">Done</a>
