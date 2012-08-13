@@ -9,7 +9,7 @@ ActiveAdmin.register BigSwigList do
   show do |b|
     attributes_table do
       row :big_swig do
-        b.name
+        b.big_swig
       end
     end
   end
