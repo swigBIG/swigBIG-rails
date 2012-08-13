@@ -19,27 +19,27 @@
     $(document).ready(function() {
       var sport_teams = [];
   <% SportTeam.all.each do |b| %>
-      var x = [];
-      x.push('name: <%= b.to_json %>');//0
-      x.push('id: <%= b.to_json %>');//0
-      sport_teams.push(x);
+        var x = [];
+        x.push('name: <%= b.to_json %>');//0
+        x.push('id: <%= b.to_json %>');//0
+        sport_teams.push(x);
   <% end %>
-    var include_sport_list = [];
+      var include_sport_list = [];
   <%  unless current_bar.sports_team.blank? %>
     <%  sports_team = current_bar.sports_team.split(',') %>
     <%  sports_team.each do |team| %>
-        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+          include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
     <% end %>
   <% end%>
 
-    $("#tk_sports").tokenInput("/bars/sport_lists", {
-      theme: "facebook",
-      preventDuplicates: true,
-      prePopulate: include_sport_list
+      $("#tk_sports").tokenInput("/bars/sport_lists", {
+        theme: "facebook",
+        preventDuplicates: true,
+        prePopulate: include_sport_list
+      });
+      $(".alert-success").hide();
+      //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
     });
-    $(".alert-success").hide();
-    //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
-  });
   </script>
 <% end %>
 <!--<script type="text/javascript">
@@ -190,7 +190,7 @@
     $('#swig_text').html($('#swig').val());
   }
   //str.split("\n").join("<br />");
-  
+
 
   //var name_element = document.getElementById('bar_address');
   //var name_element = document.getElementById('bar_address');
@@ -200,13 +200,13 @@
   //$('#completion_link').click();
   //})
 </script>
-<!--<script type="text/javascript">
+<script type="text/javascript">
   jQuery(document).ready(function() {
     $('#copy_example').click(function() {
       $('#swig').html($.trim($('#example').html()))
     })
   })
-</script>-->
+</script>
 <style type="text/css">
   .modal{
     width: 600px!important;
@@ -288,14 +288,12 @@
             <h3 style="text-align: center;">“What is <%= @bar.name %> hours?”</h3>
           </div>
           <div class="modal-body">
+            <div id="bar_hour_list">
+              <%= render partial: "bar_hours", locals: {count: @count}  %>
+              <%= hidden_field_tag "total", 0  %>
+            </div>
+            <%= link_to "Add", bars_add_bar_hours_path(count: 0), method: :post, remote: true, id: "bigswig_link" %>
         <%#= f.fields_for :bar_hours do |ff| %>
-            <%= select_tag "first_day", options_for_select(days), {style: "width: 500px;margin-bottom: 3px;"} %>
-            to
-            <%= select_tag "last_day", options_for_select(days), {style: "width: 500px;margin-bottom: 3px;"} %>
-            <%= select_tag "open_hour", options_for_select(hours_collection), {style: "width: 500px;margin-bottom: 3px;"} %>
-            <%= select_tag "open_word", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 500px;margin-bottom: 3px;"} %>
-            <%= select_tag "close_hour", options_for_select(hours_collection), {style: "width: 500px;margin-bottom: 3px;"} %>
-            <%= select_tag "close_word", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 500px;margin-bottom: 3px;"} %>
         <%# end %>
             <!--<div class="span4" style="margin-right: 10px;">
               <div class="span2">
@@ -436,7 +434,7 @@
         <% end %>
       <% end %>
 
-      <script type="text/javascript">
+      <!--<script type="text/javascript">
         $(document).ready(function(){
           $(".day_bar").click(function(){
             var day = $("#"+this.id).attr("day_bar");
@@ -461,7 +459,7 @@
             }
           });
         });
-      </script>
+      </script>-->
 
       <!--<script type="text/javascript">
         $(document).ready(function(){

@@ -8,13 +8,13 @@ module ApplicationHelper
     States.pluck(:name)
   end
 
-  def user_collection
-    #  User.all.map{|u| [u.name, u.id]}
-    User.all
+  def users_collection
+    User.where("name IS NOT NULL").map{|u| [u.name, u.id]}
+    #    User.all
   end
 
   def days
-    [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thursday","Thursday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]]
+    [["Sunday", 0], ["Monday", 1], ["Tuesday", 2], ["Wednesday", 3], ["Thursday", 4], ["Friday", 5], ["Saturday", 6]]
   end
 
   def avaliable_cities
@@ -22,7 +22,7 @@ module ApplicationHelper
   end
 
   def sport_teams_collection
-#    SportTeam.all.map{ |s| [s.team_name, s.team_name] }
+    #    SportTeam.all.map{ |s| [s.team_name, s.team_name] }
     SportTeam.all.map{ |s| s.team_name }
   end
 
@@ -70,7 +70,7 @@ module ApplicationHelper
   end
 
   def bigswig_collection
-#    BigSwigList.all.map{ |b| [b.big_swig, b.big_swig] }
+    #    BigSwigList.all.map{ |b| [b.big_swig, b.big_swig] }
     BigSwigList.where(["bar_id IS NULL OR bar_id = ?", current_bar.id]).map{ |b| [b.big_swig, b.big_swig] }
   end
 

@@ -244,7 +244,24 @@ class Bars::DashboardController < ApplicationController
         end
       end
       redirect_to :back, notice: "Message success Send! to 75%"
+
+    when "30"
+      user = params[:acts_as_messageable_message][:to].split(",").each do |u|
+        user = User.find(u)
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+      end
+      redirect_to :back, notice: "Message success Send!"
+    when "31"
+      user = params[:acts_as_messageable_message][:to].split(",").each do |u|
+        user = User.find(u)
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+      end
+      redirect_to :back, notice: "Message success Send!"
     else
+      #      user = params[:acts_as_messageable_message][:to].split(",").each do |u|
+      #        user = User.find(u)
+      #        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+      #      end
       redirect_to :back, notice: "Failed sent message!"
     end
   end
@@ -252,10 +269,20 @@ class Bars::DashboardController < ApplicationController
   def update_completion
     @bar = current_bar
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    (params[:total].to_i + 1).times do |t|
+      pp "----------------------------"
+      puts "#{params["first_day_#{t}"].to_i}--------#{params["last_day#{t}"].to_i}"
+      days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+        pp "==================================="
+        current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}")
+      end
+    end
+
     if @bar.update_attributes(params[:bar])
       sign_in @bar, :bypass => true
-      #      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
-      redirect_to bars_second_completion_path, notice: "Profile Completion Success!"
+      redirect_to bars_dashboard_path, notice: "Profile Completion Success!"
+      #      redirect_to bars_second_completion_path, notice: "Profile Completion Success!"
     else
       redirect_to :back, notice: "Profile Completion Failed!"
     end
@@ -263,6 +290,7 @@ class Bars::DashboardController < ApplicationController
 
   def completion
     @bar = current_bar
+    @count = 0
     render layout: "main_bars"
   end
 
@@ -328,17 +356,25 @@ class Bars::DashboardController < ApplicationController
   end
 
   def sport_lists
-    #    sport_groups = SportTeam.all(fields: ['id', 'team_name'], conditions: ["team_name LIKE ?", "%#{params[:q]}%"])
     sport_groups = SportTeam.select('id, team_name').where(["team_name LIKE ?", "%#{params[:q]}%"])
-  
     @sport_lists = []
-  
     sport_groups.each do |sport_group|
       @sport_lists << {id: sport_group.team_name, name: sport_group.team_name}
     end
-  
     respond_to do |format|
       format.json  { render :json => @sport_lists }
+    end
+  end
+
+  def users_lists
+    #    users_groups = User.where(["name IS NOT NULL"]).where([" name LIKE ?", "%#{params[:q]}%"])
+    users_groups = User.select("id, name").where(["name IS NOT NULL AND name LIKE ?", "%#{params[:q]}%"])
+    @users_lists = []
+    users_groups.each do |user|
+      @users_lists << {id: user.id, name: user.name}
+    end
+    respond_to do |format|
+      format.json  { render :json => @users_lists }
     end
   end
 
@@ -372,6 +408,11 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
+  def add_bar_hours
+    @count = params[:id]
+    @counter = params[:count]
+    respond_to { |format| format.js }
+  end
   #  def sport_lists
   #    @sport_teams = SportTeam.where("name like ?", "%#{params[:q]}%")
   #    respond_to do |format|
