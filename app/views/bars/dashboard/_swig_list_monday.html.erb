@@ -2,6 +2,12 @@
   function monday_clear_list(){
     $("#monday_notice_lists").text("")
   }
+  function show_list(){
+    $("#add_biglist").text("")
+  }
+  function done(){
+    $("#monday_done").click()
+  }
 </script>
 
 <% unless @swigs_monday.standard.blank? %>
@@ -88,37 +94,41 @@
       <div id="monday_big_swig" class="modal hide fade">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h4>Big Swig on Monday</h4>
+          <h4>Pick your Big Swig for Monday</h4>
         </div>
         <div class="modal-body well">
-          <div id="monday_notice_lists" style="color: green;"></div>
-          <div class="span8">
-            <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-              <div id="add_list">
-                <%= f.input :big_swig, label: false, input_html: {style: "margin-left: -170px;width: 380px;"} %>
+          <%= simple_form_for(:swig, url: bars_create_big_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+            <% 3.times do |x| %>
+          <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
+          <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
+          <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
+              <div id="monday_bigswig_lists">
+                <%= render partial: "bigswig_list" %>
               </div>
-              <%= f.submit "Add to List", class: "btn-success pull-right", style: "margin-top: -45px;", onclick: "monday_clear_list()" %>
-
-              <% end %>
-            </div>
-            <%= simple_form_for(:swig, url: bars_create_big_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
-              <% 3.times do |x| %>
-            <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
-            <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-            <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-                <div id="monday_bigswig_lists">
-                  <%= render partial: "bigswig_list" %>
+              <%= number_field_tag "peoples[]" %>
+              <br/>
+              <br/>
+            <% end %>
+            <%= hidden_field_tag :swig_type, "Big" %>
+            <%= hidden_field_tag :swig_day, "Monday" %>
+            <!--<div class="modal-footer">-->
+            <%= f.submit "Done", class: "btn-primary pull-right", style: "margin-bottom: -100px;display: none;", id: "monday_done" %>
+            <% end %>
+            <h5 style="text-align: center;">OR</h5>
+            <div class="clearfix"></div>
+            <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
+              <div id="monday_notice_lists" style="color: green;"></div>
+              <div style="text-align: center;margin-bottom: 10px">
+                <%= f.submit "Create bigswig list", class: "btn-success",style: "margin-top: -50px;", onclick: "monday_clear_list()" %>
                 </div>
-                <%= number_field_tag "peoples[]" %>
-                <br/>
-                <br/>
-              <% end %>
-              <%= hidden_field_tag :swig_type, "Big" %>
-              <%= hidden_field_tag :swig_day, "Monday" %>
+                <div style="margin-left: -160px;">
+                  <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 500px;"} %>
+                <% end %>
+              </div>
+              <!--</div>-->
               <div class="modal-footer">
-                <%= f.submit "Create Swig", class: "btn-primary" %>
-                </div>
-              <% end %>
+                <a class="btn btn-primary" onclick="done()">Done</a>
+              </div>
             </div>
           </div>
 

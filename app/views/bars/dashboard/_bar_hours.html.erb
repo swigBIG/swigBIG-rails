@@ -1,0 +1,9 @@
+<%= select_tag "first_day_#{count}", options_for_select(days), {style: "width: 100px;margin-bottom: 3px;"} %>
+to
+<%= select_tag "last_day#{count}", options_for_select(days), {style: "width: 100px;margin-bottom: 3px;"} %>
+<%= select_tag "open_hour#{count}", options_for_select(hours_collection), {style: "width: 50px;margin-bottom: 3px;"} %>
+<%= select_tag "open_word#{count}", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 50px;margin-bottom: 3px;"} %>
+<%= select_tag "close_hour#{count}", options_for_select(hours_collection), {style: "width: 50px;margin-bottom: 3px;"} %>
+<%= select_tag "close_word#{count}", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 50px;margin-bottom: 3px;"} %>
+<%= check_box_tag "close_day#{count}", false, false, :class => "checkbox" %>
+<div class="clearfix"></div>

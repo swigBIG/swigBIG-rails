@@ -49,6 +49,7 @@ Swprototype::Application.routes.draw do
     match  "invite_friend" => "dashboard#after_join_invite_friends", as: "after_join_invite_friends"
     post  "invite_friend_by_email" => "dashboard#invite_friend_by_email", as: "invite_friend_by_email"
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
+    match  "users_lists" => "dashboard#users_lists", as: "users_lists"
     match  "completion" => "dashboard#completion", as: "completion"
     post  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "second_completion" => "dashboard#second_completion", as: "second_completion"
@@ -83,6 +84,7 @@ Swprototype::Application.routes.draw do
     post "destroy_gift/:id" => "bars/dashboard#destroy_gift", as: "destroy_gift"
     post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
     post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
+    post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
     
     get 'notification' => "messages#notification"
     resources :messages do
