@@ -3,7 +3,7 @@ class Bars::SessionsController < Devise::SessionsController
 
 
   def create
-      resource = warden.authenticate!(auth_options)
+    resource = warden.authenticate!(auth_options)
     if resource.lock_status.eql?(false)
       set_flash_message(:notice, :signed_in) if is_navigational_format?
       sign_in(resource_name, resource)
@@ -23,7 +23,8 @@ class Bars::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(resource)
     if current_bar.address.blank?
-      bars_completion_url
+      #      bars_completion_url
+      bars_dashboard_url
     else
       bars_dashboard_url
     end

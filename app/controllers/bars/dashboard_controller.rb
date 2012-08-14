@@ -11,6 +11,9 @@ class Bars::DashboardController < ApplicationController
   #    :message, :deal, :create_bar_message, :swig
 
   def index
+#    @bar = current_bar
+    @count = 0
+#    render layout: "main_bars"
     @bar = current_bar
     @swigers = @bar.swigers
     @swigs_monday = @bar.swigs.monday.page(params[:page]).per(3)
@@ -62,21 +65,23 @@ class Bars::DashboardController < ApplicationController
 
   def create_big_swig
     params[:deals].each_with_index do |deal, x|
-      current_bar.swigs.create(:deal => deal, people: params[:peoples][x], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
+      current_bar.swigs.create(:deal => deal, people: params[:peoples][params[:day]][x], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
     end unless params[:deals].blank?
     redirect_to :back, notice: "Swig created"
   end
 
   def update_big_swig
-    params[:swig_ids].each_with_index do |id, x|
-      Swig.find(id).update_attributes(deal: params[:deals][x],people: params[:people][x])
+    7.times do |day|
+      params[:swig_ids].each_with_index do |id, x|
+        Swig.find(id).update_attributes(deal: params[:deals][x],people: params[:people][day.to_s][x])
+      end
     end
     redirect_to :back, notice: "Swig updated"
   end
 
   def delete_big_swig
     Swig.where(bar_id: params[:swig_ids]).destroy
-    redirect_to :back, notice: "BigSwig Deleted!"
+    redirect_to bars_dashboard_url, notice: "BigSwig Deleted!"
   end
 
   def update_swig
@@ -267,15 +272,14 @@ class Bars::DashboardController < ApplicationController
   end
 
   def update_completion
+    fwfef
     @bar = current_bar
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
     days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     (params[:total].to_i + 1).times do |t|
-      pp "----------------------------"
-      puts "#{params["first_day_#{t}"].to_i}--------#{params["last_day#{t}"].to_i}"
+      params["close_day#{t}"]
       days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
-        pp "==================================="
-        current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}")
+        current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}", open_hour: params["open_hour#{t}"].to_i, close: params["close_hour#{t}"].to_i,open_word: params["open_word#{t}"],close_word: params["close_word#{t}"])
       end
     end
 

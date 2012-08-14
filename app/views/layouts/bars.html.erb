@@ -107,6 +107,7 @@
                 </li>
               <% else %>
                 <li><a href="#ask" data-toggle="modal" id="completion_link" style="color: red;"><b>Please complete your profile</b></a></li>
+                <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
               <% end %>
             <% else %>
               <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
