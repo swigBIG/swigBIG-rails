@@ -6,6 +6,7 @@
     $("#add_biglist").text("")
   }
   function saturday_done(){
+    $('#sat_done').attr('disabled', 'disabled');
     $("#saturday_done").click()
   }
 </script>
@@ -85,7 +86,7 @@
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true" %>
           </div>
         <% end %>
       </div>
@@ -127,7 +128,7 @@
               </div>
               <!--</div>-->
               <div class="modal-footer">
-                <a class="btn btn-primary" onclick="saturday_done()">Done</a>
+                <a class="btn btn-primary" id="sat_done" onclick="saturday_done(this)">Done</a>
               </div>
             </div>
           </div>
