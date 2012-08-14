@@ -5,5 +5,5 @@ to
 <%= select_tag "open_word#{count}", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 50px;margin-bottom: 3px;"} %>
 <%= select_tag "close_hour#{count}", options_for_select(hours_collection), {style: "width: 50px;margin-bottom: 3px;"} %>
 <%= select_tag "close_word#{count}", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 50px;margin-bottom: 3px;"} %>
-<%= check_box_tag "close_day#{count}", false, false, :class => "checkbox" %>
+<%= check_box_tag "close_day#{count}" %>
 <div class="clearfix"></div>
