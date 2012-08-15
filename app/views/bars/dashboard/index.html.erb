@@ -96,6 +96,13 @@
 
 <a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
 <!--<a href="#big_and_standard_swig" data-toggle="modal" id="moday_check"></a>-->
+
+<% if current_bar.address.blank? %>
+  <%= content_for :bar_notice do %>
+<div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal">Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
+  <% end %>
+<% end %>
+
 <%= content_for :side do %>
   <div class="span4">
     <!--<div class="accordion">
@@ -118,16 +125,24 @@
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 40px;">
           <div class="accordion-inner">
-            <!--<a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>-->
-            <a class=""  href="#swigModal" data-toggle="modal" style="color: black;"><b>Swigs</b></a>
+            <a class="" data-toggle="collapse" data-target="#swig" style="color: black;"><b>Swigs</b></a>
+            <!--<a class=""  href="#swigModal" data-toggle="modal" style="color: black;"><b>Swigs</b></a>-->
+          </div>
+        </div>
+        <div id="swig" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <!--<a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />-->
+            <a href="#swigModal" data-toggle="modal" style="color: black;"><b>Add</b></a> / <a class="" href="#">Edit</a> / <a class="" data-toggle="modal" href="#delete_swig_list">Delete</a>
+            <br />
+            <a class="" data-toggle="modal" href="#swig_stat">Stat</a>
           </div>
         </div>
       </div>
       <div class="accordion-group">
         <div class="accordion-heading" style="margin-left: 40px;">
           <div class="accordion-inner">
-            <!--<a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>-->
-            <a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>
+            <a class="" data-toggle="collapse" data-target="#reward" style="color: black;" ><b>Rewards</b></a>
+            <!--<a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>-->
           </div>
         </div>
         <div id="reward" class="accordion-body collapse">
@@ -143,11 +158,11 @@
 
 <h3><%= @bar.name rescue nil %></h3>
 
-<ul class="tabs" data-tabs="tabs">
+<!--<ul class="tabs" data-tabs="tabs">
   <li class="active"><a href="#swig_tab" data-toggle="tab"><h3>Swig</h3></a></li>
   <li><a href="#reward_tab" data-toggle="tab"><h3>Reward</h3></a></li>
   <li><a href="#stat_chart" data-toggle="tab"><h3>Stat</h3></a></li>
-</ul>
+</ul>-->
 
 <div class="tab-content">
   <div class="tab-pane active" id="swig_tab">
@@ -314,7 +329,7 @@
       </div>
 
       <div class="tab-pane" id="stat_chart">
-        <div id="chart_bar" style="width: 700px; height: 300px;"></div>
+        <!--<div id="chart_bar" style="width: 700px; height: 300px;"></div>-->
       </div>
     </div>
 
@@ -336,6 +351,28 @@
           </div>
         </div>
       </div>-->
+
+      <div id="delete_swig_list" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Select Swig to destroy</h3>
+        </div>
+        <div class="modal-body well">
+          <table>
+            <th>Type</th>
+            <th>day</th>
+            <th>deal</th>
+          <% current_bar.swigs.where("id IS NOT NULL").each do |swig| %>
+            <tr>
+              <td><%= swig.swig_type %></td>
+              <td><%= swig.swig_day %></td>
+              <td><%= swig.deal %></td>
+              <td><%= link_to "Delete", bars_delete_swig_path(swig.id), :method => :delete %></td>
+              </tr>
+          <% end %>
+            </table>
+        </div>
+      </div>
       <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
@@ -380,10 +417,10 @@
       <div id="swig_stat" class="modal hide fade" style="opacity: 1 ;">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Swig Type</h3>
+          <h3>Swig Stat</h3>
         </div>
         <div class="modal-body well">
-          <div id="chart_div" style="width: 400px; height: 300px;"></div>
+          <div id="chart_bar" style="width: 700px; height: 300px;"></div>
         </div>
       </div>
       <div id="rewardModal" class="modal hide fade">
@@ -710,26 +747,26 @@
                                                 $(document).ready(function() {
                                                   var sport_teams = [];
                                               <% SportTeam.all.each do |b| %>
-                                                  var x = [];
-                                                  x.push('name: <%= b.to_json %>');//0
-                                                  x.push('id: <%= b.to_json %>');//0
-                                                  sport_teams.push(x);
+                                                var x = [];
+                                                x.push('name: <%= b.to_json %>');//0
+                                                x.push('id: <%= b.to_json %>');//0
+                                                sport_teams.push(x);
                                               <% end %>
-                                                var include_sport_list = [];
+                                              var include_sport_list = [];
                                               <%  unless current_bar.sports_team.blank? %>
                                                 <%  sports_team = current_bar.sports_team.split(',') %>
                                                 <%  sports_team.each do |team| %>
-                                                    include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+                                                  include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
                                                 <% end %>
                                               <% end%>
 
-                                                $("#tk_sports").tokenInput("/bars/sport_lists", {
-                                                  theme: "facebook",
-                                                  preventDuplicates: true,
-                                                  prePopulate: include_sport_list
-                                                });
-                                                $(".alert-success").hide();
-                                                //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
+                                              $("#tk_sports").tokenInput("/bars/sport_lists", {
+                                              theme: "facebook",
+                                              preventDuplicates: true,
+                                              prePopulate: include_sport_list
+                                              });
+                                              $(".alert-success").hide();
+                                              //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
                                               });
                                               </script>
                                             <% end %>

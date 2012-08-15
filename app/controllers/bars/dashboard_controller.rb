@@ -11,9 +11,9 @@ class Bars::DashboardController < ApplicationController
   #    :message, :deal, :create_bar_message, :swig
 
   def index
-#    @bar = current_bar
+    #    @bar = current_bar
     @count = 0
-#    render layout: "main_bars"
+    #    render layout: "main_bars"
     @bar = current_bar
     @swigers = @bar.swigers
     @swigs_monday = @bar.swigs.monday.page(params[:page]).per(3)
@@ -73,7 +73,7 @@ class Bars::DashboardController < ApplicationController
   def update_big_swig
     7.times do |day|
       params[:swig_ids].each_with_index do |id, x|
-        Swig.find(id).update_attributes(deal: params[:deals][x],people: params[:people][day.to_s][x])
+        Swig.find(id).update_attributes(deal: params[:deals][x],people: params[:people][x])
       end
     end
     redirect_to :back, notice: "Swig updated"
@@ -84,6 +84,11 @@ class Bars::DashboardController < ApplicationController
     redirect_to bars_dashboard_url, notice: "BigSwig Deleted!"
   end
 
+  def delete_swig
+    Swig.find(params[:id]).destroy
+    redirect_to bars_dashboard_url, notice: "Selected Swig Deleted!"
+  end
+
   def update_swig
     @swig = current_bar.swigs.find(params[:id])
     if @swig.update_attributes(params[:swig])
@@ -91,11 +96,6 @@ class Bars::DashboardController < ApplicationController
     else
       redirect_to :back, notice: "Swig fail update"
     end
-  end
-
-  def delete_swig
-    @swig = Swig.find(params[:id]).destroy
-    redirect_to :back, notice: "Swig deleted"
   end
 
   def active_swig
@@ -274,7 +274,7 @@ class Bars::DashboardController < ApplicationController
   def update_completion
     @bar = current_bar
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
-    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     (params[:total].to_i + 1).times do |t|
       params["close_day#{t}"]
       days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
@@ -406,6 +406,8 @@ class Bars::DashboardController < ApplicationController
 
   def add_bigswig_list_on_update
     @bigswig_list = current_bar.big_swig_lists.new(params[:big_swig_list])
+    @big_swig_list = params[:deal_ids]
+    
     if @bigswig_list.save
       respond_to { |format| format.js }
     end

@@ -6,8 +6,8 @@
     $("#add_biglist").text("")
   }
   function sunday_done(object){
+    $("#sunday_done").click();
     $('#sun_done').attr('disabled', 'disabled');
-    $("#sunday_done").click()
   }
 </script>
 
@@ -51,11 +51,11 @@
     <h4>Big Swig</h4>
     <div class="span2 pull-left">
       <a href="#update_sunday_big_swig" data-toggle="modal" >Update</a>
-      <%= link_to "Delete", bars_delete_big_swig_path(@swigs_sunday.big.pluck(:id)) %>
+      <%#= link_to "Delete", bars_delete_big_swig_path(@swigs_sunday.big.pluck(:id)) %>
     </div>
     <div class="clearfix"></div>
     <br/>
-    <% @swigs_sunday.big.each do |swig|%>
+    <% @swigs_sunday.big.order("people ASC").each do |swig|%>
       <div class="clearfix"></div>
       <div class="span1">
         <%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
@@ -79,17 +79,17 @@
     <div id="sunday_standard_swig" class="modal hide fade">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h4>Standard Swig on sunday</h4>
+        <h4>Standard Swig on sundayeeeeeeeeeeeee</h4>
       </div>
       <div class="modal-body well">
-        <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+        <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "sunday_standard"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
           <%= f.input :swig_day, as: :hidden, input_html: {value: "sunday"} %>
           <%= f.input :deal, as: :text, :label => false, input_html: { style: "width: 300px;height: 100px" } %>
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#sunday_standard').submit();" %>
           </div>
         <% end %>
       </div>
@@ -101,7 +101,7 @@
           <h4>Pick your Big Swig for sunday</h4>
         </div>
         <div class="modal-body well">
-          <%= simple_form_for(:swig, url: bars_create_big_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+          <%= simple_form_for(:swig, url: bars_create_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
             <% 3.times do |x| %>
           <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
           <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
@@ -144,35 +144,37 @@
           <div id="update_sunday_big_swig" class="modal hide fade">
             <div class="modal-header">
               <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h4>Update Big Swig on sunday</h4>
+              <h4>Update Big Swig on Sunday</h4>
             </div>
             <div class="modal-body well">
-              <!--<div class="span8">
-          <%#= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_on_update_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-                  <div id="add_list">
-          <%#= f.input :big_swig, label: false, input_html: {style: "margin-left: -170px;width: 380px;"} %>
-                  </div>
-          <%#= f.submit "Add to List", class: "btn-success pull-right", style: "margin-top: -45px;" %>
 
-          <%# end %>
-                </div>-->
               <%= simple_form_for(:swig, url: bars_update_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
-                <% @swigs_sunday.big.each do |swig|%>
+                <% @swigs_sunday.big.each_with_index do |swig, x|%>
                   <%= hidden_field_tag "swig_ids[]", swig.id %>
-              <%#*<div id="bigswig_lists_on_update">%>
-              <%#= render partial: "bigswig_list_on_update" %>
-                  <%= select_tag "deals[]", options_for_select(bigswig_collection), prompt: swig.deal, style: "width: 500px;margin-bottom: 3px;" %>
-              <%#*</div>%>
-                  <!--<div id="bigswig_lists">
-              <%#= render partial: "bigswig_list" %>
-                  </div>-->
-              <%#= text_field_tag "deals[]", swig.deal, style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
+                  <div id="sunday_bigswig_lists_on_update_<%= x %>">
+                    <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
+                  </div>
                   <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;" %>
                 <% end %>
               </div>
-              <div class="modal-footer">
-                <%= f.submit "Update Swig", class: "btn-primary" %>
-                </div>
+                <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "sunday_update_button" %>
               <% end %>
-            </div>
+              <h5 style="text-align: center;">OR</h5>
+              <div class="clearfix"></div>
+              <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_on_update_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
+                <div id="sunday_notice_lists" style="color: green;"></div>
+                <div style="text-align: center;margin-bottom: 15px;">
+                  <b>Create bigswig list</b>
+                </div>
+                <div style="margin-bottom: -25px;margin-left: 425px;">
+                  <%= f.submit "Add you own..", class: "btn-success",style: "margin-top: -50px;", onclick: "tuesday_clear_list()" %>
+                  </div>
+                  <div style="margin-left: -150px;">
+                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                  <% end %>
+                </div>
+                <div class="modal-footer">
+                  <a class="btn" onclick="$('#sunday_update_button').click();">Update Swig</a>
+                </div>
+              </div>
           <% end %>

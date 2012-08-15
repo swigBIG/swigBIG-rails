@@ -46,6 +46,7 @@ Swprototype::Application.routes.draw do
   devise_for :members, controllers: {registrations: "members/registrations"}
   
   namespace :bars do
+    get "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
     match  "invite_friend" => "dashboard#after_join_invite_friends", as: "after_join_invite_friends"
     post  "invite_friend_by_email" => "dashboard#invite_friend_by_email", as: "invite_friend_by_email"
     match  "sport_lists" => "dashboard#sport_lists", as: "sport_lists"
@@ -62,7 +63,6 @@ Swprototype::Application.routes.draw do
     post  "update_big_swig" => "dashboard#update_big_swig", as: "update_big_swig"
     get  "delete_big_swig/:ids" => "dashboard#delete_big_swig", as: "delete_big_swig"
     post  "update_swig/:id" => "dashboard#update_swig", as: "update_swig"
-    delete  "delete_swig/:id" => "dashboard#delete_swig", as: "delete_swig"
     post  "active_swig/:id" => "dashboard#active_swig", as: "active_swig"
     post  "deactive_swig/:id" => "dashboard#deactive_swig", as: "deactive_swig"
     #    post  "create_reward" => "dashboard#create_reward", as: "create_reward"

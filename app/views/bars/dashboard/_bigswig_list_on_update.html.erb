@@ -1,1 +1,8 @@
-<%#= select_tag "deals[]", options_for_select(bigswig_collection), prompt: swig.deal, style: "width: 500px;margin-bottom: 3px;" %>
+<%# unless @big_swig_list.blank? %>
+  <%# @big_swig_list.split(" ").each do |swig_id, x|  %>
+    <%# swig_deal = Swig.find(swig_id.to_i).deal %>
+    <%#= select_tag "deals[]", options_for_select(bigswig_collection, swig_deal), style: "width: 500px;margin-bottom: 3px;", :class => "biglist_select" %>
+  <%# end %>
+<%# else %>
+  <%= select_tag "deals[]", options_for_select(bigswig_collection, swig_deal), style: "width: 500px;margin-bottom: 3px;", :class => "biglist_select" %>
+<%# end %>
