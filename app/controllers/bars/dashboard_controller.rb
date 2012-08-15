@@ -272,7 +272,6 @@ class Bars::DashboardController < ApplicationController
   end
 
   def update_completion
-    fwfef
     @bar = current_bar
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
     days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
