@@ -1,6 +1,6 @@
 class Api::V1::SwigMobilesController < ApplicationController
   skip_before_filter :reject_bot_request, :swigbig_content, :set_time_zone
-  
+  skip_before_filter :verify_authenticity_token
   def register 
     user = User.new(params[:user])
     if user.save
@@ -44,11 +44,11 @@ class Api::V1::SwigMobilesController < ApplicationController
 
   def swig_bar
     bar = Bar.find(params[:bar_id])
-    user = params[:user_id]
-    swiger = bar.swigers.new(user_id: user)
+    user = User.find(params[:user_id])
+    swiger = bar.swigers.new(user_id: user.id)
     if swiger.save
       if !bar.loyalty.blank?
-        point = current_user.points.new(bar_id: bar.id, loyalty_points: 1 )
+        point = user.points.new(bar_id: bar.id, loyalty_points: 1 )
         if point.save
           text = "Thank you for Swigging!"
           render json: {text: text}
