@@ -65,7 +65,7 @@ class Bars::DashboardController < ApplicationController
 
   def create_big_swig
     params[:deals].each_with_index do |deal, x|
-      current_bar.swigs.create(:deal => deal, people: params[:peoples][params[:day]][x], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
+      current_bar.swigs.create(:deal => deal, people: params[:peoples][params[:day]][x.to_s], :swig_day => params[:swig_day], :swig_type => params[:swig_type])
     end unless params[:deals].blank?
     redirect_to :back, notice: "Swig created"
   end
