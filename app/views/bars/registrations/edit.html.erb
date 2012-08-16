@@ -124,7 +124,7 @@
                 <%= f.simple_fields_for :bar_hours do |bar_hour| %>
                   <%= render partial: "bar_hour_fields", locals: {f: bar_hour}, :formats => [:html] %>
                   <div class='links'>
-                    <%= link_to_add_association 'Add', f, :bar_hours %>
+                    <%#= link_to_add_association 'Add', f, :bar_hours %>
                   </div>
                 <% end %>
                 <div class="clearfix"></div>
