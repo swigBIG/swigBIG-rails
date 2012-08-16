@@ -126,36 +126,36 @@
       <% end %>
     <% end %>
     <div class="clearfix"></div>
-    <fieldset class="well" style="margin-left: -15px;">
+    <!--<fieldset class="well" style="margin-left: -15px;">
       <div id="fb-root"></div>
-      <!--<fb:like send="false" width="210px" show_faces="true" />-->
+      <fb:like send="false" width="210px" show_faces="true" />
       <fb:like send="false"  width="210px" show_faces="true" />
       <a name="fb_share"></a>
       <br/>
       <br/>
-      <%= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
+      <%#= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
       <b>Who's There</b>
       <br/>
       <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
-        <% @swigers.each do |swiger| %>
-          <% unless swiger.user.blank? %>
-            <% unless swiger.user.name.blank? %>
-              <%= swiger.user.name %>
-            <% else %>
-            <% end %>
-          <% end %>
+        <%# @swigers.each do |swiger| %>
+          <%# unless swiger.user.blank? %>
+            <%# unless swiger.user.name.blank? %>
+              <%#= swiger.user.name %>
+            <%# else %>
+            <%# end %>
+          <%# end %>
           <br/>
-        <% end %>
+        <%# end %>
       </div>
-    </fieldset>
+    </fieldset>-->
     <br />
-    <fieldset class="well" style="margin-left: -15px;">
+    <!--<fieldset class="well" style="margin-left: -15px;">
       <b>Claim reward!</b>
-      <%= form_tag(users_redeem_reward_path(@bar.id)) do %>
-        <%= text_field_tag("coupon", nil, placeholder: "your coupon")  %>
-        <%= submit_tag "claim", class: "btn-primary" %>
-        <% end %>
-      </fieldset>
+      <%#= form_tag(users_redeem_reward_path(@bar.id)) do %>
+        <%#= text_field_tag("coupon", nil, placeholder: "your coupon")  %>
+        <%#= submit_tag "claim", class: "btn-primary" %>
+        <%# end %>
+      </fieldset>-->
     <% end %>
 
 
