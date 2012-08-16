@@ -1,6 +1,7 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script type="text/javascript">
   jQuery(document).ready(function() {
+    $(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
     $('#copy_example').click(function() {
       $('#bar_standard_swig_to_copy').html($.trim($('#example').html()))
     })
@@ -926,9 +927,6 @@
                                                 overflow: hidden!important;
                                               }
                                             </style>
-                                            <!--<div class="alert alert-danger" style="text-align: center;">
-                                              <h5><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></h5>
-                                            </div>-->
 
                                             <%= content_for :outer do %>
                                               <div id="ask" class="modal hide fade">

@@ -106,7 +106,7 @@
               <div id="wednesday_bigswig_lists<%= x + 1 %>">
                 <%= render partial: "bigswig_list" %>
               </div>
-              <%= number_field_tag "peoples[2][#{x}]" %>
+              <%= number_field_tag "peoples[2][#{x}]",nil, class: "positive" %>
               <%= hidden_field_tag "day", 2 %>
               <br/>
               <br/>
@@ -151,7 +151,7 @@
                   <div id="wednesday_bigswig_lists_on_update_<%= x %>">
                     <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
                   </div>
-                  <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;" %>
+                  <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;", class: "positive" %>
                 <% end %>
               </div>
               <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "wednesday_update_button" %>
