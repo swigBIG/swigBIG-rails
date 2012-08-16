@@ -144,12 +144,12 @@ Swprototype::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :swig_mobiles do
-        post 'register', 'home', 'bar_swigs', 'swig_bar'
-        get 'get_lat_lon'
+        post 'register', 'home', 'bar_swigs', 'swig_bar', 'update_user'
+        get 'get_lat_lon', 'swigbig_mobile', 'get_map', 'swig_list'
       end
     end
   end
-  
+
   devise_for :users, :controllers => {:sessions => "api/v1/mobiles"}
 
   devise_scope :user do
