@@ -36,7 +36,7 @@ class Bar < ActiveRecord::Base
 
   #  after_validation :geocode, :if => :full_address_changed?
 
-#  after_create :create_hour
+  #  after_create :create_hour
 
   acts_as_messageable required: [:topic, :body, :received_messageable_id]
   
@@ -56,7 +56,8 @@ class Bar < ActiveRecord::Base
     bar.has_one :popularity
   end
 
-  accepts_nested_attributes_for :bar_hours#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :bar_hours, :allow_destroy => true
+  #  accepts_nested_attributes_for :bar_hours, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   #  accepts_nested_attributes_for :swigs #, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
   #  before_update  :set_lat_lng

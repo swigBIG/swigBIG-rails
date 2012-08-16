@@ -8,6 +8,7 @@ class Bars::RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     #    if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
     if current_bar.address.blank?
+      AdminUser.first.send_message(current_bar, {topic: "Welcome to SwigBIG", body: "#{current_bar.name} is not yet listed! <a href='/bars/completion'>Please complete your profile</a>", category: 22})
       bars_dashboard_url
     else
       bars_dashboard_url

@@ -276,9 +276,16 @@ class Bars::DashboardController < ApplicationController
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     (params[:total].to_i + 1).times do |t|
-      params["close_day#{t}"]
-      days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
-        current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}", open_hour: params["open_hour#{t}"].to_i, close: params["close_hour#{t}"].to_i,open_word: params["open_word#{t}"],close_word: params["close_word#{t}"])
+      unless params["first_day_#{t}"].blank?
+        if params["close_day#{t}"].eql?("1")
+          days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+            current_bar.bar_hours.create(day: day, open_time: "close")
+          end
+        else
+          days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+            current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}", open_hour: params["open_hour#{t}"].to_i, close: params["close_hour#{t}"].to_i,open_word: params["open_word#{t}"],close_word: params["close_word#{t}"], close_day: params["close_day#{t}"])
+          end
+        end
       end
     end
 
