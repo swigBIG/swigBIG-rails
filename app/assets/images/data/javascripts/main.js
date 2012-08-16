@@ -48,6 +48,10 @@ function PageHome(){
   });
 }
 
+function gotoSignIn(){
+  jQT.goTo("#forms")
+}
+
 function Login(){
   data = {
     user:{
