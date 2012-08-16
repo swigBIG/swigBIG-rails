@@ -18,7 +18,7 @@
 
     <script type="text/javascript">
       function initialize() {
-        var latlo = new google.maps.LatLng(window.latitude, window.latitude);
+        var latlo = new google.maps.LatLng(window.latitude, window.longitude);
         var myOptions = {
           center: latlo,
           zoom: 13,
@@ -130,7 +130,7 @@
           <div class="contentButton">
             <h2>Join swigBig today!</h2>
             <a href="#" class="greenButton" id="facebook" onclick="fbRequest()">Sign in with Facebook</a>
-            <a href="#" class="greenButton" id="sign_up">Sign up with Email</a>
+            <a href="#" class="greenButton" onclick="$('#error-msg').html('')"id="sign_up">Sign up with Email</a>
             <hr>
             <br/>
             <h2>Already Sign Up?</h2>
@@ -300,9 +300,9 @@
         <div class="rounded content"><!--tobol_navigasi-->
           <a class="whiteButton buttonWidth" style="width: 80%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
           <div class="btn-group">
-            <a class="btn btn-large btn-primary buttonWidth2" href="#dashboard" style="width: 22%"><b>DEALS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth2" href="#" style="width: 22%"><b>REWARDS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth2" href="#profile" style="width: 22%"><b>PROFILE</b></a>
+            <a class="btn btn-large btn-primary buttonWidth2" href="#dashboard" style="width: 25%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth2" href="#" style="width: 25%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth2" href="#profile" style="width: 25%"><b>PROFILE</b></a>
           </div>
         </div>
         <!--<div class="rounded content content-map" style="margin-top:-5px;display: none;">
