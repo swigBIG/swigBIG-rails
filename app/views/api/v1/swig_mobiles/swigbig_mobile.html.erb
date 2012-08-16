@@ -18,7 +18,7 @@
 
     <script type="text/javascript">
       function initialize() {
-        var latlo = new google.maps.LatLng(40.7143528, -74.00597309999999 );
+        var latlo = new google.maps.LatLng(window.latitude, window.latitude);
         var myOptions = {
           center: latlo,
           zoom: 13,
@@ -84,13 +84,12 @@
   
     </script>
     <style type="text/css">
-      #map_canvas { height: 325px ; width: 502px;margin-left:50px;}
+      #map_canvas { height: 300px ; width: 300px;margin-left:10px;}
     </style>
   </head>
   <body onload="init();initialize();">
-
     <div id="loader">
-      <img src="/assets/data/images/ajax-loader.gif" style="margin-top: 12%"/> 
+      <img src="/assets/data/images/ajax-loader.gif" style="margin-top: 50%"/> 
     </div>
     <div id="jqt" style="background: #E1F6CC">
 
@@ -135,7 +134,7 @@
             <hr>
             <br/>
             <h2>Already Sign Up?</h2>
-            <a href="#forms" onclick="$('#error-msg-login').html('')" class="greenButton">Sign In</a>
+            <a href="#" id="gotoSignIn" onclick="gotoSignIn();$('#error-msg-login').html('')" class="greenButton">Sign In</a>
             <br/>
 
           </div>
@@ -294,16 +293,16 @@
         <div class="rounded content" style="margin-top:-5px;">
           <h3> FILTER </h3>
         </div>
-        <div class="rounded content" style="margin-top:-5px;">
+        <div class="rounded content" style="overflow:scroll;margin-bottom: 5px;">
           <table class="table bar_list">
           </table>
         </div>
-        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
-          <a class="whiteButton buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
+        <div class="rounded content"><!--tobol_navigasi-->
+          <a class="whiteButton buttonWidth" style="width: 80%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
           <div class="btn-group">
-            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+            <a class="btn btn-large btn-primary buttonWidth2" href="#dashboard" style="width: 22%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth2" href="#" style="width: 22%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth2" href="#profile" style="width: 22%"><b>PROFILE</b></a>
           </div>
         </div>
         <!--<div class="rounded content content-map" style="margin-top:-5px;display: none;">
@@ -312,7 +311,7 @@
                         <a href="#" class="redButton" id="logout">logout</a>-->
       </div>
 
-      <div  id="bar-view-map">
+      <div id="bar-view-map">
         <div class="toolbar">
           <h1>SwigBig</h1>
         </div>
@@ -322,12 +321,12 @@
         </div>
         <div id="map_canvas">
         </div>
-        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
-          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
+        <div class="rounded content"><!--tobol_navigasi-->
+          <a class="btn btn-large buttonWidth" style="width: 80%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
           <div class="btn-group">
-            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 22%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 22%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 22%"><b>PROFILE</b></a>
           </div>
         </div>
       </div>
@@ -343,12 +342,12 @@
           <table class="table bar_list_to_swig">
           </table>
         </div>
-        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
-          <a class="whiteButton buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>CANCEL</b></a>
+        <div class="rounded content"><!--tobol_navigasi-->
+          <a class="whiteButton buttonWidth" style="width: 80%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>CANCEL</b></a>
           <div class="btn-group">
-            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 22%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 22%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 22%"><b>PROFILE</b></a>
           </div>
         </div>
       </div>
@@ -360,17 +359,17 @@
         <div class="rounded content">
           <div id="bar_name"></div>
         </div>
-        <div class="rounded content" style="margin-top:-5px;">
+        <div class="rounded content" style="margin-top:-5px;margin-bottom: 5px;">
           <table class="table swig_list" style="text-align:left">
           </table>
         </div>
-        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+        <div class="rounded content"><!--tobol_navigasi-->
           <div id="swig_to_bar"></div>
-          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>BACK</b></a>
+          <a class="btn btn-large buttonWidth" style="width: 80%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>BACK</b></a>
           <div class="btn-group">
-            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
-            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 22%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 22%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 22%"><b>PROFILE</b></a>
           </div>
         </div>
       </div>
@@ -389,8 +388,8 @@
           <div id="reward"></div>
         </div>
         <div class="rounded content navbar-fixed-bottom">
-          <a class="btn btn-large btn-warning buttonWidth" href="#" style="width: 95%;margin-bottom: 10px;"><b>INVITE FRIENDS</b></a>
-          <a class="greenButton buttonWidth" href="#dashboard" style="width: 95%;margin-bottom: 10px;"><b>DONE</b></a>
+          <a class="btn btn-large btn-warning buttonWidth" href="#" style="width: 80%;margin-bottom: 10px;"><b>INVITE FRIENDS</b></a>
+          <a class="greenButton buttonWidth" href="#dashboard" style="width: 80%;margin-bottom: 10px;"><b>DONE</b></a>
         </div>
       </div>
 
