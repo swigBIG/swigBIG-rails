@@ -222,7 +222,8 @@
     <div class="clearfix"></div>
     <br/>
     <ul class="tabs" data-tabs="tabs">
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.monday.first.open_time %><b>/</b><%= @bar_hours.monday.first.close_time rescue "??" %></small></a></li>
+      <%# if @bar_hours %>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.monday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.monday.first.close_time rescue "??" %></small></a></li>
       <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3><%= pluralize(@swigs.tuesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.tuesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.tuesday.first.close_time rescue "??" %></small></a></li>
       <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3><%= pluralize(@swigs.wednesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.wednesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.wednesday.first.close_time rescue "??" %></small></a></li>
       <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3><%= pluralize(@swigs.thursday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.thursday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.thursday.first.close_time rescue "??" %></small></a></li>
