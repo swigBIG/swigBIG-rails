@@ -234,37 +234,37 @@
 
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
-        <% @swigs.monday.each do |swig|%>
+        <% @swigs.monday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
-        <% @swigs.tuesday.each do |swig|%>
+        <% @swigs.tuesday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
-        <% @swigs.wednesday.each do |swig|%>
+        <% @swigs.wednesday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
-        <% @swigs.thursday.each do |swig|%>
+        <% @swigs.thursday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
-        <% @swigs.friday.each do |swig|%>
+        <% @swigs.friday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
-        <% @swigs.saturday.each do |swig|%>
+        <% @swigs.saturday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
-        <% @swigs.sunday.each do |swig|%>
+        <% @swigs.sunday.order("swig_type DESC").order("people ASC").each do |swig|%>
           <%= render partial: "swig", locals: {swig: swig}  %>
         <% end %>
       </div>
