@@ -1,6 +1,7 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script type="text/javascript">
   jQuery(document).ready(function() {
+    $(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
     $('#copy_example').click(function() {
       $('#bar_standard_swig_to_copy').html($.trim($('#example').html()))
     })
@@ -97,7 +98,6 @@
 </script>
 
 
-<a href="#swigmessage" data-toggle="modal" id="completion_link"></a>
 <!--<a href="#big_and_standard_swig" data-toggle="modal" id="moday_check"></a>-->
 
 <% if current_bar.address.blank? %>
@@ -148,12 +148,12 @@
             <!--<a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>-->
           </div>
         </div>
-        <div id="reward" class="accordion-body collapse">
+        <!--<div id="reward" class="accordion-body collapse">
           <div class="accordion-inner">
             <a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />
-            <!--<a class="" data-toggle="modal" href="#">Stat</a><br />-->
+            <!--<a class="" data-toggle="modal" href="#">Stat</a><br />
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -926,9 +926,6 @@
                                                 overflow: hidden!important;
                                               }
                                             </style>
-                                            <!--<div class="alert alert-danger" style="text-align: center;">
-                                              <h5><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></h5>
-                                            </div>-->
 
                                             <%= content_for :outer do %>
                                               <div id="ask" class="modal hide fade">

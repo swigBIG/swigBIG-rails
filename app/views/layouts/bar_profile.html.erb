@@ -7,59 +7,10 @@
 
     <%= yield :facebook_like_meta %>
     <%= csrf_meta_tags %>
-    <style type="text/css">
-      body{
-        background-color: rgba(107, 214, 0, 0.2);
-        <% unless @site_content.blank? %>
-          <% unless @site_content.site_color.blank? %>
-            background-color: <%= "##{@site_content.site_color.background_color}" rescue "rgba(107, 214, 0, 0.2)"%>;
-          <% else %>
-            background-color: rgba(107, 214, 0, 0.2);
-          <% end %>
-          <% unless @site_content.backgrounds.blank? %>
-            <% unless @site_content.backgrounds.status_active.first.blank? %>
-              <% if @site_content.backgrounds.status_active.first.background_style.eql?("Fit") %>
-                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
-                background-size: 100% 100%;
-                padding-bottom: 90px;
-                background-repeat: no-repeat;
-              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Original") %>
-                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
-                background-size: auto;
-                background-repeat: no-repeat;
-              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Tiled") %>
-                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
-                background-repeat: repeat;
-              <% elsif @site_content.backgrounds.status_active.first.background_style.eql?("Center") %>
-                background-image: url(<%= @site_content.backgrounds.status_active.first.image rescue nil %>);
-                background-position:center;
-                background-repeat: no-repeat;
-              <% end %>
-            <% end %>
-          <% end %>
-        <% end %>
-      }
-      .navbar-inner{
-        <% unless @site_content.blank? %>
-          <% unless @site_content.site_color.blank? %>
-            background-color: <%= "##{@site_content.site_color.nav_bar_color}" rescue "rgba(102, 153, 51, 1)"%>;
-          <% else %>
-            background-color: rgba(102, 153, 51, 1);
-          <% end %>
-        <% else %>
-          background-color: rgba(102, 153, 51, 1);
-        <% end %>
-        background-image: none;
-        /*background: -moz-linear-gradient(top, rgba(102, 153, 51, 1), rgba(102, 153, 51, 1), black 150%);*/
-      }
-      .tab-pane{
-        margin-left: 10px;
-        margin-bottom: 20px;
-      }
-    </style>
+    <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
   </head>
-  <body>
+  <body style="padding-top: 20px;">
     <%= yield :facebook_like %>
     <!--facebook like box-->
     <!------>

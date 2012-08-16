@@ -1,3 +1,4 @@
+<%= javascript_include_tag :cocoon %>
 <script>
   function countChar(val){
     var len = val.value.length;
@@ -120,20 +121,10 @@
                 </div>
               </div>
               <div class="tab-pane" id="hour">
-                <%= f.fields_for :bar_hours do |ff| %>
-                  <div class="span4">
-                    <div class="span2">
-                      <b style="margin-left: 30px;"><%= ff.object.day %></b>
-                      <%= ff.input :open_hour, as: :select, label: false, collection: hours_collection, input_html: {id: "open_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                      <%= ff.input :close, as: :select, label: false, collection: hours_collection, input_html: {id: "close_hour#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                    </div>
-                    <div class="span1" style="margin-top: 12px;">
-                      <%= ff.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "open_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                      <%= ff.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]], input_html: {id: "close_w#{ff.object.id}", style: "width: 45px;margin-left: -160px;"} %>
-                      <% unless ff.object.day.eql?("Monday") %>
-                        Same?:<input id="same<%= ff.object.id %>" class="day_bar" name="same" type="checkbox" day_bar="<%= ff.object.id %>"/>
-                      <% end %>
-                    </div>
+                <%= f.simple_fields_for :bar_hours do |bar_hour| %>
+                  <%= render partial: "bar_hour_fields", locals: {f: bar_hour}, :formats => [:html] %>
+                  <div class='links'>
+                    <%#= link_to_add_association 'Add', f, :bar_hours %>
                   </div>
                 <% end %>
                 <div class="clearfix"></div>

@@ -1,0 +1,12 @@
+<%# f.inputs do %>
+<div class="nested-fields" style="margin-left: -20px;">
+  <%= f.input :day %>
+  <%= f.input :open_hour, as: :select, label: false, collection: hours_collection %>
+  <%= f.input :close, as: :select, label: false, collection: hours_collection %>
+  <%= f.input :open_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]] %>
+  <%= f.input :close_word, as: :select, label: false, collection: [["am", "am"],["pm","pm"]] %>
+  <%= link_to_remove_association "remove", f %>
+<%# end %>
+</div>
+<div class="clearfix"></div>
+<br/>

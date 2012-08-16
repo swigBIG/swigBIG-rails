@@ -20,6 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'cocoon'
 gem 'chronic'
 gem 'geokit'
 gem 'geokit-rails3'

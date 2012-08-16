@@ -9,6 +9,7 @@
     $('#thu_done').attr('disabled', 'disabled');
     $("#thursday_done").click()
   }
+  
 </script>
 
 <% unless @swigs_thursday.standard.blank? %>
@@ -51,7 +52,7 @@
     <h4>Big Swig</h4>
     <div class="span2 pull-left">
       <a href="#update_thursday_big_swig" data-toggle="modal" >Update</a>
-      <%#= link_to "Delete", bars_delete_big_swig_path(@swigs_thursday.big.pluck(:id)) %>
+    <%#= link_to "Delete", bars_delete_big_swig_path(@swigs_thursday.big.pluck(:id)) %>
     </div>
     <div class="clearfix"></div>
     <br/>
@@ -109,7 +110,7 @@
               <div id="thursday_bigswig_lists<%= x + 1 %>">
                 <%= render partial: "bigswig_list" %>
               </div>
-              <%= number_field_tag "peoples[3][#{x}]" %>
+              <%= text_field_tag "peoples[3][#{x}]",nil, class: "positive" %>
               <%= hidden_field_tag "day", 3 %>
               <br/>
               <br/>
@@ -154,10 +155,10 @@
                   <div id="thursday_bigswig_lists_on_update_<%= x %>">
                     <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
                   </div>
-                  <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;" %>
+                  <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;", class: "positive" %>
                 <% end %>
               </div>
-                <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "thursday_update_button" %>
+              <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "thursday_update_button" %>
               <% end %>
               <h5 style="text-align: center;">OR</h5>
               <div class="clearfix"></div>
@@ -177,4 +178,4 @@
                   <a class="btn" onclick="$('#thursday_update_button').click();">Update Swig</a>
                 </div>
               </div>
-          <% end %>
+            <% end %>
