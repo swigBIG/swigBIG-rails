@@ -2,7 +2,7 @@ var city
 var data_bar
 var jQT = new $.jQTouch({});
 //var url = 'http://localhost:3000/'
-var url = 'http://192.168.1.12:3000/'
+var url = 'http://swigbig.com/'
 var user = {
   id: ""
 }
