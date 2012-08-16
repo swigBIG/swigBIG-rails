@@ -1,0 +1,139 @@
+<html>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <head>
+    <style type="text/css">
+      #map_home_canvas2 { height: 325px ; width: 502px;margin-left:50px;}
+    </style>
+    <link rel="stylesheet" href="/assets/data/stylesheet/jqtouch.css" />
+    <link rel="stylesheet" href="/assets/data/stylesheet/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/data/stylesheet/swigbig.css" />
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/jquery.1.4.2.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/jqtouch.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/validation.email.js"></script>
+    <script type="text/javascript"
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+    </script>
+
+    <script type="text/javascript">
+      function initialize() {
+        var latlo = new google.maps.LatLng(40.7143528, -74.00597309999999 );
+        var myOptions = {
+          center: latlo,
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_home_canvas2"), myOptions);
+
+        var bar = [];
+<% @city_bar.each do |b| %>
+      var x = [];
+      x.push(<%= b.latitude %>);//0
+      x.push(<%= b.longitude %>);//1
+      x.push('<%= b.id %>');//2
+
+      bar.push(x);
+<% end %>
+
+    function addInfoWindow(marker, newMarker){
+      var infowindow = new google.maps.InfoWindow({
+        content: newMarker.info
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+      });
+    }
+
+    var infowindow = new google.maps.InfoWindow();
+
+    for (var i = 0; i < bar.length; i++) {
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(bar[i][0], bar[i][1]),
+        map: map
+      });
+
+      var htmlcontent = '<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+
+        '<br/>'+bar[i][3]+'</div>';
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          if (bar[i][5] == "unlock"){
+            var lock_status =  '<%= image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>'
+          }else{
+            var lock_status =  '<%= image_tag("/assets/Lock-icon.png", style: "height: 30px;") %>'
+          };
+        
+          infowindow.setContent('<h4>'+bar[i][3]+'</h4>'
+            +'<div class="span2 pull-left well">'+bar[i][6]+'</br>'+lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
+            +'<div class="span2"><b>Sports Teams</b><br/>'+bar[i][5]+'</div>'
+        );
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
+
+  }
+  
+    </script>
+  </head>
+  <body onload="init();initialize();">
+    <div id="loader">
+      <img src="/assets/data/images/ajax-loader.gif" style="margin-top: 12%"/> 
+    </div>
+    <div id="jqt" style="background: #E1F6CC">
+      <div  id="bar-view-map">
+        <div class="toolbar">
+          <h1>SwigBig</h1>
+        </div>
+        <div class="rounded content">
+            <a class="btn btn-large buttonWidth" href="#" onclick="gotoDashboard()">List</a>
+          <a class="btn btn-large buttonWidth" href="#" id="bar-map">Map</a>
+        </div>
+        <div id="map_home_canvas2">
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;" href="#" onclick="gotoSwig()" id="bar-map"><b>SWIG!</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" onclick="DashboardUser()" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" onclick="gotoProfile();" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+      </div>
+      
+      <div id="dashboard">
+        <div class="toolbar">
+          <h1>SwigBig</h1>
+        </div>
+        <div class="rounded content">
+          <!--                <div class="">-->
+          <a class="btn btn-large buttonWidth" href="#">List</a>
+          <a class="btn btn-large buttonWidth" href="#" onclick="viewMap()" class="btn-bar-view-map">Map</a>
+        </div>
+        <div class="rounded content" style="margin-top:-5px;">
+          <h3> FILTER </h3>
+        </div>
+        <div class="rounded content" style="margin-top:-5px;">
+          <table class="table table-striped bar_list">
+          </table>
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <a class="whiteButton buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+        <!--<div class="rounded content content-map" style="margin-top:-5px;display: none;">
+          <div id="map_canvas" style="width:100%; height:320px"></div>
+        </div>
+                        <a href="#" class="redButton" id="logout">logout</a>-->
+      </div> 
+
+    </div>
+  </body>
+</html>
+
+

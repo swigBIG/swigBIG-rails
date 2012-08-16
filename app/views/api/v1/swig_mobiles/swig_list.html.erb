@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>SwigBig</title>
+    <link rel="stylesheet" href="/assets/data/stylesheet/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/data/stylesheet/swigbig.css" />
+    <link rel="stylesheet" href="/assets/data/javascripts/jqtouch.css" />
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/jqtouch.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/data/javascripts/bootstrap-collapse.js"></script>
+  </head>
+  <body onload="init()">
+
+    <div id="loader">
+      <img src="/assets/data/images/ajax-loader.gif" style="margin-top: 12%"/> 
+    </div>
+    <div id="jqt" style="background: #E1F6CC">
+      <div id="bar_detail">
+        <div class="toolbar">
+          <h1>SwibBIG</h1>
+        </div>
+        <div class="rounded content">
+          <div id="bar_name"></div>
+        </div>
+        <script>
+          function showHide(){
+            var inVal = $('.in').html()
+            
+            if(inVal == null){
+              $('#collapseOne').addClass('in')
+            }else{
+              $('#collapseOne').removeClass('in')
+            }
+            return false
+          }
+        </script>
+        <div class="rounded content" style="margin-top:-5px;">
+          <table class="swig_list" style="text-align: left">
+            <tr>
+              <td>
+                <div class="accordion" id="accordion2">
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <div>
+                        <a class="accordion-toggle test" href="#" onclick="showHide()">
+                          Collapsible Group Item #1
+                        </a>
+                      </div>
+                      <div style="text-align:right;margin-top: -22px;margin-right:20px">
+                        asdasd
+                      </div>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="http://twitter.github.com/bootstrap/javascript.html#collapseTwo">
+                        Collapsible Group Item #2
+                      </a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                      <div class="accordion-inner">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="row">
+          <div class="span9 columns">
+
+
+          </div>
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <div id="swig_to_bar"></div>
+          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>BACK</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
