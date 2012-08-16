@@ -31,10 +31,8 @@ function gotoSwig(){
 }
 
 function init(){
-  //  PageHome();
-  ajaxRequest("POST",url+"/api/v1/swig_mobiles/swigbig_mobile?lat=" + window.latitude + "&" + "lon="+window.longitude,data,function(data){
-    console.log(a = data)
-  });
+  PageHome();
+  $.ajax(url+"api/v1/swig_mobiles/swigbig_mobile?lat="+window.latitude+ "&" + "lon=" + window.longitude);
 }
 
 function PageHome(){
@@ -94,7 +92,7 @@ function DashboardUser(){
       var bar = data.bars[i];
       //      CreateMarker(bar[2], bar[3])
       //$("#dashboard .bar_list").append("<tr><td>"+bar[0]+"<td/><td>"+bar[4]+"<td/><td><a id="+bar[5]+" onclick='bar_swigs_list("+bar[5]+")'><img src='images/goto.png' style='height: 50px;'/></a></td></tr>")
-      $("#dashboard .bar_list").append("<tr onclick='bar_swigs_list("+bar[5]+","+user.id+")'><td>"+bar[0]+"<td/><td>"+bar[4]+"<td/><td></td></tr>")
+      $("#dashboard .bar_list").append("<tr onclick='bar_swigs_list("+bar[5]+","+user.id+")'><td>"+bar[0]+"<td/><td>"+bar[4]+"<td/></tr>")
     }
     for(var i = 0; i <  5; i++) {
       var bar = data.bars[i];
@@ -115,14 +113,24 @@ function bar_swigs_list(id){
   }
   ajaxRequest("POST",url+"api/v1/swig_mobiles/bar_swigs",data,function(data){
     $("#bar_name").html("<h2>"+data.bar_name+"</h2>")
-    $("#swig_to_bar").html("<a class='btn btn-large buttonWidth' style='width: 95%;margin-bottom: 10px;' onclick='swig_bar("+id+")'><b>SWIG!</b></a>")
+    $("#swig_to_bar").html("<a class='btn btn-large buttonWidth' style='width: 80%;margin-bottom: 10px;' onclick='swig_bar("+id+")'><b>SWIG!</b></a>")
     $("#bar_detail .swig_list").html("")
     
     for(var i = 0; i < data.swigs.length; i++) {
       var bar = data.swigs[i];
+      var tier;
+      
+      if(i == 0){
+        tier = "Tier One";
+      }else if(i == 1){
+        tier = "Tier Two";
+      }else{
+        tier = "Tier Three";
+      }
+      
       $("#bar_detail .swig_list").append('<tr><td><div class="accordion" id="accordion-'+i+'"><div class="accordion-group">'+
         '<div class="accordion-heading"><div><a class="accordion-toggle" href="#" onclick="showHide('+i+')">'+
-        bar[1]+'</a></div><div style="text-align:right;margin-top: -22px;margin-right:20px">'+
+        tier+'</a></div><div style="text-align:right;margin-top: -22px;margin-right:20px">'+
         bar[2]+'</div></div><div id='+i+' class="accordion-body collapse"><div class="accordion-inner">'+
         'Bar Name: '+ bar[1]+
         '</div></div></div></td></tr>')
@@ -150,11 +158,12 @@ function fbRequest(){
   window.location = url+"users/auth/facebook?mobile=true"
 }
 
-function swig_bar(bar_id, user_id){
+function swig_bar(bar_id){
   data = {
     bar_id: bar_id,
-    user_id: user_id
+    user_id: user.id
   }
+  console.log(data)
   ajaxRequest("POST",url+"/api/v1/swig_mobiles/swig_bar",data,function(data){
     $("#status").html("<h2>"+data.text+"</h2>")
     jQT.goTo("#swig_status")

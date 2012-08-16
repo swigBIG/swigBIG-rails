@@ -49,7 +49,7 @@ class Api::V1::SwigMobilesController < ApplicationController
     bar_name = bar.name
     data_swig = []
     bar.swigs.big.today.each do |swig|
-      data_swig << [swig.id, swig.deal, swig.people]
+      data_swig << [swig.id, swig.deal, swig.people, swig.lock_status]
     end
     render text: "{\"swigs\":#{data_swig.to_json}, \"bar_name\":\"#{bar_name}\"}"
   end
