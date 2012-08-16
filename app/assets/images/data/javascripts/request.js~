@@ -1,0 +1,37 @@
+function facebookRequest(type_rq, url_rq, data_rq, success, error, move_page){
+  $.ajax({
+    url: url_rq,
+    type: type_rq,
+    data : data_rq,
+    cache: false,
+    timeout: 3000,
+    beforeSend: function (data){
+    },
+    success: function(data){
+      //      data = JSON.parse(data)
+      success(data);
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      error();
+    },
+    complete: function(jqXHR, textStatus){
+    }
+  });
+}
+
+function SendRequest(){
+  var url = "http://192.168.1.17:3000/users/auth/facebook"
+  var data = {
+    code: "test"
+  };
+  var gCode = generate_code;
+  facebookRequest("POST", url, data, 
+    alert("test")
+
+    },function(){
+      alert('Failed to download album');
+    }
+    );
+
+}
+

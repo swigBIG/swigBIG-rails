@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>SwigBig</title>
+    <link rel="stylesheet" href="stylesheet/jqtouch.css" />
+    <link rel="stylesheet" href="stylesheet/bootstrap.min.css" />
+    <link rel="stylesheet" href="stylesheet/swigbig.css" />
+    <script type="text/javascript" charset="utf-8" src="javascripts/cordova-1.9.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/zepto.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/jqtouch.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/validation.email.js"></script>
+<!--    <script type="text/javascript" charset="utf-8" src="javascripts/map.js"></script>-->
+    <!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBwl5dEvARmX7H5EbNsKf7_0MoOrqq7qRY&sensor=true"></script>-->
+    <!--    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true"></script>-->
+  </head>
+  <body onload="init()">
+
+    <div id="loader">
+      <img src="images/ajax-loader.gif" style="margin-top: 12%"/> 
+    </div>
+    <div id="jqt" style="background: #E1F6CC">
+
+      <div id="home" class="current" >
+        <div id="pagehome">
+          <div class="toolbar header" id="swigbig_logo">
+            <h1>SwigBig</h1>
+          </div>
+          <br/>
+          <div class="alert alert-success" style="display:block;margin-left:5%;margin-right:5%">
+            <strong>Congratulations!</strong> Your account completed now.
+          </div>
+          <div class="contentButton">
+            <h2>Join swigBig today!</h2>
+            <a href="#" class="greenButton facebook-login" id="facebook" onclick="sendRequest()">Sign in with Facebook</a>
+            <a href="#" class="greenButton" id="sign_up">Sign up with Email</a>
+            <hr>
+            <br/>
+            <h2>Already Sign Up?</h2>
+            <a href="#forms" class="greenButton">Sign In</a>
+            <br/>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div id="forms">
+        <div class="toolbar">
+          <h1>SwigBig</h1>
+          <a class="back active" href="#home" style="">Home</a>
+        </div>
+
+        <div class="rounded">
+          <div class="alert alert-error">
+            <strong>
+              Email Can't Blank !
+            </strong>
+          </div>
+          <h3>
+            Sign In
+          </h3>
+          <hr/>
+          <h2 id="error-msg-login"></h2>
+          <div class="span2">
+            <h4>
+              Email
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="email" name="email" class="input-xlarge" placeholder="Email" id="email" value="angga@user.user"/>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span2">
+            <h4>
+              Password
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="password" class="input-xlarge" name="password" placeholder="Password" id="password" value="password"/>
+          </div>
+          <div style="clear:both"></div>
+          <a href="#" class="greenButton" id="sign_in" onclick="Login()">Sign in</a>
+        </div>
+
+      </div>
+
+      <div id="register">
+        <div class="toolbar">
+          <h1>SwigBig</h1>
+          <a class="back active" href="#home" style="">Home</a>
+        </div>
+        <div class="rounded">
+          <div class="alert alert-error">
+            <strong>
+              Email Can't Blank !
+            </strong>
+          </div>
+          <h3>
+            Sign Up
+          </h3>
+          <hr/>
+          <h2 id="error-msg"></h2>
+          <div class="span2">
+            <h4>
+              Email
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="text" name="email_register" placeholder="email" id="email_register" />
+          </div>
+          <div style="clear:both"></div>
+          <div class="span2">
+            <h4>
+              Password
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="password" name="password_register" placeholder="password" id="password_register" />
+          </div>
+          <div style="clear:both"></div>
+          <div class="span2">
+            <h4>
+              Confirmation
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="password" name="password_confirmation" placeholder="password confirmation" id="password_confirmation" />
+          </div>
+          <div style="clear:both"></div>
+          <div class="span2">
+            <input type="checkbox" name="agree" value="I Agree" id="agree" title=" I Agree"/>
+            Aggree
+          </div>
+          <div style="clear:both"></div>
+          <a href="#" class="greenButton" id="sign_up_register" onclick="signUp()">Register</a>
+          <a href="#" class="whiteButton" id="cancel_register">Cancel</a>
+        </div>
+        <br />
+
+
+
+      </div>
+
+      <div id="step2">
+        <div class="toolbar">
+          <h1>Sign Up</h1>
+          <a class="back active" href="#home" style="">Home</a>
+        </div>
+        <div class="rounded">
+          <h3>
+            Sign Up - Step 2
+          </h3>
+          <hr/>
+          <h2 id="error-msg2"></h2>
+          <div class="span2">
+            <h4>
+              Fullname
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="text" name="full_name" placeholder="Fullname" id="full_name" />
+          </div>
+          <div style="clear:both"></div>
+          <div class="span2">
+            <h4>
+              Birth date
+            </h4>
+          </div>
+          <div style="clear:both"></div>
+          <div class="span4">
+            <input type="text" name="bird_date" placeholder="format: mm/dd/yyyy" id="bird_date" />
+          </div>
+          <div style="clear:both"></div>
+          <a href="#" class="greenButton" id="complete_register" onclick="complete()">Complete</a>
+        </div>
+        <br />
+
+      </div>
+
+      <div id="dashboard">
+        <div class="toolbar">
+          <h1>SwigBig</h1>
+        </div>
+        <div class="rounded content">
+          <!--                <div class="">-->
+          <a class="btn btn-large buttonWidth" href="#">List</a>
+          <!--<a class="btn btn-large buttonWidth" href="#" id="list">List</a>
+          <a class="btn btn-large buttonWidth" href="#bar-view-map" id="map">Map</a>-->
+          <a class="btn btn-large buttonWidth" href="#bar-view-map">Map</a>
+        </div>
+        <div class="rounded content" style="margin-top:-5px;">
+          <h3> FILTER </h3>
+        </div>
+        <div class="rounded content" style="margin-top:-5px;">
+          <table class="table table-striped bar_list">
+          </table>
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <a class="whiteButton buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+        <!--<div class="rounded content content-map" style="margin-top:-5px;display: none;">
+          <div id="map_canvas" style="width:100%; height:320px"></div>
+        </div>
+                        <a href="#" class="redButton" id="logout">logout</a>-->
+      </div>
+
+      <div  id="bar-view-map">
+        <div class="toolbar">
+          <h1>SwigBig</h1>
+        </div>
+        <div class="rounded content">
+          <a class="btn btn-large buttonWidth" href="#dashboard">List</a>
+          <a class="btn btn-large buttonWidth" href="#" id="bar-map">Map</a>
+        </div>
+        <div id="map_canvas" style="width: 100%;height: 320px;"></div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#bar_to_swig" id="bar-map"><b>SWIG!</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+      </div>
+
+      <div id="bar_to_swig">
+        <div class="toolbar">
+          <h1>SwibBIG</h1>
+        </div>
+        <div class="rounded content">
+          <h1>Select your Bar:</h1>
+        </div>
+        <div class="rounded content" style="margin-top:-5px;">
+          <table class="table table-striped bar_list_to_swig">
+          </table>
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <a class="whiteButton buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>CANCEL</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+      </div>
+
+      <div id="bar_detail">
+        <div class="toolbar">
+          <h1>SwibBIG</h1>
+        </div>
+        <div class="rounded content">
+          <div id="bar_name"></div>
+        </div>
+        <div class="rounded content" style="margin-top:-5px;">
+          <table class="table table-striped swig_list">
+          </table>
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <div id="swig_to_bar"></div>
+          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>BACK</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#profile" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+      </div>
+
+      <div id="swig_status">
+        <div class="toolbar">
+          <h1>SwibBIG</h1>
+        </div>
+        <div class="rounded content">
+          <div id="bar_name"></div>
+        </div>
+        <div class="rounded content">
+          <div id="status"></div>
+        </div>
+        <div class="rounded content">
+          <div id="reward"></div>
+        </div>
+        <div class="rounded content navbar-fixed-bottom">
+          <a class="btn btn-large btn-warning buttonWidth" href="#" style="width: 95%;margin-bottom: 10px;"><b>INVITE FRIENDS</b></a>
+          <a class="greenButton buttonWidth" href="#dashboard" style="width: 95%;margin-bottom: 10px;"><b>DONE</b></a>
+        </div>
+      </div>
+
+      <div id="profile">
+        <div class="toolbar">
+          <h1>SwibBIG</h1>
+        </div>
+        <div class="rounded content">
+          <div id="profile_name"></div>
+          <div id="profile_email"></div>
+        </div>
+        <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+          <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>BACK</b></a>
+          <div class="btn-group">
+            <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="dashboard" style="width: 30%"><b>REWARDS</b></a>
+            <a class="btn btn-large btn-primary buttonWidth" href="#" style="width: 30%"><b>PROFILE</b></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>SwigBig</title>
+
+
+    <link rel="stylesheet" href="stylesheet/jqtouch.css" />
+    <link rel="stylesheet" href="stylesheet/bootstrap.min.css" />
+    <link rel="stylesheet" href="stylesheet/swigbig.css" />
+
+    <script type="text/javascript" charset="utf-8" src="javascripts/cordova-1.9.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/zepto.min.js"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="javascripts/jqtouch.min.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="javascripts/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/validation.email.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/map.js"></script>
+    <script type="text/javascript" charset="utf-8" src="javascripts/bootstrap-collapse.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBwl5dEvARmX7H5EbNsKf7_0MoOrqq7qRY&sensor=true"></script>
+    <script type="text/javascript">
+      $(".mycollapse").collapse()
+    </script>
+
+  </head>
+  <body onload="init()">
+
+    <div id="loading" style="z-index: 9999">
+      <img src="images/loading.gif">
+    </div>
+
+    <div id="jqt" style="background: #E1F6CC">
+
+      <div id="home" class="current" >
+
+        <div id="bar_detail">
+          <div class="toolbar">
+            <h1>SwibBIG</h1>
+          </div>
+          <div class="rounded content">
+            <div class="accordion-group" id="mycollapse">
+              <div class="accordion-heading" style="margin-left: 10px;">
+                <div class="accordion-inner">
+                  <a class="" data-toggle="collapse" data-target="#search" style="color: black;"><b>Narrow it down</b></a>
+                </div>
+              </div>
+            </div>
+            <div id="search" class="accordion-body collapse">
+              <div class="accordion-inner" style="margin-left: 0px;">
+                isisisisi
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded content navbar-fixed-bottom"><!--tobol_navigasi-->
+            <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#" id="bar-map"><b>SWIG!</b></a>
+            <a class="btn btn-large buttonWidth" style="width: 95%;margin-bottom: 10px;"href="#dashboard" id="bar-map"><b>BACK</b></a>
+            <div class="btn-group">
+              <a class="btn btn-large btn-primary buttonWidth" href="#dashboard" style="width: 30%"><b>DEALS</b></a>
+              <a class="btn btn-large btn-primary buttonWidth" href="dashboard" style="width: 30%"><b>REWARDS</b></a>
+              <a class="btn btn-large btn-primary buttonWidth" href="dashboard" style="width: 30%"><b>PROFILE</b></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
