@@ -16,6 +16,10 @@ module ApplicationHelper
   def days
     [["Monday", 0], ["Tuesday", 1], ["Wednesday", 2], ["Thursday", 3], ["Friday", 4], ["Saturday", 5],["Sunday", 6]]
   end
+  
+  def days_collection
+    [["Monday", "Monday"], ["Tuesday", "Tuesday"], ["Wednesday", "Wednesday"], ["Thursday", "Thursday"], ["Friday", "Friday"], ["Saturday", "Saturday"],["Sunday", "Sunday"]]
+  end
 
   def avaliable_cities
     City.all.map{|c| [c.name, c.name]}
@@ -74,4 +78,15 @@ module ApplicationHelper
     BigSwigList.where(["bar_id IS NULL OR bar_id = ?", current_bar.id]).map{ |b| [b.big_swig, b.big_swig] }
   end
 
+  def link_to_remove_fields(name, f)
+    f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
+  end
+
+  def link_to_add_fields(name, f, association)
+    new_object = f.object.class.reflect_on_association(association).klass.new
+    fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
+      render(association.to_s.singularize + "_fields", :f => builder)
+    end
+    link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
+  end
 end

@@ -39,11 +39,20 @@
                 <li>
                   <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
                 </li>
-                <li>
-                  <% unless  current_user.received_messages.where("opened is false").blank? %>
-                    <span class="badge badge-error" onclick="window.location.href='<%= users_messages_path %>'"><%=  current_user.received_messages.where("opened is false").count  %></span>
-                  <% end %>
-                </li>
+                <% unless  current_user.received_messages.where("opened is false").blank? %>
+                  <li id="user_notification" class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_user.received_messages.where("opened is false").count %></span></a>
+                    <ul class="dropdown-menu">
+                      <% current_user.received_messages.where("opened is false").each do |notification| %>
+                      <li style="width: 220px;" onclick="window.location.href='<%= users_message_url(notification) %>'" ><%= notification.topic %>
+                          <br/>
+                          <%= notification.created_at.strftime("%v") %>
+                        </li>
+                        <li class="divider"></li>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || "" ).split(" ").first }!" %></b></a>
                   <ul class="dropdown-menu">

@@ -33,16 +33,37 @@
             <% if bar_signed_in? %>
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
               <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
-              <li>
+              <li id="message" class="dropdown">
                 <% unless  current_bar.received_messages.where("opened is false").blank? %>
-                  <span class="badge badge-error" onclick="window.location.href='<%= bars_messages_path %>'"><%=  current_bar.received_messages.where("opened is false").count  %></span>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
+                  <ul class="dropdown-menu" id="message" style="margin-left: -350px !important;">
+                    <li style="margin-left: 5px;"><b>messages</b></li>
+                    <li class="divider"></li>
+                    <% current_bar.received_messages.where("opened is false").each do |message| %>
+                      <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %>
+                        <br/>
+                        <%= message.created_at.strftime("%v") %>
+                      </li>
+                      <li class="divider"></li>
+                    <% end %>
+                  </ul>
                 <% end %>
               </li>
               <li><b><%= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>
-              <li>
+              <li id="notification" class="dropdown">
                 <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
-                  <span class="badge badge-error" onclick="window.location.href='<%= bars_notification_path %>'"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count  %></span>
-                  <span class="badge badge-error" onclick="window.location.href='<%= bars_notification_path %>'"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count  %></span>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count %></span></a>
+                  <ul class="dropdown-menu" style="width: 350px;">
+                    <li><b>notification</b></li>
+                    <li class="divider"></li>
+                    <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).each do |notification| %>
+                      <li style="width: 290px;margin-bottom: 3px;" onclick="window.location.href='<%= bars_message_url(notification) %>'"><%= notification.topic %>
+                        <br/>
+                        <%= notification.created_at.strftime("%v") %>
+                      </li>
+                      <li class="divider"></li>
+                    <% end %>
+                  </ul>
                 <% end %>
               </li>
               <li id="fat-menu" class="dropdown">
