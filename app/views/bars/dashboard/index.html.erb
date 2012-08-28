@@ -168,6 +168,7 @@
               <a class="" data-toggle="modal" href="#reward_confirmation">Add New Reward</a><br />
             <% end %>
             <a class="" data-toggle="modal" href="#">Stat</a><br />
+            <a class="" data-toggle="modal" href="#loyalty_winners"><b>Redeem</b></a><br />
           </div>
         </div>
       </div>
@@ -423,6 +424,45 @@
             </div>
           </div>-->
 
+
+
+          <div id="loyalty_winners" class="modal hide fade" style="opacity: 1 ;">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3>loyalty Winners</h3>
+            </div>
+            <div class="modal-body well">
+              <table class="zebra-striped">
+                <th>Name</th>
+                <th>Winning Date</th>
+                <% @winner.each do |w| %>
+                  <tr>
+                    <td>
+                      <% if w.coupon_status %>
+                        <b>Used</b>
+                      <% else %>
+                        <b>Unused</b>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%=  w.user.name %>
+                    </td>
+                    <td>
+                      <%=  w.created_at.strftime("%m %d, %Y") %>
+                    </td>
+                    <td>
+                      <a href="#loyalty_reward_message<%= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
+                      <%= content_for :outer do %>
+                        <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade">
+                          <%= render partial: "loyalty_reward", locals: { w: w.user} %>
+                        </div>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+            </div>
+          </div>
           <div id="delete_swig_list" class="modal hide fade" style="opacity: 1 ;">
             <div class="modal-header">
               <a class="close" data-dismiss="modal"><b>x</b></a>
@@ -772,6 +812,7 @@
                                                     <% end %>
                                                   </div>
                                                 </div>
+
                                                 <div id="bar_message2" class="modal hide fade">
                                                   <div class="modal-header">
                                                     <a class="close" data-dismiss="modal"><b>x</b></a>
