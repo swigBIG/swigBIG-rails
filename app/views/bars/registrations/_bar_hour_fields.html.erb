@@ -9,7 +9,7 @@
       </div>
       <%= f.input :close, as: :select, label: "Close", collection: hours_collection, input_html: {style: "width: 50px;"} %>
       <div style="margin-top: -45px;margin-left: 60px;">
-        <%= f.input :close_word, as: :select, label: false, collection: [["AM", "AM"],["pm","PM"]], input_html: {style: "width: 50px;"} %>
+        <%= f.input :close_word, as: :select, label: false, collection: [["AM", "AM"],["PM","PM"]], input_html: {style: "width: 50px;"} %>
       </div>
       <%= f.input :close_day, as: :boolean, label: "Close day?" %>
     </div>
