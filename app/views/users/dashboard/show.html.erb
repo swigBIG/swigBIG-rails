@@ -10,7 +10,6 @@
       hideButtonsOnDisabled: false
     });
     $('.actionBar').hide();
-    
   });
 </script>
 <script type="text/javascript">
@@ -72,14 +71,25 @@
             <b>Favorite Bar</b>
             <%= @top_bar.bar.name rescue "---"%>
           </div>
+          <div class="span6">
+            <b>Week</b><br/>
+            <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_week,  Time.zone.now.end_of_week).count %>
+            <br/>
+            <b>Month</b><br/>
+            <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_month,  Time.zone.now.end_of_month).count %>
+            <br/>
+            <b>Year</b><br/>
+            <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_year,  Time.zone.now.end_of_year).count %>
+          </div>
           <br/>
           <div class="span4 pull-right">
             <b>Last 5 Swigs</b>
-            <% @swigers.limit(5).each do |swiger| %>
+<%# @swigers.limit(5).each do |swiger| %>
+            <% current_user.swigers.pluck(:bar_id).uniq.each do |bar| %>
               <div class="span3">
-                <b><%= swiger.bar.name %></b>
+                <b><%= Bar.find(bar).name %></b>
                 <br/>
-                <%= swiger.created_at.strftime("%d/%m/%Y") %>
+                <%= Swiger.where(bar_id: bar).last.created_at.strftime("%d/%m/%Y") %>
               </div>
             <% end %>
           </div>

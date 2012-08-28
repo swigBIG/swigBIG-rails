@@ -12,11 +12,22 @@ class BarHour < ActiveRecord::Base
   scope :saturday, where(day: 'Saturday')
   scope :sunday, where(day: 'Sunday')
 
-#  before_update :bar_time_hour
-#
-#  def bar_time_hour
-#    self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
-#    self.close_time = "#{self.close.to_i}.#{self.close_word}"
-#  end
+  #  before_update :bar_time_hour
+  #
+  #  def bar_time_hour
+  #    self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
+  #    self.close_time = "#{self.close.to_i}.#{self.close_word}"
+  #  end
+
+  before_save :close_day_checker
+
+  def close_day_checker
+    if self.close_day
+      self.open_time = "Close"
+#    else
+#      self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
+#      self.close_time = "#{self.close.to_i}.#{self.close_word}"
+    end
+  end
   
 end

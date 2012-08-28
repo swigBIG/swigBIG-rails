@@ -64,7 +64,11 @@
         <%= n_line(swig.deal) %>
       </div>
       <div class="span2 pull-right">
-        <b>/</b><%= swig.people %>
+        <% if Time.zone.now.strftime('%A').eql?('Monday') %>
+          <%= current_bar.swigers.today.count %><b>/</b><%= swig.people %>
+        <% else %>
+          0<b>/</b><%= swig.people %>
+        <% end %>
       </div>
       <div class="clearfix"></div>
       <br/>
