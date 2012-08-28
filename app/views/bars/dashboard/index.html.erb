@@ -187,6 +187,7 @@
 <div class="tab-content">
   <div class="tab-pane" id="loyalty_and_popularity_tab">
     <h3>Loyalty Reward</h3>
+    <% unless current_bar.popularity.blank? %>
     <div class="span6">
       <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
       <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
@@ -213,6 +214,9 @@
             </div>
           <% end %>
         </div>
+    <% else %>
+    <b>Not set yet!</b>
+    <% end %>
         <div class="clearfix"></div>
         <div class="clearfix"></div>
         <h3>Popularity Reward</h3>
@@ -232,7 +236,7 @@
             <% end %>
           </div>
         <% else %>
-          <p>Not Set Yet</p>
+          <b>Not Set Yet</b>
         <% end %>
     <%# end %>
       </div>
