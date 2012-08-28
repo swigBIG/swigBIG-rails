@@ -274,6 +274,7 @@ class Bars::DashboardController < ApplicationController
   def update_completion
     @bar = current_bar
     current_bar.swigs.create(deal: params[:swig], swig_type: "Standard", swig_day: Time.zone.now.to_time.in_time_zone.strftime("%A"))
+    current_bar.messages.first.update_attributes(opened: true)
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     (params[:total].to_i + 1).times do |t|
       unless params["first_day_#{t}"].blank?
