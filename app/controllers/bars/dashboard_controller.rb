@@ -11,8 +11,8 @@ class Bars::DashboardController < ApplicationController
   #    :message, :deal, :create_bar_message, :swig
 
   def index
-    #    @bar = current_bar
     @count = 0
+    @big_swig_lists = current_bar.big_swig_lists
     #    render layout: "main_bars"
     @bar = current_bar
     @swigers = @bar.swigers
@@ -433,6 +433,16 @@ class Bars::DashboardController < ApplicationController
   #      format.json { render :json => @sport_teams.map(&:attributes) }
   #    end
   #  end
+
+  def destroy_bar_big_swig_list
+    bigswig_list = BigSwigList.find(params[:bigswiglist_id].to_i)
+    bigswig_list.destroy
+    redirect_to bars_dashboard_url
+  end
+  
+  def update_bar_big_swig_list
+
+  end
 end
 
 

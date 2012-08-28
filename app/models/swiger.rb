@@ -11,14 +11,12 @@ class Swiger < ActiveRecord::Base
   #  before_create :check_swiger
   after_create :get_loyalty, :unlock_bigswig
 
-#  validate :time_and_distance_valid?, :popularity_reward_valid?
+  validate :time_and_distance_valid?, :popularity_reward_valid?
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
 
-  #  log_activity_streams self.user_id, :name, "test",
-  #    :loyalty_points, :id, :get_loyalty, :swig
   def get_loyalty
     today_swiger = self.bar.swigers.today
     today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
@@ -63,10 +61,12 @@ class Swiger < ActiveRecord::Base
 
   def time_and_distance_valid?
     bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first
-    unless bar_hour.open_time.blank? && bar_hour.close_time.blank?
-#      debugger
+    if bar_hour.open_time.open_time.eql?("Close")
+      self.errors.add("time and distance", "#{self.bar.name} is Close!")
+    elsif bar_hour.open_time.blank? && bar_hour.close_time.blank?
+      #      debugger
       Chronic.time_class = Time.zone
-#      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+      #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
       if (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
         radius = BarRadius.where(status: true).first.distance rescue 25
