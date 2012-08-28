@@ -108,4 +108,5 @@ class Bar < ActiveRecord::Base
     self.twitter_link = "http://#{self.twitter_link}" if !self.twitter_link.blank? and !self.twitter_link.include?("http://")
     self.google_plus_link = "http://#{self.google_plus_link}" if !self.google_plus_link.blank? and !self.google_plus_link.include?("http://")
   end
+
 end
