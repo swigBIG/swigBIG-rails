@@ -9,9 +9,10 @@ class Swiger < ActiveRecord::Base
   has_many :popularity_guesses
 
   #  before_create :check_swiger
-  after_create :get_loyalty, :unlock_bigswig
-
+  
   validate :time_and_distance_valid?, :popularity_reward_valid?
+
+  after_create :get_loyalty, :unlock_bigswig
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
@@ -20,17 +21,9 @@ class Swiger < ActiveRecord::Base
   def get_loyalty
     today_swiger = self.bar.swigers.today
     today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
-    
-    #    today_swigs.each do |swig|
-    #      swig.update_attributes(lock_status: "unlock")
-    #      swig.today_swiger.pluck(:user_id).each do |swiger|
-    #        user = User.find(swiger)
-    #        self.bar.send_message(user, {topic: "#{swig.deal} unlock", body: "You Unlock #{swig.deal}"})
-    #      end
-    #    end
     unless self.bar.loyalty.blank?
-      #      Point.create(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1)
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
+      loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
         #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
@@ -61,17 +54,18 @@ class Swiger < ActiveRecord::Base
 
   def time_and_distance_valid?
     bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first
-    if bar_hour.open_time.open_time.eql?("Close")
-      self.errors.add("time and distance", "#{self.bar.name} is Close!")
-    elsif bar_hour.open_time.blank? && bar_hour.close_time.blank?
+    if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
       #      debugger
       Chronic.time_class = Time.zone
       #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
-      if (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+      if bar_hour.open_time.eql?("Close")
+        self.errors.add("time and distance", "#{self.bar.name} is Close!")
+      elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         user_swig = self.user.swigers.last
         radius = BarRadius.where(status: true).first.distance rescue 25
         unless user_swig.blank?
           if (Time.zone.now - user_swig.created_at) >= 3600
+            self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
             return true
           else
             unless user_swig.bar.latitude.eql?(self.bar.latitude)
@@ -85,6 +79,7 @@ class Swiger < ActiveRecord::Base
             end
           end
         else
+          self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
           return true
         end
       else

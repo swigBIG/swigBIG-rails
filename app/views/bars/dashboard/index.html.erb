@@ -4,7 +4,16 @@
     $(".positive").numeric({ negative: false }, function() { alert("No negative values"); this.value = ""; this.focus(); });
     $('#copy_example').click(function() {
       $('#bar_standard_swig_to_copy').html($.trim($('#example').html()))
-    })
+    });
+<% unless params[:coupon].blank? %>
+      $("#goto_redeem").click()
+<% end %>
+
+<% if session[:show_big_list] %>
+      $("#goto_bigswig_list_courtesy").click();
+      $("#big_swig_list_partial_text").text("Delete success!");
+  <% session[:show_big_list] = false %>
+<% end %>
   });
   function to_loyalty(){
     $("#loyalty_and_popularity_tab").click()
@@ -26,7 +35,7 @@
   }
 </script>
 
-<!--BarChart---->
+
 <script type="text/javascript">
   google.load("visualization", "1", {packages:["corechart"]});
   google.setOnLoadCallback(drawChart);
@@ -141,7 +150,7 @@
             <!--<a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />-->
             <a href="#bigswig_add_to_list" data-toggle="modal"><b>ADD New..</b></a>
             <br/>
-            <a href="#display_bigswig_list" data-toggle="modal"><b>VIEW BIG SWIGS</b></a>
+            <a href="#display_bigswig_list" data-toggle="modal" id="goto_bigswig_list_courtesy"><b>VIEW BIG SWIGS</b></a>
             <br />
             <a class="" data-toggle="modal" href="#swig_stat"><b>Stat</b></a>
           </div>
@@ -151,7 +160,6 @@
         <div class="accordion-heading" style="margin-left: 40px;">
           <div class="accordion-inner">
             <a class="" data-toggle="collapse" data-target="#reward" onclick="$('#go_to_reward').click()" style="color: black;" ><b>Rewards</b></a>
-
             <a href="#loyalty_and_popularity_tab" data-toggle="tab" style="display: none;" id="go_to_reward">test</a>
             <!--<a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>-->
           </div>
@@ -168,7 +176,7 @@
               <a class="" data-toggle="modal" href="#reward_confirmation">Add New Reward</a><br />
             <% end %>
             <a class="" data-toggle="modal" href="#">Stat</a><br />
-            <a class="" data-toggle="modal" href="#loyalty_winners"><b>Redeem</b></a><br />
+            <a class="" data-toggle="modal" href="#display_redeem_information" id="goto_redeem"><b>Redeem</b></a><br />
           </div>
         </div>
       </div>
@@ -187,255 +195,188 @@
 <div class="tab-content">
   <div class="tab-pane" id="loyalty_and_popularity_tab">
     <h3>Loyalty Reward</h3>
-    <% unless current_bar.popularity.blank? %>
+    <% unless @loyalty.blank? %>
       <div class="span6">
-        <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
+        <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %>
+  <%# if @loyalty.status.eql?("active") %>
+  <%#= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
+  <%# else %>
+  <%#= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
+  <%# end %>
+        <br/>
         <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
         <br/>
-        <% unless @loyalty.blank? %>
-          <% if @loyalty.status.eql?("active") %>
-            <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
-            <% else %>
-              <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
-              <% end %>
-            </div>
-            <div class="span4 pull-right">
-              <a class="" data-toggle="modal" href="#update_bar_loyalty">Update</a>
-              <%= content_for :outer do %>
-                <div id="update_bar_loyalty" class="modal hide fade">
-                  <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
-                </div>
-              <% end %>
-            <% end %>
-            <!--<a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>-->
-            <%= content_for :outer do %>
-              <div id="message_all_winner" class="modal hide fade">
-                <%= render partial: "all_winner_loyalty_reward" %>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <b>Not set yet!</b>
-        <% end %>
-        <div class="clearfix"></div>
-        <div class="clearfix"></div>
-        <h3>Popularity Reward</h3>
-        <% unless current_bar.popularity.blank? %>
-      <%# @popularity.each do |l| %>
-          <div class="span6">
-            <b>People require: </b><%= current_bar.popularity.swigs_number %><br/>
-            <%= current_bar.popularity.reward_detail %>
-          </div>
-          <div class="span4 pull-right">
-            <%= link_to  "Delete", bars_delete_popularity_path(current_bar.popularity.id), method: :delete, confirm: "Delete Popularity?" %>
-            <a class="" data-toggle="modal" href="#update<%= current_bar.popularity.id %>">Update</a>
-            <%= content_for :outer do %>
-              <div id="update<%= current_bar.popularity.id %>" class="modal hide fade">
-                <%= render partial: "update_popularity", locals: {l: current_bar.popularity} %>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <b>Not Set Yet</b>
-        <% end %>
-    <%# end %>
+
       </div>
+      <div class="span4 pull-right">
+        <a class="" data-toggle="modal" href="#update_bar_loyalty">Update</a>
+        <%= content_for :outer do %>
+          <div id="update_bar_loyalty" class="modal hide fade">
+            <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
+          </div>
+        <% end %>
+  <%# end %>
+        <!--<a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>-->
+        <%= content_for :outer do %>
+          <div id="message_all_winner" class="modal hide fade">
+            <%= render partial: "all_winner_loyalty_reward" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <b>Not set yet!</b>
+    <% end %>
+    <div class="clearfix"></div>
+    <div class="clearfix"></div>
+    <h3>Popularity Reward</h3>
+    <% unless current_bar.popularity.blank? %>
+  <%# @popularity.each do |l| %>
+      <div class="span6">
+        <b>People require: </b><%= @popularity.swigs_number %>
+  <%# if @popularity.status.eql?("active") %>
+  <%#= link_to "Deacivate", bars_deactivate_popularity_path(@popularity.id), class: "btn-danger btn-mini", method: :post %>
+  <%# else %>
+  <%#= link_to "Acivate", bars_activate_popularity_path(@popularity.id), class: "btn-success btn-mini", method: :post %>
+  <%# end %>
+        <br/>
+        <%= current_bar.popularity.reward_detail %>
+      </div>
+      <div class="span4 pull-right">
+  <%#= link_to  "Delete", bars_delete_popularity_path(current_bar.popularity.id), method: :delete, confirm: "Delete Popularity?" %>
+        <a class="" data-toggle="modal" href="#update<%= current_bar.popularity.id %>">Update</a>
+        <%= content_for :outer do %>
+          <div id="update<%= current_bar.popularity.id %>" class="modal hide fade">
+            <%= render partial: "update_popularity", locals: {l: current_bar.popularity} %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <b>Not Set Yet</b>
+    <% end %>
+    <!--<div class="span4 pull-right">
+<%#= link_to  "Delete", bars_delete_popularity_path(l.id), method: :delete, confirm: "Delete Popularity?" %>
+      <a class="" data-toggle="modal" href="#update<%#= l.id %>">Change</a>
+<%#= content_for :outer do %>
+        <div id="update<%#= l.id %>" class="modal hide fade">
+<%#= render partial: "update_popularity", locals: {l: l} %>
+        </div>
+<%# end %>
+    </div>-->
+<%# end %>
+  </div>
 
-      <div class="tab-pane active" id="swig_tab">
-        <ul class="tabs" data-tabs="tabs">
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
-          <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
-        </ul>
+  <div class="tab-pane active" id="swig_tab">
+    <ul class="tabs" data-tabs="tabs">
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3></a></li>
+    </ul>
 
-        <div class="tab-content">
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
-            <div id="swigs_monday">
-              <%= render partial: "swig_list_monday" %>
-            </div>
-            <!--<div id="monday_paginator">
-    <%#= paginate @swigs_monday, remote: true %>
-            </div>-->
-          </div>
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
-            <div id="swigs_tuesday">
-              <%= render partial: "swig_list_tuesday" %>
-            </div>
-            <div id="tuesday_paginator">
-    <%#= paginate @swigs_tuesday, remote: true %>
-            </div>
-          </div>
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
-            <div id="swigs_wednesday">
-              <%= render partial: "swig_list_wednesday" %>
-            </div>
-            <div id="wednesday_paginator">
-    <%#= paginate @swigs_wednesday, remote: true %>
-            </div>
-          </div>
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
-            <div id="swigs_thursday">
-              <%= render partial: "swig_list_thursday" %>
-            </div>
-            <div id="thursday_paginator">
-    <%#= paginate @swigs_thursday, remote: true %>
-            </div>
-          </div>
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
-            <div id="swigs_friday">
-              <%= render partial: "swig_list_friday" %>
-            </div>
-            <div id="friday_paginator">
-    <%#= paginate @swigs_friday, remote: true %>
-            </div>
-          </div>
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
-            <div id="swigs_saturday">
-              <%= render partial: "swig_list_saturday" %>
-            </div>
-            <div id="saturday_paginator">
-    <%#= paginate @swigs_saturday, remote: true %>
-            </div>
-          </div>
-          <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
-            <div id="swigs_sunday">
-              <%= render partial: "swig_list_sunday" %>
-            </div>
-            <div id="sunday_paginator">
-    <%#= paginate @swigs_sunday, remote: true %>
-            </div>
-          </div>
+    <div class="tab-content">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
+        <div id="swigs_monday">
+          <%= render partial: "swig_list_monday" %>
+        </div>
+        <!--<div id="monday_paginator">
+<%#= paginate @swigs_monday, remote: true %>
+        </div>-->
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
+        <div id="swigs_tuesday">
+          <%= render partial: "swig_list_tuesday" %>
+        </div>
+        <div id="tuesday_paginator">
+<%#= paginate @swigs_tuesday, remote: true %>
         </div>
       </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
+        <div id="swigs_wednesday">
+          <%= render partial: "swig_list_wednesday" %>
+        </div>
+        <div id="wednesday_paginator">
+<%#= paginate @swigs_wednesday, remote: true %>
+        </div>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
+        <div id="swigs_thursday">
+          <%= render partial: "swig_list_thursday" %>
+        </div>
+        <div id="thursday_paginator">
+<%#= paginate @swigs_thursday, remote: true %>
+        </div>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
+        <div id="swigs_friday">
+          <%= render partial: "swig_list_friday" %>
+        </div>
+        <div id="friday_paginator">
+<%#= paginate @swigs_friday, remote: true %>
+        </div>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
+        <div id="swigs_saturday">
+          <%= render partial: "swig_list_saturday" %>
+        </div>
+        <div id="saturday_paginator">
+<%#= paginate @swigs_saturday, remote: true %>
+        </div>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
+        <div id="swigs_sunday">
+          <%= render partial: "swig_list_sunday" %>
+        </div>
+        <div id="sunday_paginator">
+<%#= paginate @swigs_sunday, remote: true %>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      <div class="tab-pane" id="reward_tab">
-        <ul class="tabs" data-tabs="tabs">
-          <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
-          <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="reward_loyalty">
+  <div class="tab-pane" id="reward_tab">
+    <ul class="tabs" data-tabs="tabs">
+      <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+      <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active" id="reward_loyalty">
 
-            <div class="clearfix"></div>
-            <div class="span6">
-              <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
-              <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
-              <br/>
-              <% unless @loyalty.blank? %>
-                <% if @loyalty.status.eql?("active") %>
-                  <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
-                  <% else %>
-                    <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
-                    <% end %>
-                  </div>
-                  <div class="span4 pull-right">
-                    <a class="" data-toggle="modal" href="#update_bar_loyalty">Change</a>
-          <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
-                    <%= content_for :outer do %>
-                      <div id="update_bar_loyalty" class="modal hide fade">
-                        <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
-                      </div>
-                    <% end %>
-                  <% end %>
-                  <a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>
-                  <%= content_for :outer do %>
-                    <div id="message_all_winner" class="modal hide fade">
-                      <%= render partial: "all_winner_loyalty_reward" %>
-                    </div>
-                  <% end %>
-                </div>
-        <%# end %>
-
-                <div class="clearfix"></div>
-                <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
-                <div class="span7">
-                  <table class="zebra-striped">
-                    <th>Name</th>
-                    <th>Winning Date</th>
-                    <% @winner.each do |w| %>
-                      <tr>
-                        <td>
-                          <% if w.coupon_status %>
-                            <b>Used</b>
-                          <% else %>
-                            <b>Unused</b>
-                          <% end %>
-                        </td>
-                        <td>
-                          <%=  w.user.name %>
-                        </td>
-                        <td>
-                          <%=  w.created_at.strftime("%m %d, %Y") %>
-                        </td>
-                        <td>
-                          <a href="#loyalty_reward_message<%= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
-                          <%= content_for :outer do %>
-                            <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade">
-                              <%= render partial: "loyalty_reward", locals: { w: w.user} %>
-                            </div>
-                          <% end %>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </table>
-                </div>
-              </div>
-              <div class="tab-pane" id="reward_popularity">
-                <% @popularity.each do |l| %>
-                  <div class="span6">
-                    <%= l.swigs_number %><br/>
-                    <%= l.reward_detail %>
-                  </div>
-                  <div class="span4 pull-right">
-                    <%= link_to  "Delete", bars_delete_popularity_path(l.id), method: :delete, confirm: "Delete Popularity?" %>
-                    <a class="" data-toggle="modal" href="#update<%= l.id %>">Change</a>
-                    <%= content_for :outer do %>
-                      <div id="update<%= l.id %>" class="modal hide fade">
-                        <%= render partial: "update_popularity", locals: {l: l} %>
-                      </div>
-                    <% end %>
-                  </div>
+        <div class="clearfix"></div>
+        <div class="span6">
+          <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
+          <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
+          <br/>
+          <% unless @loyalty.blank? %>
+            <% if @loyalty.status.eql?("active") %>
+              <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
+              <% else %>
+                <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
                 <% end %>
               </div>
+              <div class="span4 pull-right">
+                <a class="" data-toggle="modal" href="#update_bar_loyalty">Change</a>
+      <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
+                <%= content_for :outer do %>
+                  <div id="update_bar_loyalty" class="modal hide fade">
+                    <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
+                  </div>
+                <% end %>
+              <% end %>
+              <a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>
+              <%= content_for :outer do %>
+                <div id="message_all_winner" class="modal hide fade">
+                  <%= render partial: "all_winner_loyalty_reward" %>
+                </div>
+              <% end %>
             </div>
-          </div>
+    <%# end %>
 
-          <div class="tab-pane" id="stat_chart">
-            <!--<div id="chart_bar" style="width: 700px; height: 300px;"></div>-->
-          </div>
-        </div>
-
-
-        <%= content_for :outer do %>
-          <!--<div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3><%#= Date.today.to_time.in_time_zone.strftime('%A') %> Swig</h3>
-            </div>
-            <div class="modal-body well">
-              <b style="text-align: center;">No Swigs had been setup for <%#= Date.today.to_time.in_time_zone.strftime('%A') %>. Create one now?</b>
-              <div style="text-align: center;"><br/>
-                <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
-                &nbsp; &nbsp;
-                <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
-                &nbsp; &nbsp;
-                <a class="btn pull-right" data-dismiss="modal" data-toggle="modal">Next Time</a>
-              </div>
-            </div>
-          </div>-->
-
-
-
-          <div id="loyalty_winners" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>loyalty Winners</h3>
-            </div>
-            <div class="modal-body well">
+            <div class="clearfix"></div>
+            <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
+            <div class="span7">
               <table class="zebra-striped">
                 <th>Name</th>
                 <th>Winning Date</th>
@@ -467,113 +408,197 @@
               </table>
             </div>
           </div>
-          <div id="delete_swig_list" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Select Swig to destroy</h3>
-            </div>
-            <div class="modal-body well">
-              <table>
-                <th>Type</th>
-                <th>day</th>
-                <th>deal</th>
-                <% current_bar.swigs.where("id IS NOT NULL").each do |swig| %>
-                  <tr>
-                    <td><%= swig.swig_type %></td>
-                    <td><%= swig.swig_day %></td>
-                    <td><%= swig.deal %></td>
-                    <td><%= link_to "Delete", bars_delete_swig_path(swig.id), :method => :delete %></td>
-                  </tr>
-                <% end %>
-              </table>
-            </div>
+
+        </div>
+      </div>
+
+      <div class="tab-pane" id="stat_chart">
+        <!--<div id="chart_bar" style="width: 700px; height: 300px;"></div>-->
+      </div>
+    </div>
+
+
+    <%= content_for :outer do %>
+      <!--<div id="swigmessage" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3><%#= Date.today.to_time.in_time_zone.strftime('%A') %> Swig</h3>
+        </div>
+        <div class="modal-body well">
+          <b style="text-align: center;">No Swigs had been setup for <%#= Date.today.to_time.in_time_zone.strftime('%A') %>. Create one now?</b>
+          <div style="text-align: center;"><br/>
+            <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
+            &nbsp; &nbsp;
+            <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
+            &nbsp; &nbsp;
+            <a class="btn pull-right" data-dismiss="modal" data-toggle="modal">Next Time</a>
           </div>
-          <div id="reward_confirmation" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Already Create</h3>
-            </div>
-            <div class="modal-body well">
-              Just Update the Reward!
-            </div>
+        </div>
+      </div>-->
+
+
+
+      <div id="loyalty_winners" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>loyalty Winners</h3>
+        </div>
+        <div class="modal-body well">
+          <table class="zebra-striped">
+            <th>Name</th>
+            <th>Winning Date</th>
+            <% @winner.each do |w| %>
+              <tr>
+                <td>
+                  <% if w.coupon_status %>
+                    <b>Used</b>
+                  <% else %>
+                    <b>Unused</b>
+                  <% end %>
+                </td>
+                <td>
+                  <%=  w.user.name %>
+                </td>
+                <td>
+                  <%=  w.created_at.strftime("%m %d, %Y") %>
+                </td>
+                <td>
+                  <a href="#loyalty_reward_message<%= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
+                  <%= content_for :outer do %>
+                    <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade">
+                      <%= render partial: "loyalty_reward", locals: { w: w.user} %>
+                    </div>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+      <div id="delete_swig_list" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Select Swig to destroy</h3>
+        </div>
+        <div class="modal-body well">
+          <table>
+            <th>Type</th>
+            <th>day</th>
+            <th>deal</th>
+            <% current_bar.swigs.where("id IS NOT NULL").each do |swig| %>
+              <tr>
+                <td><%= swig.swig_type %></td>
+                <td><%= swig.swig_day %></td>
+                <td><%= swig.deal %></td>
+                <td><%= link_to "Delete", bars_delete_swig_path(swig.id), :method => :delete %></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+      <div id="reward_confirmation" class="modal hide fade">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Already Create</h3>
+        </div>
+        <div class="modal-body well">
+          Just Update the Reward!
+        </div>
+      </div>
+      <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Create BigSwig?</h3>
+        </div>
+        <div class="modal-body well">
+          <b style="text-align: center;">No Big Swigs had been setup for this day. Create one now?</b>
+          <div style="text-align: center;"><br/>
+            <a class="btn" data-dismiss="modal" data-toggle="modal">Next Time</a>
+            &nbsp; &nbsp;
+            <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
           </div>
-          <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Create BigSwig?</h3>
-            </div>
-            <div class="modal-body well">
-              <b style="text-align: center;">No Big Swigs had been setup for this day. Create one now?</b>
-              <div style="text-align: center;"><br/>
-                <a class="btn" data-dismiss="modal" data-toggle="modal">Next Time</a>
-                &nbsp; &nbsp;
-                <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div id="big_and_standard_swig" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Swig Type</h3>
+        </div>
+        <div class="modal-body well">
+          <b style="text-align: center;">No Swigs had been setup for this day. Create one now?</b>
+          <div style="text-align: center;"><br/>
+            <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
+            &nbsp; &nbsp;
+            <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
           </div>
-          <div id="big_and_standard_swig" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Swig Type</h3>
-            </div>
-            <div class="modal-body well">
-              <b style="text-align: center;">No Swigs had been setup for this day. Create one now?</b>
-              <div style="text-align: center;"><br/>
-                <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
-                &nbsp; &nbsp;
-                <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div id="swigModal" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Swig Type</h3>
+        </div>
+        <div class="modal-body well">
+          <div style="text-align: center;">
+            <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
+            &nbsp; &nbsp;
+            <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
           </div>
-          <div id="swigModal" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Swig Type</h3>
-            </div>
-            <div class="modal-body well">
-              <div style="text-align: center;">
-                <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
-                &nbsp; &nbsp;
-                <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#stadardswigModal">Standard</a></strong>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div id="swig_stat" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Swig Stat</h3>
+        </div>
+        <div class="modal-body well">
+          <div id="chart_bar" style="width: 700px; height: 300px;"></div>
+        </div>
+      </div>
+      <div id="rewardModal" class="modal hide fade">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Reward Type</h3>
+        </div>
+        <div class="modal-body well">
+          <div style="text-align: center;">
+            <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#loyalty">Loyalty</a></strong>
+            &nbsp; &nbsp;
+            <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#popularity">Popularity</a></strong>
           </div>
-          <div id="swig_stat" class="modal hide fade" style="opacity: 1 ;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Swig Stat</h3>
-            </div>
-            <div class="modal-body well">
-              <div id="chart_bar" style="width: 700px; height: 300px;"></div>
-            </div>
-          </div>
-          <div id="rewardModal" class="modal hide fade">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Reward Type</h3>
-            </div>
-            <div class="modal-body well">
-              <div style="text-align: center;">
-                <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#loyalty">Loyalty</a></strong>
-                &nbsp; &nbsp;
-                <strong><a class="btn-primary" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#popularity">Popularity</a></strong>
-              </div>
+        </div>
+      </div>
+
+      <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3>Big Swig</h3>
+        </div>
+        <div class="modal-body well">
+          <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "big"}) do |f| %>
+            <%= f.input :swig_type, as: :hidden, input_html: {value: "Big"} %>
+            <%= f.input :swig_day, as: :select, collection: days %>
+        <%#= f.input :deal, as: :ckeditor, :label => false, input_html: { toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
+            <%= f.input :deal , as: :text ,input_html: {class: "ckeditor", toolbar: 'Basic', style: "width: 300px;height: 100px"}%>
+              <%= f.input :people, label: "Swig needed" %>
+
+              <div class="form-actions">
+                <%= f.submit "Create Swig", class: "btn-primary" %>
+                </div>
+              <% end %>
             </div>
           </div>
 
-          <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">
+          <div id="stadardswigModal" class="modal hide fade">
             <div class="modal-header">
               <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Big Swig</h3>
+              <h3>Standard Swig</h3>
             </div>
             <div class="modal-body well">
-              <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "big"}) do |f| %>
-                <%= f.input :swig_type, as: :hidden, input_html: {value: "Big"} %>
+              <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+                <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
                 <%= f.input :swig_day, as: :select, collection: days %>
-            <%#= f.input :deal, as: :ckeditor, :label => false, input_html: { toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
-                <%= f.input :deal , as: :text ,input_html: {class: "ckeditor", toolbar: 'Basic', style: "width: 300px;height: 100px"}%>
-                  <%= f.input :people, label: "Swig needed" %>
-
+                <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_standar", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
                   <div class="form-actions">
                     <%= f.submit "Create Swig", class: "btn-primary" %>
                     </div>
@@ -581,118 +606,120 @@
                 </div>
               </div>
 
-              <div id="stadardswigModal" class="modal hide fade">
+              <div id="popularity" class="modal hide fade">
                 <div class="modal-header">
                   <a class="close" data-dismiss="modal"><b>x</b></a>
-                  <h3>Standard Swig</h3>
+                  <h3>Popularity</h3>
                 </div>
                 <div class="modal-body well">
-                  <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
-                    <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
-                    <%= f.input :swig_day, as: :select, collection: days %>
-                    <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_standar", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
+                  <%= simple_form_for(@popular, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
+                <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
+                    <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
+                    <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                    <%= f.input :swigs_number %>
+                    <div class="form-actions">
+                      <%= f.submit "Create Popularity", class: "btn-primary" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+                <div id="loyalty" class="modal hide fade">
+                  <div class="modal-header">
+                    <a class="close" data-dismiss="modal"><b>x</b></a>
+                    <h3>Loyalty</h3>
+                  </div>
+                  <div class="modal-body well">
+                    <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
+                  <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+                      <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
+                      <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                      <%= f.input :swigs_number %>
                       <div class="form-actions">
-                        <%= f.submit "Create Swig", class: "btn-primary" %>
+                        <%= f.submit "Create Loyalty", class: "btn-primary" %>
                         </div>
                       <% end %>
                     </div>
                   </div>
-
-                  <div id="popularity" class="modal hide fade">
+                  <div id="gift" class="modal hide fade">
                     <div class="modal-header">
                       <a class="close" data-dismiss="modal"><b>x</b></a>
-                      <h3>Popularity</h3>
+                      <h3>Gift</h3>
                     </div>
                     <div class="modal-body well">
-                      <%= simple_form_for(@popular, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
-                    <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
-                        <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
-                        <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
-                        <%= f.input :swigs_number %>
-                        <div class="form-actions">
-                          <%= f.submit "Create Popularity", class: "btn-primary" %>
+                      <ul class="tabs" data-tabs="tabs">
+                        <li class="active"><a href="#new_gift" class="btn" data-toggle="tab"><b>Create Gift</b></a></li>
+                        <li><a href="#gift_list" class="btn" data-toggle="tab"><b>Gifts List</b></a></li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="new_gift">
+                          <%= simple_form_for(@gift, url: bars_create_gift_path, html: { :class => "form-horizontal"}) do |f| %>
+                            <%= f.input :name %>
+                            <%= f.input :descriptions , as: :text, input_html: { style: "width: 300px;height: 100px"}%>
+                            <div class="form-actions">
+                              <%= f.submit "Create Gift", class: "btn-primary" %>
+                              </div>
+                            <% end %>
                           </div>
-                        <% end %>
+                          <div class="tab-pane active" id="gift_list">
+                            <table>
+                              <th></th>
+                              <th></th>
+                              <% @gifts.each do |gift| %>
+                                <tr>
+                                  <td>
+                                    <%= gift.name %>
+                                  </td>
+                                  <td>
+                                    <%= gift.descriptions %>
+                                  </td>
+                                  <!--<td>
+                      <%#= link_to "Change", bars_update_gift_path(gift.id), method: :post %>
+                      <%#= link_to "Delete", bars_destroy_gift_path(gift.id) %>
+                                  </td>-->
+                                </tr>
+                              <% end %>
+                            </table>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div id="loyalty" class="modal hide fade">
+
+                    <div id="bar_message" class="modal hide fade">
                       <div class="modal-header">
                         <a class="close" data-dismiss="modal"><b>x</b></a>
-                        <h3>Loyalty</h3>
+                        <h3>New Message</h3>
                       </div>
                       <div class="modal-body well">
-                        <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
-                      <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
-                          <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
-                          <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
-                          <%= f.input :swigs_number %>
-                          <div class="form-actions">
-                            <%= f.submit "Create Loyalty", class: "btn-primary" %>
-                            </div>
-                          <% end %>
-                        </div>
-                      </div>
-                      <div id="gift" class="modal hide fade">
-                        <div class="modal-header">
-                          <a class="close" data-dismiss="modal"><b>x</b></a>
-                          <h3>Gift</h3>
-                        </div>
-                        <div class="modal-body well">
-                          <ul class="tabs" data-tabs="tabs">
-                            <li class="active"><a href="#new_gift" class="btn" data-toggle="tab"><b>Create Gift</b></a></li>
-                            <li><a href="#gift_list" class="btn" data-toggle="tab"><b>Gifts List</b></a></li>
-                          </ul>
-                          <div class="tab-content">
-                            <div class="tab-pane active" id="new_gift">
-                              <%= simple_form_for(@gift, url: bars_create_gift_path, html: { :class => "form-horizontal"}) do |f| %>
-                                <%= f.input :name %>
-                                <%= f.input :descriptions , as: :text, input_html: { style: "width: 300px;height: 100px"}%>
+                        <ul class="tabs" data-tabs="tabs">
+                          <li><a href="#personal" class="btn" data-toggle="tab"><b style="font-size: 11px;">Personal</b></a></li>
+                          <li><a href="#all_user" class="btn" data-toggle="tab"><b style="font-size: 11px;">All User</b></a></li>
+                          <li><a href="#last_visit" class="btn" data-toggle="tab"><b style="font-size: 11px;">Last Visit</b></a></li>
+                          <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b style="font-size: 11px;">Almost Rewarded</b></a></li>
+                          <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b style="font-size: 11px;">Unused Rewarded</b></a></li>
+                        </ul>
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="personal">
+                            <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                              <%= m.input :to, as: :select, collection: User.all.map{ |u| [u.name, u.id] }, label: false, placeholder: "To", input_html: {style: "margin-left: -145px;width: 445px;"} %>
+                              <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
+                              <div style="margin-left: -105px;">
+                                <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+                              </div>
+                              <div style="margin-top: -45px;">
+                                <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                                </div>
+                                <%= m.input :category, as: :hidden, input_html: {value: 5} %>
+                                <div style="text-align: center;">
+                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                </div>
                                 <div class="form-actions">
-                                  <%= f.submit "Create Gift", class: "btn-primary" %>
+                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                  <%= m.submit "Send", class: "btn-success pull-right" %>
                                   </div>
                                 <% end %>
                               </div>
-                              <div class="tab-pane active" id="gift_list">
-                                <table>
-                                  <th></th>
-                                  <th></th>
-                                  <% @gifts.each do |gift| %>
-                                    <tr>
-                                      <td>
-                                        <%= gift.name %>
-                                      </td>
-                                      <td>
-                                        <%= gift.descriptions %>
-                                      </td>
-                                      <!--<td>
-                          <%#= link_to "Change", bars_update_gift_path(gift.id), method: :post %>
-                          <%#= link_to "Delete", bars_destroy_gift_path(gift.id) %>
-                                      </td>-->
-                                    </tr>
-                                  <% end %>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div id="bar_message" class="modal hide fade">
-                          <div class="modal-header">
-                            <a class="close" data-dismiss="modal"><b>x</b></a>
-                            <h3>New Message</h3>
-                          </div>
-                          <div class="modal-body well">
-                            <ul class="tabs" data-tabs="tabs">
-                              <li><a href="#personal" class="btn" data-toggle="tab"><b style="font-size: 11px;">Personal</b></a></li>
-                              <li><a href="#all_user" class="btn" data-toggle="tab"><b style="font-size: 11px;">All User</b></a></li>
-                              <li><a href="#last_visit" class="btn" data-toggle="tab"><b style="font-size: 11px;">Last Visit</b></a></li>
-                              <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b style="font-size: 11px;">Almost Rewarded</b></a></li>
-                              <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b style="font-size: 11px;">Unused Rewarded</b></a></li>
-                            </ul>
-                            <div class="tab-content">
-                              <div class="tab-pane active" id="personal">
+                              <div class="tab-pane" id="all_user">
                                 <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                  <%= m.input :to, as: :select, collection: User.all.map{ |u| [u.name, u.id] }, label: false, placeholder: "To", input_html: {style: "margin-left: -145px;width: 445px;"} %>
                                   <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
                                   <div style="margin-left: -105px;">
                                     <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
@@ -700,7 +727,7 @@
                                   <div style="margin-top: -45px;">
                                     <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
                                     </div>
-                                    <%= m.input :category, as: :hidden, input_html: {value: 5} %>
+                                    <%= m.input :category, as: :hidden, input_html: {value: 0} %>
                                     <div style="text-align: center;">
                                       <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                                     </div>
@@ -710,578 +737,566 @@
                                       </div>
                                     <% end %>
                                   </div>
-                                  <div class="tab-pane" id="all_user">
+                                  <div class="tab-pane" id="last_visit">
                                     <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                      <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -145px;width: 445px;"} %>
-                                      <div style="margin-left: -105px;">
-                                        <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
-                                      </div>
-                                      <div style="margin-top: -45px;">
-                                        <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                                      <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
+                                        <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                        <div style="margin-left: -105px;">
+                                          <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
                                         </div>
-                                        <%= m.input :category, as: :hidden, input_html: {value: 0} %>
-                                        <div style="text-align: center;">
-                                          <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                        </div>
-                                        <div class="form-actions">
-                                          <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                          <%= m.submit "Send", class: "btn-success pull-right" %>
+                                        <div style="margin-top: -45px;">
+                                          <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
                                           </div>
-                                        <% end %>
-                                      </div>
-                                      <div class="tab-pane" id="last_visit">
-                                        <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                          <%= text_field_tag :days, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "days" %>
-                                            <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                            <div style="margin-left: -105px;">
-                                              <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+                                          <%= m.input :category, as: :hidden, input_html: {value: 1} %>
+                                          <div style="text-align: center;">
+                                            <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                          </div>
+                                          <div class="form-actions">
+                                            <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                            <%= m.submit "Send", class: "btn-success pull-right" %>
                                             </div>
-                                            <div style="margin-top: -45px;">
-                                              <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
-                                              </div>
-                                              <%= m.input :category, as: :hidden, input_html: {value: 1} %>
-                                              <div style="text-align: center;">
-                                                <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                              </div>
-                                              <div class="form-actions">
-                                                <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                <%= m.submit "Send", class: "btn-success pull-right" %>
-                                                </div>
-                                              <% end %>
-                                            </div>
+                                          <% end %>
+                                        </div>
 
-                                            <div class="tab-pane" id="almost_rewarded">
+                                        <div class="tab-pane" id="almost_rewarded">
+                                          <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                            <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
+                                              <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                              <div style="margin-left: -105px;">
+                                                <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+                                              </div>
+                                              <div style="margin-top: -45px;">
+                                                <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                                                </div>
+                                                <%= m.input :category, as: :hidden, input_html: {value: 2} %>
+                                                <div style="text-align: center;">
+                                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                                </div>
+                                                <div class="form-actions">
+                                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                  </div>
+                                                <% end %>
+                                              </div>
+                                              <div class="tab-pane" id="unused_rewards">
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div id="bar_message0" class="modal hide fade">
+                                          <div class="modal-header">
+                                            <a class="close" data-dismiss="modal"><b>x</b></a>
+                                            <h3>Message for 25% Swig</h3>
+                                          </div>
+                                          <div class="modal-body">
+                                            <ul>
                                               <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 40px;", class: "pull-right", placeholder: "Swigs required" %>
-                                                  <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                  <div style="margin-left: -105px;">
-                                                    <%= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
-                                                  </div>
-                                                  <div style="margin-top: -45px;">
-                                                    <%= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
-                                                    </div>
-                                                    <%= m.input :category, as: :hidden, input_html: {value: 2} %>
-                                                    <div style="text-align: center;">
-                                                      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                    </div>
-                                                    <div class="form-actions">
-                                                      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                      <%= m.submit "Send", class: "btn-success pull-right" %>
-                                                      </div>
-                                                    <% end %>
-                                                  </div>
-                                                  <div class="tab-pane" id="unused_rewards">
-
-                                                  </div>
+                                                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                                <%= m.input :category, as: :hidden, input_html: {value: 6} %>
+                                                <div style="text-align: center;">
+                                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                                                 </div>
+                                                <div class="form-actions">
+                                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                  </div>
+                                                <% end %>
+                                            </div>
+                                          </div>
+                                          <div id="bar_message1" class="modal hide fade">
+                                            <div class="modal-header">
+                                              <a class="close" data-dismiss="modal"><b>x</b></a>
+                                              <h3>Message for 50% Swig</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                              <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                                <%= m.input :category, as: :hidden, input_html: {value: 6} %>
+                                                <div style="text-align: center;">
+                                                  <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
+                                                </div>
+                                                <div class="form-actions">
+                                                  <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                  <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                  </div>
+                                                <% end %>
                                               </div>
                                             </div>
 
-                                            <div id="bar_message0" class="modal hide fade">
+                                            <div id="bar_message2" class="modal hide fade">
                                               <div class="modal-header">
                                                 <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                <h3>Message for 25% Swig</h3>
+                                                <h3>Message for 75% Swig</h3>
                                               </div>
                                               <div class="modal-body">
-                                                <ul>
-                                                  <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                    <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                    <%= m.input :category, as: :hidden, input_html: {value: 6} %>
-                                                    <div style="text-align: center;">
-                                                      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                    </div>
-                                                    <div class="form-actions">
-                                                      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                      <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                <ul class="tabs" data-tabs="tabs">
+                                                  <li><a href="#message" class="btn" data-toggle="tab"><b style="font-size: 11px;">Personal</b></a></li>
+                                                  <li><a href="#list" class="btn" data-toggle="tab"><b style="font-size: 11px;">All User</b></a></li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                  <div class="tab-pane active" id="message">
+                                                    <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+                                                      <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
+                                                      <%= m.input :category, as: :hidden, input_html: {value: 6} %>
+                                                      <div style="text-align: center;">
+                                                        <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
                                                       </div>
-                                                    <% end %>
+                                                      <div class="form-actions">
+                                                        <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                                                        <%= m.submit "Send", class: "btn-success pull-right" %>
+                                                        </div>
+                                                      <% end %>
+                                                    </div>
+                                                    <div class="tab-pane active" id="personal">
+
+                                                    </div>
+                                                  </div>
                                                 </div>
                                               </div>
-                                              <div id="bar_message1" class="modal hide fade">
+
+                                              <div id="bigswig_add_to_list" class="modal hide fade">
                                                 <div class="modal-header">
-                                                  <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                  <h3>Message for 50% Swig</h3>
+                                                  <a class="close" data-dismiss="modal" id="close_add_bigswig_list"><b>x</b></a>
+                                                  <h3>Add new BIG Swig to the mix..</h3>
                                                 </div>
                                                 <div class="modal-body">
-                                                  <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                    <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                    <%= m.input :category, as: :hidden, input_html: {value: 6} %>
-                                                    <div style="text-align: center;">
-                                                      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                    </div>
-                                                    <div class="form-actions">
-                                                      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                      <%= m.submit "Send", class: "btn-success pull-right" %>
-                                                      </div>
+                                                  <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
+                                                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                                                  </div>
+                                                  <div class="modal-footer">
+                                                    <%= f.submit "Done", class: "btn-success", style: "margin-top: -50px;", onclick: "$('#goto_bigswig_list_courtesy').click()" %>
                                                     <% end %>
                                                   </div>
                                                 </div>
 
-                                                <div id="bar_message2" class="modal hide fade">
+                                                <div id="display_bigswig_list" class="modal hide fade">
                                                   <div class="modal-header">
-                                                    <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                    <h3>Message for 75% Swig</h3>
+                                                    <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
+                                                    <h3>BIG Swigs courtesy of <%= current_bar.name %></h3>
+                                                    <div id="big_swig_list_partial_text" style="color: green"></div>
+
                                                   </div>
                                                   <div class="modal-body">
-                                                    <ul class="tabs" data-tabs="tabs">
-                                                      <li><a href="#message" class="btn" data-toggle="tab"><b style="font-size: 11px;">Personal</b></a></li>
-                                                      <li><a href="#list" class="btn" data-toggle="tab"><b style="font-size: 11px;">All User</b></a></li>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                      <div class="tab-pane active" id="message">
-                                                        <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                                                          <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -140px;width: 300px;"} %>
-                                                          <%= m.input :category, as: :hidden, input_html: {value: 6} %>
-                                                          <div style="text-align: center;">
-                                                            <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 170px;"} %>
-                                                          </div>
-                                                          <div class="form-actions">
-                                                            <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                                                            <%= m.submit "Send", class: "btn-success pull-right" %>
-                                                            </div>
-                                                          <% end %>
-                                                        </div>
-                                                        <div class="tab-pane active" id="personal">
-
-                                                        </div>
-                                                      </div>
+                                                    <div id="big_swig_list_partial">
+                                                      <%= render partial: "big_swig_list_to_delete_or_update" %>
                                                     </div>
                                                   </div>
-
-                                                  <div id="bigswig_add_to_list" class="modal hide fade">
-                                                    <div class="modal-header">
-                                                      <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
-                                                      <h3>Add new BIG Swig to the mix..</h3>
-                                                    </div>
+                                                  <div class="modal-footer">
+                                                  </div>
+                                                </div>
+                                                <div id="display_redeem_information" class="modal hide fade">
+                                                  <div class="modal-header">
+                                                    <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
+                                                    <h3>Redeem a Reward</h3>
+                                                  </div>
+                                                  <%= simple_form_for(:search, url: bars_dashboard_path) do |f|%>
                                                     <div class="modal-body">
-                                                      <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-                                                        <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
-                                                      </div>
-                                                      <div class="modal-footer">
-
-                                                        <%= f.submit "Done", class: "btn-success", style: "margin-top: -50px;", onclick: "$('#close_bigswig_list').click()" %>
-                                                        <% end %>
+                                                      <%= text_field_tag :coupon, params[:coupon], placeholder: "Enter reward code here..." %>
+                                                      <br/>
+                                                      <div style="margin: 5px;">
+                                                        <%= @redeem_info %>
                                                       </div>
                                                     </div>
-
-                                                    <div id="display_bigswig_list" class="modal hide fade">
-                                                      <div class="modal-header">
-                                                        <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
-                                                        <h3>BIG Swigs courtesy of <%= current_bar.name %></h3>
-                                                      </div>
-                                                      <div class="modal-body">
-                                                        <table>
-                                                          <% @big_swig_lists.each do |bigswig| %>
-                                                            <tr>
-                                                              <td><%= bigswig.id %></td>
-                                                              <td><%= bigswig.big_swig %></td>
-                                                              <td><%= link_to "<i class='icon-remove pull-right'></i>".html_safe, bars_destroy_bar_big_swig_list_path(bigswig.id), confirm: "Are you sure you want to Delete the following BIG swig? #{bigswig.big_swig}".html_safe %></td>
-                                                              <td><a class="" data-toggle="modal" href="#edit_swigbiglist<%= bigswig.id %>" data-dismiss="modal">Edit</a></td>
-                                                              <%= content_for :outer do %>
-                                                              <div id="edit_swigbiglist<%= bigswig.id %>" class="modal hide fade" >
-                                                                <%= render partial: "edit_form_bigswig_list", locals: {bigswig: bigswig} %>
-                                                              </div>
-                                                            <% end %>
-                                                            </tr>
-                                                          <% end %>
-                                                        </table>
-                                                      </div>
-                                                      <div class="modal-footer">
-                                                      </div>
+                                                    <div class="modal-footer">
+                                                      <%= f.submit "Redeem" %>
                                                     </div>
                                                   <% end %>
+                                                </div>
+                                              <% end %>
 
-                                                  <!----------------compeltion---------------------------->
+                                              <!----------------compeltion---------------------------->
 
-                                                  <script>
-                                                    function countChar(val){
-                                                      var len = val.value.length;
-                                                      if (len >= 500) {
-                                                        val.value = val.value.substring(0, 500);
-                                                      }else {
-                                                        $('#charNum').text(len);
-                                                      }
-                                                    };
-                                                  </script>
-                                                  <style type="text/css">
-                                                    .alert .alert-danger {
-                                                      text-align: center;
-                                                      padding: 5px;
-                                                    }
-                                                  </style>
-                                                  <%= content_for :outer do %>
-                                                    <script type="text/javascript">
-                                                      $(document).ready(function() {
-                                                        var sport_teams = [];
-                                                    <% SportTeam.all.each do |b| %>
-                                                      var x = [];
-                                                      x.push('name: <%= b.to_json %>');//0
-                                                      x.push('id: <%= b.to_json %>');//0
-                                                      sport_teams.push(x);
-                                                    <% end %>
-                                                    var include_sport_list = [];
-                                                    <%  unless current_bar.sports_team.blank? %>
-                                                      <%  sports_team = current_bar.sports_team.split(',') %>
-                                                      <%  sports_team.each do |team| %>
-                                                        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
-                                                      <% end %>
-                                                    <% end%>
-
-                                                    $("#tk_sports").tokenInput("/bars/sport_lists", {
-                                                    theme: "facebook",
-                                                    preventDuplicates: true,
-                                                    prePopulate: include_sport_list
-                                                    });
-                                                    //$(".alert-success").hide();
-                                                    //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
-                                                    });
-                                                    </script>
+                                              <script>
+                                                function countChar(val){
+                                                  var len = val.value.length;
+                                                  if (len >= 500) {
+                                                    val.value = val.value.substring(0, 500);
+                                                  }else {
+                                                    $('#charNum').text(len);
+                                                  }
+                                                };
+                                              </script>
+                                              <style type="text/css">
+                                                .alert .alert-danger {
+                                                  text-align: center;
+                                                  padding: 5px;
+                                                }
+                                              </style>
+                                              <%= content_for :outer do %>
+                                                <script type="text/javascript">
+                                                  $(document).ready(function() {
+                                                    var sport_teams = [];
+                                                <% SportTeam.all.each do |b| %>
+                                                  var x = [];
+                                                  x.push('name: <%= b.to_json %>');//0
+                                                  x.push('id: <%= b.to_json %>');//0
+                                                  sport_teams.push(x);
+                                                <% end %>
+                                                var include_sport_list = [];
+                                                <%  unless current_bar.sports_team.blank? %>
+                                                  <%  sports_team = current_bar.sports_team.split(',') %>
+                                                  <%  sports_team.each do |team| %>
+                                                    include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
                                                   <% end %>
-                                                  <!--<script type="text/javascript">
-                                                    var available_tags = [];
-                                                  <%# SportTeam.all.each do |team| %>
-                                                      available_tags.push('<%#= team.team_name %>');
-                                                  <%# end %>
-                                                    $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
-                                                  </script>-->
-                                                  <script type="text/javascript">
-                                                    function validate_address(){
-                                                      if($('#bar_address').val() == ''){
-                                                        $('#bar_address').css('border', '1px solid red');
-                                                        valid_address = false;
-                                                      }else{
-                                                        $('#bar_address').css('border', '1px solid black');
-                                                        valid_address = true;
-                                                      }
-                                                      if($('#bar_city').val() == ''){
-                                                        $('#bar_city').css('border', '1px solid red');
-                                                        valid_city = false;
-                                                      }else{
-                                                        $('#bar_city').css('border', '1px solid black');
-                                                        valid_city = true;
-                                                      }
-                                                      if($('#bar_zip_code').val() == ''){
-                                                        $('#bar_zip_code').css('border', '1px solid red');
-                                                        valid_zip = false;
-                                                      }else{
-                                                        $('#bar_zip_code').css('border', '1px solid black');
-                                                        valid_zip = true;
-                                                      }
-                                                      if(valid_address && valid_city && valid_zip){
-                                                        $('#goto_phone').click();
-                                                      }
-                                                    }
-                                                    function validate_phone(){
-                                                      if($('#bar_phone_number').val() == ''){
-                                                        $('#bar_phone_number').css('border', '1px solid red');
-                                                        valid_phone = false;
-                                                      }else{
-                                                        $('#bar_phone_number').css('border', '1px solid black');
-                                                        valid_phone = true;
-                                                      }
-                                                      if(valid_phone){
-                                                        $('#goto_link').click();
-                                                      }
-                                                    }
-                                                    function validate_link(){
-                                                      if($('#bar_website_link').val() == ''){
-                                                        $('#bar_website_link').css('border', '1px solid red');
-                                                        valid_web = false;
-                                                      }else{
-                                                        $('#bar_website_link').css('border', '1px solid black');
-                                                        valid_web = true;
-                                                      }
-                                                      if($('#bar_facebook_link').val() == ''){
-                                                        $('#bar_facebook_link').css('border', '1px solid red');
-                                                        valid_facebook = false;
-                                                      }else{
-                                                        $('#bar_facebook_link').css('border', '1px solid black');
-                                                        valid_facebook = true;
-                                                      }
-                                                      if($('#bar_twitter_link').val() == ''){
-                                                        $('#bar_twitter_link').css('border', '1px solid red');
-                                                        valid_twitter = false;
-                                                      }else{
-                                                        $('#bar_twitter_link').css('border', '1px solid black');
-                                                        valid_twitter = true;
-                                                      }
-                                                      if($('#bar_google_plus_link').val() == ''){
-                                                        $('#bar_google_plus_link').css('border', '1px solid red');
-                                                        valid_google = false;
-                                                      }else{
-                                                        $('#bar_google_plus_link').css('border', '1px solid black');
-                                                        valid_google = true;
-                                                      }
-                                                      if(valid_web && valid_facebook && valid_twitter && valid_google){
-                                                        $('#goto_hour').click();
-                                                      }
-                                                    }
-                                                    function validate_hour(){
-                                                      if($('#bar_bar_hour').val() == ''){
-                                                        $('#bar_bar_hour').css('border', '1px solid red');
-                                                        valid_hour = false;
-                                                      }else{
-                                                        $('#bar_bar_hour').css('border', '1px solid black');
-                                                        valid_hour = true;
-                                                      }
-                                                      if(valid_hour){
-                                                        $('#goto_description').click();
-                                                      }
-                                                    }
+                                                <% end%>
+
+                                                $("#tk_sports").tokenInput("/bars/sport_lists", {
+                                                theme: "facebook",
+                                                preventDuplicates: true,
+                                                prePopulate: include_sport_list
+                                                });
+                                                //$(".alert-success").hide();
+                                                //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
+                                                });
+                                                </script>
+                                              <% end %>
+                                              <!--<script type="text/javascript">
+                                                var available_tags = [];
+                                              <%# SportTeam.all.each do |team| %>
+                                                  available_tags.push('<%#= team.team_name %>');
+                                              <%# end %>
+                                                $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
+                                              </script>-->
+                                              <script type="text/javascript">
+                                                function validate_address(){
+                                                  if($('#bar_address').val() == ''){
+                                                    $('#bar_address').css('border', '1px solid red');
+                                                    valid_address = false;
+                                                  }else{
+                                                    $('#bar_address').css('border', '1px solid black');
+                                                    valid_address = true;
+                                                  }
+                                                  if($('#bar_city').val() == ''){
+                                                    $('#bar_city').css('border', '1px solid red');
+                                                    valid_city = false;
+                                                  }else{
+                                                    $('#bar_city').css('border', '1px solid black');
+                                                    valid_city = true;
+                                                  }
+                                                  if($('#bar_zip_code').val() == ''){
+                                                    $('#bar_zip_code').css('border', '1px solid red');
+                                                    valid_zip = false;
+                                                  }else{
+                                                    $('#bar_zip_code').css('border', '1px solid black');
+                                                    valid_zip = true;
+                                                  }
+                                                  if(valid_address && valid_city && valid_zip){
+                                                    $('#goto_phone').click();
+                                                  }
+                                                }
+                                                function validate_phone(){
+                                                  if($('#bar_phone_number').val() == ''){
+                                                    $('#bar_phone_number').css('border', '1px solid red');
+                                                    valid_phone = false;
+                                                  }else{
+                                                    $('#bar_phone_number').css('border', '1px solid black');
+                                                    valid_phone = true;
+                                                  }
+                                                  if(valid_phone){
+                                                    $('#goto_link').click();
+                                                  }
+                                                }
+                                                function validate_link(){
+                                                  if($('#bar_website_link').val() == ''){
+                                                    $('#bar_website_link').css('border', '1px solid red');
+                                                    valid_web = false;
+                                                  }else{
+                                                    $('#bar_website_link').css('border', '1px solid black');
+                                                    valid_web = true;
+                                                  }
+                                                  if($('#bar_facebook_link').val() == ''){
+                                                    $('#bar_facebook_link').css('border', '1px solid red');
+                                                    valid_facebook = false;
+                                                  }else{
+                                                    $('#bar_facebook_link').css('border', '1px solid black');
+                                                    valid_facebook = true;
+                                                  }
+                                                  if($('#bar_twitter_link').val() == ''){
+                                                    $('#bar_twitter_link').css('border', '1px solid red');
+                                                    valid_twitter = false;
+                                                  }else{
+                                                    $('#bar_twitter_link').css('border', '1px solid black');
+                                                    valid_twitter = true;
+                                                  }
+                                                  if($('#bar_google_plus_link').val() == ''){
+                                                    $('#bar_google_plus_link').css('border', '1px solid red');
+                                                    valid_google = false;
+                                                  }else{
+                                                    $('#bar_google_plus_link').css('border', '1px solid black');
+                                                    valid_google = true;
+                                                  }
+                                                  if(valid_web && valid_facebook && valid_twitter && valid_google){
+                                                    $('#goto_hour').click();
+                                                  }
+                                                }
+                                                function validate_hour(){
+                                                  if($('#bar_bar_hour').val() == ''){
+                                                    $('#bar_bar_hour').css('border', '1px solid red');
+                                                    valid_hour = false;
+                                                  }else{
+                                                    $('#bar_bar_hour').css('border', '1px solid black');
+                                                    valid_hour = true;
+                                                  }
+                                                  if(valid_hour){
+                                                    $('#goto_description').click();
+                                                  }
+                                                }
                                               
-                                                    function validate_description(){
-                                                      if($('#bar_bar_description').val() == ''){
-                                                        $('#bar_bar_description').css('border', '1px solid red');
-                                                        $('#bar_description_validation').text('Please describe your bar!!');
-                                                        valid_description = false;
-                                                      }else{
-                                                        $('#bar_bar_description').css('border', '1px solid black');
-                                                        valid_description= true;
-                                                      }
-                                                      if(valid_description){
-                                                        $('#goto_sport_team').click();
-                                                      }
-                                                    }
-                                                    function validate_sports_team(){
-                                                      if($('#mytags').val() == ''){
-                                                        $('#mytags').css('border', '1px solid red');
-                                                        valid_description = false;
-                                                      }else{
-                                                        $('#mytags').css('border', '1px solid black');
-                                                        valid_description = true;
-                                                      }
-                                                      if(valid_description){
-                                                        $('#goto_check_data').click();
-                                                        get_all_data();
-                                                      }
-                                                    }
+                                                function validate_description(){
+                                                  if($('#bar_bar_description').val() == ''){
+                                                    $('#bar_bar_description').css('border', '1px solid red');
+                                                    $('#bar_description_validation').text('Please describe your bar!!');
+                                                    valid_description = false;
+                                                  }else{
+                                                    $('#bar_bar_description').css('border', '1px solid black');
+                                                    valid_description= true;
+                                                  }
+                                                  if(valid_description){
+                                                    $('#goto_sport_team').click();
+                                                  }
+                                                }
+                                                function validate_sports_team(){
+                                                  if($('#mytags').val() == ''){
+                                                    $('#mytags').css('border', '1px solid red');
+                                                    valid_description = false;
+                                                  }else{
+                                                    $('#mytags').css('border', '1px solid black');
+                                                    valid_description = true;
+                                                  }
+                                                  if(valid_description){
                                                     $('#goto_check_data').click();
                                                     get_all_data();
+                                                  }
+                                                }
+                                                $('#goto_check_data').click();
+                                                get_all_data();
 
-                                                    function get_all_data(){
-                                                      $('#address_text').html($('#bar_address').val());
-                                                      $('#city_text').html($('#bar_city').val());
-                                                      $('#zip_text').html($('#bar_zip_code').val());
-                                                      $('#phone_text').html($('#bar_phone_number').val());
-                                                      $('#website_text').html($('#bar_website_link').val());
-                                                      $('#facebook_text').html($('#bar_facebook_link').val());
-                                                      $('#twitter_text').html($('#bar_twitter_link').val());
-                                                      $('#google_text').html($('#bar_google_plus_link').val());
-                                                      $('#hour_text').html($('#bar_bar_hour').val());
-                                                      $('#description_text').html($('#bar_bar_description').val());
-                                                      $('#sport_text').html($('#mytags').val());
-                                                      $('#swig_text').html($('#swig').val());
-                                                    }
-                                                    //str.split("\n").join("<br />");
+                                                function get_all_data(){
+                                                  $('#address_text').html($('#bar_address').val());
+                                                  $('#city_text').html($('#bar_city').val());
+                                                  $('#zip_text').html($('#bar_zip_code').val());
+                                                  $('#phone_text').html($('#bar_phone_number').val());
+                                                  $('#website_text').html($('#bar_website_link').val());
+                                                  $('#facebook_text').html($('#bar_facebook_link').val());
+                                                  $('#twitter_text').html($('#bar_twitter_link').val());
+                                                  $('#google_text').html($('#bar_google_plus_link').val());
+                                                  $('#hour_text').html($('#bar_bar_hour').val());
+                                                  $('#description_text').html($('#bar_bar_description').val());
+                                                  $('#sport_text').html($('#mytags').val());
+                                                  $('#swig_text').html($('#swig').val());
+                                                }
+                                                //str.split("\n").join("<br />");
 
 
-                                                    //var name_element = document.getElementById('bar_address');
-                                                    //var name_element = document.getElementById('bar_address');
-                                                    //var name_element = document.getElementById('bar_address');
+                                                //var name_element = document.getElementById('bar_address');
+                                                //var name_element = document.getElementById('bar_address');
+                                                //var name_element = document.getElementById('bar_address');
 
-                                                    //$(document).ready(function(){
-                                                    //$('#completion_link').click();
-                                                    //})
-                                                  </script>
+                                                //$(document).ready(function(){
+                                                //$('#completion_link').click();
+                                                //})
+                                              </script>
 
-                                                  <style type="text/css">
-                                                    .modal{
-                                                      width: 600px!important;
-                                                      overflow: hidden!important;
-                                                    }
-                                                  </style>
+                                              <style type="text/css">
+                                                .modal{
+                                                  width: 600px!important;
+                                                  overflow: hidden!important;
+                                                }
+                                              </style>
 
-                                                  <%= content_for :outer do %>
-                                                    <div id="ask" class="modal hide fade">
-                                                      <div class="modal-header">
-                                                        <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                        <h3 style="text-align: center;">Profile Verification </h3>
+                                              <%= content_for :outer do %>
+                                                <div id="ask" class="modal hide fade">
+                                                  <div class="modal-header">
+                                                    <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                    <h3 style="text-align: center;">Profile Verification </h3>
+                                                  </div>
+                                                  <div class="modal-body">
+                                                    <div style="text-align: center;">
+                                                      <b>Your Bar Profile not Complete Yet, Would you like to complete now?</b>
+                                                    </div>
+                                                    <div style="text-align: center;">
+                                                      <a href="#location" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
+                                                      <%= link_to "No", root_path, class: "btn" %>
                                                       </div>
-                                                      <div class="modal-body">
-                                                        <div style="text-align: center;">
-                                                          <b>Your Bar Profile not Complete Yet, Would you like to complete now?</b>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                  </div>
+                                                  <%= simple_form_for(@bar, url: bars_update_completion_path, method: :post, :html => {multipart: true , class: "form-horizontal"}) do |f| %>
+                                                      <div id="location" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">Where is the <%= @bar.name %> located?</h3>
                                                         </div>
-                                                        <div style="text-align: center;">
-                                                          <a href="#location" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
-                                                          <%= link_to "No", root_path, class: "btn" %>
+                                                        <div class="modal-body">
+                                                          <%= f.input :address, :hint => "Ex : 67 Clinton Street" %>
+                                                          <%= f.input :city, as: :select, collection: avaliable_cities %>
+                                                          <%= f.input :zip_code %>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <a class="btn" onclick="return validate_address()">Continue</a>
+                                                          <a href="#phone" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_phone" style="display:none;">Continue</a>
+                                                        </div>
+                                                      </div>
+                                                      <div id="phone" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">How do people get in touch with <%= @bar.name %>?</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <%= f.input :phone_number %>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <a class="btn" onclick="return validate_phone()">Continue</a>
+                                                          <a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
+                                                          <a href="#location" data-toggle="modal" data-dismiss="modal" class="btn">Back</a>
+                                                        </div>
+                                                      </div>
+                                                      <div id="link" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">How can people connect with <%= @bar.name %>?</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <%= f.input :website_link %>
+                                                          <%= f.input :facebook_link %>
+                                                          <%= f.input :twitter_link %>
+                                                          <%= f.input :google_plus_link %>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <!--<a class="btn" onclick="return validate_link()">Continue</a>-->
+                                                          <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal" id="goto_hour" >Continue</a>
+                                                          <a class="btn" href="#phone" data-dismiss="modal" data-toggle="modal">Back</a>
+                                                        </div>
+                                                      </div>
+                                                      <div id="hour" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">“What is <%= @bar.name %> hours?”</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <div id="bar_hour_list">
+                                                            <%= render partial: "bar_hours", locals: {count: @count}  %>
+                                                            <%= hidden_field_tag "total", 0  %>
+                                                          </div>
+
+                                                          <div id="bigswig_link">
+                                                            <%= link_to "Add", bars_add_bar_hours_path(count: 0), method: :post, remote: true %>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                            <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig">Continue</a>
+                                                            <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                      <div id="standard_swig" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>'s Standard Swig in <%= Time.now.to_time.in_time_zone.strftime("%A") %>?</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <div class="span4">
+                                                            <div id="swig_notice" style="color: red;"></div>
+                                                            <%= text_area_tag :swig, nil, id: "bar_standard_swig_to_copy" %>
+                                                          </div>
+                                                          <div class="span3 pull-right" style="" id="example">
+                                                            <%= @site_content.swig_exampl.gsub('"r\n\"',"<br/>").html_safe rescue "Not set example yet!".html_safe %>
+                                                          </div>
+                                                          <a class="btn btn-info" style="margin-left: 20px;margin-top: 10px;" id="copy_example">Use Example</a>
+                                                          <div class="span2 pull-right" style="margin-top: 0px;" id="example">
                                                           </div>
                                                         </div>
                                                         <div class="modal-footer">
+                                                          <a class="btn" onclick="return validate_standard_swig()">Continue</a>
+                                                          <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal" id="goto_description" style="display: none;">Continue</a>
+                                                          <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal">Back</a>
                                                         </div>
                                                       </div>
-                                                      <%= simple_form_for(@bar, url: bars_update_completion_path, method: :post, :html => {multipart: true , class: "form-horizontal"}) do |f| %>
-                                                          <div id="location" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">Where is the <%= @bar.name %> located?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <%= f.input :address, :hint => "Ex : 67 Clinton Street" %>
-                                                              <%= f.input :city, as: :select, collection: avaliable_cities %>
-                                                              <%= f.input :zip_code %>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <a class="btn" onclick="return validate_address()">Continue</a>
-                                                              <a href="#phone" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_phone" style="display:none;">Continue</a>
-                                                            </div>
+                                                      <div id="description" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>?</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <div style="margin-left: -50px;">
+                                                            <div id="bar_description_validation" style="margin-left: 50px;color: red;"></div>
+                                                            <%= f.input :bar_description, label: false, placeholder: "Bar Description...", input_html: {style: "width: 400px;height: 200px;margin-left: -30px;", onkeyup: "countChar(this)"} %>
+                                                            <div class="pull-right" id="charNum"></div>
                                                           </div>
-                                                          <div id="phone" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">How do people get in touch with <%= @bar.name %>?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <%= f.input :phone_number %>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <a class="btn" onclick="return validate_phone()">Continue</a>
-                                                              <a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
-                                                              <a href="#location" data-toggle="modal" data-dismiss="modal" class="btn">Back</a>
-                                                            </div>
-                                                          </div>
-                                                          <div id="link" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">How can people connect with <%= @bar.name %>?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <%= f.input :website_link %>
-                                                              <%= f.input :facebook_link %>
-                                                              <%= f.input :twitter_link %>
-                                                              <%= f.input :google_plus_link %>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <!--<a class="btn" onclick="return validate_link()">Continue</a>-->
-                                                              <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal" id="goto_hour" >Continue</a>
-                                                              <a class="btn" href="#phone" data-dismiss="modal" data-toggle="modal">Back</a>
-                                                            </div>
-                                                          </div>
-                                                          <div id="hour" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">“What is <%= @bar.name %> hours?”</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <div id="bar_hour_list">
-                                                                <%= render partial: "bar_hours", locals: {count: @count}  %>
-                                                                <%= hidden_field_tag "total", 0  %>
-                                                              </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <a class="btn" onclick="return validate_description()">Continue</a>
+                                                          <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal" id="goto_sport_team" style="display: none;">Continue</a>
+                                                          <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal">Back</a>
+                                                        </div>
+                                                      </div>
+                                                      <div id="sport_team" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">What Sports Teams does <%= @bar.name %> support?</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
+                                                          <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal">Back</a>
+                                                        </div>
+                                                      </div>
+                                                      <div id="check_data" class="modal hide fade">
+                                                        <div class="modal-header">
+                                                          <a class="close" data-dismiss="modal"><b>x</b></a>
+                                                          <h3 style="text-align: center;">Did we get it all?</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <table style="border-style: none;">
+                                                            <tr>
+                                                              <td>Address : </td>
+                                                              <td><div id="address_text"></div></td>
+                                                              <td>City : </td>
+                                                              <td><div id="city_text"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Zip Code : </td>
+                                                              <td><div id="zip_text"></div></td>
+                                                              <td>Phone : </td>
+                                                              <td><div id="phone_text"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Website link: </td>
+                                                              <td><div id="website_text"></div></td>
+                                                              <td>Facebook link: </td>
+                                                              <td><div id="facebook_text"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Twitter link: </td>
+                                                              <td><div  id="twitter_text"></div></td>
+                                                              <td>Google Plus link: </td>
+                                                              <td><div  id="google_text"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Sport Team : </td>
+                                                              <td><div  id="sport_text"></div></td>
+                                                              <td>Description : </td>
+                                                              <td><div  id="description_text"></div></td>
+                                                            </tr>
+                                                            <tr>
+                                                            <button class="btn-primary" style="padding: 4px;border-radius: 3px;">Standard Swig</button>
+                                                            <div  id="swig_text" style="margin-bottom: 10px;"></div>
+                                                            </tr>
+                                                          </table>
 
-                                                              <div id="bigswig_link">
-                                                                <%= link_to "Add", bars_add_bar_hours_path(count: 0), method: :post, remote: true %>
-                                                              </div>
-                                                              <div class="modal-footer">
-                                                                <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig">Continue</a>
-                                                                <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
-                                                              </div>
-                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+                                                          <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
+                                                          <%= f.submit "Submit", class: "btn-primary" %>
                                                           </div>
-                                                          <div id="standard_swig" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>'s Standard Swig in <%= Time.now.to_time.in_time_zone.strftime("%A") %>?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <div class="span4">
-                                                                <div id="swig_notice" style="color: red;"></div>
-                                                                <%= text_area_tag :swig, nil, id: "bar_standard_swig_to_copy" %>
-                                                              </div>
-                                                              <div class="span3 pull-right" style="" id="example">
-                                                                <%= @site_content.swig_exampl.gsub('"r\n\"',"<br/>").html_safe rescue "Not set example yet!".html_safe %>
-                                                              </div>
-                                                              <a class="btn btn-info" style="margin-left: 20px;margin-top: 10px;" id="copy_example">Use Example</a>
-                                                              <div class="span2 pull-right" style="margin-top: 0px;" id="example">
-                                                              </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <a class="btn" onclick="return validate_standard_swig()">Continue</a>
-                                                              <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal" id="goto_description" style="display: none;">Continue</a>
-                                                              <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal">Back</a>
-                                                            </div>
-                                                          </div>
-                                                          <div id="description" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <div style="margin-left: -50px;">
-                                                                <div id="bar_description_validation" style="margin-left: 50px;color: red;"></div>
-                                                                <%= f.input :bar_description, label: false, placeholder: "Bar Description...", input_html: {style: "width: 400px;height: 200px;margin-left: -30px;", onkeyup: "countChar(this)"} %>
-                                                                <div class="pull-right" id="charNum"></div>
-                                                              </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <a class="btn" onclick="return validate_description()">Continue</a>
-                                                              <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal" id="goto_sport_team" style="display: none;">Continue</a>
-                                                              <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal">Back</a>
-                                                            </div>
-                                                          </div>
-                                                          <div id="sport_team" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">What Sports Teams does <%= @bar.name %> support?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
-                                                              <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal">Back</a>
-                                                            </div>
-                                                          </div>
-                                                          <div id="check_data" class="modal hide fade">
-                                                            <div class="modal-header">
-                                                              <a class="close" data-dismiss="modal"><b>x</b></a>
-                                                              <h3 style="text-align: center;">Did we get it all?</h3>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <table style="border-style: none;">
-                                                                <tr>
-                                                                  <td>Address : </td>
-                                                                  <td><div id="address_text"></div></td>
-                                                                  <td>City : </td>
-                                                                  <td><div id="city_text"></div></td>
-                                                                </tr>
-                                                                <tr>
-                                                                  <td>Zip Code : </td>
-                                                                  <td><div id="zip_text"></div></td>
-                                                                  <td>Phone : </td>
-                                                                  <td><div id="phone_text"></div></td>
-                                                                </tr>
-                                                                <tr>
-                                                                  <td>Website link: </td>
-                                                                  <td><div id="website_text"></div></td>
-                                                                  <td>Facebook link: </td>
-                                                                  <td><div id="facebook_text"></div></td>
-                                                                </tr>
-                                                                <tr>
-                                                                  <td>Twitter link: </td>
-                                                                  <td><div  id="twitter_text"></div></td>
-                                                                  <td>Google Plus link: </td>
-                                                                  <td><div  id="google_text"></div></td>
-                                                                </tr>
-                                                                <tr>
-                                                                  <td>Sport Team : </td>
-                                                                  <td><div  id="sport_text"></div></td>
-                                                                  <td>Description : </td>
-                                                                  <td><div  id="description_text"></div></td>
-                                                                </tr>
-                                                                <tr>
-                                                                <button class="btn-primary" style="padding: 4px;border-radius: 3px;">Standard Swig</button>
-                                                                <div  id="swig_text" style="margin-bottom: 10px;"></div>
-                                                                </tr>
-                                                              </table>
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                              <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
-                                                              <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
-                                                              <%= f.submit "Submit", class: "btn-primary" %>
-                                                              </div>
-                                                            </div>
-                                                          <% end %>
-                                                        <% end %>
+                                                        </div>
+                                                      <% end %>
+                                                    <% end %>
 
 
 

@@ -1,8 +1,13 @@
 var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
+$("#big_swig_list_partial").html('<%=j(render partial: "big_swig_list_to_delete_or_update") %>');
+$("#big_swig_list_partial_text").text('Add Success!');
+
 for(var i = 0; i <= 6; i++)
-  for(var j = 1; j <= 4; j++)
-    if(j != 4)
-      $("#"+days[i]+"_bigswig_lists"+j).html('<%=j(render partial: "bigswig_list") %>');
-    else
-      $("#"+days[i]+"_notice_lists"+j).text('Add Success!');
+for(var j = 1; j <= 4; j++)
+if(j != 4)
+$("#"+days[i]+"_bigswig_lists"+j).html('<%=j(render partial: "bigswig_list") %>');
+else
+$("#"+days[i]+"_notice_lists"+j).text('Add Success!');
+
+

@@ -31,7 +31,7 @@ class Bars::DashboardController < ApplicationController
     @loyal = Loyalty.new
     @popular = Popularity.new
     #    @popularity = @bar.rewards.where(reward_type: "Popularity")
-    @popularity = Popularity.all
+    @popularity = current_bar.popularity
     #    @loyalty = @bar.rewards.where(reward_type: "Loyalty")
     #    @loyalty = Loyalty.where(bar_id: current_bar).first
     @loyalty = current_bar.loyalty
@@ -39,6 +39,17 @@ class Bars::DashboardController < ApplicationController
     @loyalty_reward = RewardMessage.new
     @bar_message = ActsAsMessageable::Message.new
     #    @bar_message = BarMessage.new
+    unless params[:coupon].blank?
+      @redeem = current_bar.messages.where(coupon: params[:coupon])
+      unless @redeem.blank?
+        @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+      else
+        @redeem_info = "Unknow Code!"
+      end
+    else
+      @redeem_info = ""
+    end
+
   end
 
   def show
@@ -350,6 +361,24 @@ class Bars::DashboardController < ApplicationController
       redirect_to :back, notice: "#{@loyalty.reward_detail} failed Deactive!"
     end
   end
+  
+  def activate_popularity
+    @popularity = Popularity.find(params[:popularity_id])
+    if @popularity.update_attributes(status: "active")
+      redirect_to :back, notice: "#{@popularity.reward_detail} status Active!"
+    else
+      redirect_to :back, notice: "#{@popularity.reward_detail} failed Active!"
+    end
+  end
+
+  def deactivate_popularity
+    @popularity = Loyalty.find(params[:popularity_id])
+    if @popularity.update_attributes(status: nil)
+      redirect_to :back, notice: "#{@popularity.reward_detail} status Deactive!"
+    else
+      redirect_to :back, notice: "#{@popularity.reward_detail} failed Deactive!"
+    end
+  end
 
   def update_gift
     @gift = Gift.find(params[:id])
@@ -408,6 +437,7 @@ class Bars::DashboardController < ApplicationController
   def add_bigswig_list
     @bigswig_list = current_bar.big_swig_lists.new(params[:big_swig_list])
     if @bigswig_list.save
+      @big_swig_lists = current_bar.big_swig_lists.order("created_at DESC")
       respond_to { |format| format.js }
     end
   end
@@ -437,8 +467,17 @@ class Bars::DashboardController < ApplicationController
   def destroy_bar_big_swig_list
     bigswig_list = BigSwigList.find(params[:bigswiglist_id].to_i)
     bigswig_list.destroy
+    session[:show_big_list] = true
     redirect_to bars_dashboard_url
   end
+
+  #  def destroy_bar_big_swig_list
+  #    bigswig_list = BigSwigList.find(params[:bigswiglist_id].to_i)
+  #    if @bigswig_list.save
+  #      @big_swig_lists = current_bar.big_swig_lists.order("created_at DESC")
+  #      respond_to { |format| format.js }
+  #    end
+  #  end
   
   def update_bar_big_swig_list
     bigswig = BigSwigList.find(params[:bigswiglist_id])
@@ -448,6 +487,7 @@ class Bars::DashboardController < ApplicationController
       redirect_to bars_dashboard_url, notice: "Update failed!"
     end
   end
+
 end
 
 

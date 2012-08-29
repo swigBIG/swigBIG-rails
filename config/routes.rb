@@ -80,6 +80,8 @@ Swprototype::Application.routes.draw do
     post "create_gift" => "dashboard#create_gift", as: "create_gift"
     post "activate_loyalty/:loyalty_id" => "dashboard#activate_loyalty", as: "activate_loyalty"
     post "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
+    post "activate_popularity/:popularity_id" => "dashboard#activate_popularity", as: "activate_popularity"
+    post "deactivate_popularity/:popularity_id" => "dashboard#deactivate_popularity", as: "deactivate_popularity"
     post "update_gift/:id" => "bars/dashboard#update_gift", as: "update_gift"
     post "destroy_gift/:id" => "bars/dashboard#destroy_gift", as: "destroy_gift"
     post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
@@ -87,6 +89,7 @@ Swprototype::Application.routes.draw do
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
     get  "destroy_bar_big_swig_list/:bigswiglist_id" => "dashboard#destroy_bar_big_swig_list", as: "destroy_bar_big_swig_list"
     post  "update_bar_big_swig_list/:bigswiglist_id" => "dashboard#update_bar_big_swig_list", as: "update_bar_big_swig_list"
+    post  "search_redeem_code/:code" => "dashboard#search_redeem_code", as: "search_redeem_code"
     
     get 'notification' => "messages#notification"
     resources :messages do

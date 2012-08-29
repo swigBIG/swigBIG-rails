@@ -11,7 +11,7 @@ class Users::BarsController < ApplicationController
     @bar_name = @bar.name
     @swigs = @bar.swigs#.where(status: "active")
     @swigers = @bar.swigers.all
-    @popularity = Popularity.where(bar_id: @bar)
+    @popularity = @bar.popularity
     @loyalty = @bar.loyalty
     @bar_hours = @bar.bar_hours
     @monday_hour = @bar.bar_hours.where(day: "Monday")

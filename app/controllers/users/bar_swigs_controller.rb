@@ -18,13 +18,13 @@ class Users::BarSwigsController < ApplicationController
 
       if @swiger.save
         if !@bar.loyalty.blank?
-          @point = current_user.points.new(bar_id: @bar.id, loyalty_points: 1 )
+#          @point = current_user.points.new(bar_id: @bar.id, loyalty_points: 1 )
 
-          if @point.save
+#          if @point.save
             redirect_to :back, notice: "You added as Swiger in this BigSwig!"
-          else
-            redirect_to :back, notice: "You failed added as Swiger in this BigSwig!"
-          end
+#          else
+#            redirect_to :back, notice: "You failed added as Swiger in this BigSwig!"
+#          end
         else
           redirect_to :back, notice: "You added as Swiger in this BigSwig!"
         end

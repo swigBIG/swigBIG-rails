@@ -126,190 +126,183 @@
       <% end %>
     <% end %>
     <div class="clearfix"></div>
-    <!--<fieldset class="well" style="margin-left: -15px;">
+    <fieldset class="well" style="margin-left: -15px;">
       <div id="fb-root"></div>
       <fb:like send="false" width="210px" show_faces="true" />
       <fb:like send="false"  width="210px" show_faces="true" />
       <a name="fb_share"></a>
       <br/>
       <br/>
-      <%#= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
+      <%= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
       <b>Who's There</b>
       <br/>
       <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
-        <%# @swigers.each do |swiger| %>
-          <%# unless swiger.user.blank? %>
-            <%# unless swiger.user.name.blank? %>
-              <%#= swiger.user.name %>
-            <%# else %>
-            <%# end %>
-          <%# end %>
-          <br/>
-        <%# end %>
+  <%# @swigers.each do |swiger| %>
+  <%# unless swiger.user.blank? %>
+  <%# unless swiger.user.name.blank? %>
+  <%#= swiger.user.name %>
+  <%# else %>
+  <%# end %>
+  <%# end %>
+        <br/>
+  <%# end %>
       </div>
-    </fieldset>-->
+    </fieldset>
     <br />
     <!--<fieldset class="well" style="margin-left: -15px;">
       <b>Claim reward!</b>
-      <%#= form_tag(users_redeem_reward_path(@bar.id)) do %>
-        <%#= text_field_tag("coupon", nil, placeholder: "your coupon")  %>
-        <%#= submit_tag "claim", class: "btn-primary" %>
-        <%# end %>
+  <%#= form_tag(users_redeem_reward_path(@bar.id)) do %>
+  <%#= text_field_tag("coupon", nil, placeholder: "your coupon")  %>
+  <%#= submit_tag "claim", class: "btn-primary" %>
+  <%# end %>
       </fieldset>-->
-    <% end %>
+  <% end %>
 
 
-    <div class="clearfix"></div>
-    <br/>
-    <div class="clearfix"></div>
-    <!--<div class="accordion-group">
-      <div class="accordion-heading" style="margin-left: 40px;">
-        <div class="accordion-inner">
-          <a class="" data-toggle="collapse" data-target="#popularityandloyalty" style="color: black;"><b>View Rewards</b></a>
-        </div>
-      </div>
+  <div class="clearfix"></div>
+  <br/>
+  <div class="clearfix"></div>
+  <div class="span10 well">
+    <div class="span4 pull-left" style="margin-left: -5px;">
+      <b>Phone Number : </b><%= @bar.phone_number rescue nil %>
+      <br/>
+      <b>Website : </b><%= link_to  @bar.website_link, @bar.website_link.to_s rescue nil %>
+      <br/>
+      <b>Facebook : </b><%= link_to  @bar.facebook_link.to_s, @bar.facebook_link.to_s rescue nil %>
+      <br/>
+      <b>Twitter : </b><%= link_to @bar.twitter_link.to_s, @bar.twitter_link.to_s rescue nil %>
+      <br/>
+      <b>Google+ : </b><%= link_to @bar.google_plus_link.to_s, @bar.google_plus_link.to_s rescue nil %>
+      <br/>
     </div>
-    <div id="popularityandloyalty" class="accordion-body collapse">
-    <div class="accordion-inner">-->
-    <div class="span10 well">
-      <div class="span4 pull-left" style="margin-left: -5px;">
-        <b>Phone Number : </b><%= @bar.phone_number rescue nil %>
-        <br/>
-        <b>Website : </b><%= link_to  @bar.website_link, @bar.website_link.to_s rescue nil %>
-        <br/>
-        <b>Facebook : </b><%= link_to  @bar.facebook_link.to_s, @bar.facebook_link.to_s rescue nil %>
-        <br/>
-        <b>Twitter : </b><%= link_to @bar.twitter_link.to_s, @bar.twitter_link.to_s rescue nil %>
-        <br/>
-        <b>Google+ : </b><%= link_to @bar.google_plus_link.to_s, @bar.google_plus_link.to_s rescue nil %>
-        <br/>
-      </div>
-      <div class="span6 pull-left" style="background-color: white;border-radius: 2px;margin-right: -15px;">
-        <br/>
-        <%= @bar.bar_description rescue nil %>
-        <br/>
-      </div>
-      <div class="span10 pull-right" style="margin-top: 30px;">
+    <div class="span6 pull-left" style="background-color: white;border-radius: 2px;margin-right: -15px;">
+      <br/>
+      <%= @bar.bar_description rescue nil %>
+      <br/>
+    </div>
+    <div class="span10 pull-right" style="margin-top: 30px;">
 
-        <ul class="tabs" data-tabs="tabs">
-          <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
-          <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
-        </ul>
-        <div id="my-tab-content" class="tab-content">
-          <div class="tab-pane active" id="reward_loyalty">
-            <% if user_signed_in? %>
-              <% unless @loyalty.blank? %>
-                <% if @loyalty.status.eql?("active") %>
-                  <b>Swig required : </b><%= @loyalty.swigs_number %>
-                  <br/>
-                  <b>Reward : </b><%= @loyalty.reward_detail %>
-                <% end %>
-              <% end %>
-            <% end %>
+      <ul class="tabs" data-tabs="tabs">
+        <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
+        <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="reward_loyalty">
+          <% unless @loyalty.blank? %>
+            <b>Swig required : </b><%= @loyalty.swigs_number %>
             <br/>
-          </div>
-          <div class="tab-pane" id="reward_popularity">
-            <% @popularity.each do |l| %>
-              <%= l.reward_detail %>
-              <br/>
-            <% end %>
-          </div>
+            <b>Reward : </b><%= @loyalty.reward_detail %>
+          <% else %>
+            <b>Not set yet!</b>
+          <% end %>
+          <br/>
+        </div>
+        <div class="tab-pane" id="reward_popularity">
+          <% unless @popularity.blank? %>
+            <b>Swig required : </b><%= @popularity.swigs_number %>
+            <br/>
+            <b>Reward : </b><%= @popularity.reward_detail %>
+          <% else %>
+            <b>Not set yet!</b>
+          <% end %>
+          <br/>
         </div>
       </div>
     </div>
-    <!--</div>-->
-    <br/>
-    <div class="clearfix"></div>
-    <br/>
-    <ul class="tabs" data-tabs="tabs">
-      <%# if @bar_hours %>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.monday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.monday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3><%= pluralize(@swigs.tuesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.tuesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.tuesday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3><%= pluralize(@swigs.wednesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.wednesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.wednesday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3><%= pluralize(@swigs.thursday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.thursday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.thursday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3><%= pluralize(@swigs.friday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.friday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.friday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3><%= pluralize(@swigs.saturday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.saturday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3><%= pluralize(@swigs.sunday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.sunday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
-    </ul>
+  </div>
+  <!--</div>-->
+  <br/>
+  <div class="clearfix"></div>
+  <br/>
+  <ul class="tabs" data-tabs="tabs">
+<%# if @bar_hours %>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h3>Mon</h3><%= pluralize(@swigs.monday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.monday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.monday.first.close_time rescue "??" %></small></a></li>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h3>Tue</h3><%= pluralize(@swigs.tuesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.tuesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.tuesday.first.close_time rescue "??" %></small></a></li>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h3>Wed</h3><%= pluralize(@swigs.wednesday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.wednesday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.wednesday.first.close_time rescue "??" %></small></a></li>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h3>Thu</h3><%= pluralize(@swigs.thursday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.thursday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.thursday.first.close_time rescue "??" %></small></a></li>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h3>Fri</h3><%= pluralize(@swigs.friday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.friday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.friday.first.close_time rescue "??" %></small></a></li>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h3>Sat</h3><%= pluralize(@swigs.saturday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.saturday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
+    <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h3>Sun</h3><%= pluralize(@swigs.sunday.count, "Deal") %><br/><small style="color: black;font-size: 9px;"><%= @bar_hours.sunday.first.open_time rescue "??" %><b>/</b><%= @bar_hours.saturday.first.close_time rescue "??" %></small></a></li>
+  </ul>
 
-    <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
-        <% @swigs.monday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
-        <% @swigs.tuesday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
-        <% @swigs.wednesday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
-        <% @swigs.thursday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
-        <% @swigs.friday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
-        <% @swigs.saturday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
-        <% @swigs.sunday.order("swig_type DESC").order("people ASC").each do |swig|%>
-          <%= render partial: "swig", locals: {swig: swig}  %>
-        <% end %>
-      </div>
-
+  <div id="my-tab-content" class="tab-content">
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
+      <% @swigs.monday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
+      <% @swigs.tuesday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
+      <% @swigs.wednesday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
+      <% @swigs.thursday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
+      <% @swigs.friday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
+      <% @swigs.saturday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
+    </div>
+    <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
+      <% @swigs.sunday.order("swig_type DESC").order("people ASC").each do |swig|%>
+        <%= render partial: "swig", locals: {swig: swig}  %>
+      <% end %>
     </div>
 
-  </body>
+  </div>
 
-  <%= content_for :outer do %>
-    <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
-      <div class="modal-header">
-        <div style="background-color: #6D84B4;margin-bottom: 5px;">
-          <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
-          <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
-        </div>
-        <button class="btn btn-mini">Search:</button>
-        <input type="text" name="q" value="" style="width: 450px"></input>
-        <span id="count"></span>
-        <p id="none" style="display:none">There were no names to match your search!</p>
+</body>
+
+<%= content_for :outer do %>
+  <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
+    <div class="modal-header">
+      <div style="background-color: #6D84B4;margin-bottom: 5px;">
+        <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
+        <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
       </div>
-      <% if user_signed_in? %>
-        <% if current_user.fb_id %>
-          <%= form_tag(users_invite_swigbig_path) do %>
-          <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-            <%= hidden_field_tag 'bar_id', @bar.id %>
-            <div class="modal-body" style="height:350px">
-              <ul id="fb">
-                <% @friends.each do |friend| %>
-                  <li class="span4" style="margin-top: 10px;list-style: none;">
-                    <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-                    <%= link_to image_tag(friend.picture) %>
-                    <%= friend.name %>
-                  </li>
-                <% end %>
-              </ul>
+      <button class="btn btn-mini">Search:</button>
+      <input type="text" name="q" value="" style="width: 450px"></input>
+      <span id="count"></span>
+      <p id="none" style="display:none">There were no names to match your search!</p>
+    </div>
+    <% if user_signed_in? %>
+      <% if current_user.fb_id %>
+        <%= form_tag(users_invite_swigbig_path) do %>
+        <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+          <%= hidden_field_tag 'bar_id', @bar.id %>
+          <div class="modal-body" style="height:350px">
+            <ul id="fb">
+              <% @friends.each do |friend| %>
+                <li class="span4" style="margin-top: 10px;list-style: none;">
+                  <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
+                  <%= link_to image_tag(friend.picture) %>
+                  <%= friend.name %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <%= submit_tag "invite", class: "btn-primary " %>
+              &nbsp;
+              &nbsp;
+              <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
             </div>
-            <div class="modal-footer">
-              <%= submit_tag "invite", class: "btn-primary " %>
-                &nbsp;
-                &nbsp;
-                <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
-              </div>
-            <% end %>
           <% end %>
         <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+  <% end %>
 
