@@ -1,0 +1,14 @@
+<table>
+  <% @big_swig_lists.each do |bigswig| %>
+    <tr>
+      <td><%= bigswig.big_swig %></td>
+      <td><%= link_to "<i class='icon-remove pull-right'></i>".html_safe, bars_destroy_bar_big_swig_list_path(bigswig.id), confirm: "Are you sure you want to Delete the following BIG swig? #{bigswig.big_swig}".html_safe %></td>
+      <td><a class="" data-toggle="modal" href="#edit_swigbiglist<%= bigswig.id %>" data-dismiss="modal">Edit</a></td>
+      <%= content_for :outer do %>
+      <div id="edit_swigbiglist<%= bigswig.id %>" class="modal hide fade" >
+        <%= render partial: "edit_form_bigswig_list", locals: {bigswig: bigswig} %>
+      </div>
+    <% end %>
+  </tr>
+<% end %>
+</table>
