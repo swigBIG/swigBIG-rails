@@ -441,7 +441,12 @@ class Bars::DashboardController < ApplicationController
   end
   
   def update_bar_big_swig_list
-
+    bigswig = BigSwigList.find(params[:bigswiglist_id])
+    if bigswig.update_attributes(params[:big_swig_list])
+      redirect_to bars_dashboard_url, notice: "Update success!"
+    else
+      redirect_to bars_dashboard_url, notice: "Update failed!"
+    end
   end
 end
 

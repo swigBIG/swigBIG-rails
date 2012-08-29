@@ -188,35 +188,35 @@
   <div class="tab-pane" id="loyalty_and_popularity_tab">
     <h3>Loyalty Reward</h3>
     <% unless current_bar.popularity.blank? %>
-    <div class="span6">
-      <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
-      <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
-      <br/>
-      <% unless @loyalty.blank? %>
-        <% if @loyalty.status.eql?("active") %>
-          <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
-          <% else %>
-            <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
+      <div class="span6">
+        <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
+        <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
+        <br/>
+        <% unless @loyalty.blank? %>
+          <% if @loyalty.status.eql?("active") %>
+            <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
+            <% else %>
+              <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
+              <% end %>
+            </div>
+            <div class="span4 pull-right">
+              <a class="" data-toggle="modal" href="#update_bar_loyalty">Update</a>
+              <%= content_for :outer do %>
+                <div id="update_bar_loyalty" class="modal hide fade">
+                  <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
+                </div>
+              <% end %>
             <% end %>
-          </div>
-          <div class="span4 pull-right">
-            <a class="" data-toggle="modal" href="#update_bar_loyalty">Update</a>
+            <!--<a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>-->
             <%= content_for :outer do %>
-              <div id="update_bar_loyalty" class="modal hide fade">
-                <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
+              <div id="message_all_winner" class="modal hide fade">
+                <%= render partial: "all_winner_loyalty_reward" %>
               </div>
             <% end %>
-          <% end %>
-          <!--<a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>-->
-          <%= content_for :outer do %>
-            <div id="message_all_winner" class="modal hide fade">
-              <%= render partial: "all_winner_loyalty_reward" %>
-            </div>
-          <% end %>
-        </div>
-    <% else %>
-    <b>Not set yet!</b>
-    <% end %>
+          </div>
+        <% else %>
+          <b>Not set yet!</b>
+        <% end %>
         <div class="clearfix"></div>
         <div class="clearfix"></div>
         <h3>Popularity Reward</h3>
@@ -876,6 +876,12 @@
                                                               <td><%= bigswig.id %></td>
                                                               <td><%= bigswig.big_swig %></td>
                                                               <td><%= link_to "<i class='icon-remove pull-right'></i>".html_safe, bars_destroy_bar_big_swig_list_path(bigswig.id), confirm: "Are you sure you want to Delete the following BIG swig? #{bigswig.big_swig}".html_safe %></td>
+                                                              <td><a class="" data-toggle="modal" href="#edit_swigbiglist<%= bigswig.id %>" data-dismiss="modal">Edit</a></td>
+                                                              <%= content_for :outer do %>
+                                                              <div id="edit_swigbiglist<%= bigswig.id %>" class="modal hide fade" >
+                                                                <%= render partial: "edit_form_bigswig_list", locals: {bigswig: bigswig} %>
+                                                              </div>
+                                                            <% end %>
                                                             </tr>
                                                           <% end %>
                                                         </table>
@@ -926,7 +932,7 @@
                                                     preventDuplicates: true,
                                                     prePopulate: include_sport_list
                                                     });
-                                                    $(".alert-success").hide();
+                                                    //$(".alert-success").hide();
                                                     //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
                                                     });
                                                     </script>

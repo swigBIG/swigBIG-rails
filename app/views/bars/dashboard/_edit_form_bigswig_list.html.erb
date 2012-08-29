@@ -1,0 +1,12 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
+  <h3>Edit</h3>
+</div>
+<%= simple_form_for(bigswig, url: bars_update_bar_big_swig_list_path(bigswig.id), method: :post) do |f| %>
+<div class="modal-body">
+<%= f.input :big_swig %>
+</div>
+<div class="modal-footer">
+  <%= f.submit "Update", class: "btn-success" %>
+</div>
+<% end %>

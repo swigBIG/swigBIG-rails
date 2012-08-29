@@ -86,6 +86,7 @@ Swprototype::Application.routes.draw do
     post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
     get  "destroy_bar_big_swig_list/:bigswiglist_id" => "dashboard#destroy_bar_big_swig_list", as: "destroy_bar_big_swig_list"
+    post  "update_bar_big_swig_list/:bigswiglist_id" => "dashboard#update_bar_big_swig_list", as: "update_bar_big_swig_list"
     
     get 'notification' => "messages#notification"
     resources :messages do
