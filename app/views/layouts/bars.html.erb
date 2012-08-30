@@ -32,23 +32,8 @@
           <div class="nav pull-right" >
             <% if bar_signed_in? %>
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
-              <li><b><%= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
-              <li id="message" class="dropdown">
-                <% unless  current_bar.received_messages.where("opened is false").blank? %>
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
-                  <ul class="dropdown-menu" id="message" style="margin-left: -350px !important;">
-                    <li style="margin-left: 5px;"><b>messages</b></li>
-                    <li class="divider"></li>
-                    <% current_bar.received_messages.where("opened is false").each do |message| %>
-                      <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %>
-                        <br/>
-                        <%= message.created_at.strftime("%v") %>
-                      </li>
-                      <li class="divider"></li>
-                    <% end %>
-                  </ul>
-                <% end %>
-              </li>
+
+
               <li><b><%= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>
               <li id="notification" class="dropdown">
                 <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
@@ -60,6 +45,32 @@
                       <li style="width: 290px;margin-bottom: 3px;" onclick="window.location.href='<%= bars_message_url(notification) %>'"><%= notification.topic %>
                         <br/>
                         <%= notification.created_at.strftime("%v") %>
+                      </li>
+                      <li class="divider"></li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </li>
+              <li><b><%#= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
+              <li>
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color: white;"><b>Messaging</b></a>
+                <ul class="dropdown-menu" id="messaging" style="margin-right: 220px;">
+                  <li><a class=""  href="#bar_message" data-toggle="modal"><b>New</b></a></li>
+                  <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Inbox", bars_messages_path, style: "color: white;" %></b></a></li>
+                  <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Sent", sent_bars_messages_path, style: "color: white;" %></b></a></li>
+                  <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Trash", trash_bars_messages_path, style: "color: white;" %></b></a></li>
+                </ul>
+              </li>
+              <li id="message" class="dropdown">
+                <% unless  current_bar.received_messages.where("opened is false").blank? %>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
+                  <ul class="dropdown-menu" id="message" style="margin-left: -350px !important;">
+                    <li style="margin-left: 5px;"><b>messages</b></li>
+                    <li class="divider"></li>
+                    <% current_bar.received_messages.where("opened is false").each do |message| %>
+                      <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %>
+                        <br/>
+                        <%= message.created_at.strftime("%v") %>
                       </li>
                       <li class="divider"></li>
                     <% end %>
@@ -129,50 +140,9 @@
       </div>
     </div>
 
-    <div id="copright" class="modal hide fade">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3 style="text-align: center;">Copright</h3>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center;">
-          <%= @site_content.corp_information rescue nil %>
-        </div>
-      </div>
-    </div>
-    <div id="about" class="modal hide fade">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3 style="text-align: center;">About Us</h3>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center;">
-          <%= @site_content.about_us rescue nil %>
-        </div>
-      </div>
-    </div>
-    <div id="contact" class="modal hide fade">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3 style="text-align: center;">Contact Us</h3>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center;">
-          <%= @site_content.contact_us rescue nil %>
-        </div>
-      </div>
-    </div>
-    <div id="learn_more" class="modal hide fade">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3 style="text-align: center;">Learn More</h3>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center;">
-          <%= @site_content.learn_more rescue nil %>
-        </div>
-      </div>
-    </div>
+    <!--Bar popup-->
+    <%= render partial: "shared/bar_modal_partial.html" %>
+
 
   </body>
   <%= yield :bottom_js %>

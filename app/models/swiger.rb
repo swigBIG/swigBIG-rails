@@ -39,7 +39,7 @@ class Swiger < ActiveRecord::Base
           end
         end
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
-        self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial})
+        self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial, coupon_status: false})
       end
     end
   end

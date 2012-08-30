@@ -261,6 +261,12 @@ class Bars::DashboardController < ApplicationController
       end
       redirect_to :back, notice: "Message success Send! to 75%"
 
+    when "17"
+      current_bar.messages.where(coupon_status: true).pluck(:received_messageable_id).each do |u|
+        user = User.find(u)
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+      end
+      redirect_to :back, notice: "Message succes send to all users that have not used their rewards!"
     when "30"
       user = params[:acts_as_messageable_message][:to].split(",").each do |u|
         user = User.find(u)
@@ -389,7 +395,7 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-  def destroy_gift
+  def destroy_gift_in_list
     @gift = Gift.find(params[:id])
     @gift.destroy
     redirect_to :back, notice: "Gift Success delete"
