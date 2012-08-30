@@ -82,14 +82,14 @@ Swprototype::Application.routes.draw do
     post "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
     post "activate_popularity/:popularity_id" => "dashboard#activate_popularity", as: "activate_popularity"
     post "deactivate_popularity/:popularity_id" => "dashboard#deactivate_popularity", as: "deactivate_popularity"
-#    post "update_gift/:gift_id" => "dashboard#update_gift", as: "update_gift"
+    #    post "update_gift/:gift_id" => "dashboard#update_gift", as: "update_gift"
     post "destroy_gift_in_list/:gift_id" => "dashboard#destroy_gift_in_list", as: "destroy_gift_in_list"
     post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
     post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
     post  "add_reward_to_list" => "dashboard#add_reward_to_list", as: "add_reward_to_list"
-#    post  "delete_reward_from_list" => "dashboard#delete_reward_from_list", as: "delete_reward_from_list"
-#    post  "update_reward_from_list" => "dashboard#update_reward_from_list", as: "update_reward_from_list"
+    #    post  "delete_reward_from_list" => "dashboard#delete_reward_from_list", as: "delete_reward_from_list"
+    #    post  "update_reward_from_list" => "dashboard#update_reward_from_list", as: "update_reward_from_list"
     get  "destroy_bar_big_swig_list/:bigswiglist_id" => "dashboard#destroy_bar_big_swig_list", as: "destroy_bar_big_swig_list"
     post  "update_bar_big_swig_list/:bigswiglist_id" => "dashboard#update_bar_big_swig_list", as: "update_bar_big_swig_list"
     post  "search_redeem_code/:code" => "dashboard#search_redeem_code", as: "search_redeem_code"
@@ -104,11 +104,10 @@ Swprototype::Application.routes.draw do
       end
     end
   end
+  
   resources :bars do
     match "upgrade" => "bars/payment_gateway#index", as: "upgrade"
   end
-
-
 
   namespace :users do
     match  "invite_friend" => "dashboard#after_join_invite_friends_by_email", as: "after_join_invite_friends_by_email"

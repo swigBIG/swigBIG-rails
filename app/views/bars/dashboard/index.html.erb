@@ -616,7 +616,7 @@
                   <%= simple_form_for(@popular, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
                 <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
                     <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
-                    <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                    <%= f.input :reward_detail , as: :select, collection: current_bar.gifts.map{ |g| [g.descriptions, g.descriptions]} ,input_html: { style: "width: 430px;"}%>
                     <%= f.input :swigs_number %>
                     <div class="form-actions">
                       <%= f.submit "Create Popularity", class: "btn-primary" %>
@@ -633,7 +633,7 @@
                     <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
                   <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
                       <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
-                      <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+                      <%= f.input :reward_detail , as: :select, collection: current_bar.gifts.map{ |g| [g.descriptions, g.descriptions]} ,input_html: { style: "width: 430px;"}%>
                       <%= f.input :swigs_number %>
                       <div class="form-actions">
                         <%= f.submit "Create Loyalty", class: "btn-primary" %>
