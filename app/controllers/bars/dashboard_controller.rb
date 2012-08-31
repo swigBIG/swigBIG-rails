@@ -387,8 +387,9 @@ class Bars::DashboardController < ApplicationController
   end
 
   def update_gift
-    @gift = Gift.find(params[:id])
+    @gift = Gift.find(params[:gift_id])
     if @gift.update_attributes(params[:gift])
+      session[:show_gift_list_after_update] = true
       redirect_to :back, notice: "gift success change!"
     else
       redirect_to :back, notice: "gift not change!"
@@ -396,8 +397,9 @@ class Bars::DashboardController < ApplicationController
   end
 
   def destroy_gift_in_list
-    @gift = Gift.find(params[:id])
+    @gift = Gift.find(params[:gift_id])
     @gift.destroy
+    session[:show_gift_list] = true
     redirect_to :back, notice: "Gift Success delete"
   end
 
