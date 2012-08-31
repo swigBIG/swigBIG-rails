@@ -35,7 +35,7 @@ module ApplicationHelper
   end
 
   def gift_collections
-    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).map{ |g| [g.name, g.id] }
+    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).map{ |reward| [reward.descriptions, reward.descriptions] }
   end
 
   def reward_collections
@@ -89,4 +89,6 @@ module ApplicationHelper
     end
     link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
   end
+
+ 
 end

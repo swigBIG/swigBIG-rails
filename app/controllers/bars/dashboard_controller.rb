@@ -137,10 +137,10 @@ class Bars::DashboardController < ApplicationController
   #  end
 
   def create_loyalty
-    @loyalty = Loyalty.new(params[:loyalty])
-    
+    @loyalty = Loyalty.new(bar_id: params[:loyalty][:bar_id], reward_detail: params[:descriptions], swigs_number: params[:loyalty][:swigs_number] )
     if @loyalty.save
       #      Loyalty.find().update_attributes(bar_id: current_bar.id)
+      session[:after_create_loyalty] = true
       redirect_to :back, notice: "loyalty success added"
     else
       redirect_to :back, notice: "loyalty fail added"
@@ -148,8 +148,9 @@ class Bars::DashboardController < ApplicationController
   end
   
   def create_popularity
-    @popularity = Popularity.new(params[:popularity])
+    @popularity = Popularity.new(bar_id: params[:popularity][:bar_id], reward_detail: params[:descriptions], swigs_number: params[:popularity][:swigs_number] )
     if @popularity.save
+       session[:after_create_popularity] = true
       redirect_to :back, notice: "popularity success added"
     else
       redirect_to :back, notice: "popularity fail added"
@@ -344,7 +345,8 @@ class Bars::DashboardController < ApplicationController
   def create_gift
     @gift = current_bar.gifts.new(params[:gift])
     if @gift.save
-      redirect_to :back, notice: "Gift success create!"
+#      redirect_to :back, notice: "Gift success create!"
+      respond_to { |format| format.js }
     else
       redirect_to :back, notice: "Gift failed create!"
     end

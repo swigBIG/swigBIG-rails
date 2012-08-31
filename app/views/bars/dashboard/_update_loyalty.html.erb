@@ -7,6 +7,7 @@
   <%= simple_form_for(l, url: bars_update_loyalty_path(l.id), method: :post, html: { :class => "form-horizontal"}) do |f| %>
     <%= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
     <%= f.input :reward_detail , as: :text,input_html: { style: "width: 300px;height: 100px"}%>
+  <%#= render partial: "reward" %>
     <%= f.input :swigs_number %>
     <div class="form-actions">
       <%= f.submit "Change", class: "btn-primary" %>
