@@ -634,21 +634,24 @@
                   <%= simple_form_for(@popular, url: bars_create_popularity_path, html: { :class => "form-horizontal"}) do |f| %>
                 <%#= f.input :reward_type, as: :hidden, input_html: {value: "Popularity"} %>
                     <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id} %>
-                    <div style="margin-left: -50px;">
+                    <div style="margin-left: 0px;">
                 <%#= f.input :reward_detail , as: :select, collection: current_bar.gifts.map{ |g| [g.descriptions, g.descriptions]} ,input_html: { style: "width: 430px;"}%>
                       <div id="reward_list_to_loyalty" style="margin-left: 50px;">
                         <%= render partial: "reward" %>
                       </div>
-                      <%= f.input :swigs_number %>
+                      <div style="margin-top: 20px;margin-left: 110px;">Number people to bar</div>
+                        <div style="margin-left: 195px;margin-top: -20px;">
+                          <%= f.input :swigs_number,as: :integer, label: false, input_html: {style: "width: 40px;"} %>
+                        </div>
                       <%= f.submit "Done", class: "btn-primary pull-right",  id: "popularity_submit_button", style: "display: none;" %>
                       <% end %>
                     </div>
                     <div style="text-align: center;"><h3>OR</h3></div>
                     <%= render partial: "add_reward_form_partial" %>
-                    <div class="modal-footer">
-                      <a class="pull-left btn" data-dismiss="modal">Cancel</a>
-                      <a class="btn" onclick="$('#popularity_submit_button').click()">Done</a>
-                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <a class="pull-left btn" data-dismiss="modal">Cancel</a>
+                    <a class="btn" onclick="$('#popularity_submit_button').click()">Done</a>
                   </div>
                 </div>
                 <div id="loyalty" class="modal hide fade">
