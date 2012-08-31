@@ -7,6 +7,8 @@ Swprototype::Application.routes.draw do
 
   get "notifications/index"
 
+  
+
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -82,8 +84,8 @@ Swprototype::Application.routes.draw do
     post "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
     post "activate_popularity/:popularity_id" => "dashboard#activate_popularity", as: "activate_popularity"
     post "deactivate_popularity/:popularity_id" => "dashboard#deactivate_popularity", as: "deactivate_popularity"
-    #    post "update_gift/:gift_id" => "dashboard#update_gift", as: "update_gift"
-    post "destroy_gift_in_list/:gift_id" => "dashboard#destroy_gift_in_list", as: "destroy_gift_in_list"
+    post "update_gift/:gift_id" => "dashboard#update_gift", as: "update_gift"
+    get "destroy_gift_in_list/:gift_id" => "dashboard#destroy_gift_in_list", as: "destroy_gift_in_list"
     post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
     post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
@@ -103,6 +105,12 @@ Swprototype::Application.routes.draw do
         get 'new/:user_ids' => "messages#new", as: :new
       end
     end
+
+#    resources :gifts do
+#      collection do
+#        delete 'remove_gift/:gifts_id' => "gifts#remove_gift", as: :remove_gift
+#      end
+#    end
   end
   
   resources :bars do
