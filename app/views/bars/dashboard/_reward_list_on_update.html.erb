@@ -1,0 +1,27 @@
+<% @gifts.each do |gift| %>
+  <% unless gift.new_record? %>
+    <tr>
+      <td class="span12">
+        <%= gift.descriptions %>
+      </td>
+      <td class="pull-right">
+        <a class="" data-toggle="modal" href="#gift_update_modal<%= gift.id %>"><i class="icon-edit"></i></a>
+        <%= link_to "<i class='icon-remove'></i>".html_safe, bars_destroy_gift_in_list_path(gift.id), method: :get, remote: true %>
+        <div id="gift_update_modal<%= gift.id %>" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal" id="update_close"><b>x</b></a>
+            <h3>Edit Reward</h3>
+          </div>
+          <%= simple_form_for(gift, url:  bars_update_gift_path(gift.id), method: :post, remote: true) do |f| %>
+            <div class="modal-body">
+              <%= f.input :descriptions, label: "Reward description", input_html: {style: "width: 385px;height: 140px;"} %>
+            </div>
+            <div class="modal-footer">
+              <%= f.submit "Change", class: "btn", onclick: "$('#update_close').click();" %>
+              </div>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>

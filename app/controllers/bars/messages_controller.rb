@@ -73,7 +73,7 @@ class Bars::MessagesController < ApplicationController
         end
       end
     end
-    redirect_to params[:form_type].blank? ? :back : :back
+    redirect_to params[:form_type].blank? ? bars_messages_path : trash_bars_messages_path
   end
 
   def trash

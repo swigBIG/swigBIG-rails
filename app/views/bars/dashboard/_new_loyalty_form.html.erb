@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal"><b>x</b></a>
+  <h3>Loyalty</h3>
+</div>
+<div class="modal-body well">
+  <%= simple_form_for(@loyal, url: bars_create_loyalty_path, html: { :class => "form-horizontal"}) do |f| %>
+  <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
+    <%= f.input :bar_id, as: :hidden, input_html: {value: current_bar.id.to_i} %>
+    <div style="margin-left: 0px;">
+      <!--<b>Reward </b><%#= f.input :reward_detail , as: :select, label: false, collection: current_bar.gifts.map{ |g| [g.descriptions, g.descriptions]} ,input_html: { style: "width: 430px;margin-left: -20px;"}%>-->
+      <div id="reward_list_to_popularity" style="margin-left: 50px;">
+      <%= render partial: "reward" %>
+      </div>
+      <div style="margin-top: 20px;margin-left: 110px;">Number of Swigs to Unlock</div>
+      <div style="margin-left: 195px;margin-top: -20px;">
+        <%= f.input :swigs_number,as: :integer, label: false, input_html: {style: "width: 40px;"} %>
+      </div>
+    </div>
+    <%= f.submit "Done", class: "btn-primary pull-right",  id: "loyalty_submit_button", style: "display: none;" %>
+    <% end %>
+    <h3 style="text-align: center;">OR</h3>
+    <b><div id="reward_list_partial_text" style="color: green;"></div></b>
+    <%= render partial: "add_reward_form_partial" %>
+  </div>
+  <div class="modal-footer">
+    <a class="pull-left btn" data-dismiss="modal">Cancel</a>
+    <a class="btn" onclick="$('#loyalty_submit_button').click()">Done</a>
+  </div>

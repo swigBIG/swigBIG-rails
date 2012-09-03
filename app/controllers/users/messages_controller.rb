@@ -57,7 +57,7 @@ layout "users"
         end
       end
     end
-    redirect_to params[:form_type].blank? ? students_messages_path : trash_students_messages_path
+    redirect_to params[:form_type].blank? ? users_messages_path : trash_users_messages_path
   end
 
   def trash

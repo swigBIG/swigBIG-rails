@@ -4,10 +4,13 @@
   <h3>Edit Popularity</h3>
 </div>
 <div class="modal-body well">
-  <%= simple_form_for(l, url: bars_update_popularity_path(l.id), method: :post, html: { :class => "form-horizontal"}) do |f| %>
+  <%= simple_form_for(@popularity, url: bars_update_popularity_path(@popularity.id), method: :post, html: { :class => "form-horizontal"}) do |f| %>
   <%#= f.input :reward_type, as: :hidden, input_html: {value: "Loyalty"} %>
     <%= f.input :reward_detail , as: :select, collection: gift_collections ,input_html: { style: "width: 400px;height: 30px;margin-left", id: "popularity_options_list"} %>
-    <%#= render partial: "reward_on_update", locals: {f: f} %>
+    <!--<div id="reward_details_popularity">
+  <%#= render partial: "reward_popularity", locals: {f: f} %>
+    </div>-->
+  <%#= render partial: "reward_on_update", locals: {f: f} %>
     <%= f.input :swigs_number %>
     <div class="form-actions">
       <%= f.submit "Change", class: "btn-primary" %>

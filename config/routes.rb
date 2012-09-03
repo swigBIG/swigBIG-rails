@@ -71,6 +71,10 @@ Swprototype::Application.routes.draw do
     post  "create_loyalty" => "dashboard#create_loyalty", as: "create_loyalty"
     post  "create_popularity" => "dashboard#create_popularity", as: "create_popularity"
     #    post  "update_reward/:id" => "dashboard#update_reward", as: "update_reward"
+    get "edit_loyalty/:id" => "dashboard#edit_loyalty", as: :edit_loyalty
+    get "new_loyalty" => "dashboard#new_loyalty", as: :new_loyalty
+    get "edit_popularity/:id" => "dashboard#edit_popularity", as: :edit_popularity
+    get "new_popularity" => "dashboard#new_popularity", as: :new_popularity
     post  "update_loyalty/:id" => "dashboard#update_loyalty", as: "update_loyalty"
     post  "update_popularity/:id" => "dashboard#update_popularity", as: "update_popularity"
     #    delete  "delete_reward/:id" => "dashboard#delete_reward", as: "delete_reward"
@@ -160,7 +164,7 @@ Swprototype::Application.routes.draw do
     namespace :v1 do
       resource :swig_mobiles do
         post 'register', 'home', 'bar_swigs', 'swig_bar', 'update_user'
-        get 'get_lat_lon', 'swigbig_mobile', 'get_map', 'swig_list'
+        get 'get_lat_lon', 'swigbig_mobile', 'get_map', 'swig_list', 'reward_list'
       end
     end
   end

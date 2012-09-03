@@ -35,11 +35,11 @@ module ApplicationHelper
   end
 
   def gift_collections
-    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).map{ |reward| [reward.descriptions, reward.descriptions] }
+    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).order("created_at DESC").map{ |reward| [reward.descriptions, reward.descriptions] }.unshift([nil, nil])
   end
 
   def reward_collections
-    Reward.where(["bar_id = (?) OR bar_id = (?)", nil, current_bar.id ]).all.map{ |g| [g.name , g.id] }
+    Reward.where(["bar_id = (?) OR bar_id = (?)", nil, current_bar.id ]).all.map{ |g| [g.name , g.id] }.unshift
   end
 
   #  scope :n_line, gsub("\r\n","<br/>").html_safe

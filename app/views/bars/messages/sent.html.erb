@@ -6,24 +6,24 @@
     <div class="span8">
       <h2>Sent Message</h2>
       <ul class="tabs" data-tabs="tabs">
-        <li class="active"><a href="#all_user" data-toggle="tab"><h4>All Users</h4></a></li>
-        <li><a href="#last_visit" data-toggle="tab"><h4>Last Visit</h4></a></li>
-        <li><a href="#almost_rewarded" data-toggle="tab"><h4>Almost Rewarded</h4></a></li>
-        <li><a href="#unused_rewards" data-toggle="tab"><h4>Unused Rewards</h4></a></li>
+        <li class="active"><a href="#all_user_tab" data-toggle="tab"><h4>All Users</h4></a></li>
+        <li><a href="#last_visit_tab" data-toggle="tab"><h4>Last Visit</h4></a></li>
+        <li><a href="#almost_rewarded_tab" data-toggle="tab"><h4>Almost Rewarded</h4></a></li>
+        <li><a href="#unused_rewards_tab" data-toggle="tab"><h4>Unused Rewards</h4></a></li>
       </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="all_user">
-          <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
-            <table class="table">
-              <thead>
-                <tr>
-                  <td colspan="4">
-                    <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-                    <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
-                  </td>
-                </tr>
-              </thead>
-            </table>
+      <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
+        <table class="table">
+          <thead>
+            <tr>
+              <td colspan="4">
+                <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
+                <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
+              </td>
+            </tr>
+          </thead>
+        </table>
+        <div class="tab-content">
+          <div class="tab-pane active" id="all_user_tab">
             <table>
               <th>To</th>
               <th>Subject</th>
@@ -40,22 +40,10 @@
                 <% end %>
               </tbody>
             </table>
-  <%#= paginate @messages %>
-          <% end %>
-        </div>
+  <%= paginate @messages_all_user %>
+          </div>
 
-        <div class="tab-pane" id="last_visit">
-          <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
-            <table class="table">
-              <thead>
-                <tr>
-                  <td colspan="4">
-                    <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-                    <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
-                  </td>
-                </tr>
-              </thead>
-            </table>
+          <div class="tab-pane" id="last_visit_tab">
             <table>
               <th>To</th>
               <th>Subject</th>
@@ -73,21 +61,9 @@
               </tbody>
             </table>
   <%#= paginate @messages %>
-          <% end %>
-        </div>
+          </div>
 
-        <div class="tab-pane" id="almost_rewarded">
-          <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
-            <table class="table">
-              <thead>
-                <tr>
-                  <td colspan="4">
-                    <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-                    <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
-                  </td>
-                </tr>
-              </thead>
-            </table>
+          <div class="tab-pane" id="almost_rewarded_tab">
             <table>
               <th>To</th>
               <th>Subject</th>
@@ -105,41 +81,29 @@
               </tbody>
             </table>
   <%#= paginate @messages %>
-          <% end %>
-        </div>
+          </div>
 
-        <div class="tab-pane" id="unused_rewards">
-          <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
-            <table class="table">
-              <thead>
-                <tr>
-                  <td colspan="4">
-                    <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
-                    <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
-                  </td>
-                </tr>
-              </thead>
-            </table>
+          <div class="tab-pane" id="unused_rewards_tab">
             <table>
               <th>To</th>
               <th>Subject</th>
               <th>Date</th>
               <th>[]</th>
               <tbody>
-                <% current_bar.messages.group(:created_at).each do |message| %>
-                  <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
+                <%# current_bar.messages.group(:created_at).each do |message| %>
+                  <tr style="cursor: pointer;background-color: <%#= message.opened ? "white" : "darkgrey" %>">
                     <td class="span7"><%#= message.received_messageable.name %></td>
-                    <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %></td>
-                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
-                    <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
+                    <td class="span10" onclick="window.location.href='<%#= bars_message_url(message) %>'"><%#= message.topic %></td>
+                    <td class="span4" onclick="window.location.href='<%#= bars_message_url(message) %>'"><%#= message.created_at.strftime("%b %d, %Y") %></td>
+                    <td class="span2"><%#= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
                   </tr>
-                <% end %>
+                <%# end %>
               </tbody>
             </table>
-  <%#= paginate @messages %>
-          <% end %>
+            <%#= paginate @messages %>
+          </div>
         </div>
-      </div>
+      <% end %>
 
     </div>
   </div>

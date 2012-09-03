@@ -23,7 +23,7 @@ class Bars::DashboardController < ApplicationController
     @swigs_friday = @bar.swigs.friday.page(params[:page]).per(3)
     @swigs_saturday = @bar.swigs.saturday.page(params[:page]).per(3)
     @swigs_sunday = @bar.swigs.sunday.page(params[:page]).per(3)
-    @gifts = @bar.gifts
+    @gifts = @bar.gifts.order("created_at DESC")
     @swig = @bar.swigs.new
     @gift = @bar.gifts.new
     #    @reward = @bar.rewards.new
@@ -150,7 +150,7 @@ class Bars::DashboardController < ApplicationController
   def create_popularity
     @popularity = Popularity.new(bar_id: params[:popularity][:bar_id], reward_detail: params[:descriptions], swigs_number: params[:popularity][:swigs_number] )
     if @popularity.save
-       session[:after_create_popularity] = true
+      session[:after_create_popularity] = true
       redirect_to :back, notice: "popularity success added"
     else
       redirect_to :back, notice: "popularity fail added"
@@ -342,16 +342,6 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-  def create_gift
-    @gift = current_bar.gifts.new(params[:gift])
-    if @gift.save
-#      redirect_to :back, notice: "Gift success create!"
-      respond_to { |format| format.js }
-    else
-      redirect_to :back, notice: "Gift failed create!"
-    end
-  end
-
   def activate_loyalty
     @loyalty = Loyalty.find(params[:loyalty_id])
     if @loyalty.update_attributes(status: "active")
@@ -388,21 +378,57 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
+  def create_gift
+    @gift = current_bar.gifts.new(params[:gift])
+    @gifts = current_bar.gifts.order("created_at DESC")
+
+    if @gift.save
+      #      unless current_bar.loyalty.blank?
+      #      @loyalty_form = current_bar.loyalty
+      #      end
+      #      unless current_bar.loyalty.blank?
+      #        @popularity_form = current_bar.popularity
+      #      end
+      respond_to { |format| format.js }
+    else
+      redirect_to :back, notice: "Gift failed create!"
+    end
+  end
+
+  def edit_loyalty
+    @loyalty = Loyalty.find(params[:id])
+  end
+
+  def new_loyalty
+    @loyal = Loyalty.new
+    @gift = current_bar.gifts.new
+    #    @popular = Popularity.new
+  end
+  
+  def edit_popularity
+    @popularity = Popularity.find(params[:id])
+  end
+
+  def new_popularity
+    @popular = Popularity.new
+    @gift = current_bar.gifts.new
+  end
+  
   def update_gift
     @gift = Gift.find(params[:gift_id])
+    @gifts = current_bar.gifts.order("created_at DESC")
     if @gift.update_attributes(params[:gift])
-      session[:show_gift_list_after_update] = true
-      redirect_to :back, notice: "gift success change!"
+      respond_to { |format| format.js }
     else
-      redirect_to :back, notice: "gift not change!"
+      redirect_to :back, notice: "Gift failed create!"
     end
   end
 
   def destroy_gift_in_list
     @gift = Gift.find(params[:gift_id])
     @gift.destroy
-    session[:show_gift_list] = true
-    redirect_to :back, notice: "Gift Success delete"
+    @gifts = current_bar.gifts.order("created_at DESC")
+    respond_to { |format| format.js }
   end
 
   def sport_lists

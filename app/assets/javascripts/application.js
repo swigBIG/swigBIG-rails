@@ -15,3 +15,18 @@
 //= require ckeditor/ckeditor
 //= require_tree .
 
+$(document).ready(function(){
+    $("#options_action").change(function(){
+        if($(this).val() == "1"){
+            $(".checkbox").attr("checked", "checked")
+        }
+        else {
+            $(".checkbox").removeAttr("checked")
+        }
+    });
+    $("#custom_action").change(function(){
+        if($(this).val() != "0"){
+            $("#message_action_form").submit();
+        }
+    })
+})
