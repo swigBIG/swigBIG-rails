@@ -113,9 +113,6 @@
         <div class="modal-body well">
           <div id="people_text"></div>
           <%= simple_form_for(:swig, url: bars_create_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
-        <%#= text_area_tag "deals[]", nil, rows: 2, cols: 105 %>
-        <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
-        <%#= text_area_tag "deals[]", nil,  style: "width: 500px; height: 23px;margin-bottom: 3px;" %>
             <% 3.times do |x| %>
               <div id="monday_bigswig_lists<%= x + 1 %>">
                 <%= render partial: "bigswig_list" %>

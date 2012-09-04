@@ -88,4 +88,8 @@ class Bars::MessagesController < ApplicationController
 #    @messages_almost_rewarded = current_bar.sent_messages.where(category: 2).group(:created_at).page(params[:page]).per(10)
   end
 
+  def message_popup
+    @bar_message = ActsAsMessageable::Message.new
+  end
+
 end

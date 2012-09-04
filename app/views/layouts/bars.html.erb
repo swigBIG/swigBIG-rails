@@ -55,7 +55,7 @@
               <li>
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color: white;"><b>Messaging</b></a>
                 <ul class="dropdown-menu" id="messaging" style="margin-right: 220px;">
-                  <li><a class=""  href="#bar_message" data-toggle="modal"><b>New</b></a></li>
+                  <li><a class="" data-toggle="modal" href="#bar_message" onclick="$('#bar_message').html('');$.get('/bars/messages/message_popup')"><b style="color: white;">New</b></a></li>
                   <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Inbox", bars_messages_path, style: "color: white;" %></b></a></li>
                   <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Sent", sent_bars_messages_path, style: "color: white;" %></b></a></li>
                   <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Trash", trash_bars_messages_path, style: "color: white;" %></b></a></li>

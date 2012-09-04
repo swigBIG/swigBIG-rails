@@ -35,6 +35,8 @@
               <!--<td class="span7"><%#= link_to  message.sent_messageable.email.titleize, bars_message_url(message) %></td>-->
               <% if message.sent_messageable_type.eql?("AdminUser") %>
                 <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= "SwigBIG.com" %></b></td>
+                <% else %>
+                <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.sent_messageable.name rescue "Not set yet" %></b></td>
               <% end %>
               <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 20) %></td>
               <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>

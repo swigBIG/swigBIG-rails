@@ -7,8 +7,6 @@ Swprototype::Application.routes.draw do
 
   get "notifications/index"
 
-  
-
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -24,6 +22,8 @@ Swprototype::Application.routes.draw do
   end
 
   root to:  "home#main"
+
+  
   
   get "bars/city/:id" =>  "home#city", as: "city"
   
@@ -106,6 +106,7 @@ Swprototype::Application.routes.draw do
         get 'sent'
         post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
         get 'trash'
+        get 'message_popup'
         get 'new/:user_ids' => "messages#new", as: :new
       end
     end

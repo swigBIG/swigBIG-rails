@@ -4,25 +4,30 @@
 <div class="span9">
   <h4><%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h4>
   <table width="100%;">
+
+    <% if @message_show.category.eql?(16) or @message_show.category.eql?(16) or @message_show.category.eql?(16) %>
+      <tr>
+        <td style="width: 10%">To:
+          <%= @message_show.received_messageable.name rescue "Not register yet" %>
+        </td>
+      </tr>
+    <% elsif @message_show.sent_messageable_type.eql?("AdminUser") %>
+      <tr>
+        <td><b>SwigBIG</b></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td style="width: 10%">From:
+          <%= @message_show.sent_messageable.name rescue "Not register yet" %>
+        </td>
+      </tr>
+    <% end %>
+
     <tr>
-      <td style="width: 10%">From: 
-<%#= @message_show.sent_messageable.name %>
-        <% if @message_show.sent_messageable_type.eql?("AdminUser") %>
-          <b>SwigBIG</b>
-        <% end %>
-      </td>
+      <td colspan="2"><%= @message_show.topic rescue nil %></td>
     </tr>
     <tr>
-      <td colspan="2"><%= @message_show.topic %></td>
-    </tr>
-    <tr>
-      <td colspan="2"><%= @message_show.body.html_safe %></td>
+      <td colspan="2"><%= @message_show.body.html_safe rescue nil %></td>
     </tr>
   </table>
 </div>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("abbr").hide();
-  })
-</script>
