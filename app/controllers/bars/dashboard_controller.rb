@@ -42,7 +42,13 @@ class Bars::DashboardController < ApplicationController
     unless params[:coupon].blank?
       @redeem = current_bar.messages.where(coupon: params[:coupon])
       unless @redeem.blank?
+        if @redeem.first.coupon_status.eql?(false)
+        @redeem.first.update_attributes(coupon_status: true)
         @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+        else
+        @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+
+        end
       else
         @redeem_info = "Unknow Code!"
       end

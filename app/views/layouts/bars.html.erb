@@ -41,8 +41,8 @@
                   <ul class="dropdown-menu" style="width: 350px;">
                     <li><b>notification</b></li>
                     <li class="divider"></li>
-                    <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).each do |notification| %>
-                      <li style="width: 290px;margin-bottom: 3px;" onclick="window.location.href='<%= bars_message_url(notification) %>'"><%= notification.topic %>
+                    <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).order("created_at DESC").each do |notification| %>
+                      <li style="width: 290px;margin-bottom: 3px;" onclick="window.location.href='<%= bars_message_url(notification.id) %>'"><%= notification.topic %>
                         <br/>
                         <%= notification.created_at.strftime("%v") %>
                       </li>

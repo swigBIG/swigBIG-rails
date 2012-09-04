@@ -25,7 +25,8 @@ module ActsAsMessageable
       :reward_id,
       :expirate_reward,
       :coupon,
-      :coupon_status
+      :coupon_status,
+      :reward
 
     attr_accessor   :removed, :restored
     cattr_accessor  :required

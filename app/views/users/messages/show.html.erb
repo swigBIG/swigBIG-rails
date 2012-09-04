@@ -4,16 +4,20 @@
       <%= render "message_menu" %>
     <% end %>
     <div class="span8">
-      <h2><%= @message_show.sent_messageable.created_at.strftime("%b %d, %Y") %></h2>
+      <h2><%= @message_show.created_at.strftime("%b %d, %Y") %></h2>
       <table width="100%;">
         <tr>
           <% if @message_show.category.eql?(22) %>
-          <div style="width: 400px;"><b>From : SwigBIG</b>
-          <% else %>
-            <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %>
-            <% end %>
+          <div style="width: 400px;"><b>From : SwigBIG</b></div>
+        <% elsif @message_show.category.eql?(16) %>
+          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %></div>
+          <br/>
+          <b>Reward: </b> <%= @message_show.reward %>
+          <br/>
+        <% else %>
+          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %></div>
+          <% end %>
 
-          </div>
           </tr>
           <tr>
           <div style="width: 400px;"><b><%= @message_show.topic %></b></div>

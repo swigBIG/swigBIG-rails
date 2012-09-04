@@ -25,6 +25,7 @@ class Swiger < ActiveRecord::Base
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
+
         #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
         chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
@@ -39,7 +40,7 @@ class Swiger < ActiveRecord::Base
           end
         end
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
-        self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial, coupon_status: false})
+        self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial, coupon_status: false, reward: self.bar.loyalty.reward_detail })
       end
     end
   end
