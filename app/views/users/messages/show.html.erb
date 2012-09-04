@@ -10,12 +10,12 @@
           <% if @message_show.category.eql?(22) %>
           <div style="width: 400px;"><b>From : SwigBIG</b></div>
         <% elsif @message_show.category.eql?(16) %>
-          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %></div>
+          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address %></div>
           <br/>
           <b>Reward: </b> <%= @message_show.reward %>
           <br/>
         <% else %>
-          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name %>, <%= @message_show.sent_messageable.full_address %></div>
+          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address %></div>
           <% end %>
 
           </tr>
@@ -28,7 +28,7 @@
           <% if !@message_show.gift_id.blank? %>
             <tr>
               <td><b>Gift: </b></td>
-              <td><%= Gift.find(@message_show.gift_id).name %> </td>
+              <td><%= Gift.find(@message_show.gift_id).name rescue nil %> </td>
             </tr>
             <tr>
               <td><%= Gift.find(@message_show.gift_id).descriptions %></td>
@@ -38,7 +38,7 @@
               <td><h4>Reward</h4></td>
             </tr>
             <tr>
-              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name %></td>
+              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name rescue nil%></td>
             </tr>
             <tr>
               <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content %></td>
