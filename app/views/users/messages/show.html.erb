@@ -4,26 +4,26 @@
       <%= render "message_menu" %>
     <% end %>
     <div class="span8">
-      <h2><%= @message_show.created_at.strftime("%b %d, %Y") %></h2>
+      <h2><%= @message_show.created_at.strftime("%b %d, %Y") rescue nil %></h2>
       <table width="100%;">
         <tr>
           <% if @message_show.category.eql?(22) %>
           <div style="width: 400px;"><b>From : SwigBIG</b></div>
         <% elsif @message_show.category.eql?(16) %>
-          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address %></div>
+          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address rescue nil %></div>
           <br/>
-          <b>Reward: </b> <%= @message_show.reward %>
+          <b>Reward: </b> <%= @message_show.reward rescue nil %>
           <br/>
         <% else %>
-          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address %></div>
+          <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address rescue nil %></div>
           <% end %>
 
           </tr>
           <tr>
-          <div style="width: 400px;"><b><%= @message_show.topic %></b></div>
+          <div style="width: 400px;"><b><%= @message_show.topic rescue nil %></b></div>
           </tr>
           <tr>
-            <td><%= @message_show.body.html_safe %></td>
+            <td><%= @message_show.body.html_safe rescue nil %></td>
           </tr>
           <% if !@message_show.gift_id.blank? %>
             <tr>
@@ -31,17 +31,17 @@
               <td><%= Gift.find(@message_show.gift_id).name rescue nil %> </td>
             </tr>
             <tr>
-              <td><%= Gift.find(@message_show.gift_id).descriptions %></td>
+              <td><%= Gift.find(@message_show.gift_id).descriptions rescue nil %></td>
             </tr>
           <% elsif !@message_show.reward_id.blank? %>
             <tr>
               <td><h4>Reward</h4></td>
             </tr>
             <tr>
-              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name rescue nil%></td>
+              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name rescue nil %></td>
             </tr>
             <tr>
-              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content %></td>
+              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content rescue nil %></td>
             </tr>
           <% end %>
       </table>
