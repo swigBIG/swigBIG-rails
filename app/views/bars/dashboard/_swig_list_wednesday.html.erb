@@ -150,7 +150,7 @@
               <div class="modal-body well">
 
                 <%= simple_form_for(:swig, url: bars_update_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
-                  <% @swigs_wednesday.big.each_with_index do |swig, x|%>
+                  <% @swigs_wednesday.big.order("people").each_with_index do |swig, x|%>
                     <%= hidden_field_tag "swig_ids[]", swig.id %>
                     <div id="wednesday_bigswig_lists_on_update_<%= x %>">
                       <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
