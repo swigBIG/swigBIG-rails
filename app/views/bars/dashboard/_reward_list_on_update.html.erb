@@ -6,7 +6,7 @@
       </td>
       <td class="pull-right">
         <a class="" data-toggle="modal" href="#gift_update_modal<%= gift.id %>"><i class="icon-edit"></i></a>
-        <%= link_to "<i class='icon-remove'></i>".html_safe, bars_destroy_gift_in_list_path(gift.id), method: :get, remote: true %>
+        <%= link_to "<i class='icon-remove'></i>".html_safe, bars_destroy_gift_in_list_path(gift.id), method: :get, remote: true, confirm: "Are you sure you want to Delete the following Reward? #{gift.descriptions}".html_safe %>
         <div id="gift_update_modal<%= gift.id %>" class="modal hide fade">
           <div class="modal-header">
             <a class="close" data-dismiss="modal" id="update_close"><b>x</b></a>

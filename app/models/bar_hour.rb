@@ -24,6 +24,7 @@ class BarHour < ActiveRecord::Base
   def close_day_checker
     if self.close_day
       self.open_time = "Close"
+      self.close_time = "Close"
 #    else
 #      self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
 #      self.close_time = "#{self.close.to_i}.#{self.close_word}"

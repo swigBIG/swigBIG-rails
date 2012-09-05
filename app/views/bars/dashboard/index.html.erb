@@ -24,11 +24,13 @@
       $("#gift_notification_text").text("Gift updated successfully!");
   <% session[:show_gift_list_after_update] = false %>
 <% end %>
-<% if session[:after_create_popularity] or session[:after_create_loyalty] %>
+<% if session[:after_create_popularity] or session[:after_create_loyalty] or session[:after_update_loyalty] or session[:after_update_popularity] %>
       $("#go_to_reward").click();
-      $("#reward_text_notification").text("Reward successfuly created!");
+      //$("#reward_text_notification").text("Reward successfuly created!");
   <% session[:after_create_loyalty] = false %>
   <% session[:after_create_popularty] = false %>
+  <% session[:after_update_popularity] = false %>
+  <% session[:after_update_loyalty] = false %>
 <% end %>
 
   });
@@ -136,19 +138,19 @@
 <% end %>
 
 <%= content_for :side do %>
+
+
   <div class="span4">
-    <div class="accordion">
+    <div class="accordion" id="accordion2">
       <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#swig" onclick="$('#go_to_swig').click()" style="color: black;"><b>Swigs</b></a>
-            <a href="#swig_tab" data-toggle="tab" style="display: none;" id="go_to_swig">test</a>
-            <!--<a class=""  href="#swigModal" data-toggle="modal" style="color: black;"><b>Swigs</b></a>-->
-          </div>
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne" onclick="$('#go_to_swig').click()">
+            <b style="margin-left: 55px;color: black;">Swigs</b>
+            <a href="#swig_tab" data-toggle="tab" style="display: none;" id="go_to_swig"></a>
+          </a>
         </div>
-        <div id="swig" class="accordion-body collapse">
+        <div id="collapseOne" class="accordion-body collapse">
           <div class="accordion-inner">
-            <!--<a class="" data-toggle="modal" href="#rewardModal">Add New Reward</a><br />-->
             <a href="#bigswig_add_to_list" data-toggle="modal"><b>ADD New..</b></a>
             <br/>
             <a href="#display_bigswig_list" data-toggle="modal" id="goto_bigswig_list_courtesy"><b>VIEW BIG SWIGS</b></a>
@@ -158,14 +160,13 @@
         </div>
       </div>
       <div class="accordion-group">
-        <div class="accordion-heading" style="margin-left: 40px;">
-          <div class="accordion-inner">
-            <a class="" data-toggle="collapse" data-target="#reward" onclick="$('#go_to_reward').click()" style="color: black;" ><b>Rewards</b></a>
-            <a href="#loyalty_and_popularity_tab" data-toggle="tab" style="display: none;" id="go_to_reward">test</a>
-            <!--<a class="" data-toggle="modal" href="#rewardModal" style="color: black;" ><b>Rewards</b></a>-->
-          </div>
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo" onclick="$('#go_to_reward').click()">
+            <b style="margin-left: 55px;color: black;">Rewards</b>
+            <a href="#loyalty_and_popularity_tab" data-toggle="tab" style="display: none;" id="go_to_reward"></a>
+          </a>
         </div>
-        <div id="reward" class="accordion-body collapse">
+        <div id="collapseTwo" class="accordion-body collapse">
           <div class="accordion-inner">
             <a class="" data-toggle="modal" href="#gift" id="goto_gift_list"><b>Add Reward to list</b></a><br />
             <a class="" data-toggle="modal" href="#view_reward_list">View Rewards list</a><br />
@@ -174,8 +175,28 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
+
+
+
+<% end %>
+
+<%= content_for :right_side do %>
+  <h4 style="text-align: center;">Total Swigs Today</h4>
+  <div style="text-align: center;"><b><%= current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count %></b></div>
+  <div class="clearfix"></div>
+  <div style="text-align: center;"><b>Who is there?</b></div>
+  <div class="clearfix"></div>
+  <br/>
+  <% current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).each do |swiger| %>
+    <div class="span2">
+      <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
+      <br/>
+      <%= swiger.user.name  %>
+    </div>
+  <% end %>
 <% end %>
 
 <h3><%= @bar.name rescue nil %></h3>
@@ -414,27 +435,6 @@
         </div>
       </div>-->
 
-      <div id="delete_swig_list" class="modal hide fade" style="opacity: 1 ;">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Select Swig to destroy</h3>
-        </div>
-        <div class="modal-body well">
-          <table>
-            <th>Type</th>
-            <th>day</th>
-            <th>deal</th>
-            <% current_bar.swigs.where("id IS NOT NULL").each do |swig| %>
-              <tr>
-                <td><%= swig.swig_type %></td>
-                <td><%= swig.swig_day %></td>
-                <td><%= swig.deal %></td>
-                <td><%= link_to "Delete", bars_delete_swig_path(swig.id), :method => :delete %></td>
-              </tr>
-            <% end %>
-          </table>
-        </div>
-      </div>
 
       <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
         <div class="modal-header">
@@ -512,7 +512,6 @@
                 <div class="modal-body well">
                   <div class="tab-pane" id="create_gift_form">
                     <h5>Add to rewards list</h5>
-                    <b><div id="reward_list_partial_text" style="color: green;"></div></b>
                     <%= render partial: "add_reward_form_partial" %>
                   </div>
                 </div>
@@ -529,7 +528,7 @@
                 <div class="modal-body">
                   <div class="tab-content">
                     <div class="tab-pane active" id="gift_list">
-                      <b><div id="gift_notification_text" style="color: green;"></div></b>
+                      <b><div id="gift_notification_text" style="color: green; display: none">Delete Success!</div></b>
                       <table>
                         <th>Reward detail</th>
                         <th></th>
@@ -638,27 +637,27 @@
                   $(document).ready(function() {
                     var sport_teams = [];
                 <% SportTeam.all.each do |b| %>
-                      var x = [];
-                      x.push('name: <%= b.to_json %>');//0
-                      x.push('id: <%= b.to_json %>');//0
-                      sport_teams.push(x);
+                  var x = [];
+                  x.push('name: <%= b.to_json %>');//0
+                  x.push('id: <%= b.to_json %>');//0
+                  sport_teams.push(x);
                 <% end %>
-                    var include_sport_list = [];
+                var include_sport_list = [];
                 <%  unless current_bar.sports_team.blank? %>
                   <%  sports_team = current_bar.sports_team.split(',') %>
                   <%  sports_team.each do |team| %>
-                        include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+                    include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
                   <% end %>
                 <% end%>
 
-                    $("#tk_sports").tokenInput("/bars/sport_lists", {
-                      theme: "facebook",
-                      preventDuplicates: true,
-                      prePopulate: include_sport_list
-                    });
-                    //$(".alert-success").hide();
-                    //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
-                  });
+                $("#tk_sports").tokenInput("/bars/sport_lists", {
+                theme: "facebook",
+                preventDuplicates: true,
+                prePopulate: include_sport_list
+                });
+                //$(".alert-success").hide();
+                //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
+                });
                 </script>
               <% end %>
               <!--<script type="text/javascript">
@@ -951,47 +950,40 @@
                           <h3 style="text-align: center;">Did we get it all?</h3>
                         </div>
                         <div class="modal-body">
-                          <table style="border-style: none;">
-                            <tr>
-                              <td>Address : </td>
-                              <td><div id="address_text"></div></td>
-                              <td>City : </td>
-                              <td><div id="city_text"></div></td>
-                            </tr>
-                            <tr>
-                              <td>Zip Code : </td>
-                              <td><div id="zip_text"></div></td>
-                              <td>Phone : </td>
-                              <td><div id="phone_text"></div></td>
-                            </tr>
-                            <tr>
-                              <td>Website link: </td>
-                              <td><div id="website_text"></div></td>
-                              <td>Facebook link: </td>
-                              <td><div id="facebook_text"></div></td>
-                            </tr>
-                            <tr>
-                              <td>Twitter link: </td>
-                              <td><div  id="twitter_text"></div></td>
-                              <td>Google Plus link: </td>
-                              <td><div  id="google_text"></div></td>
-                            </tr>
-                            <tr>
-                              <td>Sport Team : </td>
-                              <td><div  id="sport_text"></div></td>
-                              <td>Description : </td>
-                              <td><div  id="description_text"></div></td>
-                            </tr>
-                            <tr>
-                            <button class="btn-primary" style="padding: 4px;border-radius: 3px;">Standard Swig</button>
-                            <div  id="swig_text" style="margin-bottom: 10px;"></div>
-                            </tr>
-                          </table>
+                          <div class="span4 pull-left" >
+                            <b>Address : </b><div id="address_text"></div>
+                            <br/>
+                            <b>City : </b><div id="city_text"></div>
+                            <br/>
+                            <b>Zip Code : </b><div id="zip_text"></div>
+                            <br/>
+                            <b>Phone : </b><div id="phone_text"></div>
+                            <br/>
+                            <b>Sport Team : </b><div  id="sport_text"></div>
+                            <br/>
+                          </div>
+                          <div class="span4 pull-right" >
+                            <b>Website link: </b><div id="website_text"></div>
+                            <br/>
+                            <b>Facebook link: </b><div id="facebook_text"></div>
+                            <br/>
+                            <b>Twitter link: </b><div  id="twitter_text"></div>
+                            <br/>
+                            <b>Google Plus link: </b><div  id="google_text"></div>
+                            <td></td>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="span9 clearfix">
+                            <b>Description : </b><div  id="description_text"></div>
+                            <br/>
+                          </div>
                         </div>
-                        <div class="modal-footer">
-                          <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
-                          <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
-                          <%= f.submit "Submit", class: "btn-primary" %>
+                        <div class="modal-footer navbar-fixed-bottom">
+                          <div class="container">
+                            <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+                            <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
+                            <%= f.submit "Submit", class: "btn-primary" %>
+                            </div>
                           </div>
                         </div>
                       <% end %>

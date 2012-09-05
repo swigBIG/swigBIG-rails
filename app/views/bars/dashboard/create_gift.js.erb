@@ -3,5 +3,13 @@ $("#reward_list_to_popularity").html('<%=j(render partial: "reward") %>');
 $("#reward_list_partial_text").text('Add Success!');
 $("#reward_in_list_tab").html('<%=j(render partial: "reward_list_on_update") %>');
 $("#goto_reward_list_tab").click();
-$("#gift_notification_text").text('Add Success!');
+//$("#gift_notification_text").text('Add Success!');
+$("#gift_notification_text").show();
 
+$(function() {
+var timer = setTimeout( showDiv, 3000);
+var counter = 0;
+function showDiv() {
+$("#gift_notification_text").hide();
+}
+});

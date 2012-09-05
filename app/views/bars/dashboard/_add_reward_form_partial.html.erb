@@ -1,3 +1,5 @@
+<b><div id="reward_list_partial_text" style="color: green;display: none;">Add Success!</div></b>
+<br/>
 <%= simple_form_for(@gift, url: bars_create_gift_path, html: { :class => "form-horizontal", remote: true}) do |f| %>
   <div style="margin-left: -60px;">
     <%= f.input :descriptions , label: false, as: :text, input_html: { style: "width: 410px;height: 22px;"} %>

@@ -1,6 +1,7 @@
 <%# f.inputs do %>
 <div class="nested-fields" style="margin-left: -20px;">
   <%= link_to_remove_association "<i class='icon-remove pull-right'></i>".html_safe, f, class: "pull-right", style: "margin-right: 20px;" %>
+  <%= f.object.day %>
     <%= f.input :day, as: :select, collection: days_collection, input_html: {style: "width: 100px;"} %>
     <div style="margin-top: -45px;margin-left: 160px;">
       <%= f.input :open_hour, as: :select, label: "Open", collection: hours_collection, input_html: {style: "width: 50px;"} %>

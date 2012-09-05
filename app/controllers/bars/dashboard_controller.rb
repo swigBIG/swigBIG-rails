@@ -174,6 +174,7 @@ class Bars::DashboardController < ApplicationController
   def update_loyalty
     @loyalty = Loyalty.find(params[:id])
     if @loyalty.update_attributes(params[:loyalty])
+      session[:after_update_loyalty] = true
       redirect_to :back, notice: "loyalty success updated"
     else
       redirect_to :back, notice: "loyalty fail updated"
@@ -183,6 +184,7 @@ class Bars::DashboardController < ApplicationController
   def update_popularity
     @popularity = Popularity.find(params[:id])
     if @popularity.update_attributes(params[:popularity])
+      session[:after_update_popularity] = true
       redirect_to :back, notice: "popularity success updated"
     else
       redirect_to :back, notice: "popularity fail updated"
