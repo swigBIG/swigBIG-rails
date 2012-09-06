@@ -1,0 +1,47 @@
+<div id="copright" class="modal hide fade">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal"><b>x</b></a>
+    <h3 style="text-align: center;">Copright</h3>
+  </div>
+  <div class="modal-body">
+    <div style="text-align: center;">
+      <%= @site_content.corp_information rescue nil %>
+    </div>
+  </div>
+</div>
+
+<div id="about" class="modal hide fade">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal"><b>x</b></a>
+    <h3 style="text-align: center;">About Us</h3>
+  </div>
+  <div class="modal-body">
+    <div style="text-align: center;">
+      <%= @site_content.about_us rescue nil %>
+    </div>
+  </div>
+</div>
+
+<div id="contact" class="modal hide fade">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal"><b>x</b></a>
+    <h3 style="text-align: center;">Contact Us</h3>
+  </div>
+  <div class="modal-body">
+    <div style="text-align: center;">
+      <%= @site_content.contact_us rescue nil %>
+    </div>
+  </div>
+</div>
+
+<div id="learn_more" class="modal hide fade">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal"><b>x</b></a>
+    <h3 style="text-align: center;">Learn More</h3>
+  </div>
+  <div class="modal-body">
+    <div style="text-align: center;">
+      <%= @site_content.learn_more rescue nil %>
+    </div>
+  </div>
+</div>
