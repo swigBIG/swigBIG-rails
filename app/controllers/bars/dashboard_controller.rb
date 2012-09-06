@@ -43,10 +43,10 @@ class Bars::DashboardController < ApplicationController
       @redeem = current_bar.messages.where(coupon: params[:coupon])
       unless @redeem.blank?
         if @redeem.first.coupon_status.eql?(false)
-        @redeem.first.update_attributes(coupon_status: true)
-        @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+          @redeem.first.update_attributes(coupon_status: true)
+          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
         else
-        @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
 
         end
       else
@@ -328,7 +328,7 @@ class Bars::DashboardController < ApplicationController
   def completion
     @bar = current_bar
     @count = 0
-    render layout: "main_bars"
+    #    render layout: "main_bars"
   end
 
   def second_completion
@@ -526,6 +526,40 @@ class Bars::DashboardController < ApplicationController
   def update_bar_big_swig_list
     bigswig = BigSwigList.find(params[:bigswiglist_id])
     if bigswig.update_attributes(params[:big_swig_list])
+      redirect_to bars_dashboard_url, notice: "Update success!"
+    else
+      redirect_to bars_dashboard_url, notice: "Update failed!"
+    end
+  end
+
+  def swiger_list
+    @swigers = current_bar.swigers.order("created_at DESC")
+  end
+
+  def add_bar_hours_on_edit
+    @count = params[:id]
+    @counter = params[:count]
+    respond_to { |format| format.js }
+  end
+
+  def update_bar_hours
+    current_bar.bar_hours.destroy_all
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    (params[:total].to_i + 1).times do |t|
+      unless params["first_day_#{t}"].blank?
+        if params["close_day#{t}"].eql?("1")
+          days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+            current_bar.bar_hours.create(day: day, open_time: "close")
+          end
+        else
+          days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+            current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}", open_hour: params["open_hour#{t}"].to_i, close: params["close_hour#{t}"].to_i,open_word: params["open_word#{t}"],close_word: params["close_word#{t}"], close_day: params["close_day#{t}"])
+          end
+        end
+      end
+    end
+
+    unless current_bar.bar_hours.blank?
       redirect_to bars_dashboard_url, notice: "Update success!"
     else
       redirect_to bars_dashboard_url, notice: "Update failed!"

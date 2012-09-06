@@ -1,0 +1,372 @@
+<script>
+  function countChar(val){
+    var len = val.value.length;
+    if (len >= 500) {
+      val.value = val.value.substring(0, 500);
+    }else {
+      $('#charNum').text(len);
+    }
+  };
+</script>
+<style type="text/css">
+  .alert .alert-danger {
+    text-align: center;
+    padding: 5px;
+  }
+</style>
+<%= content_for :outer do %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var sport_teams = [];
+  <% SportTeam.all.each do |b| %>
+    var x = [];
+    x.push('name: <%= b.to_json %>');//0
+    x.push('id: <%= b.to_json %>');//0
+    sport_teams.push(x);
+  <% end %>
+  var include_sport_list = [];
+  <%  unless current_bar.sports_team.blank? %>
+    <%  sports_team = current_bar.sports_team.split(',') %>
+    <%  sports_team.each do |team| %>
+      include_sport_list.push({'id': '<%= team %>', 'name': '<%= team %>'});
+    <% end %>
+  <% end%>
+
+  $("#tk_sports").tokenInput("/bars/sport_lists", {
+  theme: "facebook",
+  preventDuplicates: true,
+  prePopulate: include_sport_list
+  });
+  //$(".alert-success").hide();
+  //$(".alert-success").attr("class", "alert-danger").html('<b><a href="#ask" data-toggle="modal" id="completion_link">Please complete your profile</a></b>');
+  });
+  </script>
+<% end %>
+<!--<script type="text/javascript">
+  var available_tags = [];
+<%# SportTeam.all.each do |team| %>
+    available_tags.push('<%#= team.team_name %>');
+<%# end %>
+  $("#mytags").tagit({tagSource: available_tags, allowSpaces: true});
+</script>-->
+<script type="text/javascript">
+  function validate_address(){
+    if($('#bar_address').val() == ''){
+      $('#bar_address').css('border', '1px solid red');
+      valid_address = false;
+    }else{
+      $('#bar_address').css('border', '1px solid black');
+      valid_address = true;
+    }
+    if($('#bar_city').val() == ''){
+      $('#bar_city').css('border', '1px solid red');
+      valid_city = false;
+    }else{
+      $('#bar_city').css('border', '1px solid black');
+      valid_city = true;
+    }
+    if($('#bar_zip_code').val() == ''){
+      $('#bar_zip_code').css('border', '1px solid red');
+      valid_zip = false;
+    }else{
+      $('#bar_zip_code').css('border', '1px solid black');
+      valid_zip = true;
+    }
+    if(valid_address && valid_city && valid_zip){
+      $('#goto_phone').click();
+    }
+  }
+  function validate_phone(){
+    if($('#bar_phone_number').val() == ''){
+      $('#bar_phone_number').css('border', '1px solid red');
+      valid_phone = false;
+    }else{
+      $('#bar_phone_number').css('border', '1px solid black');
+      valid_phone = true;
+    }
+    if(valid_phone){
+      $('#goto_link').click();
+    }
+  }
+  function validate_link(){
+    if($('#bar_website_link').val() == ''){
+      $('#bar_website_link').css('border', '1px solid red');
+      valid_web = false;
+    }else{
+      $('#bar_website_link').css('border', '1px solid black');
+      valid_web = true;
+    }
+    if($('#bar_facebook_link').val() == ''){
+      $('#bar_facebook_link').css('border', '1px solid red');
+      valid_facebook = false;
+    }else{
+      $('#bar_facebook_link').css('border', '1px solid black');
+      valid_facebook = true;
+    }
+    if($('#bar_twitter_link').val() == ''){
+      $('#bar_twitter_link').css('border', '1px solid red');
+      valid_twitter = false;
+    }else{
+      $('#bar_twitter_link').css('border', '1px solid black');
+      valid_twitter = true;
+    }
+    if($('#bar_google_plus_link').val() == ''){
+      $('#bar_google_plus_link').css('border', '1px solid red');
+      valid_google = false;
+    }else{
+      $('#bar_google_plus_link').css('border', '1px solid black');
+      valid_google = true;
+    }
+    if(valid_web && valid_facebook && valid_twitter && valid_google){
+      $('#goto_hour').click();
+    }
+  }
+  function validate_hour(){
+    if($('#bar_bar_hour').val() == ''){
+      $('#bar_bar_hour').css('border', '1px solid red');
+      valid_hour = false;
+    }else{
+      $('#bar_bar_hour').css('border', '1px solid black');
+      valid_hour = true;
+    }
+    if(valid_hour){
+      $('#goto_description').click();
+    }
+  }
+
+  function validate_description(){
+    if($('#bar_bar_description').val() == ''){
+      $('#bar_bar_description').css('border', '1px solid red');
+      $('#bar_description_validation').text('Please describe your bar!!');
+      valid_description = false;
+    }else{
+      $('#bar_bar_description').css('border', '1px solid black');
+      valid_description= true;
+    }
+    if(valid_description){
+      $('#goto_sport_team').click();
+    }
+  }
+  function validate_sports_team(){
+    if($('#mytags').val() == ''){
+      $('#mytags').css('border', '1px solid red');
+      valid_description = false;
+    }else{
+      $('#mytags').css('border', '1px solid black');
+      valid_description = true;
+    }
+    if(valid_description){
+      $('#goto_check_data').click();
+      get_all_data();
+    }
+  }
+  $('#goto_check_data').click();
+  get_all_data();
+
+  function get_all_data(){
+    $('#address_text').html($('#bar_address').val());
+    $('#city_text').html($('#bar_city').val());
+    $('#zip_text').html($('#bar_zip_code').val());
+    $('#phone_text').html($('#bar_phone_number').val());
+    $('#website_text').html($('#bar_website_link').val());
+    $('#facebook_text').html($('#bar_facebook_link').val());
+    $('#twitter_text').html($('#bar_twitter_link').val());
+    $('#google_text').html($('#bar_google_plus_link').val());
+    $('#hour_text').html($('#bar_bar_hour').val());
+    $('#description_text').html($('#bar_bar_description').val());
+    $('#sport_text').html($('#mytags').val());
+    $('#swig_text').html($('#swig').val());
+  }
+
+</script>
+
+<style type="text/css">
+  .modal{
+    width: 600px!important;
+    overflow: hidden!important;
+  }
+</style>
+
+<%= content_for :outer do %>
+  <div id="ask" class="modal hide fade">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal"><b>x</b></a>
+      <h3 style="text-align: center;">Profile Verification </h3>
+    </div>
+    <div class="modal-body">
+      <div style="text-align: center;">
+        <b>Your Bar Profile not Complete Yet, Would you like to complete now?</b>
+      </div>
+      <div style="text-align: center;">
+        <a href="#location" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
+        <%= link_to "No", root_path, class: "btn" %>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    <%= simple_form_for(@bar, url: bars_update_completion_path, method: :post, :html => {multipart: true , class: "form-horizontal"}) do |f| %>
+        <div id="location" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">Where is the <%= @bar.name %> located?</h3>
+          </div>
+          <div class="modal-body">
+            <%= f.input :address, :hint => "Ex : 67 Clinton Street" %>
+            <%= f.input :city, as: :select, collection: avaliable_cities %>
+            <%= f.input :zip_code %>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_address()">Continue</a>
+            <a href="#phone" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_phone" style="display:none;">Continue</a>
+          </div>
+        </div>
+        <div id="phone" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">How do people get in touch with <%= @bar.name %>?</h3>
+          </div>
+          <div class="modal-body">
+            <%= f.input :phone_number %>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_phone()">Continue</a>
+            <a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
+            <a href="#location" data-toggle="modal" data-dismiss="modal" class="btn">Back</a>
+          </div>
+        </div>
+        <div id="link" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">How can people connect with <%= @bar.name %>?</h3>
+          </div>
+          <div class="modal-body">
+            <%= f.input :website_link %>
+            <%= f.input :facebook_link %>
+            <%= f.input :twitter_link %>
+            <%= f.input :google_plus_link %>
+          </div>
+          <div class="modal-footer">
+            <!--<a class="btn" onclick="return validate_link()">Continue</a>-->
+            <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal" id="goto_hour" >Continue</a>
+            <a class="btn" href="#phone" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+        <div id="hour" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">“What is <%= @bar.name %> hours?”</h3>
+          </div>
+          <div class="modal-body">
+            <div id="bar_hour_list">
+              <%= render partial: "bar_hours", locals: {count: @count}  %>
+              <%= hidden_field_tag "total", 0  %>
+            </div>
+
+            <div id="bigswig_link">
+              <%= link_to "Add", bars_add_bar_hours_path(count: 0), method: :post, remote: true %>
+            </div>
+            <div class="modal-footer">
+              <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal" id="goto_standard_swig">Continue</a>
+              <a class="btn" href="#link" data-dismiss="modal" data-toggle="modal">Back</a>
+            </div>
+          </div>
+        </div>
+        <div id="standard_swig" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>'s Standard Swig in <%= Time.now.to_time.in_time_zone.strftime("%A") %>?</h3>
+          </div>
+          <div class="modal-body">
+            <div class="span4">
+              <div id="swig_notice" style="color: red;"></div>
+              <%= text_area_tag :swig, nil, id: "bar_standard_swig_to_copy" %>
+            </div>
+            <div class="span3 pull-right" style="" id="example">
+              <%= @site_content.swig_exampl.gsub('"r\n\"',"<br/>").html_safe rescue "Not set example yet!".html_safe %>
+            </div>
+            <a class="btn btn-info" style="margin-left: 20px;margin-top: 10px;" id="copy_example">Use Example</a>
+            <div class="span2 pull-right" style="margin-top: 0px;" id="example">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_standard_swig()">Continue</a>
+            <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal" id="goto_description" style="display: none;">Continue</a>
+            <a class="btn" href="#hour" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+        <div id="description" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">What do you want people to know about <%= @bar.name %>?</h3>
+          </div>
+          <div class="modal-body">
+            <div style="margin-left: -50px;">
+              <div id="bar_description_validation" style="margin-left: 50px;color: red;"></div>
+              <%= f.input :bar_description, label: false, placeholder: "Bar Description...", input_html: {style: "width: 400px;height: 200px;margin-left: -30px;", onkeyup: "countChar(this)"} %>
+              <div class="pull-right" id="charNum"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" onclick="return validate_description()">Continue</a>
+            <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal" id="goto_sport_team" style="display: none;">Continue</a>
+            <a class="btn" href="#standard_swig" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+        <div id="sport_team" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">What Sports Teams does <%= @bar.name %> support?</h3>
+          </div>
+          <div class="modal-body">
+            <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
+          </div>
+          <div class="modal-footer">
+            <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
+            <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal">Back</a>
+          </div>
+        </div>
+        <div id="check_data" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3 style="text-align: center;">Did we get it all?</h3>
+          </div>
+          <div class="modal-body">
+            <div class="span4 pull-left" >
+              <b>Address : </b><div id="address_text"></div>
+              <br/>
+              <b>City : </b><div id="city_text"></div>
+              <br/>
+              <b>Zip Code : </b><div id="zip_text"></div>
+              <br/>
+              <b>Phone : </b><div id="phone_text"></div>
+              <br/>
+              <b>Sport Team : </b><div  id="sport_text"></div>
+              <br/>
+            </div>
+            <div class="span4 pull-right" >
+              <b>Website link: </b><div id="website_text"></div>
+              <br/>
+              <b>Facebook link: </b><div id="facebook_text"></div>
+              <br/>
+              <b>Twitter link: </b><div  id="twitter_text"></div>
+              <br/>
+              <b>Google Plus link: </b><div  id="google_text"></div>
+              <td></td>
+            </div>
+            <div class="clearfix"></div>
+            <div class="span9 clearfix">
+              <b>Description : </b><div  id="description_text"></div>
+              <br/>
+            </div>
+          </div>
+          <div class="modal-footer navbar-fixed-bottom">
+            <div class="container">
+              <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+              <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
+              <%= f.submit "Submit", class: "btn-primary" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>

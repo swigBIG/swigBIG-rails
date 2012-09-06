@@ -21,13 +21,23 @@ class BarHour < ActiveRecord::Base
 
   before_save :close_day_checker
 
+  DAY_LIST = {
+    "Monday" => 0,
+    "Tuesday"=> 1,
+    "Wednesday" => 2,
+    "Thursday" => 3,
+    "Friday" => 4,
+    "Saturday" => 5,
+    "Sunday"=> 6
+  }
+
   def close_day_checker
     if self.close_day
       self.open_time = "Close"
       self.close_time = "Close"
-#    else
-#      self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
-#      self.close_time = "#{self.close.to_i}.#{self.close_word}"
+      #    else
+      #      self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
+      #      self.close_time = "#{self.close.to_i}.#{self.close_word}"
     end
   end
   

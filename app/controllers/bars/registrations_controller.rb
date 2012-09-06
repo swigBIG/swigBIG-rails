@@ -28,5 +28,11 @@ class Bars::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def edit
+    @bar_hours = current_bar.bar_hours.group_by {|hour| "#{hour.open_time} - #{hour.close_time}" }
+    #    @bar_hours = current_bar.bar_hours.group("open_time, close_time")
+    render :edit
+  end
+
   
 end

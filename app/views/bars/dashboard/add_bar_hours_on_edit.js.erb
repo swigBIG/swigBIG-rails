@@ -1,0 +1,9 @@
+$("#bar_hour_list").append("<%=j (render partial: 'bar_hours', locals: {count: @counter.to_i + 1} ) %>");
+
+$("#first_day_<%= @counter.to_i + 1 %> [value='"+(parseInt($("#last_day<%= params[:count] %>").val()) + 1)+"']").attr('selected',true);
+
+$("#last_day<%= @counter.to_i + 1 %> [value='"+(parseInt($("#last_day<%= params[:count] %>").val()) + 1)+"']").attr('selected',true);
+
+$('#bigswig_link').html("<%=j link_to "Add", bars_add_bar_hours_path(count: @counter.to_i + 1), method: :post, remote: true %>");
+
+$('#total').html("<%=j hidden_field_tag "total", @counter.to_i + 1 %>");

@@ -26,6 +26,7 @@ Swprototype::Application.routes.draw do
   
   
   get "bars/city/:id" =>  "home#city", as: "city"
+  get "live_swig_feed" =>  "home#live_swig_feed", as: "live_swig_feed"
   
   resource :home do
     collection do
@@ -93,14 +94,18 @@ Swprototype::Application.routes.draw do
     post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
     post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
+    post  "add_bar_hours_on_edit" => "dashboard#add_bar_hours_on_edit", as: "add_bar_hours_on_edit"
     post  "add_reward_to_list" => "dashboard#add_reward_to_list", as: "add_reward_to_list"
     #    post  "delete_reward_from_list" => "dashboard#delete_reward_from_list", as: "delete_reward_from_list"
     #    post  "update_reward_from_list" => "dashboard#update_reward_from_list", as: "update_reward_from_list"
     get  "destroy_bar_big_swig_list/:bigswiglist_id" => "dashboard#destroy_bar_big_swig_list", as: "destroy_bar_big_swig_list"
     post  "update_bar_big_swig_list/:bigswiglist_id" => "dashboard#update_bar_big_swig_list", as: "update_bar_big_swig_list"
     post  "search_redeem_code/:code" => "dashboard#search_redeem_code", as: "search_redeem_code"
+    get  "swiger_list" => "dashboard#swiger_list", as: "swiger_list"
+    post  "update_bar_hours" => "dashboard#update_bar_hours", as: "update_bar_hours"
     
     get 'notification' => "messages#notification"
+
     resources :messages do
       collection do
         get 'sent'

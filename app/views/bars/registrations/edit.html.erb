@@ -31,24 +31,6 @@
     });
   }
 </script>
-<!--<script type="text/javascript">
-  $(document).ready(function(){
-    $("input#same").click(function(){
-      if ($("input#same").is(':checked'))
-      {
-        // Checked, copy values
-        $("input#open-hour").val($("input#email").val());
-        $("input#close-hour").val($("input#name").val());
-      }
-      else
-      {
-        // Clear on uncheck
-        $("input#open-hour").val("");
-        $("input#close-hour").val("");
-      }
-    });
-  });
-</script>-->
 <script type="text/javascript">
   $(document).ready(function() {
     var sport_teams = [];
@@ -75,12 +57,12 @@
 
 </script>
 <body onload="initialize()">
-  <%= content_for :outer do %>
-    <div id="map_canvas" style="margin-left: -25px;">
-      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
-    </div>
+  <%= content_for :side do %>
+    <!--<div id="map_canvas" style="margin-left: 20px;margin-right: 50px;">
+  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+    </div>-->
   <% end %>
-  <ul class="tabs" data-tabs="tabs">
+  <ul class="tabs" data-tabs="tabs" style="margin-left: 70px; ">
     <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
     <li><a href="#link" data-toggle="tab"><h5>Link</h5></a></li>
     <li><a href="#location" data-toggle="tab"><h5>Location</h5></a></li>
@@ -117,50 +99,74 @@
                 <%= f.submit "Update", class: "btn-primary" %>
                 </div>
               </div>
-              <div class="tab-pane" id="hour">
-                <%= f.simple_fields_for :bar_hours do |bar_hour| %>
-                  <%= render partial: "bar_hour_fields", locals: {f: bar_hour}, :formats => [:html] %>
-                <% end %>
+              <!--<div class="tab-pane" id="hour">
+              <%= f.simple_fields_for :bar_hours do |bar_hour| %>
+                <%= render partial: "bar_hour_fields", locals: {f: bar_hour}, :formats => [:html] %>
+              <% end %>
+
+
                 <div class='links'>
                   <b><%= link_to_add_association 'Add+', f, :bar_hours, class: "btn",style: "color: green;" %></b>
-                  </div>
-                  <div class="clearfix"></div>
-                  <div class="form-actions">
-                    <%= f.submit "Update", class: "btn-primary" %>
-                    </div>
-                  </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="form-actions">
+                <%= f.submit "Update", class: "btn-primary" %>
+                                        </div>
+                                      </div>-->
                 <% end %>
-                <br/>
-                <br/>
-                <h3>Cancel my account</h3>
 
-                <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+                <div class="tab-pane" id="hour">
+                  <%= simple_form_for(:bar_hours, url: bars_update_bar_hours_path, :html => { :method => :post, class: "form-horizontal"}) do |f| %>
+                <%#= simple_form_for(:bar_hours, url: update_bar_hours_path, method: :post) do |f| %>
+                      <% @bar_hours.each_pair do | x, bar_hour| %>
+                        <%= BarHour::DAY_LIST[bar_hour.last.day] %>
+                        <div id="bar_hour_list">
+                          <%= render partial: "bar_hours_on_update", locals: {x: x, bar_hour: bar_hour, count: BarHour::DAY_LIST[bar_hour.last.day]} %>
+                        </div>
+                        <% if x.last %>
+                          <%= hidden_field_tag "total", BarHour::DAY_LIST[bar_hour.last.day]  %>
+                        <% end %>
+                      <% end %>
+                      <div id="bigswig_link">
+                        <b><%= link_to "Add", bars_add_bar_hours_on_edit_path(count: BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day]), method: :post, remote: true, class: "btn", style: "color: green;" %></b>
+                      </div>
+                      <%= f.submit "Update", class: "pull-right" %>
+                      <% end %>
+                    </div>
 
-                <%= link_to "Back", :back %>
-            </body>
-            <!--<script type="text/javascript">
-              $(document).ready(function(){
-                $(".day_bar").click(function(){
-                  var day = $("#"+this.id).attr("day_bar");
-                  day_last = day - 1
-                  var open = $("#open_hour"+day_last+" > option:selected").text();
-                  var close = $("#close_hour"+day_last+" > option:selected").text();
-                  var openw = $("#open_w"+day_last+" > option:selected").text();
-                  var closew = $("#close_w"+day_last+" > option:selected").text();
-                  //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
-                  if ($("#"+this.id).attr('checked') == "checked"){
-                    
-                    $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
-                    $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
-                    $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
-                    $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
-                   
-                  }else{
-                    $("#open_hour"+day+" > option").eq(open).attr("selected","")
-                    $("#close_hour"+day+" > option").eq(close).attr("selected","")
-                    $("#open_w"+day+" > option").eq(openw).attr("selected","")
-                    $("#close_w"+day+" > option").eq(closew).attr("selected","")
-                  }
-                });
-              });
-            </script>-->
+                  </div>
+
+                  <br/>
+                  <br/>
+                  <h3>Cancel my account</h3>
+
+                  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+
+                  <%= link_to "Back", :back %>
+                </body>
+                <!--<script type="text/javascript">
+                  $(document).ready(function(){
+                    $(".day_bar").click(function(){
+                      var day = $("#"+this.id).attr("day_bar");
+                      day_last = day - 1
+                      var open = $("#open_hour"+day_last+" > option:selected").text();
+                      var close = $("#close_hour"+day_last+" > option:selected").text();
+                      var openw = $("#open_w"+day_last+" > option:selected").text();
+                      var closew = $("#close_w"+day_last+" > option:selected").text();
+                      //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
+                      if ($("#"+this.id).attr('checked') == "checked"){
+
+                        $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
+                        $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+                        $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
+                        $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
+
+                      }else{
+                        $("#open_hour"+day+" > option").eq(open).attr("selected","")
+                        $("#close_hour"+day+" > option").eq(close).attr("selected","")
+                        $("#open_w"+day+" > option").eq(openw).attr("selected","")
+                        $("#close_w"+day+" > option").eq(closew).attr("selected","")
+                      }
+                    });
+                  });
+                </script>-->

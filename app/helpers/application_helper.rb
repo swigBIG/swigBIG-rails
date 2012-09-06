@@ -16,6 +16,9 @@ module ApplicationHelper
   def days
     [["Monday", 0], ["Tuesday", 1], ["Wednesday", 2], ["Thursday", 3], ["Friday", 4], ["Saturday", 5],["Sunday", 6]]
   end
+  def days_on_edit
+    [["Monday", "Monday"], ["Tuesday", "Tuesday"], ["Wednesday", "Wednesday"], ["Thursday", "Thursday"], ["Friday", "Friday"], ["Saturday", "Saturday"],["Sunday", "Sunday"]]
+  end
   
   def days_collection
     [["Monday", "Monday"], ["Tuesday", "Tuesday"], ["Wednesday", "Wednesday"], ["Thursday", "Thursday"], ["Friday", "Friday"], ["Saturday", "Saturday"],["Sunday", "Sunday"]]

@@ -8,6 +8,15 @@
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
+    <script type="text/javascript">
+      $(document).ready(
+      function(){
+        setInterval(function(){
+          //$('#live_feed').load('/live_swig_feed');
+          $('#live_feed').load('<%= live_swig_feed_path %>');
+        }, 15000);
+      })
+    </script>
   </head>
   <body style="padding-top: 20px;">
     <div class="navbar-fixed-top">
@@ -124,7 +133,7 @@
     <div class="navbar-fixed-bottom">
       <div class="navbar-inner" style="background-image: none;height: 25px;">
         <div class="container" style="padding-top: 5px;">
-          <div class="pull-left">Live Swig Feed: James J. just swigged at Duffy's in Chicago</div>
+          <div class="pull-left" style="color: white;" id="live_feed"><%= render partial: "shared/user_swig_feed_partial" %></div>
           <div class="pull-right">
             <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
             &nbsp;
@@ -142,6 +151,7 @@
 
     <!--Bar popup-->
     <%= render partial: "shared/bar_modal_partial.html" %>
+    <%= render partial: "shared/site_modal_partial.html" %>
 
 
   </body>

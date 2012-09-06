@@ -108,6 +108,11 @@ class HomeController < ApplicationController
     end
   end
 
+  def live_swig_feed
+    @user_swig_feed = Swiger.last
+    render layout: false
+  end
+
 end
 
 
