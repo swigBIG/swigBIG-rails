@@ -546,13 +546,13 @@ class Bars::DashboardController < ApplicationController
     current_bar.bar_hours.destroy_all
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     (params[:total].to_i + 1).times do |t|
-      unless params["first_day_#{t}"].blank?
+      unless params["first_day#{t}"].blank?
         if params["close_day#{t}"].eql?("1")
-          days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+          days[params["first_day#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
             current_bar.bar_hours.create(day: day, open_time: "close")
           end
         else
-          days[params["first_day_#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
+          days[params["first_day#{t}"].to_i..params["last_day#{t}"].to_i].each do |day|
             current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}", open_hour: params["open_hour#{t}"].to_i, close: params["close_hour#{t}"].to_i,open_word: params["open_word#{t}"],close_word: params["close_word#{t}"], close_day: params["close_day#{t}"])
           end
         end

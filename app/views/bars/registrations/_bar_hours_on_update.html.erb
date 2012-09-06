@@ -1,18 +1,19 @@
 <div id="bar_hour_list_on_update<%= count %>">
-<div style="margin-left: 30px;">
-  <% unless count.eql?(0) %>
-    <a onclick='$("#bar_hour_list_on_update<%= count %>").remove()'><i class="icon-remove"></i></a>
-  <% end %>
+  <div style="margin-left: 30px;">
+    <% unless count.eql?(0) %>
+      <a onclick='$("#bar_hour_list_on_update<%= count %>").remove()'><i class="icon-remove"></i></a>
+    <% end %>
 
-  <%= select_tag "first_day_#{count}", options_for_select(days, BarHour::DAY_LIST[bar_hour.first.day]), {style: "width: 100px;margin-bottom: 3px;"} %>
-  to
-  <%= select_tag "last_day#{count}", options_for_select(days, BarHour::DAY_LIST[bar_hour.last.day]), {style: "width: 100px;margin-bottom: 3px;"} %>
-  <%= select_tag "open_hour#{count}", options_for_select([nil, [1,1.0],[2,2.0],[3,3.0],[4,4.0],[5,5.0],[6,6.0],[7,7.0],[8,8.0],[9,9.0],[10,10.0],[11,11.0],[12,12.0]], bar_hour.first.open_hour ), {style: "width: 50px;margin-bottom: 3px;"} %>
-  <%= select_tag "open_word#{count}", options_for_select([nil, ["AM","AM"],["PM","PM"]], bar_hour.first.open_word), {style: "width: 50px;margin-bottom: 3px;"} %>
-  <%= select_tag "close_hour#{count}", options_for_select([nil, [1,1.0],[2,2.0],[3,3.0],[4,4.0],[5,5.0],[6,6.0],[7,7.0],[8,8.0],[9,9.0],[10,10.0],[11,11.0],[12,12.0]], bar_hour.first.close), {style: "width: 50px;margin-bottom: 3px;"} %>
-  <%= select_tag "close_word#{count}", options_for_select([nil, ["AM","AM"],["PM","PM"]], bar_hour.first.close_word), {style: "width: 50px;margin-bottom: 3px;"} %>
-  <b> close </b>
-  <%= check_box_tag "close_day#{x}", bar_hour.last.close_day, bar_hour.last.close_day %>
-</div>
-<div class="clearfix"></div>
-<br/>
+    <%= select_tag "first_day#{count}", options_for_select(days, BarHour::DAY_LIST[bar_hour.first.day]), {style: "width: 100px;margin-bottom: 3px;"} %>
+    to
+    <%= select_tag "last_day#{count}", options_for_select(days, BarHour::DAY_LIST[bar_hour.last.day]), {style: "width: 100px;margin-bottom: 3px;"} %>
+    <%= select_tag "open_hour#{count}", options_for_select([nil, [1,1.0],[2,2.0],[3,3.0],[4,4.0],[5,5.0],[6,6.0],[7,7.0],[8,8.0],[9,9.0],[10,10.0],[11,11.0],[12,12.0]], bar_hour.first.open_hour ), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <%= select_tag "open_word#{count}", options_for_select([nil, ["AM","AM"],["PM","PM"]], bar_hour.first.open_word), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <%= select_tag "close_hour#{count}", options_for_select([nil, [1,1.0],[2,2.0],[3,3.0],[4,4.0],[5,5.0],[6,6.0],[7,7.0],[8,8.0],[9,9.0],[10,10.0],[11,11.0],[12,12.0]], bar_hour.first.close), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <%= select_tag "close_word#{count}", options_for_select([nil, ["AM","AM"],["PM","PM"]], bar_hour.first.close_word), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <b> close </b>
+    <%= check_box_tag "close_day#{x}", bar_hour.last.close_day, bar_hour.last.close_day %>
+    <%#= hidden_field_tag "total", count %>
+  </div>
+  <div class="clearfix"></div>
+  <br/>
