@@ -1,1 +1,1 @@
- <%=j "Live Swig Feed: #{@user_swig_feed.user.name rescue nil} at " %><%=j link_to @user_swig_feed.bar.name, bar_profile_path(@user_swig_feed.bar) %>
+ <%=j "Live Swig Feed: #{@user_swig_feed.user.name rescue nil} at " %><%= link_to @user_swig_feed.bar.name, bar_profile_path(@user_swig_feed.bar) %>
