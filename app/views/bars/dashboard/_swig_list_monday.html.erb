@@ -144,7 +144,7 @@
                 </div>
                 <!--</div>-->
                 <div class="modal-footer">
-                  <a class="btn btn-primary" onclick="return validatePeople(0, 'mon_done')">Done</a>
+                  <a class="btn btn-primary" onclick="return validatePeople(0, 'mon_done', 'new')">Done</a>
                   <a class="btn btn-primary" id="mon_done" onclick="monday_done(this)" style="display: none;">Done</a>
                 </div>
               </div>
@@ -163,7 +163,8 @@
                     <div id="monday_bigswig_lists_on_update_<%= x %>">
                       <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
                     </div>
-                    <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;", class: "positive" %>
+                    <div id="people_update_warning_text_<%= "0_#{x}" %>" style="display: none;">people require must fill!</div>
+                    <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;", class: "positive", id: "peoples_update_0_#{x}" %>
                     <% end %>
                   </div>
                   <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "monday_update_button" %>
@@ -183,7 +184,8 @@
                       <% end %>
                     </div>
                     <div class="modal-footer">
-                      <a class="btn" onclick="$('#monday_update_button').click();">Update Swig</a>
+                      <a class="btn btn-primary" onclick="return validatePeople(0, 'mon_update_done', 'update')">Done</a>
+                      <a class="btn" onclick="$('#monday_update_button').click();" id="mon_update_done">Update Swig</a>
                     </div>
                   </div>
                 <% end %>
