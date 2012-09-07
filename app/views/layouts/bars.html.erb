@@ -14,7 +14,7 @@
         setInterval(function(){
           //$('#live_feed').load('/live_swig_feed');
           $('#live_feed').load('<%= live_swig_feed_path %>');
-        }, 55000);
+        }, 45000);
       })
     </script>
   </head>
@@ -50,11 +50,14 @@
                   <ul class="dropdown-menu" style="width: 350px;">
                     <li><b>notification</b></li>
                     <li class="divider"></li>
-                    <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).order("created_at DESC").each do |notification| %>
-                      <li style="width: 290px;margin-bottom: 3px;" onclick="window.location.href='<%= bars_message_url(notification.id) %>'"><%= notification.topic %>
-                        <br/>
-                        <%= notification.created_at.strftime("%v") %>
-                      </li>
+                    <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?) OR category = (?)", 9, 15, 16]).order("created_at DESC").each do |notification| %>
+                      <% if notification.category.eql?(16) %>
+                        <li><%=  notification.received_messageable.name %> just earned <b>Loyalty</b></li>
+                      <% end %>
+                        <!--<li style="width: 290px;margin-bottom: 3px;" onclick="window.location.href='<%#= bars_message_url(notification.id) %>'"><%#= notification.topic %>
+                          <br/>
+      <%#= notification.created_at.strftime("%v") %>
+                        </li>-->
                       <li class="divider"></li>
                     <% end %>
                   </ul>

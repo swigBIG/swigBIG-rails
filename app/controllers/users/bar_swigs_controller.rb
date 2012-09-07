@@ -1,7 +1,10 @@
 class Users::BarSwigsController < ApplicationController
   layout "bar_profile"
-  def index
 
+#    log_activity_streams :current_user, :name, "name",
+#    :@bar, :swiger, :enter_bar, :swiger
+
+  def index
   end
 
   def show_swig

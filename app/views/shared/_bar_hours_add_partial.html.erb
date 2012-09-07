@@ -1,0 +1,17 @@
+<div id="bar_hour_list<%= count %>">
+  <div style="margin-left: 31px;">
+    <% unless count.eql?(0) %>
+      <a onclick='$("#bar_hour_list<%= count %>").remove()'><i class="icon-remove"></i></a>
+    <% end %>
+    <%= select_tag "first_day_#{count}", options_for_select(days), {style: "width: 100px;margin-bottom: 3px;"} %>
+    to
+    <%= select_tag "last_day#{count}", options_for_select(days), {style: "width: 100px;margin-bottom: 3px;"} %>
+    <%= select_tag "open_hour#{count}", options_for_select(hours_collection), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <%= select_tag "open_word#{count}", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <%= select_tag "close_hour#{count}", options_for_select(hours_collection), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <%= select_tag "close_word#{count}", options_for_select([["AM","AM"],["PM","PM"]]), {style: "width: 50px;margin-bottom: 3px;"} %>
+    <b> close </b>
+    <%= check_box_tag "close_day#{count}" %>
+  </div>
+</div>
+<div class="clearfix"></div>

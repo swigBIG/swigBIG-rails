@@ -25,7 +25,7 @@ class Swiger < ActiveRecord::Base
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
-
+        ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
         #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
         chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
@@ -54,40 +54,44 @@ class Swiger < ActiveRecord::Base
 
 
   def time_and_distance_valid?
-    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first
-    if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
-      #      debugger
-      Chronic.time_class = Time.zone
-      #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
-      if bar_hour.open_time.eql?("Close")
-        self.errors.add("time and distance", "#{self.bar.name} is Close!")
-      elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
-        user_swig = self.user.swigers.last
-        radius = BarRadius.where(status: true).first.distance rescue 25
-        unless user_swig.blank?
-          if (Time.zone.now - user_swig.created_at) >= 3600
+    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first rescue nil
+    if bar_hour.blank?
+      self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
+    else
+      if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
+        #      debugger
+        Chronic.time_class = Time.zone
+        #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+        if bar_hour.open_time.eql?("Close")
+          self.errors.add("time and distance", "#{self.bar.name} is Close!")
+        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+          user_swig = self.user.swigers.last
+          radius = BarRadius.where(status: true).first.distance rescue 25
+          unless user_swig.blank?
+            if (Time.zone.now - user_swig.created_at) >= 3600
+              self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
+              return true
+            else
+              unless user_swig.bar.latitude.eql?(self.bar.latitude)
+                unless (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
+                  return true
+                else
+                  self.errors.add("time and distance", "Permision denied(Near Bar)!")
+                end
+              else
+                self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
+              end
+            end
+          else
             self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
             return true
-          else
-            unless user_swig.bar.latitude.eql?(self.bar.latitude)
-              unless (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
-                return true
-              else
-                self.errors.add("time and distance", "Permision denied(Near Bar)!")
-              end
-            else
-              self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
-            end
           end
         else
-          self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
-          return true
+          self.errors.add("time and distance","#{self.bar.name} is not open yet, please Swig at #{bar_hour.open_time} - #{bar_hour.close_time}")
         end
       else
-        self.errors.add("time and distance","#{self.bar.name} is not open yet, please Swig at #{bar_hour.open_time} - #{bar_hour.close_time}")
+        self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
       end
-    else
-      self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
     end
   end
 

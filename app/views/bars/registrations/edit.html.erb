@@ -58,10 +58,11 @@
 </script>
 <body onload="initialize()">
   <%= content_for :side do %>
-    <!--<div id="map_canvas" style="margin-left: 20px;margin-right: 50px;">
-  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
-    </div>-->
+    <div id="map_canvas" style="margin-left: 20px;margin-right: 50px;">
+      <%= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
+    </div>
   <% end %>
+
   <ul class="tabs" data-tabs="tabs" style="margin-left: 70px; ">
     <li class="active"><a href="#bar" data-toggle="tab"><h5>Bar</h5></a></li>
     <li><a href="#link" data-toggle="tab"><h5>Link</h5></a></li>
@@ -107,42 +108,42 @@
 
                 <div class='links'>
                   <b><%= link_to_add_association 'Add+', f, :bar_hours, class: "btn",style: "color: green;" %></b>
-                                      </div>
-                                      <div class="clearfix"></div>
-                                      <div class="form-actions">
+                                                      </div>
+                                                      <div class="clearfix"></div>
+                                                      <div class="form-actions">
                 <%= f.submit "Update", class: "btn-primary" %>
-                                                            </div>
-                                                          </div>-->
+                                                                                            </div>
+                                                                                          </div>-->
                 <% end %>
 
-                <div class="tab-pane" id="hour">
+                <div class="tab-pane" id="hour" style="margin-left: 90px;">
                   <%= simple_form_for(:bar_hours, url: bars_update_bar_hours_path, :html => { :method => :post, class: "form-horizontal"}) do |f| %>
-                <%#= simple_form_for(:bar_hours, url: update_bar_hours_path, method: :post) do |f| %>
-                      <% @bar_hours.each_pair do | x, bar_hour| %>
-                        <%= BarHour::DAY_LIST[bar_hour.last.day] %>
-                        <div id="bar_hour_list">
+                      <div id="bar_hour_list">
+                        <% @bar_hours.each_pair do | x, bar_hour| %>
                           <%= render partial: "bar_hours_on_update", locals: {x: x, bar_hour: bar_hour, count: BarHour::DAY_LIST[bar_hour.last.day]} %>
-                        </div>
                   <%# if x.last %>
                   <%# end %>
-                      <% end %>
-                      <div id="bigswig_link">
-                        <%= hidden_field_tag "total", BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day] %>
-                        <%= link_to "Add", bars_add_bar_hours_on_edit_path(count: BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day]), method: :post, remote: true, class: "btn", style: "color: green:" %>
+                        <% end %>
+                      </div>
+                      <div id="bigswig_link_on_update">
+                <%#= hidden_field_tag "total", BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day] %>
+                        <%= hidden_field_tag "total", @counter %>
+                        <%= link_to "Add", bars_add_bar_hours_on_edit_path(count: @counter), method: :post, remote: true, class: "btn", style: "color: green:" %>
                         </div>
                         <%= f.submit "Update", class: "pull-right" %>
                         <% end %>
                       </div>
-
                     </div>
 
                     <br/>
                     <br/>
+                    <div style="margin-left: 70px;">
                     <h3>Cancel my account</h3>
 
                     <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
                     <%= link_to "Back", :back %>
+                    </div>
                   </body>
                   <!--<script type="text/javascript">
                     $(document).ready(function(){
