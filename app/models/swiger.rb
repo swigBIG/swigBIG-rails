@@ -25,7 +25,7 @@ class Swiger < ActiveRecord::Base
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
-        ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
+        ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
         #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
         chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
@@ -54,17 +54,25 @@ class Swiger < ActiveRecord::Base
 
 
   def time_and_distance_valid?
-    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first rescue nil
+    #    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first rescue nil
+    bar_hour = self.bar.bar_hours.where(day: Time.zone.now.strftime("%A")).first rescue nil
     if bar_hour.blank?
       self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
     else
       if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
         #      debugger
         Chronic.time_class = Time.zone
+        if bar_hour.close_time.eql?("12AM")
+          bar_close_time = "11:59AM"
+        elsif bar_hour.close_time.eql?("12PM")
+          bar_close_time = "11:59PM"
+        else
+          bar_close_time = bar_hour.close_time
+        end
         #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         if bar_hour.open_time.eql?("Close")
           self.errors.add("time and distance", "#{self.bar.name} is Close!")
-        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
+        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_close_time))
           user_swig = self.user.swigers.last
           radius = BarRadius.where(status: true).first.distance rescue 25
           unless user_swig.blank?
