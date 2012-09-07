@@ -110,6 +110,7 @@
               <div id="wednesday_bigswig_lists<%= x + 1 %>">
                 <%= render partial: "bigswig_list" %>
               </div>
+              <div id="people_warning_text_<%= "2_#{x}" %>" style="display: none;">people require must fill!</div>
               <%= number_field_tag "peoples[2][#{x}]",nil, class: "positive" %>
                 <%= hidden_field_tag "day", 2 %>
                 <br/>
