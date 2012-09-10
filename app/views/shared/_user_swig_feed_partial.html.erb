@@ -1,4 +1,3 @@
-<%#= "Live Swig Feed: #{@user_swig_feed.user.name rescue nil} at " %><%#= link_to @user_swig_feed.bar.name, bar_profile_path(@user_swig_feed.bar) %>
 <% unless @user_swig_feed.blank? %>
   <% if @user_swig_feed.verb.eql?("loyalty reward") %>
     <%= "Live Swig Feed: #{@user_swig_feed.actor.name rescue nil} got loyalty reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
