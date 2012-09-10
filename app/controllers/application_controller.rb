@@ -56,7 +56,10 @@ class ApplicationController < ActionController::Base
   def swigbig_content
     @site_content = SiteContent.first
     @bar_message = ActsAsMessageable::Message.new
-    @user_swig_feed = Swiger.last
+#    @user_swig_feed = Swiger.last
+    @user_swig_feed = ActivityStream.last
+    @user_swig_feed_object = ActivityStream.last.object
+    @user_swig_feed_actor = ActivityStream.last.actor
   end
 
   protected
