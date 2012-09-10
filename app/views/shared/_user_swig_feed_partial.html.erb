@@ -1,1 +1,13 @@
-<%= "Live Swig Feed: #{@user_swig_feed.user.name rescue nil} at " %><%= link_to @user_swig_feed.bar.name, bar_profile_path(@user_swig_feed.bar) %>
+<%#= "Live Swig Feed: #{@user_swig_feed.user.name rescue nil} at " %><%#= link_to @user_swig_feed.bar.name, bar_profile_path(@user_swig_feed.bar) %>
+
+<%# if @user_swig_feed.object_type.eql?("Bar") %>
+  <%#= "Live Swig Feed: #{@user_swig_feed.actor.name rescue nil} at " %><%#= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
+  <%#= "Live Swig Feed: #{@user_swig_feed_actor.name rescue nil} at " %><%#= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
+<%# elsif @user_swig_feed.object_type.eql?("Bar") %>
+  <%#= "Live Swig Feed: #{@user_swig_feed_actor.name rescue nil} at " %><%#= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
+
+<%# elsif @user_swig_feed.object_type.eql?("Bar") %>
+  <%#= "Live Swig Feed: #{@user_swig_feed_actor.name rescue nil} at " %><%#= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
+
+<%# end %>
+
