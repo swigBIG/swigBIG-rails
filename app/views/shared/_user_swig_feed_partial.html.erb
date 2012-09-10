@@ -6,10 +6,10 @@
     <%= "Live Swig Feed: #{@user_swig_feed_actor.name rescue nil} got popularity reward at " %><%= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
 
   <% elsif @user_swig_feed.verb.eql?("bigswig unlock") %>
-    <%= "Live Swig Feed:  Unlocked Bigswig at" %><%= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
+    <%= "Live Swig Feed:  Unlocked Bigswig at" %>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
 
   <% elsif @user_swig_feed.verb.eql?("user swiging") %>
-    <%= "Live Swig Feed: #{@user_swig_feed.actor.name rescue nil} swiging at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
+    <%= "Live Swig Feed: #{@user_swig_feed.actor.name rescue nil} swiging at  "%>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
   <% end %>
 
 <% else %>

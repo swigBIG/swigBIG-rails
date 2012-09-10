@@ -1,15 +1,21 @@
 <% @redeem_rewards.each do |reward| %>
   <tr>
-    <% if reward.coupon_status %>
-      <td><b>Redeem</b></td>
-    <% else %>
-      <td><b>UnRedeem</b></td>
-    <% end %>
-    <td><%= reward.coupon_status %></td>
-    <td><%= reward.sent_messageable.name %></td>
-    <td><%= reward.topic %></td>
-    <td><%= reward.body %></td>
-    <td><%= reward.updated_at.strftime("%v") %></td>
     <td><%= reward.created_at.strftime("%v") %></td>
+    <td>
+      <b><%= reward.sent_messageable.name %></b>
+      <br/>
+      <b>code: </b><%= reward.coupon %>
+      <br/>
+      <div class="pull-left">
+        <% if reward.coupon_status %>
+          <b style="color: red;">Redeem</b>
+        <% else %>
+          <b style="color: green;">UnRedeem</b>
+        <% end %>
+      </div>
+    </td>
+    <td>
+      <%= reward.reward %>
+    </td>
   </tr>
 <% end %>

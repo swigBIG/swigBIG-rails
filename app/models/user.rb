@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
     :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen, :access_token,
     :fb_id, :lock_status
 
+  extend  FriendlyId
+
+  friendly_id :name , use: :slugged
+
   # attr_accessible :title, :body
   with_options dependent: :destroy do |user|
     user.has_many :points
@@ -39,7 +43,7 @@ class User < ActiveRecord::Base
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
-#      self.create!(:email => data.email, :password => Devise.friendly_token[0,20], avatar: img)
+      #      self.create!(:email => data.email, :password => Devise.friendly_token[0,20], avatar: img)
       self.create!(:email => data.email, :password => Devise.friendly_token[0,20], name: data.name, avatar: img)
     end
   end

@@ -62,22 +62,16 @@
         <div class="tab-pane active" id="loyalty">
           <table>
             <th>Bar</th>
-            <th>Reward</th>
             <th>Progress</th>
             <th>status</th>
             <% @loyalty_points.each do |point| %>
               <tr>
                 <td>
-                  <%= point.bar.name %>
+  <%#= point.bar.name %>
+                  <%= link_to  point.bar.name, bar_profile_path(point.bar) %>
                 </td>
                 <td>
-                  <%= point.bar.loyalty.reward_detail rescue nil %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.swigs_number rescue nil %>
-                  <b> of </b>
-                  <%= point.bar.points.count %>
-                  <%= "#{(point.bar.loyalty.swigs_number / point.bar.points.count * 100)}%" rescue nil %>
+                  <%= " #{('x' * point.bar.points.count)}#{"o" * (point.bar.loyalty.swigs_number - point.bar.points.count)}" rescue nil %>
                 </td>
                 <td>
                   <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
@@ -119,6 +113,10 @@
     <div class="tab-pane" id="earned">
       <h2 class="StepTitle"><b>Earned Rewards</b></h2>
       <table>
+        <th>Date</th>
+        <th>Bar</th>
+        <th>Reward</th>
+        <th>Expiration</th>
         <tbody id="earned_reward_list">
           <%= render partial: "earned_reward_partial" %>
         </tbody>
@@ -131,6 +129,9 @@
     <div class="tab-pane" id="redeemed">
       <h2 class="StepTitle"><b>Redeem Rewards</b></h2>
       <table>
+        <th>Date</th>
+        <th>Bar</th>
+        <th>Reward</th>
         <tbody id="redeem_reward_list">
           <%= render partial: "redeem_reward_partial" %>
         </tbody>

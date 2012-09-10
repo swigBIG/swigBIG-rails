@@ -56,10 +56,11 @@ class ApplicationController < ActionController::Base
   def swigbig_content
     @site_content = SiteContent.first
     @bar_message = ActsAsMessageable::Message.new
-#    @user_swig_feed = Swiger.last
-#    @user_swig_feed = ActivityStream.last
-#    @user_swig_feed_object = ActivityStream.last.object
-#    @user_swig_feed_actor = ActivityStream.last.actor
+    #    @user_swig_feed = Swiger.last
+    @user_swig_feed = ActivityStream.last
+
+    @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date
+    @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours
   end
 
   protected
@@ -70,10 +71,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-        return request.ip.to_s if Rails.env.eql?("development")
+    return request.ip.to_s if Rails.env.eql?("development")
     #    #    "211.157.105.218"
     #    #    "75.85.54.184"
-#    "64.90.182.55"
+    #    "64.90.182.55"point.bar
   end
 
   #  if user_signed_in?
