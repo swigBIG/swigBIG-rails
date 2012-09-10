@@ -109,7 +109,7 @@ class HomeController < ApplicationController
   end
 
   def live_swig_feed
-    @user_swig_feed = Swiger.last
+#    @user_swig_feed = ActivityStream.last
     render layout: false
   end
 
