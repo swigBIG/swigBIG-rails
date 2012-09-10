@@ -12,7 +12,7 @@ class Swiger < ActiveRecord::Base
   
   validate :time_and_distance_valid?, :popularity_reward_valid?
 
-  after_create :get_loyalty, :unlock_bigswig
+  after_create :unlock_bigswig, :get_loyalty
 
   #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
@@ -25,7 +25,7 @@ class Swiger < ActiveRecord::Base
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
       if self.bar.loyalty.swigs_number.eql?(loyalty_points)
-        ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+        ActivityStream.create(activity: "winloyalty", verb: "loyalty reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
         #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
         chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
@@ -60,24 +60,24 @@ class Swiger < ActiveRecord::Base
       self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
     else
       if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
-        #      debugger
         Chronic.time_class = Time.zone
         if bar_hour.close_time.eql?("12AM")
-          bar_close_time = "11:59AM"
+          bar_hour.close_time = "11:59AM"
         elsif bar_hour.close_time.eql?("12PM")
-          bar_close_time = "11:59PM"
+          bar_hour.close_time = "11:59PM"
         else
-          bar_close_time = bar_hour.close_time
+          bar_hour.close_time = bar_hour.close_time
         end
         #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         if bar_hour.open_time.eql?("Close")
           self.errors.add("time and distance", "#{self.bar.name} is Close!")
-        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_close_time))
+        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time))
           user_swig = self.user.swigers.last
           radius = BarRadius.where(status: true).first.distance rescue 25
           unless user_swig.blank?
             if (Time.zone.now - user_swig.created_at) >= 3600
               self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
+              ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               return true
             else
               unless user_swig.bar.latitude.eql?(self.bar.latitude)
@@ -92,6 +92,7 @@ class Swiger < ActiveRecord::Base
             end
           else
             self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
+#            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             return true
           end
         else
@@ -111,7 +112,7 @@ class Swiger < ActiveRecord::Base
         popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
-          ActivityStream.create(activity: "winpopularity", verb: "#{self.user.name} got popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
           #            self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
           #            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
           #          end
@@ -136,12 +137,13 @@ class Swiger < ActiveRecord::Base
 
   def unlock_bigswig
     today_swiger = self.bar.swigers.today
-    today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
+    today_swigs = self.bar.swigs.today.big.where("people <= ?", today_swiger.count)
     today_swigs.each do |swig|
       swig.update_attributes(lock_status: "unlock")
       today_swiger.pluck(:user_id).each do |swiger|
         user = User.find(swiger)
         self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
+        ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
       end
     end
   end
