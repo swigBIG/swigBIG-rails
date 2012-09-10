@@ -59,8 +59,8 @@ class ApplicationController < ActionController::Base
     #    @user_swig_feed = Swiger.last
     @user_swig_feed = ActivityStream.last
 
-    @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date
-    @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours
+    @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
+    @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
   end
 
   protected
@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
     return request.ip.to_s if Rails.env.eql?("development")
     #    #    "211.157.105.218"
     #    #    "75.85.54.184"
-    #    "64.90.182.55"point.bar
+#    "64.90.182.55"
   end
 
   #  if user_signed_in?
