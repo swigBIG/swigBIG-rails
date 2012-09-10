@@ -111,6 +111,7 @@ class Swiger < ActiveRecord::Base
         popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
+          ActivityStream.create(activity: "winpopularity", verb: "#{self.user.name} got popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
           #            self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
           #            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
           #          end
