@@ -41,6 +41,12 @@ class Swiger < ActiveRecord::Base
         end
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
         self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial, coupon_status: false, reward: self.bar.loyalty.reward_detail })
+        unless self.user.access_token.blank?
+          me = FbGraph::User.me(user.access_token)
+          me.feed!(
+            :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name}"
+          )
+        end
       end
     end
   end
