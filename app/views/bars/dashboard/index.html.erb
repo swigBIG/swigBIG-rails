@@ -555,7 +555,7 @@
                 </div>
                 <div class="modal-body">
                   <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"}, required: true %>
                   </div>
                   <div class="modal-footer">
                     <%= f.submit "Done", class: "btn-success", style: "margin-top: -50px;", onclick: "$('#goto_bigswig_list_courtesy').click()" %>

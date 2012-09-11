@@ -61,13 +61,19 @@ class Swiger < ActiveRecord::Base
     else
       if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
         Chronic.time_class = Time.zone
-        if bar_hour.close_time.eql?("12AM")
-          bar_hour.close_time = "11:59AM"
-        elsif bar_hour.close_time.eql?("12PM")
-          bar_hour.close_time = "11:59PM"
+
+        if bar_hour.open_word.eql?("PM") and bar_hour.close_word.eql?("AM")
+          bar_hour.close_time = Chronic.parse(bar_hour.close_time) + 1.days
         else
-          bar_hour.close_time = bar_hour.close_time
+          if bar_hour.close_time.eql?("12AM")
+            bar_hour.close_time = "11:59AM"
+          elsif bar_hour.close_time.eql?("12PM")
+            bar_hour.close_time = "11:59PM"
+          else
+            bar_hour.close_time = bar_hour.close_time
+          end
         end
+
         #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         if bar_hour.open_time.eql?("Close")
           self.errors.add("time and distance", "#{self.bar.name} is Close!")
@@ -92,7 +98,7 @@ class Swiger < ActiveRecord::Base
             end
           else
             self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
-#            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             return true
           end
         else
@@ -144,6 +150,13 @@ class Swiger < ActiveRecord::Base
         user = User.find(swiger)
         self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
         ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+        unless user.access_token.blank?
+          me = FbGraph::User.me(user.access_token)
+          me.feed!(
+            :message => "#{user.name} just earned #{swig.deal} at #{swig.bar.name}"
+          )
+        end
+
       end
     end
   end

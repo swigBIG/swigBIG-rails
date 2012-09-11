@@ -1,7 +1,7 @@
 <div id="bar_hour_list_on_update<%= count %>" style="margin-left: 31px;">
-  <% unless count.eql?(0) %>
+  <%# unless count.eql?(0) %>
     <a onclick='$("#bar_hour_list_on_update<%= count %>").remove()'><i class="icon-remove"></i></a>
-  <% end %>
+  <%# end %>
 
   <%= select_tag "first_day_#{count}", options_for_select(days, BarHour::DAY_LIST[bar_hour.first.day]), {style: "width: 100px;margin-bottom: 3px;"} %>
   to

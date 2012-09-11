@@ -10,6 +10,18 @@
     $('#mon_done').attr('disabled', 'disabled');
     $("#monday_done").click()
   }
+  function validate_monday_standard_swig(){
+    if($("#monday_standard_swig textarea").val() == ''){
+      $("#monday_standard_swig textarea").css('border', '1px solid red');
+      valid_monday_swig = false;
+    }else{
+      $("#monday_standard_swig textarea").css('border', '1px solid black');
+      valid_monday_swig = true;
+    }
+    if(valid_monday_swig){
+      $('#goto_create_monday_swig').click();
+    }
+  }
   
 </script>
 
@@ -95,11 +107,12 @@
         <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "monday_standard"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
           <%= f.input :swig_day, as: :hidden, input_html: {value: "Monday"} %>
-          <%= f.input :deal, as: :text, :label => false, input_html: { style: "width: 300px;height: 100px" } %>
+          <%= f.input :deal, as: :text, :label => false, input_html: { style: "width: 300px;height: 100px", id: "monday_standard_swig" }, required: true, include_blank: false %>
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#monday_standard').submit();" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#monday_standard').submit();", id: "goto_create_monday_swig", style: "display: none;" %>
+          <a class="btn btn-primary" onclick="return validate_monday_standard_swig()" id="">Create</a>
           </div>
         <% end %>
       </div>

@@ -9,5 +9,5 @@
     <%= "Live Swig Feed: #{@user_swig_feed.actor.name rescue nil} swiging at  "%>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
   <% end %>
 <% else %>
-  <%= "Live Swig hn No users feed yet!".html_safe %>
+  <%= "Live Swig Feed: No users feed yet!".html_safe %>
 <% end %>
