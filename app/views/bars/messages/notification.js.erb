@@ -3,3 +3,6 @@ $('#unlock_swig_paginator').html('<%= escape_javascript(paginate(@notification_u
 
 $('#popularity_list_unlock').html('<%= escape_javascript(render("popularity_notification_list")) %>');
 $('#unlock_popularity_paginator').html('<%= escape_javascript(paginate(@notification_unlock_popularity, :remote => true).to_s) %>');
+
+$('#loyalty_list_unlock').html('<%= escape_javascript(render("loyalty_notification_list")) %>');
+$('#unlock_loyalty_paginator').html('<%= escape_javascript(paginate(@notification_unlock_loyalty, :remote => true).to_s) %>');

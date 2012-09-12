@@ -43,10 +43,11 @@ class Bars::DashboardController < ApplicationController
       @redeem = current_bar.messages.where(coupon: params[:coupon])
       unless @redeem.blank?
         if @redeem.first.coupon_status.eql?(false)
+          current_bar.send_message( @redeem.first.received_messageable, {topic: "redeem reward confirmation", body: "#{@redeem.first.received_messageable.name} has redeem reward at #{@redeem.first.sent_messageable.name}" , category: 18 })
           @redeem.first.update_attributes(coupon_status: true)
           @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
         else
-          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} has taken on #{@redeem.first.created_at.strftime('%v')} "
 
         end
       else

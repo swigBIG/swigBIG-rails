@@ -5,6 +5,7 @@
       <ul class="tabs" data-tabs="tabs">
         <li class="active"><a href="#unlock_swig" data-toggle="tab"><h4>Unlock BigSwig</h4></a></li>
         <li><a href="#popularity_reward" data-toggle="tab"><h4>Popularty Reward</h4></a></li>
+        <li><a href="#loyalty_reward" data-toggle="tab"><h4>Loyalty Reward</h4></a></li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="unlock_swig">
@@ -49,10 +50,29 @@
           <% end %>
         </div>
 
-      </div>
+        <div class="tab-pane" id="loyalty_reward">
+          <%= form_tag custom_action_bars_messages_path, :id => "message_action_form" do  %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <td colspan="4">
+                    <%= select_tag "options_action", options_for_select([["Options", "0"],["Check All", "1"],["Uncheck All", "2"]]) %>
+                    <%= select_tag "custom_action", options_for_select([["Action", "0"],["Mark as read", "1"],["Mark as unread", "2"],["Delete", "3"]]) %>
+                  </td>
+                </tr>
+              </thead>
+              <tbody id="loyalty_list_unlock">
+                <%= render partial: "loyalty_notification_list" %>
+              </tbody>
+            </table>
+            <div id="unlock_loyalty_paginator">
+              <%= paginate @notification_unlock_loyalty, remote: true %>
+            </div>
+          <% end %>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
 
 
