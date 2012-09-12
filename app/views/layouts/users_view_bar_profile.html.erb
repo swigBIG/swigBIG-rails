@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Swprototype</title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= render partial: "layouts/body.css" %>
+    <%= yield :head_js %>
+    <script type="text/javascript">
+      $(document).ready(
+      function(){
+        setInterval(function(){
+          //$('#live_feed').load('/live_swig_feed');
+          $('#live_feed').load('<%= live_swig_feed_path %>');
+        }, 55000);
+      })
+    </script>
+  </head>
+  <body style="padding-top: 20px;">
+    <div class="navbar-fixed-top" style="">
+      <div class="navbar-inner" >
+        <div class="container" >
+          <div class="nav pull-right">
+            <li>
+              <% if !@site_content.blank? %>
+                <% if !@site_content.logos.blank? %>
+                  <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;") rescue nil %>
+                <% else %>
+                  <h3 class="brand" style="color: white;">SwigBIG</h3>
+                <% end %>
+              <% else %>
+                <h3 class="brand" style="color: white;">SwigBIG</h3>
+              <% end %>
+            </li>
+            <li>
+              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
+            </li>
+            <div class="nav pull-right" >
+              <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
+              <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
+              <% unless user_signed_in? %>
+                <li>
+                  <b><%= link_to "Sign Up for Free", new_user_registration_path,style: "color:#fff" %></b>
+                </li>
+              <% end %>
+              <% if user_signed_in? %>
+                <li>
+                  <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
+                </li>
+                <% unless  current_user.received_messages.where("opened is false").blank? %>
+                  <li id="user_notification" class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_user.received_messages.where("opened is false").count %></span></a>
+                    <ul class="dropdown-menu">
+                      <% current_user.received_messages.where("opened is false").each do |notification| %>
+                        <li style="width: 220px;" onclick="window.location.href='<%= users_message_url(notification) %>'" ><%= notification.topic %>
+                          <br/>
+                          <%= notification.created_at.strftime("%v") %>
+                        </li>
+                        <li class="divider"></li>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% end %>
+                <li id="fat-menu" class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || "" ).split(" ").first }!" %></b></a>
+                  <ul class="dropdown-menu">
+                    <% unless current_user.access_token.blank? %>
+                      <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
+                    <% else %>
+                      <li>
+                        <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
+                      </li>
+                      <li>
+                        <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
+                      </li>
+                    <% end %>
+                    <li>
+                      <%= link_to "Rewards", users_rewards_path %>
+                    </li>
+                    <li>
+                      <%= link_to "friendship", users_friend_index_path %>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+                    </li>
+                  </ul>
+                </li>
+              <% else %>
+                <li>
+                  <b><%= link_to "Log In", new_user_session_path, style: "color: white" %></b>
+                </li>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;width: 1220px;">
+      <% if notice %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+      <% end %>
+      <div class="span4 pull-left" >
+        <br />
+        <%= yield :side %>
+        <br />
+        <br />
+        <!--<a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'apple.com');"></a>
+        <br />
+        <br />
+        <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"></a>-->
+      </div>
+        <div class="container span11 pull-left" style="margin-left: 30px;">
+        <%= yield %>
+      </div>
+      <div class="span5 pull-right">
+        <%= yield :profile_right_side %>
+      </div>
+      <div style="margin-top: 30px;"></div>
+    </div>
+
+    <%= yield :outer %>
+
+    <div class="navbar-fixed-bottom">
+      <div class="navbar-inner" style="background-image: none;height: 25px;">
+        <div class="container" style="padding-top: 5px;">
+          <div class="pull-left" style="color: white;" id="live_feed"><%= render partial: "shared/user_swig_feed_partial" %></div>
+          <div class="pull-right">
+            <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
+            &nbsp;
+            <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
+            &nbsp;
+            <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
+            &nbsp;
+            <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            &nbsp;
+            <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= render partial: "shared/site_modal_partial.html" %>
+
+  </body>
+  <%= yield :bottom_js %>
+</html>

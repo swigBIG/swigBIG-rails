@@ -66,48 +66,12 @@
   }
 </style>
 
-<% content_for :facebook_like do %>
-  <div id="fb-root"></div>
-  <script src="//connect.facebook.net/en_US/all.js"></script>
-  <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share"
-          type="text/javascript">
-  </script>
-  <script>
-    window.fbAsyncInit = function() {
-      console.log("asdasd")
-      FB.init({
-        appId      : '410355872318354', // App ID
-        channelUrl : '<%= bar_profile_url(@bar).to_s %>', // Channel File
-        status     : true, // check login status
-        cookie     : true, // enable cookies to allow the server to access the session
-        xfbml      : true  // parse XFBML
-      });
 
-      // Additional initialization code here
-    };
 
-    // Load the SDK Asynchronously
-    (function(d){
-      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement('script'); js.id = id; js.async = true;
-      js.src = "//connect.facebook.net/en_US/all.js";
-      ref.parentNode.insertBefore(js, ref);
-    }(document));
-  </script>
-<% end %>
-<% content_for :facebook_like_meta do %>
-  <meta property="og:site_name" content="www.swigbig.com"/>
-  <meta property="og:title" content="#{<%= @bar.name %>}"/>
-  <meta property="og:type" content="YOUR_PAGE_OBJECT_TYPE"/>
-  <meta property="og:url" content="<%= bar_profile_url(@bar) %>"/>
-  <meta property="og:image" content="assets/rails.png"/>
-  <meta property="fb:app_id" content="410355872318354"/>
-
-<% end %>
 <body onload="initialize()">
 
   <%= content_for :side do %>
+
     <h3><%= @bar.name rescue nil %></h3>
     <b>Address : </b><%= @bar.address rescue nil %>, <b><%= @bar.city rescue nil %></b>
     <br/>
@@ -127,26 +91,12 @@
     <% end %>
     <div class="clearfix"></div>
     <fieldset class="well" style="margin-left: -15px;">
-      <div id="fb-root"></div>
-      <fb:like send="false" width="210px" show_faces="true" />
-      <fb:like send="false"  width="210px" show_faces="true" />
-      <a name="fb_share"></a>
+
       <br/>
       <br/>
       <%= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
-      <b>Who's There</b>
-      <br/>
-      <div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">
-  <%# @swigers.each do |swiger| %>
-  <%# unless swiger.user.blank? %>
-  <%# unless swiger.user.name.blank? %>
-  <%#= swiger.user.name %>
-  <%# else %>
-  <%# end %>
-  <%# end %>
-        <br/>
-  <%# end %>
-      </div>
+
+
     </fieldset>
     <br />
     <!--<fieldset class="well" style="margin-left: -15px;">
@@ -158,9 +108,75 @@
       </fieldset>-->
   <% end %>
 
+  <%= content_for :profile_right_side do %>
+    <div style="text-align: center;">
+      <b>Total Swigs Today</b>
+      <br/>
+      <%= @swigers.count %>
+    </div>
+    <br/>
+    <!--<div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">-->
+    <% @swigers.each do |swiger| %>
+      <div class="span2">
+        <% unless swiger.user.blank? %>
+          <% unless swiger.user.name.blank? %>
+            <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
+            <br/>
+            <%= swiger.user.name %>
+          <% else %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <!--</div>-->
+  <% end %>
+
 
   <div class="clearfix"></div>
   <br/>
+  <div class="span10 well">
+    <!--facebook-->
+    <div id="fb-root"></div>
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share"
+            type="text/javascript">
+    </script>
+    <script>
+      window.fbAsyncInit = function() {
+        console.log("asdasd")
+        FB.init({
+          //appId      : '410355872318354', // App ID
+          appId      : '410355872318354', // App ID
+          channelUrl : '<%= bar_profile_url(@bar).to_s %>', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+
+        // Additional initialization code here
+      };
+
+      // Load the SDK Asynchronously
+      (function(d){
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+      }(document));
+    </script>
+    <meta property="og:site_name" content="www.swigbig.com"/>
+    <meta property="og:title" content="#{<%= @bar.name %>}"/>
+    <meta property="og:type" content="YOUR_PAGE_OBJECT_TYPE"/>
+    <meta property="og:url" content="<%= bar_profile_url(@bar) %>"/>
+    <meta property="og:image" content="assets/rails.png"/>
+    <meta property="fb:app_id" content="410355872318354"/>
+    <div id="fb-root"></div>
+    <fb:like send="false" width="210px" show_faces="true" />
+    <fb:like send="false"  width="210px" show_faces="true" />
+    <a name="fb_share"></a>
+    <!--end facebook-->
+  </div>
   <div class="clearfix"></div>
   <div class="span10 well">
     <div class="span4 pull-left" style="margin-left: -5px;">
