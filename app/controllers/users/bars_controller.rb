@@ -1,5 +1,5 @@
 class Users::BarsController < ApplicationController
-  layout "users"
+  layout "users_view_bar_profile"
   
   def index
     @bars = Bar.all
