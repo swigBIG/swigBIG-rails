@@ -13,6 +13,7 @@
   function validate_monday_standard_swig(){
     if($("#monday_standard_swig textarea").val() == ''){
       $("#monday_standard_swig textarea").css('border', '1px solid red');
+      $("#monday_standard_text_notification").text('Standard Swig must fill!');
       valid_monday_swig = false;
     }else{
       $("#monday_standard_swig textarea").css('border', '1px solid black');
@@ -104,6 +105,7 @@
         <h4>Standard Swig on Monday</h4>
       </div>
       <div class="modal-body well">
+        <div id="monday_standard_text_notification" style="color: red;"></div>
         <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "monday_standard"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
           <%= f.input :swig_day, as: :hidden, input_html: {value: "Monday"} %>
@@ -152,7 +154,7 @@
                   <%= f.submit "Add you own..", class: "btn-success",style: "margin-top: -50px;", onclick: "monday_clear_list()" %>
                   </div>
                   <div style="margin-left: -160px;">
-                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"}, required: true %>
                   <% end %>
                 </div>
                 <!--</div>-->

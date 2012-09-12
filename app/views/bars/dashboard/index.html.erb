@@ -128,6 +128,24 @@
   });
 </script>
 
+
+<script type="text/javascript">
+  function validate_reward_to_list(){
+    if($("#add_big_swig_list_in_modal").val() == ''){
+      alert("salah");
+      $("#add_big_swig_list_in_modal").css('border', '1px solid red');
+      valid_reward_to_create = false;
+    }else{
+      alert("bener");
+      $("#add_big_swig_list_in_modal").css('border', '1px solid black');
+      valid_reward_to_create = true;
+    }
+    if(valid_reward_to_create){
+      $('#goto_bigswig_list_modal').click();
+    }
+  }
+</script>
+
 <!--<a href="#big_and_standard_swig" data-toggle="modal" id="moday_check"></a>-->
 
 <% if current_bar.address.blank? %>
@@ -554,10 +572,14 @@
                 </div>
                 <div class="modal-body">
                   <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"}, required: true %>
+                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;margin-left: -40px;", id: "add_big_swig_list_in_modal"}, required: true %>
                   </div>
                   <div class="modal-footer">
-                    <%= f.submit "Done", class: "btn-success", style: "margin-top: -50px;", onclick: "$('#goto_bigswig_list_courtesy').click()" %>
+                    <%= f.submit "Done", class: "btn-success pull-right", style: "", onclick: "$('#goto_bigswig_list_courtesy').click()" %>
+                    <div style="margin-right: 450px;">
+                      <a class="btn pull-left" data-dismiss="modal">Cancel</a>
+                    </div>
+                  <%#= f.submit "Done", class: "btn-success", style: "margin-top: -50px;" , id: "goto_bigswig_list_modal" %>
                     <% end %>
                   </div>
                 </div>

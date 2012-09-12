@@ -9,6 +9,19 @@
     $('#sat_done').attr('disabled', 'disabled');
     $("#saturday_done").click()
   }
+  function validate_saturday_standard_swig(){
+    if($("#saturday_standard_swig textarea").val() == ''){
+      $("#saturday_standard_swig textarea").css('border', '1px solid red');
+      $("#saturday_standard_text_notification").text('Standard Swig must fill!');
+      valid_monday_swig = false;
+    }else{
+      $("#saturday_standard_swig textarea").css('border', '1px solid black');
+      valid_monday_swig = true;
+    }
+    if(valid_monday_swig){
+      $('#goto_create_saturday_swig').click();
+    }
+  }
 </script>
 
 <% unless @swigs_saturday.standard.blank? %>
@@ -86,6 +99,7 @@
         <h4>Standard Swig on saturday</h4>
       </div>
       <div class="modal-body well">
+        <div id="saturday_standard_text_notification" style="color: red;"></div>
         <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "saturday_standard"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
           <%= f.input :swig_day, as: :hidden, input_html: {value: "saturday"} %>
@@ -93,7 +107,9 @@
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#saturday_standard').submit();" %>
+          <%#= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#saturday_standard').submit();" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#saturday_standard').submit();", id: "goto_create_saturday_swig", style: "display: none;" %>
+            <a class="btn btn-primary" onclick="return validate_saturday_standard_swig()" id="">Create</a>
           </div>
         <% end %>
       </div>
@@ -132,7 +148,7 @@
                   <%= f.submit "Add you own..", class: "btn-success",style: "margin-top: -50px;", onclick: "saturday_clear_list()" %>
                   </div>
                   <div style="margin-left: -160px;">
-                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"}, required: true %>
                   <% end %>
                 </div>
                 <!--</div>-->

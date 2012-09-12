@@ -10,16 +10,17 @@
     $("#friday_done").click()
   }
 
-  function validate_people(){
-    if($('#bar_phone_number').val() == ''){
-      $('#bar_phone_number').css('border', '1px solid red');
-      valid_phone = false;
+  function validate_friday_standard_swig(){
+    if($("#friday_standard_swig textarea").val() == ''){
+      $("#friday_standard_swig textarea").css('border', '1px solid red');
+      $("#friday_standard_text_notification").text('Standard Swig must fill!');
+      valid_friday_swig = false;
     }else{
-      $('#bar_phone_number').css('border', '1px solid black');
-      valid_phone = true;
+      $("#friday_standard_swig textarea").css('border', '1px solid black');
+      valid_friday_swig = true;
     }
-    if(valid_phone){
-      $('#goto_link').click();
+    if(valid_friday_swig){
+      $('#goto_create_friday_swig').click();
     }
   }
 </script>
@@ -99,14 +100,16 @@
         <h4>Standard Swig on friday</h4>
       </div>
       <div class="modal-body well">
+        <div id="friday_standard_text_notification" style="color: red;"></div>
         <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "friday_standard"}) do |f| %>
           <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
           <%= f.input :swig_day, as: :hidden, input_html: {value: "friday"} %>
-          <%= f.input :deal, as: :text, :label => false, input_html: { style: "width: 300px;height: 100px" } %>
+          <%= f.input :deal, as: :text, :label => false, input_html: { style: "width: 300px;height: 100px", id: "friday_standard_swig" } %>
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#friday_standard').submit();" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#monday_standard').submit();", id: "goto_create_monday_swig", style: "display: none;" %>
+            <a class="btn btn-primary" onclick="return validate_friday_standard_swig()" id="">Create</a>
           </div>
         <% end %>
       </div>
@@ -145,7 +148,7 @@
                   <%= f.submit "Add you own", class: "btn-success", onclick: "friday_clear_list()", input_html: {style: "margin-right: -100px;"} %>
                   </div>
                   <div style="margin-left: -160px;">
-                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"}, :include_blank => false %>
                   <% end %>
                 </div>
                 <!--</div>-->

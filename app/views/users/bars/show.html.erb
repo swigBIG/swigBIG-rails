@@ -91,31 +91,20 @@
     <% end %>
     <div class="clearfix"></div>
     <fieldset class="well" style="margin-left: -15px;">
-
-      <br/>
-      <br/>
       <%= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
-
-
     </fieldset>
-    <br />
-    <!--<fieldset class="well" style="margin-left: -15px;">
-      <b>Claim reward!</b>
-  <%#= form_tag(users_redeem_reward_path(@bar.id)) do %>
-  <%#= text_field_tag("coupon", nil, placeholder: "your coupon")  %>
-  <%#= submit_tag "claim", class: "btn-primary" %>
-  <%# end %>
-      </fieldset>-->
   <% end %>
 
   <%= content_for :profile_right_side do %>
     <div style="text-align: center;">
-      <b>Total Swigs Today</b>
+      <b>Total Swigs Today:</b>
       <br/>
-      <%= @swigers.count %>
+      <b><%= @swigers.count %></b>
+      <br/>
+      <b><%= "#{@bar.name} Swiggers" %></b>
+      <br/>
     </div>
     <br/>
-    <!--<div class="span3" style="background-color: white;margin-left: -5px;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-radius: 2px;">-->
     <% @swigers.each do |swiger| %>
       <div class="span2">
         <% unless swiger.user.blank? %>
@@ -128,7 +117,6 @@
         <% end %>
       </div>
     <% end %>
-    <!--</div>-->
   <% end %>
 
 
