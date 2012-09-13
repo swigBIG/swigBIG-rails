@@ -71,13 +71,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-#    return request.remote_ip.to_s if Rails.env.eql?("development")
+    return request.remote_ip.to_s if Rails.env.eql?("development")
 
     #    return request.env["HTTP_X_FORWARDED_FOR"].to_s if Rails.env.eql?("development")
     #    return request.ip.to_s if Rails.env.eql?("development")
     #    #    "211.157.105.218"
     #    #    "75.85.54.184"
-    "64.90.182.55"
+#    "64.90.182.55"
   end
 
   #  if user_signed_in?
