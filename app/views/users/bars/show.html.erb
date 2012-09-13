@@ -117,6 +117,7 @@
         <% end %>
       </div>
     <% end %>
+    <div style="text-align: center;"><a class="" data-toggle="modal" href="#bar_swiger_list_modal" onclick="$('#swiger_list_modal').html('');$.get('/users/swiger_list/<%= @bar.id %>')"><b>See All</b></a></div>
   <% end %>
 
 
@@ -131,7 +132,6 @@
     </script>
     <script>
       window.fbAsyncInit = function() {
-        console.log("asdasd")
         FB.init({
           //appId      : '410355872318354', // App ID
           appId      : '410355872318354', // App ID
@@ -271,6 +271,8 @@
 </body>
 
 <%= content_for :outer do %>
+  <div id="bar_swiger_list_modal" class="modal hide fade"></div>
+
   <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
     <div class="modal-header">
       <div style="background-color: #6D84B4;margin-bottom: 5px;">

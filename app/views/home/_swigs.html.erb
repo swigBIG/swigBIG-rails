@@ -4,32 +4,28 @@
     <% unless params[:swig_type].blank? %>
       <% bar.swigs.where(:swig_type => params[:swig_type]).limit(1).each do |swig| %>
         <td><%= swig.deal %></td>
-        <% if  swig.swig_type.eql?("Big") %>
-          <td>
+        <td>
+          <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
             <b>Req: </b><%= swig.people %> people
-          </td>
-        <% else %>
-          <td>
+          <% else %>
             <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
               <%= swig.swig_type %>
             </button>
-          </td>
-        <% end %>
+          <% end %>
+        </td>
       <% end %>
     <% else %>
       <td><%= n_line(bar.swigs.first.deal) %></td>
-      <% unless bar.swigs.today.big.blank? %>
-        <td style="text-align: center;">
+      <td style="text-align: center;">
+        <% unless bar.swigs.today.big.blank? %>
           <b class="btn-success" style="text-align: center;padding-right: 8px;padding-left: 8px;padding-top: 3px;padding-bottom: 3px;border-radius: 3px;">Y</b>
-        </td>
-      <% else %>
-        <td>
+        <% else %>
           <b class="btn-danger" style="text-align: center;padding-right: 8px;padding-left: 8px;padding-top: 3px;padding-bottom: 3px;border-radius: 3px;">N</b>
-        </td>
-      <% end %>
+        <% end %>
+      </td>
     <% end %>
     <td><b><%= link_to  bar.name, bar_profile_path(bar) rescue nil %></b></td>
     <td>
@@ -39,4 +35,5 @@
       end %> miles
     </td>
   </tr>
+
 <% end %>
