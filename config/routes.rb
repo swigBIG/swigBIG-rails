@@ -103,6 +103,7 @@ Swprototype::Application.routes.draw do
     post  "search_redeem_code/:code" => "dashboard#search_redeem_code", as: "search_redeem_code"
     get  "swiger_list" => "dashboard#swiger_list", as: "swiger_list"
     post  "update_bar_hours" => "dashboard#update_bar_hours", as: "update_bar_hours"
+    get  "swigger_total_count" => "dashboard#swigger_total_count", as: "swigger_total_count"
     
     get 'notification' => "messages#notification"
 
@@ -116,11 +117,11 @@ Swprototype::Application.routes.draw do
       end
     end
 
-#    resources :gifts do
-#      collection do
-#        delete 'remove_gift/:gifts_id' => "gifts#remove_gift", as: :remove_gift
-#      end
-#    end
+    #    resources :gifts do
+    #      collection do
+    #        delete 'remove_gift/:gifts_id' => "gifts#remove_gift", as: :remove_gift
+    #      end
+    #    end
   end
   
   resources :bars do

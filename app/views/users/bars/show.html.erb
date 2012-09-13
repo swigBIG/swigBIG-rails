@@ -170,13 +170,21 @@
     <div class="span4 pull-left" style="margin-left: -5px;">
       <b>Phone Number : </b><%= @bar.phone_number rescue nil %>
       <br/>
-      <b>Website : </b><%= link_to  @bar.website_link, @bar.website_link.to_s rescue nil %>
+      <% unless @bar.website_link.blank? %>
+        <b>Website : </b><%= link_to  @bar.website_link, @bar.website_link.to_s rescue nil %>
+      <% end %>
       <br/>
-      <b>Facebook : </b><%= link_to  @bar.facebook_link.to_s, @bar.facebook_link.to_s rescue nil %>
+      <% unless @bar.facebook_link.blank? %>
+        <b>Facebook : </b><%= link_to  @bar.facebook_link.to_s, @bar.facebook_link.to_s rescue nil %>
+      <% end %>
       <br/>
-      <b>Twitter : </b><%= link_to @bar.twitter_link.to_s, @bar.twitter_link.to_s rescue nil %>
+      <% unless @bar.twitter_link.blank? %>
+        <b>Twitter : </b><%= link_to @bar.twitter_link.to_s, @bar.twitter_link.to_s rescue nil %>
+      <% end %>
       <br/>
-      <b>Google+ : </b><%= link_to @bar.google_plus_link.to_s, @bar.google_plus_link.to_s rescue nil %>
+      <% unless @bar.google_plus_link.blank? %>
+        <b>Google+ : </b><%= link_to @bar.google_plus_link.to_s, @bar.google_plus_link.to_s rescue nil %>
+      <% end %>
       <br/>
     </div>
     <div class="span6 pull-left" style="background-color: white;border-radius: 2px;margin-right: -15px;">

@@ -14,7 +14,8 @@ class HomeController < ApplicationController
     unless params[:radius].blank?
       @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
     else
-      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+#      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+      @bars = Bar.within(25, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
     end
     unless params[:zip_code].blank?
       geo = Geocoder.search("#{params[:zip_code]},#{@city.name}").first

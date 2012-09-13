@@ -5,6 +5,11 @@
     $('#copy_example').click(function() {
       $('#bar_standard_swig_to_copy').html($.trim($('#example').html()))
     });
+    setInterval(function(){
+      //$('#live_feed').load('/live_swig_feed');
+      $('#total_swiger_dashboard').load('<%= bars_swigger_total_count_path %>');
+    }, 15000);
+
 <% unless params[:coupon].blank? %>
       $("#goto_redeem").click()
 <% end %>
@@ -201,12 +206,12 @@
 
 <%= content_for :right_side do %>
   <h4 style="text-align: center;">Total Swigs Today</h4>
-  <div style="text-align: center;"><b><%= current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count %></b></div>
+  <b><div style="text-align: center;" id="total_swiger_dashboard"><%= render partial: "total_swiger_partial" %></div></b>
   <div class="clearfix"></div>
   <div style="text-align: center;"><b>Who is there?</b></div>
   <div class="clearfix"></div>
   <br/>
-  <% current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).limit(6).each do |swiger| %>
+  <% @swigers.limit(6).each do |swiger| %>
     <div class="span2">
       <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
       <br/>
@@ -575,9 +580,9 @@
                   </div>
                   <div class="modal-footer">
                     <%= f.submit "Done", class: "btn-success pull-right", style: "", onclick: "$('#goto_bigswig_list_courtesy').click()" %>
-                    <div style="margin-right: 450px;">
-                      <a class="btn pull-left" data-dismiss="modal">Cancel</a>
-                    </div>
+                      <div style="margin-right: 450px;">
+                        <a class="btn pull-left" data-dismiss="modal">Cancel</a>
+                      </div>
                   <%#= f.submit "Done", class: "btn-success", style: "margin-top: -50px;" , id: "goto_bigswig_list_modal" %>
                     <% end %>
                   </div>

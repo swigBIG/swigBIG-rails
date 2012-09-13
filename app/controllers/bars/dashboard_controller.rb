@@ -15,7 +15,7 @@ class Bars::DashboardController < ApplicationController
     @big_swig_lists = current_bar.big_swig_lists
     #    render layout: "main_bars"
     @bar = current_bar
-    @swigers = @bar.swigers
+    @swigers = @bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours])
     @swigs_monday = @bar.swigs.monday.page(params[:page]).per(3)
     @swigs_tuesday = @bar.swigs.tuesday.page(params[:page]).per(3)
     @swigs_wednesday = @bar.swigs.wednesday.page(params[:page]).per(3)
@@ -26,6 +26,7 @@ class Bars::DashboardController < ApplicationController
     @gifts = @bar.gifts.order("created_at DESC")
     @swig = @bar.swigs.new
     @gift = @bar.gifts.new
+    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
     #    @reward = @bar.rewards.new
     @reward = []
     @loyal = Loyalty.new
@@ -534,7 +535,7 @@ class Bars::DashboardController < ApplicationController
   end
 
   def swiger_list
-    @swigers = current_bar.swigers.order("created_at DESC")
+    @swigers = current_bar.swigers.today.order("created_at DESC")
   end
 
   def add_bar_hours_on_edit
@@ -567,6 +568,10 @@ class Bars::DashboardController < ApplicationController
     else
       redirect_to bars_dashboard_url, notice: "Update failed!"
     end
+  end
+
+  def swigger_total_count
+    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
   end
 
 end
