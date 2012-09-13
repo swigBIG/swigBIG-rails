@@ -100,74 +100,58 @@
                 <%= f.submit "Update", class: "btn-primary" %>
                 </div>
               </div>
-              <!--<div class="tab-pane" id="hour">
-              <%= f.simple_fields_for :bar_hours do |bar_hour| %>
-                <%= render partial: "bar_hour_fields", locals: {f: bar_hour}, :formats => [:html] %>
-              <% end %>
+            <% end %>
 
-
-                <div class='links'>
-                  <b><%= link_to_add_association 'Add+', f, :bar_hours, class: "btn",style: "color: green;" %></b>
-                                                      </div>
-                                                      <div class="clearfix"></div>
-                                                      <div class="form-actions">
-                <%= f.submit "Update", class: "btn-primary" %>
-                                                                                            </div>
-                                                                                          </div>-->
-                <% end %>
-
-                <div class="tab-pane" id="hour" style="margin-left: 90px;">
-                  <%= simple_form_for(:bar_hours, url: bars_update_bar_hours_path, :html => { :method => :post, class: "form-horizontal"}) do |f| %>
-                      <div id="bar_hour_list">
-                        <% @bar_hours.each_pair do | x, bar_hour| %>
-                          <%= render partial: "bar_hours_on_update", locals: {x: x, bar_hour: bar_hour, count: BarHour::DAY_LIST[bar_hour.last.day]} %>
-                  <%# if x.last %>
-                  <%# end %>
-                        <% end %>
-                      </div>
-                      <div id="bigswig_link_on_update">
-                <%#= hidden_field_tag "total", BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day] %>
-                        <%= hidden_field_tag "total", @counter %>
-                        <%= link_to "Add", bars_add_bar_hours_on_edit_path(count: @counter), method: :post, remote: true, class: "btn", style: "color: green:" %>
-                        </div>
-                        <%= f.submit "Update", class: "pull-right" %>
-                        <% end %>
-                      </div>
+            <div class="tab-pane" id="hour" style="margin-left: 90px;">
+              <%= simple_form_for(:bar_hours, url: bars_update_bar_hours_path, :html => { :method => :post, class: "form-horizontal"}) do |f| %>
+                  <div id="bar_hour_list">
+                    <% @bar_hours.each_pair do | x, bar_hour| %>
+                      <%= render partial: "bar_hours_on_update", locals: {x: x, bar_hour: bar_hour, count: BarHour::DAY_LIST[bar_hour.last.day]} %>
+                    <% end %>
+                  </div>
+                  <div id="bigswig_link_on_update">
+            <%#= hidden_field_tag "total", BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day] %>
+                    <%= hidden_field_tag "total", @counter %>
+                    <%= link_to "Add", bars_add_bar_hours_on_edit_path(count: @counter), method: :post, remote: true, class: "btn", style: "color: green:" %>
                     </div>
+                    <%= f.submit "Update", class: "pull-right" %>
+                    <% end %>
+                  </div>
+                </div>
 
-                    <br/>
-                    <br/>
-                    <div style="margin-left: 70px;">
-                    <h3>Cancel my account</h3>
+                <br/>
+                <br/>
+                <div style="margin-left: 70px;">
+                  <h3>Cancel my account</h3>
 
-                    <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+                  <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
-                    <%= link_to "Back", :back %>
-                    </div>
-                  </body>
-                  <!--<script type="text/javascript">
-                    $(document).ready(function(){
-                      $(".day_bar").click(function(){
-                        var day = $("#"+this.id).attr("day_bar");
-                        day_last = day - 1
-                        var open = $("#open_hour"+day_last+" > option:selected").text();
-                        var close = $("#close_hour"+day_last+" > option:selected").text();
-                        var openw = $("#open_w"+day_last+" > option:selected").text();
-                        var closew = $("#close_w"+day_last+" > option:selected").text();
-                        //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
-                        if ($("#"+this.id).attr('checked') == "checked"){
+                  <%= link_to "Back", :back %>
+                </div>
+              </body>
+              <!--<script type="text/javascript">
+                $(document).ready(function(){
+                  $(".day_bar").click(function(){
+                    var day = $("#"+this.id).attr("day_bar");
+                    day_last = day - 1
+                    var open = $("#open_hour"+day_last+" > option:selected").text();
+                    var close = $("#close_hour"+day_last+" > option:selected").text();
+                    var openw = $("#open_w"+day_last+" > option:selected").text();
+                    var closew = $("#close_w"+day_last+" > option:selected").text();
+                    //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
+                    if ($("#"+this.id).attr('checked') == "checked"){
 
-                          $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
-                          $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
-                          $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
-                          $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
+                      $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
+                      $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
+                      $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
+                      $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
 
-                        }else{
-                          $("#open_hour"+day+" > option").eq(open).attr("selected","")
-                          $("#close_hour"+day+" > option").eq(close).attr("selected","")
-                          $("#open_w"+day+" > option").eq(openw).attr("selected","")
-                          $("#close_w"+day+" > option").eq(closew).attr("selected","")
-                        }
-                      });
-                    });
-                  </script>-->
+                    }else{
+                      $("#open_hour"+day+" > option").eq(open).attr("selected","")
+                      $("#close_hour"+day+" > option").eq(close).attr("selected","")
+                      $("#open_w"+day+" > option").eq(openw).attr("selected","")
+                      $("#close_w"+day+" > option").eq(closew).attr("selected","")
+                    }
+                  });
+                });
+              </script>-->

@@ -68,6 +68,11 @@ class Users::BarsController < ApplicationController
     end
   end
 
+  def swiger_list
+    @bar = Bar.find(params[:bar_id])
+    @swigers = @bar.swigers.order("created_at DESC")
+  end
+
   #  def create_popularity
   #    @bar = Bar.find(params[:bar_id])
   #    debugger

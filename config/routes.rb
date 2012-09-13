@@ -154,6 +154,7 @@ Swprototype::Application.routes.draw do
     post "friend_request/:id" => "friends#friend_request", as: "friend_request"
     post "remove_friend/:id" => "friends#remove_friend", as: :remove_friend
     post "approve_friend/:id" => "friends#approve_friend", as: :approve_friend
+    get  "swiger_list/:bar_id" => "bars#swiger_list", as: "swiger_list"
 
     resources :messages do
       collection do
