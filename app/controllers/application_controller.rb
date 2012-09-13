@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   require 'open-uri'
   before_filter :reject_bot_request, :swigbig_content, :set_time_zone
   before_filter :set_access_control_headers
-  
+
   include LogActivityStreams
 
   def reject_bot_request
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
         @city_lat_lng = ["Beijing", 39.9289, 116.388]
         session["geo_211.157.105.218"] = @city_lat_lng
       end
-     
+
     else
       @city_lat_lng = session["geo_#{set_current_ip}"]
     end
@@ -42,15 +42,15 @@ class ApplicationController < ActionController::Base
     #    else
     #      offset = session["offset_#{set_current_ip}"]
     #    end
-    
+
     if session["offset_#{set_current_ip}"].blank?
       timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}" ])
       Time.zone = timezone.zone
     else
-      Time.zone = 'Pacific Time (US & Canada)'
       #      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
+      Time.zone = 'Pacific Time (US & Canada)'
     end
-    
+
   end
 
   def swigbig_content
@@ -58,27 +58,24 @@ class ApplicationController < ActionController::Base
     @bar_message = ActsAsMessageable::Message.new
     #    @user_swig_feed = Swiger.last
     @user_swig_feed = ActivityStream.last
-    @test = request.env["HTTP_X_FORWARDED_FOR"]
+
     @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
   end
 
   protected
-  
+
   def set_access_control_headers
     headers["Access-Control-Allow-Origin"] = "*"
     headers["Access-Control-Request-Method"] = "*"
   end
 
   def set_current_ip
-
     return request.remote_ip.to_s if Rails.env.eql?("development")
-    
-#    return request.env["HTTP_X_FORWARDED_FOR"].to_s if Rails.env.eql?("development")
-    #    return request.ip.to_s if Rails.env.eql?("development")
+#    return request.ip.to_s if Rails.env.eql?("development")
     #    #    "211.157.105.218"
-    #    "75.85.54.184"
-    #    "64.90.182.55"
+    #    #    "75.85.54.184"
+#    "64.90.182.55"
   end
 
   #  if user_signed_in?
@@ -90,5 +87,5 @@ class ApplicationController < ActionController::Base
   #    end
   #  end
   #  end
-  
+
 end
