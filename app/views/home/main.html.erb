@@ -16,65 +16,68 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(bar[i][0], bar[i][1]),
+      map: map
 <% if @origin.class.eql?(String) %>
-      var geocoder = new google.maps.Geocoder();
-      geocoder.geocode( {'address': '<%= @origin %>'}, function(results, status) {
-        map.setCenter(results[0].geometry.location);
-      });
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode( {'address': '<%= @origin %>'}, function(results, status) {
+          map.setCenter(results[0].geometry.location);
+        });
 <% else %>
-      map.setCenter(new google.maps.LatLng(<%= @origin.first %>, <%= @origin.last %>));
+        map.setCenter(new google.maps.LatLng(<%= @origin.first %>, <%= @origin.last %>));
 <% end %>
   
-    var bar = [];
+      var bar = [];
 <% @bars.each do |b| %>
   <%# @bars.where(city: @city_lat_lng[0].to_s, id: swig_bars).each do |b| %>
-      var x = [];
-      x.push(<%= b.latitude rescue nil %>);//0
-      x.push(<%= b.longitude rescue nil %>);//1
-      x.push('<%= b.id rescue nil %>');//2
-      x.push('<%=j link_to  b.name, bar_profile_path(b) rescue nil %>');//3
-      x.push('<%= b.zip_code rescue nil %>');//4
-      x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe rescue nil %>');//5
-      x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
-      x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
-      x.push('<%= b.swigs.today.first.people rescue nil %>');//8
+        var x = [];
+        x.push(<%= b.latitude rescue nil %>);//0
+        x.push(<%= b.longitude rescue nil %>);//1
+        x.push('<%= b.id rescue nil %>');//2
+        x.push('<%=j link_to  b.name, bar_profile_path(b) rescue nil %>');//3
+        x.push('<%= b.zip_code rescue nil %>');//4
+        x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe rescue nil %>');//5
+        x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
+        x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
+        x.push('<%= b.swigs.today.first.people rescue nil %>');//8
 
-      bar.push(x);
+        bar.push(x);
 <% end %>
 
-    function addInfoWindow(marker, newMarker){
-      var infowindow = new google.maps.InfoWindow({
-        content: newMarker.info
-      });
+      function addInfoWindow(marker, newMarker){
+        var infowindow = new google.maps.InfoWindow({
+          content: newMarker.info
+        });
 
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map,marker);
-      });
-    }
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+        });
+      }
 
-    var infowindow = new google.maps.InfoWindow();
+      var infowindow = new google.maps.InfoWindow();
 
-    for (var i = 0; i < bar.length; i++) {
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(bar[i][0], bar[i][1]),
-        map: map
-      });
+      for (var i = 0; i < bar.length; i++) {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(bar[i][0], bar[i][1]),
+          map: map
+        });
 
-      var htmlcontent = '<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]+'</div>';
+        var htmlcontent = '<div style="height: 120;width: 120px;border-radius: 5px"><b>'+bar[i][2]+'</b>'+'<br/>'+bar[i][3]+'</div>';
 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          if (bar[i][5] == "unlock"){
-            var lock_status =  '<%= image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>'
-          }else{
-            var lock_status =  '<%= image_tag("/assets/Lock-icon.png", style: "height: 30px;") %>'
-          };
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            if (bar[i][5] == "unlock"){
+              var lock_status =  '<%= image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>'
+            }else{
+              var lock_status =  '<%= image_tag("/assets/Lock-icon.png", style: "height: 30px;") %>'
+            };
 
-          infowindow.setContent('<h4>'+bar[i][3]+'</h4>'
-            +'<div class="span2 pull-left well">'+bar[i][6]+'</br>'+lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
-            +'<div class="span2"><b>Sports Teams</b><br/>'+bar[i][5]+'</div>'
-        );
-          /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
+            infowindow.setContent('<h4>'+bar[i][3]+'</h4>'
+              +'<div class="span2 pull-left well">'+bar[i][6]+'</br>'+lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
+              +'<div class="span2"><b>Sports Teams</b><br/>'+bar[i][5]+'</div>'
+          );
+            /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
             '<br/>'+
             '<ul class="tabs" data-tabs="tabs">'+
             '<li class="active"><a href="#cover" data-toggle="tab"><b>'+bar[i][2]+'</b></a></li>'+
@@ -88,16 +91,18 @@
             'detail</div>'+
             '</div>'+
             '</div>');*/
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+      }
 
-  }
+    }
 </script>
 
 <body onload="initialize()">
   <%= content_for :side do %>
+
+  <%= debug  @test %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <a href="http://swigbig.com/download.html">Download Mobile App(android only)</a>
     <ul>
