@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
     @bar_message = ActsAsMessageable::Message.new
     #    @user_swig_feed = Swiger.last
     @user_swig_feed = ActivityStream.last
-
+    @test = request.env["HTTP_X_FORWARDED_FOR"]
     @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
   end
@@ -71,11 +71,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-    return request.remote_ip.to_s if Rails.env.eql?("development")
-#    return request.ip.to_s if Rails.env.eql?("development")
+#    return request.remote_ip.to_s if Rails.env.eql?("development")
+
+    #    return request.env["HTTP_X_FORWARDED_FOR"].to_s if Rails.env.eql?("development")
+    #    return request.ip.to_s if Rails.env.eql?("development")
     #    #    "211.157.105.218"
     #    #    "75.85.54.184"
-#    "64.90.182.55"
+    "64.90.182.55"
   end
 
   #  if user_signed_in?
