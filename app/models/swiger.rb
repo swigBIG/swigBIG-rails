@@ -71,7 +71,7 @@ class Swiger < ActiveRecord::Base
         debugger
 
         #        if bar_hour.open_word.eql?("PM") and bar_hour.close_word.eql?("AM")
-        if (Chronic.parse(bar_hour.close_time) - Chronic.parse(bar_hour.open_time)) > 0
+        if (Chronic.parse(bar_hour.close_time) - Chronic.parse(bar_hour.open_time)) < 0
           bar_hour.close_time = Chronic.parse(bar_hour.close_time) + 1.days
         else
           if bar_hour.close_time.eql?("12AM")
@@ -90,7 +90,7 @@ class Swiger < ActiveRecord::Base
           user_swig = self.user.swigers.last
           radius = BarRadius.where(status: true).first.distance rescue 25
           unless user_swig.blank?
-            if (Time.zone.now - user_swig.created_at) >= 3600
+            if (Chronic.parse("now") - user_swig.created_at) >= 3600
               self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
               ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               return true
