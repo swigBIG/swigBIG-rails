@@ -68,22 +68,25 @@ class Swiger < ActiveRecord::Base
       if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
         Chronic.time_class = Time.zone
 
-        if bar_hour.open_word.eql?("PM") and bar_hour.close_word.eql?("AM")
+        debugger
+
+        #        if bar_hour.open_word.eql?("PM") and bar_hour.close_word.eql?("AM")
+        if (Chronic.parse(bar_hour.close_time) - Chronic.parse(bar_hour.open_time)) > 0
           bar_hour.close_time = Chronic.parse(bar_hour.close_time) + 1.days
         else
           if bar_hour.close_time.eql?("12AM")
-            bar_hour.close_time = "11:59AM"
+            bar_hour.close_time = Chronic.parse("11:59AM")
           elsif bar_hour.close_time.eql?("12PM")
-            bar_hour.close_time = "11:59PM"
+            bar_hour.close_time = Chronic.parse("11:59PM")
           else
-            bar_hour.close_time = bar_hour.close_time
+            bar_hour.close_time = Chronic.parse(bar_hour.close_time)
           end
         end
 
         #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         if bar_hour.open_time.eql?("Close")
           self.errors.add("time and distance", "#{self.bar.name} is Close!")
-        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Chronic.parse("now") <= Chronic.parse(bar_hour.close_time))
+        elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time)) && (Chronic.parse("now") <= bar_hour.close_time)
           user_swig = self.user.swigers.last
           radius = BarRadius.where(status: true).first.distance rescue 25
           unless user_swig.blank?
