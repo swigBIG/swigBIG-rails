@@ -44,11 +44,12 @@ class ApplicationController < ActionController::Base
     #    end
     
     if session["offset_#{set_current_ip}"].blank?
-      timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}" ])
-      Time.zone = timezone.zone
+      
+      Time.zone = 'Pacific Time (US & Canada)'
     else
       #      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
-      Time.zone = 'Pacific Time (US & Canada)'
+      timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}" ])
+      Time.zone = timezone.zone
     end
     
   end
@@ -71,12 +72,16 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-    return request.env["HTTP_X_FORWARDED_FOR"].to_s if Rails.env.eql?("development")
-    #    return request.ip.to_s if Rails.env.eql?("development")
+#    raise request.remote_ip
+
+#    request.remote_ip
+
+    return request.remote_ip.to_s if Rails.env.eql?("development")
+#    return request.env["HTTP_X_FORWARDED_FOR"].to_s if Rails.env.eql?("development")
+#    return request.ip.to_s if Rails.env.eql?("development")
     #    #    "211.157.105.218"
-    #    "75.85.54.184"
-    #    "64.90.182.55"
-    "12.175.177.0"
+    #    #    "75.85.54.184"
+#    "64.90.182.55"
   end
 
   #  if user_signed_in?
