@@ -68,8 +68,6 @@ class Swiger < ActiveRecord::Base
       if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
         Chronic.time_class = Time.zone
 
-        debugger
-
         #        if bar_hour.open_word.eql?("PM") and bar_hour.close_word.eql?("AM")
         if (Chronic.parse(bar_hour.close_time) - Chronic.parse(bar_hour.open_time)) < 0
           bar_hour.close_time = Chronic.parse(bar_hour.close_time) + 1.days
