@@ -14,40 +14,18 @@ class ApplicationController < ActionController::Base
   end
 
   def set_time_zone
-    #get geo location
     if session["geo_#{set_current_ip}"].blank?
-      begin
-        geos = Geocoder.search(set_current_ip)
-        geo = geos.first
-        @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
-        session["geo_#{set_current_ip}"] = @city_lat_lng
-      rescue
-        #        @city_lat_lng = ["Los Angeles", 34.0863, -118.49]
-        @city_lat_lng = ["Beijing", 39.9289, 116.388]
-        session["geo_211.157.105.218"] = @city_lat_lng
-      end
-
+      geo = Geokit::Geocoders::MultiGeocoder.geocode(set_current_ip)
+      @city_lat_lng = [geo.city, geo.lat, geo.lng]
+      session["geo_#{set_current_ip}"] = @city_lat_lng
     else
       @city_lat_lng = session["geo_#{set_current_ip}"]
     end
 
-    #    #get timezone
-    #    if session["offset_#{set_current_ip}"].blank?
-    #      #      url = URI.parse("http://www.earthtools.org/timezone-1.1/#{@city_lat_lng[1]}/#{@city_lat_lng[2]}")
-    #      #      xml_content = url.open.read rescue nil
-    #      #      offset = xml_content.scan(/<offset>(.*?)<\/offset>/).first.first rescue nil
-    #
-    #      timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}"])
-    #      session["offset_#{set_current_ip}"] = timezone.zone
-    #    else
-    #      offset = session["offset_#{set_current_ip}"]
-    #    end
-
     if session["offset_#{set_current_ip}"].blank?
-      timezone = Timezone::Zone.new(:latlon => ["#{@city_lat_lng[1]}","#{@city_lat_lng[2]}" ])
+      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
       Time.zone = timezone.zone
     else
-      #      timezone = ActiveSupport::TimeZone[(offset.to_i)*60*60].name
       Time.zone = 'Pacific Time (US & Canada)'
     end
 
@@ -56,10 +34,7 @@ class ApplicationController < ActionController::Base
   def swigbig_content
     @site_content = SiteContent.first
     @bar_message = ActsAsMessageable::Message.new
-    #    @user_swig_feed = Swiger.last
     @user_swig_feed = ActivityStream.last
-#    @test = request.env["HTTP_X_FORWARDED_FOR"]
-    @test = request.remote_ip.to_i
     @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
   end
@@ -72,23 +47,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-    return request.remote_ip.to_s if Rails.env.eql?("development")
-
-    #    return request.env["HTTP_X_FORWARDED_FOR"].to_s if Rails.env.eql?("development")
-    #    return request.ip.to_s if Rails.env.eql?("development")
-    #    #    "211.157.105.218"
-    #    #    "75.85.54.184"
-#    "64.90.182.55"
+    #    return request.remote_ip.to_s if Rails.env.eql?("development")
+    #    "75.85.54.184"
+    "64.90.182.55"
+    #    '180.246.28.94'
   end
-
-  #  if user_signed_in?
-  #  def bar_ids
-  #    if user_signed_in?
-  #      @bar_ids = current_user.swigers.pluck(:bar_id).uniq
-  #    else
-  #      @bar_ids = []
-  #    end
-  #  end
-  #  end
 
 end

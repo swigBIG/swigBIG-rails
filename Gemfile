@@ -23,7 +23,7 @@ gem 'jquery-rails'
 gem 'cocoon'
 gem 'chronic'
 gem 'geokit'
-gem 'geokit-rails3'
+#gem 'geokit-rails3'
 #gem "barby", "~> 0.5.0"
 #gem 'tod'
 gem 'fog'

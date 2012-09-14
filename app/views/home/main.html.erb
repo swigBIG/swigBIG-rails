@@ -81,20 +81,7 @@
             +'<div class="span2 pull-left well">'+bar[i][6]+'</br>'+lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
             +'<div class="span2"><b>Sports Teams</b><br/>'+bar[i][5]+'</div>'
         );
-          /*infowindow.setContent('<div style="height: 120;width: 170px;border-radius: 5px;margin-top: -10px;margin-bottom: -10px;">'+
-            '<br/>'+
-            '<ul class="tabs" data-tabs="tabs">'+
-            '<li class="active"><a href="#cover" data-toggle="tab"><b>'+bar[i][2]+'</b></a></li>'+
-            '<li><a href="#detail" data-toggle="tab"><b>Detail</b></a></li>'+
-            '</ul>'+
-            '<div id="my-tab-content" class="tab-content">'+
-            '<div class="tab-pane active" id="cover">'+
-            bar[i][3]+
-            '</div>'+
-            '<div class="tab-pane" id="detail">'+
-            'detail</div>'+
-            '</div>'+
-            '</div>');*/
+          
           infowindow.open(map, marker);
         }
       })(marker, i));
@@ -105,7 +92,8 @@
 
 <body onload="initialize()">
   <%= content_for :side do %>
-    <%= debug @test %>
+    <%= @test %>
+    <%= @test2 %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <a href="http://swigbig.com/download.html">Download Mobile App(android only)</a>
     <ul>
