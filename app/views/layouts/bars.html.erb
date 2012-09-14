@@ -12,7 +12,6 @@
       $(document).ready(
       function(){
         setInterval(function(){
-          //$('#live_feed').load('/live_swig_feed');
           $('#live_feed').load('<%= live_swig_feed_path %>');
         }, 55000);
       })
