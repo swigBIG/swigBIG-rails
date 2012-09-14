@@ -57,7 +57,6 @@ class Users::BarsController < ApplicationController
 
   def redeem_reward
     coupon = Bar.find(params[:bar_id]).winners.where(coupon: params[:coupon]).first
-    debugger
     unless coupon.blank?
       user_coupon = current_user.messages.where(coupon: params[:coupon]).first
       coupon.update_attributes(coupon_status: 1)
@@ -75,7 +74,6 @@ class Users::BarsController < ApplicationController
 
   #  def create_popularity
   #    @bar = Bar.find(params[:bar_id])
-  #    debugger
   #    if !params[:guess_ids].blank?
   #      @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id, users_inviters_id: params[:guess_ids].join(",") )
   #      if @popularity_inviter.save

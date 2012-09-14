@@ -93,7 +93,7 @@
 <body onload="initialize()">
   <%= content_for :side do %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
-    <%= @test %>
+  <%#= @test %>
     <a href="http://swigbig.com/download.html">Download Mobile App(android only)</a>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
@@ -146,7 +146,6 @@
       <div class="tab-pane active" id="map"><!-----bar map------>
         <div id="map_home_canvas" >
         </div>
-  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88") %>
       </div>
 
       <div class="tab-pane" id="list"><!-----list of swig------>
@@ -158,12 +157,12 @@
           <tbody id="main_swigs_list">
             <%= render "swigs"  %>
           </tbody>
-
         </table>
         <!--<div id="main_swig_paginator">
   <%#= paginate @swigs, remote: true %>
         </div>-->
       </div>
-
     </div>
+
+  </body>
 

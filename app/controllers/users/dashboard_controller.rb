@@ -73,7 +73,6 @@ class Users::DashboardController < ApplicationController
   end
 
   #  def invite_by_email
-  #    debugger
   #    params[:mytags].each do |e|
   #      Invite.send_invite_email(e, current_user).deliver
   #    end

@@ -117,33 +117,6 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-  def active_swig
-    @swig = current_bar.swigs.find(params[:id])
-    if @swig.update_attributes(status: "active")
-      redirect_to :back, notice: "Swig update"
-    else
-      redirect_to :back, notice: "Swig fail update"
-    end
-  end
-
-  def deactive_swig
-    @swig = current_bar.swigs.find(params[:id])
-    if @swig.update_attributes(status: nil)
-      redirect_to :back, notice: "Swig update"
-    else
-      redirect_to :back, notice: "Swig fail update"
-    end
-  end
-
-  #  def create_reward
-  #    @reward = current_bar.rewards.new(params[:reward])
-  #    if @reward.save
-  #      redirect_to :back, notice: "reward success added"
-  #    else
-  #      redirect_to :back, notice: "reward fail added"
-  #    end
-  #  end
-
   def create_loyalty
     @loyalty = Loyalty.new(bar_id: params[:loyalty][:bar_id], reward_detail: params[:descriptions], swigs_number: params[:loyalty][:swigs_number] )
     if @loyalty.save
@@ -165,14 +138,6 @@ class Bars::DashboardController < ApplicationController
     end
   end
 
-  #  def update_reward
-  #    @reward = Reward.find(params[:id])
-  #    if @reward.update_attributes(params[:reward])
-  #      redirect_to :back, notice: "reward success updated"
-  #    else
-  #      redirect_to :back, notice: "reward fail updated"
-  #    end
-  #  end
   def update_loyalty
     @loyalty = Loyalty.find(params[:id])
     if @loyalty.update_attributes(params[:loyalty])
@@ -535,7 +500,7 @@ class Bars::DashboardController < ApplicationController
   end
 
   def swiger_list
-#    @swigers = current_bar.swigers.today.order("created_at DESC")
+    #    @swigers = current_bar.swigers.today.order("created_at DESC")
     @swigers = current_bar.swigers.order("created_at").select("user_id").uniq
   end
 
@@ -547,7 +512,6 @@ class Bars::DashboardController < ApplicationController
   end
 
   def update_bar_hours
-    #    debuggerf
     current_bar.bar_hours.destroy_all
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     (params[:total].to_i + 1).times do |t|
@@ -561,7 +525,6 @@ class Bars::DashboardController < ApplicationController
             current_bar.bar_hours.create(day: day, open_time: "#{params["open_hour#{t}"].to_i}#{params["open_word#{t}"]}", close_time: "#{params["close_hour#{t}"].to_i}#{params["close_word#{t}"]}", open_hour: params["open_hour#{t}"].to_i, close: params["close_hour#{t}"].to_i,open_word: params["open_word#{t}"],close_word: params["close_word#{t}"], close_day: params["close_day#{t}"])
           end
         end
-#      else
       end
     end
     unless current_bar.bar_hours.blank?
@@ -572,7 +535,7 @@ class Bars::DashboardController < ApplicationController
   end
 
   def swigger_total_count
-#    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
+    #    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
     @total_swiger = current_bar.swigers.count
   end
 
