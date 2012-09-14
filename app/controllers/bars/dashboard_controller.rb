@@ -501,7 +501,8 @@ class Bars::DashboardController < ApplicationController
 
   def swiger_list
     #    @swigers = current_bar.swigers.today.order("created_at DESC")
-    @swigers = current_bar.swigers.order("created_at").select("user_id").uniq
+#    @swigers = current_bar.swigers.order("created_at").select("user_id").uniq
+    @swigers = current_bar.swigers.group_by{|swiger| swiger.user_id}
   end
 
   def add_bar_hours_on_edit
