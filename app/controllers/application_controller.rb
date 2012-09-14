@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
     @site_content = SiteContent.first
     @bar_message = ActsAsMessageable::Message.new
     @user_swig_feed = ActivityStream.last
+    @test = request.remote_ip
     @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
   end
@@ -49,7 +50,7 @@ class ApplicationController < ActionController::Base
     return request.remote_ip.to_s if Rails.env.eql?("development")
     #    "75.85.54.184"
     #    "64.90.182.55"
-    #    '180.246.28.94'
+#    '180.246.28.94'
   end
 
 end
