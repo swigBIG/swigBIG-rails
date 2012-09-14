@@ -22,8 +22,6 @@ Swprototype::Application.routes.draw do
   end
 
   root to:  "home#main"
-
-  
   
   get "bars/city/:id" =>  "home#city", as: "city"
   get "live_swig_feed" =>  "home#live_swig_feed", as: "live_swig_feed"
@@ -65,9 +63,6 @@ Swprototype::Application.routes.draw do
     post  "update_big_swig" => "dashboard#update_big_swig", as: "update_big_swig"
     get  "delete_big_swig/:ids" => "dashboard#delete_big_swig", as: "delete_big_swig"
     post  "update_swig/:id" => "dashboard#update_swig", as: "update_swig"
-    post  "active_swig/:id" => "dashboard#active_swig", as: "active_swig"
-    post  "deactive_swig/:id" => "dashboard#deactive_swig", as: "deactive_swig"
-    #    post  "create_reward" => "dashboard#create_reward", as: "create_reward"
     post  "create_loyalty" => "dashboard#create_loyalty", as: "create_loyalty"
     post  "create_popularity" => "dashboard#create_popularity", as: "create_popularity"
     #    post  "update_reward/:id" => "dashboard#update_reward", as: "update_reward"
@@ -95,8 +90,6 @@ Swprototype::Application.routes.draw do
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
     post  "add_bar_hours_on_edit" => "dashboard#add_bar_hours_on_edit", as: "add_bar_hours_on_edit"
     post  "add_reward_to_list" => "dashboard#add_reward_to_list", as: "add_reward_to_list"
-    #    post  "delete_reward_from_list" => "dashboard#delete_reward_from_list", as: "delete_reward_from_list"
-    #    post  "update_reward_from_list" => "dashboard#update_reward_from_list", as: "update_reward_from_list"
     get  "destroy_bar_big_swig_list/:bigswiglist_id" => "dashboard#destroy_bar_big_swig_list", as: "destroy_bar_big_swig_list"
     post  "update_bar_big_swig_list/:bigswiglist_id" => "dashboard#update_bar_big_swig_list", as: "update_bar_big_swig_list"
     post  "search_redeem_code/:code" => "dashboard#search_redeem_code", as: "search_redeem_code"

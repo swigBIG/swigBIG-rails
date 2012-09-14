@@ -102,10 +102,9 @@
       <b><%= @swigers.count %></b>
       <br/>
       <b><%= "#{@bar.name} Swiggers" %></b>
-      <br/>
     </div>
     <br/>
-    <% @swigers.each do |swiger| %>
+    <% @swigers.limit(6).each do |swiger| %>
       <div class="span2">
         <% unless swiger.user.blank? %>
           <% unless swiger.user.name.blank? %>

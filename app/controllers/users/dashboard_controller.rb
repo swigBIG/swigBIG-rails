@@ -1,9 +1,8 @@
 class Users::DashboardController < ApplicationController
   before_filter :authenticate_user!
 
-  #  layout "users", only: :index
   layout "users_no_side"
-  #  layout "users_no_side", only: [:rewards, :show]
+#  layout "users_view_bar_profile"
 
 
   def index

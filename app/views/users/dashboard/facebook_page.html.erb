@@ -66,21 +66,12 @@
 </style>
 
 
-<!--<a href="#info" rel="facebox">View in the Facebox</a>
+<%= content_for :right_side do %>
+  <h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
+  <a href="http://swigbig.com/download.html" class="pull-right"><%= image_tag "/assets/available_on_android.png" %></a>
+<% end %>
 
-<div class="content" >
-  <div id="info" style="display:none;">
-    <p> Hey, I'm the 'info' div! </p>
-    <p> I look like this: </p>
-    <code>
-      &lt;div id="info" style="display:none;"&gt; <br/>
-      &nbsp;&nbsp;text<br/>
-      &lt;/div&gt;
-    </code>
-  </div>
-</div>-->
-<!--<a class="" data-toggle="modal" href="#invite_friends" id="invite_by_fb">Invite friends</a>-->
-<a class="" data-toggle="modal" href="#invite_modal" id="invite_by_fb">invite</a>
+<!--<a class="" data-toggle="modal" href="#invite_modal" id="invite_by_fb">invite</a>-->
 <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
   <tr style="width: 500px;"><td style="width: 500px;">
       <div id="wizard" class="swMain">
@@ -230,6 +221,7 @@
                 <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
                 <%= link_to image_tag(friend.picture) %>
                 <%= friend.name %>
+                <%= friend.email %>
               </li>
             <% end %>
           </ul>

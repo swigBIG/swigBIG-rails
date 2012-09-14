@@ -1,146 +1,153 @@
-
-<script type="text/javascript">
-
-  $(document).ready(function(){
-    // Smart Wizard
-    $('#wizard').smartWizard({
-      transitionEffect:'slide',
-      enableAllSteps: true,
-      hideButtonsOnDisabled: false
+<%= content_for :head_js do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      // Smart Wizard
+      $('#wizard').smartWizard({
+        transitionEffect:'slide',
+        enableAllSteps: true,
+        hideButtonsOnDisabled: false
+      });
+      $('.actionBar').hide();
     });
-    $('.actionBar').hide();
+  </script>
+  <style type="text/css">
+    .stepContainer .content{
+      width: 650px!important;
+    }
+  </style>
+<% end %>
 
-  });
-</script>
-<style type="text/css">
-  .stepContainer .content{
-    width: 650px!important;
-  }
-</style>
+<%= content_for :right_side do %>
+  <h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
+  <a href="http://swigbig.com/download.html" class="pull-right"><%= image_tag "/assets/available_on_android.png" %></a>
+<% end %>
+
 <div class="clearfix"></div>
 <br/>
 <div class="clearfix"></div>
 <div class="clearfix"></div>
 <!--<ul class="" data-tabs="tabs" style="list-style: none;"></ul>-->
-<div class="span5 pull-left" style="margin-left: 0px;margin-bottom: 50px;">
-  <a class="btn btn-large" style="width: 200px;margin-bottom: 5px;" href="#summary" data-toggle="tab"><b>Summary</b></a>
-  <br/>
-  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#progress" data-toggle="tab"><b>Progress</b></a>
-  <br/>
-  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>Earned Rewards</b></a>
-  <br/>
-  <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#redeemed" data-toggle="tab"><b>Redeemed Rewards</b></a>
-</div>
-<div class="span11 pull-right">
-  <div class="tab-content">
-    <div class="tab-pane active" id="summary">
-      <table>
-        <tr><h4>Recently Earned</h4></tr>
-        <tr>
-          <% @bar_rewards.each do |bar| %>
-            <td><%= bar.sent_messageable.name %><br/><%= bar.created_at.strftime("%v") %></td>
-          <% end %>
-          <td><a style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>See All</b></a></td>
-        </tr>
-      </table>
-      <table>
-        <tr><h4>Expiring Soon</h4></tr>
-        <tr>
-<%# @bar_rewards.each do |bar| %>
-            <!--<td><%#= bar.sent_messageable.name %><br/><%#= bar.created_at.strftime("%v") %></td>-->
-<%# end %>
-        </tr>
-      </table>
-    </div>
-    <div class="tab-pane" id="progress">
-      <h3 class="StepTitle"><b>Progress</b></h3>
-      <ul class="tabs" data-tabs="tabs">
-        <li class="active"><a href="#loyalty" data-toggle="tab"><h5>Loyalty</h5></a></li>
-        <li><a href="#popularity" data-toggle="tab"><h5>Popularity</h5></a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="loyalty">
-          <table>
-            <th>Bar</th>
-            <th>Progress</th>
-            <th>status</th>
-            <% @loyalty_points.each do |point| %>
-              <tr>
-                <td>
-  <%#= point.bar.name %>
-                  <%= link_to  point.bar.name, bar_profile_path(point.bar) %>
-                </td>
-                <td>
-                  <%= " #{('x' * point.bar.points.count)}#{"o" * (point.bar.loyalty.swigs_number - point.bar.points.count)}" rescue nil %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
-                </td>
-              </tr>
-            <% end %>
-          </table>
-        </div>
-        <div class="tab-pane" id="popularity">
-          <table>
-            <th>Bar</th>
-            <th>Reward</th>
-            <th>Progress</th>
-            <th>status</th>
-            <% @populrity_points.each do |point| %>
-              <tr>
-                <td>
-                  <%= point.bar.name %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.reward_detail rescue nil %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.swigs_number rescue nil %>
-                  <b> of </b>
-                  <%= point.bar.points.count %>
-                  <%= "#{(point.bar.loyalty.swigs_number / point.bar.points.count * 100)}%" rescue nil %>
-                </td>
-                <td>
-                  <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
-                </td>
-              </tr>
-            <% end %>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-pane" id="earned">
-      <h2 class="StepTitle"><b>Earned Rewards</b></h2>
-      <table>
-        <th>Date</th>
-        <th>Bar</th>
-        <th>Reward</th>
-        <th>Expiration</th>
-        <tbody id="earned_reward_list">
-          <%= render partial: "earned_reward_partial" %>
-        </tbody>
-      </table>
-      <div id="earned_reward_paginator">
-        <%= paginate @rewards, remote: :true %>
-      </div>
-    </div>
-
-    <div class="tab-pane" id="redeemed">
-      <h2 class="StepTitle"><b>Redeem Rewards</b></h2>
-      <table>
-        <th>Date</th>
-        <th>Bar</th>
-        <th>Reward</th>
-        <tbody id="redeem_reward_list">
-          <%= render partial: "redeem_reward_partial" %>
-        </tbody>
-      </table>
-      <div id="redeem_reward_paginator">
-        <%= paginate @redeem_rewards, remote: :true %>
-      </div>
-    </div>
-
+<div class="container-fluid">
+  <div class="span4 pull-left" style="margin-left: 10px;margin-bottom: 50px;">
+    <a class="btn btn-large" style="width: 200px;margin-bottom: 5px;" href="#summary" data-toggle="tab"><b>Summary</b></a>
+    <br/>
+    <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#progress" data-toggle="tab"><b>Progress</b></a>
+    <br/>
+    <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>Earned Rewards</b></a>
+    <br/>
+    <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#redeemed" data-toggle="tab"><b>Redeemed Rewards</b></a>
   </div>
-</div>
+  <div class="span11 ">
+    <div class="tab-content">
+      <div class="tab-pane active" id="summary">
+        <table>
+          <tr><h4>Recently Earned</h4></tr>
+          <tr>
+            <% @bar_rewards.each do |bar| %>
+              <td><%= bar.sent_messageable.name %><br/><%= bar.created_at.strftime("%v") %></td>
+            <% end %>
+            <td><a style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>See All</b></a></td>
+          </tr>
+        </table>
+        <table>
+          <tr><h4>Expiring Soon</h4></tr>
+          <tr>
+<%# @bar_rewards.each do |bar| %>
+              <!--<td><%#= bar.sent_messageable.name %><br/><%#= bar.created_at.strftime("%v") %></td>-->
+<%# end %>
+          </tr>
+        </table>
+      </div>
+      <div class="tab-pane" id="progress">
+        <h3 class="StepTitle"><b>Progress</b></h3>
+        <ul class="tabs" data-tabs="tabs">
+          <li class="active"><a href="#loyalty" data-toggle="tab"><h5>Loyalty</h5></a></li>
+          <li><a href="#popularity" data-toggle="tab"><h5>Popularity</h5></a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="loyalty">
+            <table>
+              <th>Bar</th>
+              <th>Progress</th>
+              <th>status</th>
+              <% @loyalty_points.each do |point| %>
+                <tr>
+                  <td>
+  <%#= point.bar.name %>
+                    <%= link_to  point.bar.name, bar_profile_path(point.bar) %>
+                  </td>
+                  <td>
+                    <%= " #{('x' * point.bar.points.count)}#{"o" * (point.bar.loyalty.swigs_number - point.bar.points.count)}" rescue nil %>
+                  </td>
+                  <td>
+                    <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+          <div class="tab-pane" id="popularity">
+            <table>
+              <th>Bar</th>
+              <th>Reward</th>
+              <th>Progress</th>
+              <th>status</th>
+              <% @populrity_points.each do |point| %>
+                <tr>
+                  <td>
+                    <%= point.bar.name %>
+                  </td>
+                  <td>
+                    <%= point.bar.loyalty.reward_detail rescue nil %>
+                  </td>
+                  <td>
+                    <%= point.bar.loyalty.swigs_number rescue nil %>
+                    <b> of </b>
+                    <%= point.bar.points.count %>
+                    <%= "#{(point.bar.loyalty.swigs_number / point.bar.points.count * 100)}%" rescue nil %>
+                  </td>
+                  <td>
+                    <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
 
+      <div class="tab-pane" id="earned">
+        <h2 class="StepTitle"><b>Earned Rewards</b></h2>
+        <table>
+          <th>Date</th>
+          <th>Bar</th>
+          <th>Reward</th>
+          <th>Expiration</th>
+          <tbody id="earned_reward_list">
+            <%= render partial: "earned_reward_partial" %>
+          </tbody>
+        </table>
+        <div id="earned_reward_paginator">
+          <%= paginate @rewards, remote: :true %>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="redeemed">
+        <h2 class="StepTitle"><b>Redeem Rewards</b></h2>
+        <table>
+          <th>Date</th>
+          <th>Bar</th>
+          <th>Reward</th>
+          <tbody id="redeem_reward_list">
+            <%= render partial: "redeem_reward_partial" %>
+          </tbody>
+        </table>
+        <div id="redeem_reward_paginator">
+          <%= paginate @redeem_rewards, remote: :true %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
