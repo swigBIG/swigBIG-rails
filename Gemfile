@@ -23,7 +23,7 @@ gem 'jquery-rails'
 gem 'cocoon'
 gem 'chronic'
 gem 'geokit'
-#gem 'geokit-rails3'
+gem 'geokit-rails3'
 #gem "barby", "~> 0.5.0"
 #gem 'tod'
 gem 'fog'
@@ -56,27 +56,13 @@ gem "ckeditor", "3.7.1"
 gem "simple_geolocation", "~> 0.0.7"
 #gem 'geo_location'
 gem 'nokogiri'
-#gem 'geo_ip', '~> 0.3.0'
 gem 'capistrano-ext'
 gem "acts-as-messageable"
 #gem "exception_notification", :git => "git://github.com/rails/exception_notification", :require => 'exception_notifier'
 gem "exception_notification"
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
 group :development do
   gem 'linecache19', :git => 'git://github.com/mark-moseley/linecache'
-  #  gem 'linecache19'
   gem 'ruby-debug19', :require => 'ruby-debug'
   gem 'ruby-debug-base19x', '~> 0.11.30.pre4'
 end
