@@ -31,7 +31,6 @@ Swprototype::Application.routes.draw do
   resource :home do
     collection do
       get "main" =>  "home#main", as: "main"
-      get "find_by_radius" => "home#find_by_radius", as: "find_by_radius"
     end
   end
 

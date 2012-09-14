@@ -81,7 +81,6 @@ class Swiger < ActiveRecord::Base
           end
         end
 
-        #      if (Time.zone.now >= Chronic.parse(bar_hour.open_time.gsub(".0",""))) && (Time.zone.now <= Chronic.parse(bar_hour.close_time.gsub(".0","")))
         if bar_hour.open_time.eql?("Close")
           self.errors.add("time and distance", "#{self.bar.name} is Close!")
         elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time)) && (Chronic.parse("now") <= bar_hour.close_time)
@@ -126,19 +125,11 @@ class Swiger < ActiveRecord::Base
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
           ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
-          #            self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
-          #            self.bar.send_message(guess.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
-          #          end
         end
       elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
         user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
         user_guess.update_attributes(enter_status: "swig")
         popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
-        #        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
-        #          self.user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").select(:user_id).each do |guess|
-        #            self.bar.send_message(guess.user, {topic: "#{self.bar.name} popularity has unlock", body: "You can get our Popularity reward #{self.bar.popularity.reward_detail}", category: 9})
-        #          end
-        #        end
       else
         return true
       end
@@ -163,7 +154,6 @@ class Swiger < ActiveRecord::Base
             :message => "#{user.name} just earned #{swig.deal} at #{swig.bar.name}"
           )
         end
-
       end
     end
   end

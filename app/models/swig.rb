@@ -9,8 +9,6 @@ class Swig < ActiveRecord::Base
     #    has_many :swigers
   end
 
-#  before_save :add_address
-
   geocoded_by :address
   after_validation :geocode
 
@@ -18,7 +16,6 @@ class Swig < ActiveRecord::Base
   scope :big, where(swig_type: "Big")
   scope :standard, where(swig_type: "Standard")
   scope :lock_status_active, where(status: "active")
-  #days
   scope :monday, where("swig_day = 'Monday'")
   scope :tuesday, where("swig_day = 'Tuesday'")
   scope :wednesday, where("swig_day = 'Wednesday'")
@@ -29,27 +26,6 @@ class Swig < ActiveRecord::Base
   def swig_lock
     self.people
   end
-
-#  def add_address
-#    begin
-#      self.address = self.bar.address
-#      self.city = self.bar.city
-#      self.latitude = self.bar.latitude
-#      self.longitude = self.bar.longitude
-#      self.zip_code = self.bar.zip_code
-#      self.full_address = self.bar.full_address
-#      self.full_address = self.bar.sports_team
-#    rescue
-#      self.address = nil
-#      self.city = nil
-#      self.latitude = nil
-#      self.longitude = nil
-#      self.zip_code = nil
-#      self.full_address = nil
-#      self.full_address = nil
-#      logger.error "failed to get coordinates"
-#    end
-#  end
 
   def self.reset_swig_unlock
     where(swig_day: (Time.now - 2.days).strftime("%A"), lock_status: "unlock").update_all("lock_status = NULL")

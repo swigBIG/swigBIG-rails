@@ -10,5 +10,4 @@ class Slogan < ActiveRecord::Base
   mount_uploader :fourth_image, ImageUploader
 
   belongs_to :site_content
-
 end

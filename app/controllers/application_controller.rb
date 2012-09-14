@@ -28,7 +28,6 @@ class ApplicationController < ActionController::Base
     else
       Time.zone = 'Pacific Time (US & Canada)'
     end
-
   end
 
   def swigbig_content
@@ -47,9 +46,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-    #    return request.remote_ip.to_s if Rails.env.eql?("development")
+    return request.remote_ip.to_s if Rails.env.eql?("development")
     #    "75.85.54.184"
-    "64.90.182.55"
+    #    "64.90.182.55"
     #    '180.246.28.94'
   end
 

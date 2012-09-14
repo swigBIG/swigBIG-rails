@@ -12,7 +12,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       guess.update_attributes(user_id: current_user.id)
       if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
         users_after_join_invite_friends_by_email_url
-        #        users_completion_url
       else
         root_url
       end
@@ -25,11 +24,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     end
   end
-
-  
-  #  def after_update_path_for(resource)
-  #    users_dashboard_url
-  #  end
 
   def update
     @user = User.find(current_user.id)
