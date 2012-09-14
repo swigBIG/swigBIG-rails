@@ -1,1 +1,1 @@
-<div style="text-align: center;"><b><%= current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count %></b></div>
+<div style="text-align: center;"><b><%= current_bar.swigers.count %></b></div>

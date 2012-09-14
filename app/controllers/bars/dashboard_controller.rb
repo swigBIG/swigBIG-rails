@@ -535,7 +535,8 @@ class Bars::DashboardController < ApplicationController
   end
 
   def swiger_list
-    @swigers = current_bar.swigers.today.order("created_at DESC")
+#    @swigers = current_bar.swigers.today.order("created_at DESC")
+    @swigers = current_bar.swigers.order("created_at").select("user_id").uniq
   end
 
   def add_bar_hours_on_edit
@@ -571,7 +572,8 @@ class Bars::DashboardController < ApplicationController
   end
 
   def swigger_total_count
-    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
+#    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
+    @total_swiger = current_bar.swigers.count
   end
 
 end

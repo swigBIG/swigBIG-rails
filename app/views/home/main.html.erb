@@ -23,6 +23,13 @@
       });
 <% else %>
       map.setCenter(new google.maps.LatLng(<%= @origin.first %>, <%= @origin.last %>));
+      var image = "<%= "/assets/user_blue.png" %>";
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(<%= @origin.first %>, <%= @origin.last %>),
+        map: map,
+        icon: image,
+        title: "title"
+      });
 <% end %>
   
     var bar = [];
@@ -98,7 +105,7 @@
 
 <body onload="initialize()">
   <%= content_for :side do %>
-  <%= debug @test %>
+    <%= debug @test %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
     <a href="http://swigbig.com/download.html">Download Mobile App(android only)</a>
     <ul>
