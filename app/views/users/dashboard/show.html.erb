@@ -18,150 +18,149 @@
       $('.actionBar').hide();
       var available_tags = [];
   <% User.where(city: current_user.city).pluck(:email).each do |email| %>
-        available_tags.push('<%= email %>');
+      available_tags.push('<%= email %>');
   <% end %>
-      $("#mytags").tagit({tagSource: available_tags, trigerKeys: ['enter', 'comma', 'tab']});
-      $('.chzn-select').chosen();
-    });
+    $("#mytags").tagit({tagSource: available_tags, trigerKeys: ['enter', 'comma', 'tab']});
+    $('.chzn-select').chosen();
+  });
   </script>
 <% end %>
 
 <%= content_for :right_side do %>
   <h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
   <a href="http://swigbig.com/download.html" class="pull-right"><%= image_tag "/assets/available_on_android.png" %></a>
+<% end %>
 
-  <% end %>
 
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
+  <tr style="width: 500px;"><td style="width: 500px;">
+      <div id="wizard" class="swMain">
+        <ul>
+          <li><div class="pull-right span6" style="text-align: center;"><b><%= current_user.email %></b></div></li>
+          <li>
+            <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Profile Stat</b>
+            </a>
+          </li>
+          <li>
+            <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Invite Friends</b>
+            </a>
+          </li>
+          <li>
+            <a href="#email" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Change Email</b>
+            </a>
+          </li>
+          <li>
+            <a href="#password" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Change Password</b>
+            </a>
+          </li>
+          <li>
+            <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Contact Prefrences</b>
+            </a>
+          </li>
+          <li>
+            <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Delete Account</b>
+            </a>
+          </li>
+        </ul>
 
-  <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 800px;">
-    <tr style="width: 500px;"><td style="width: 500px;">
-        <div id="wizard" class="swMain">
-          <ul>
-            <li><div class="pull-right span6" style="text-align: center;"><b><%= current_user.email %></b></div></li>
-            <li>
-              <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Profile Stat</b>
-              </a>
-            </li>
-            <li>
-              <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Invite Friends</b>
-              </a>
-            </li>
-            <li>
-              <a href="#email" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Change Email</b>
-              </a>
-            </li>
-            <li>
-              <a href="#password" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Change Password</b>
-              </a>
-            </li>
-            <li>
-              <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Contact Prefrences</b>
-              </a>
-            </li>
-            <li>
-              <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Delete Account</b>
-              </a>
-            </li>
-          </ul>
-
-          <div id="stat">
-            <h2 class="StepTitle"><b>Profile Stat</b></h2>
-            <div class="span4 pull-right">
-              <b>Favorite Bar</b>
-              <%= @top_bar.bar.name rescue "---"%>
-            </div>
-            <div class="span6">
-              <b>Week</b><br/>
-              <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_week,  Time.zone.now.end_of_week).count %>
-              <br/>
-              <b>Month</b><br/>
-              <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_month,  Time.zone.now.end_of_month).count %>
-              <br/>
-              <b>Year</b><br/>
-              <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_year,  Time.zone.now.end_of_year).count %>
-            </div>
+        <div id="stat">
+          <h2 class="StepTitle"><b>Profile Stat</b></h2>
+          <div class="span4 pull-right">
+            <b>Favorite Bar</b>
+            <%= @top_bar.bar.name rescue "---"%>
+          </div>
+          <div class="span6">
+            <b>Week</b><br/>
+            <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_week,  Time.zone.now.end_of_week).count %>
             <br/>
-            <div class="span4 pull-right">
-              <b>Last 5 Swigs</b>
-  <%# @swigers.limit(5).each do |swiger| %>
-              <% current_user.swigers.pluck(:bar_id).uniq.each do |bar| %>
-                <div class="span3">
-                  <b><%= Bar.find(bar).name %></b>
-                  <br/>
-                  <%= Swiger.where(bar_id: bar).last.created_at.strftime("%d/%m/%Y") %>
-                </div>
+            <b>Month</b><br/>
+            <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_month,  Time.zone.now.end_of_month).count %>
+            <br/>
+            <b>Year</b><br/>
+            <%= current_user.swigers.where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_year,  Time.zone.now.end_of_year).count %>
+          </div>
+          <br/>
+          <div class="span4 pull-right">
+            <b>Last 5 Swigs</b>
+<%# @swigers.limit(5).each do |swiger| %>
+            <% current_user.swigers.pluck(:bar_id).uniq.each do |bar| %>
+              <div class="span3">
+                <b><%= Bar.find(bar).name %></b>
+                <br/>
+                <%= Swiger.where(bar_id: bar).last.created_at.strftime("%d/%m/%Y") %>
+              </div>
+            <% end %>
+          </div>
+          <div class="span4">
+            <b>Swig This</b>
+          </div>
+        </div>
+        <div id="invite">
+          <h2 class="StepTitle"><b>Invite</b></h2>
+          <%= link_to "Find Friends in SwigBig", users_friend_index_path %>
+
+          <table>
+            <%= form_tag(users_invite_by_email_path) do %>
+              <%= submit_tag "invite", class: "btn-primary" %>
+                <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+                <%= text_field_tag(:mytags)  %>
+    <%# @friends.each do |f| %>
+                <!--<tr>
+                  <td>
+    <%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
+                  </td>
+                  <td>
+    <%#= f.name %>
+                  </td>
+                  <td>
+    <%#= f.email %>
+                  </td>
+                </tr>-->
+    <%# end %>
+              <% end %>
+            </table>
+          </div>
+
+          <div id="email">
+            <h2 class="StepTitle"><b>Progress</b></h2>
+            <div style="margin-top: 30px;">
+              <div style="margin-left: 80px;margin-top: 40px;">
+                <%= simple_form_for(@user, url: users_update_account_path) do |f| %>
+                  <%= f.input :email, label: false, placeholder: "Email" %>
+                  <%= f.submit "change email"  %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div id="password">
+            <h2 class="StepTitle"><b>Change Password</b></h2>
+            <div style="margin-left: 80px;margin-top: 40px;">
+              <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
+                <%= f.input :password,label: false, placeholder: "Password" %>
+                <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
+                <%= f.input :current_password, label: false, placeholder: "Current Password" %>
+                <%= f.submit "Change Password" %>
               <% end %>
             </div>
-            <div class="span4">
-              <b>Swig This</b>
-            </div>
           </div>
-          <div id="invite">
-            <h2 class="StepTitle"><b>Invite</b></h2>
-            <%= link_to "Find Friends in SwigBig", users_friend_index_path %>
-
-            <table>
-              <%= form_tag(users_invite_by_email_path) do %>
-                <%= submit_tag "invite", class: "btn-primary" %>
-                  <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-                  <%= text_field_tag(:mytags)  %>
-      <%# @friends.each do |f| %>
-                  <!--<tr>
-                    <td>
-      <%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
-                    </td>
-                    <td>
-      <%#= f.name %>
-                    </td>
-                    <td>
-      <%#= f.email %>
-                    </td>
-                  </tr>-->
-      <%# end %>
-                <% end %>
-              </table>
-            </div>
-
-            <div id="email">
-              <h2 class="StepTitle"><b>Progress</b></h2>
-              <div style="margin-top: 30px;">
-                <div style="margin-left: 80px;margin-top: 40px;">
-                  <%= simple_form_for(@user, url: users_update_account_path) do |f| %>
-                    <%= f.input :email, label: false, placeholder: "Email" %>
-                    <%= f.submit "change email"  %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-            <div id="password">
-              <h2 class="StepTitle"><b>Change Password</b></h2>
-              <div style="margin-left: 80px;margin-top: 40px;">
-                <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
-                  <%= f.input :password,label: false, placeholder: "Password" %>
-                  <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
-                  <%= f.input :current_password, label: false, placeholder: "Current Password" %>
-                  <%= f.submit "Change Password" %>
-                <% end %>
-              </div>
-            </div>
-            <div id="contact">
-              <h2 class="StepTitle"><b>Contact Rewards</b></h2>
-              <p></p>
-            </div>
-            <div id="delete">
-              <h2 class="StepTitle"><b>Delete Account</b></h2>
-              <p></p>
-            </div>
-
+          <div id="contact">
+            <h2 class="StepTitle"><b>Contact Rewards</b></h2>
+            <p></p>
           </div>
-        </td></tr>
-    </table>
+          <div id="delete">
+            <h2 class="StepTitle"><b>Delete Account</b></h2>
+            <p></p>
+          </div>
+
+        </div>
+      </td></tr>
+  </table>
 
 
 

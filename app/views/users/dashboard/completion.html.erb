@@ -1,7 +1,7 @@
 
 <!--<script type="text/javascript">
   function validate_email(){
-    if($('#user_email').val() != '<%= current_user.email %>'){
+    if($('#user_email').val() != '<%#= current_user.email %>'){
       $('#user_email').css('border', '1px solid red');
       $('#validate_email').text('Email not match!');
       valid_email = false;
@@ -15,192 +15,215 @@
     }
   }
 </script>-->
-<script type="text/javascript">
-  function validate_bird_date(){
-    if($('#user_bird_date').val() == ""){
-      $('#user_bird_date').css('border', '1px solid red');
-      $('#validate_bird_date').text('Bird Date Must Fill!');
-      valid_bird_date = false;
-    }else{
-      $('#user_bird_date').css('border', '1px solid black');
-      //$('#user_email').html('email not match');
-      valid_bird_date = true;
+<% if user_signed_in? %>
+  <script type="text/javascript">
+    function validate_name(){
+      if($("#user_name").val() == ""){
+        $('#user_name').css('border', '1px solid red');
+        $('#validate_name').text('Name must fill!');
+        valid_name = false;
+      }else{
+        $('#user_name').css('border', '1px solid black');
+        //$('#user_email').html('email not match');
+        valid_name = true;
+      }
+      if(valid_name){
+        $('#goto_profile').click();
+      }
     }
-    if(valid_bird_date){
-      $('#goto_second_link').click();
+
+    function validate_bird_date(){
+      if($('#user_bird_date').val() == ""){
+        //$('#user_bird_date').css('border', '1px solid red');
+        $('#validate_bird_date').text('Bird Date Must Fill!');
+        valid_bird_date = false;
+      }else{
+        //$('#user_bird_date').css('border', '1px solid black');
+        //$('#user_email').html('email not match');
+        valid_bird_date = true;
+      }
+      if(valid_bird_date){
+        $('#goto_address_modal').click();
+      }
     }
-  }
-</script>
 
-<script type="text/javascript">
-  
-  function validate_sports_team(){
-    if($('#mytags').val() == ''){
-      $('#mytags').css('border', '1px solid red');
-      valid_description = false;
-    }else{
-      $('#mytags').css('border', '1px solid black');
-      valid_description = true;
+    /*function validate_address(){
+      if($('#user_address').val() == '' && $('#user_zip_code').val() == '' && $('#user_city').val() == '' && $('#user_state').val() == ''){
+        $('#user_address').css('border', '1px solid red');
+        $('#user_zip_code').css('border', '1px solid red');
+        $('#user_city').css('border', '1px solid red');
+        $('#user_state').css('border', '1px solid red');
+        valid_address = false;
+      }else{
+        $('#mytags').css('border', '1px solid black');
+        valid_address = true;
+      }
+      if(valid_address){
+        $('#goto_final_modal').click();
+      }
+    }*/
+
+    $('#goto_check_data').click();
+    get_all_data();
+
+    function get_all_data(){
+      $('#name').html($('#user_name').val());
+      $('#born_date').html($($(".user_bird_date")[0]).val()+"-"+$($(".user_bird_date")[1]).val()+"-"+$($(".user_bird_date")[2]).val());
+      $('#user_phone').html($('#user_phone_number').val());
+      $('#user_address_text').html($('#user_address').val());
+      $('#zip_code').html($('#user_zip_code').val());
+      $('#user_city_text').html($('#user_city').val());
+      $('#user_state_text').html($('#user_state').val());
     }
-    if(valid_description){
-      $('#goto_second_link').click();
-      //get_all_data();
+
+    //-- show image
+    function setWatermarkImage(watermarkfile){
+      var reader = new FileReader();
+      reader.onload = function(evt){
+        var newImage = new Image();
+        newImage.addEventListener("load", function() {
+          $("#avatar").children().attr("src", newImage.src);
+
+        }, false);
+        newImage.src = evt.target.result;
+      };
+      reader.readAsDataURL(watermarkfile);
     }
-  }
-  $('#goto_check_data').click();
-  get_all_data();
 
-  function get_all_data(){
-    
-    $('#name').html($('#user_name').val());
-    $('#born_date').html($('#user_bird_date').val());
-    $('#user_phone').html($('#user_phone_number').val());
-    $('#user_address_text').html($('#user_address').val());
-    $('#zip_code').html($('#user_zip_code').val());
-    $('#user_city_text').html($('#user_city').val());
-    $('#user_state_text').html($('#user_state').val());
-  }
+    $(document).ready(function(){
+      $('#completion_link').click();
 
-  
-  $(document).ready(function(){
-    $('#completion_link').click();
-  })
-</script>
-<style type="text/css">
-  .modal{
-    width: 600px!important;
-    overflow: hidden!important;
-  }
-</style>
-
-<h4>Please Complete your bar profile!</h4>
-
-Click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete your profile!
-
-<%= content_for :outer do %>
-  <div id="ask" class="modal hide fade">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal"><b>x</b></a>
-      <h3 style="text-align: center;">Profile Verification </h3>
-    </div>
-    <div class="modal-body">
-      <div style="text-align: center;">
-        <b>Your User Profile not Complete Yet, Would you like to complete now?</b>
-      </div>
-      <div style="text-align: center;">
-        <a href="#user_details" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
-        <%= link_to "No", root_path, class: "btn" %>
-        </div>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-    <div id="user_details" class="modal hide fade">
+      $("#user_avatar").change(function(evt){
+        evt.preventDefault();
+        var wmFile = evt.target.files[0];
+        setWatermarkImage(wmFile);
+      });
+    })
+  </script>
+  <style type="text/css">
+    .modal{
+      width: 600px!important;
+      overflow: hidden!important;
+    }
+  </style>
+  <div style="text-align: center;">
+    <h4>Please Complete your Profile!</h4>
+    Click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete your profile!
+  </div>
+  <%= content_for :outer do %>
+    <div id="ask" class="modal hide fade">
       <div class="modal-header">
         <a class="close" data-dismiss="modal"><b>x</b></a>
-        <h3 style="text-align: center;">Complete your Profile.</h3>
+        <h3 style="text-align: center;">Profile Verification </h3>
       </div>
       <div class="modal-body">
-        <%= simple_form_for(@user,url: users_update_completion_path, method: :get, html: {class: "form-horizontal" }) do |f| %>
-        <%#= devise_error_messages! %>
-            <b style="color: red;"><div id="validate_email"></div></b>
-            <%#= f.input :email, input_html: {value: ""} %>
-            <%= f.input :name %>
-
-          </div>
-          <div class="modal-footer">
-            <!--<a class="btn" onclick="return validate_email() ">Continue</a>
-            <a href="#link" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display: none;">Continue</a>
-            <a class="btn" onclick="return validate_address()">Continue</a>
-            <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link" style="display:none;">Continue</a>-->
-            <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link">Continue</a>
+        <div style="text-align: center;">
+          <b>Your User Profile not Complete Yet, Would you like to complete now?</b>
+        </div>
+        <div style="text-align: center;">
+          <a href="#user_details" data-toggle="modal" data-dismiss="modal" class="btn" >Yes</a>
+          <%= link_to "No", root_path, class: "btn" %>
           </div>
         </div>
-
-        <div id="user_second_profile" class="modal hide fade">
-          <div class="modal-header">
-            <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3 style="text-align: center;">User Profile Detail?</h3>
-          </div>
-          <div class="modal-body">
-            <b style="color: red;"><div id="validate_bird_date"></div></b>
-        <%#= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
-            <%= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 20,
-              order: [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;"}, include_blank: true, required: true %>
-            <%= f.input :avatar %>
-            <%= f.input :phone_number %>
-          </div>
-          <div class="modal-footer">
-            <a class="btn" onclick="return validate_bird_date();">Continue</a>
-            <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_second_link" style="display:none;">Continue</a>
-            <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
-          </div>
+        <div class="modal-avatarfooter">
         </div>
-
-        <div id="user_location" class="modal hide fade">
-          <div class="modal-header">
-            <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3 style="text-align: center;">What Your Address?</h3>
-          </div>
-          <div class="modal-body">
-            <%= f.input :address %>
-            <%= f.input :zip_code %>
-            <%= f.input :city %>
-            <%= f.input :state %>
-          </div>
-          <div class="modal-footer">
-            <!--<a class="btn" onclick="return validate_sports_team();">Continue</a>-->
-            <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" >Continue</a>
-            <a class="btn" href="#user_second_profile" data-dismiss="modal" data-toggle="modal">Back</a>
-          </div>
+      </div>
+      <div id="user_details" class="modal hide fade">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal"><b>x</b></a>
+          <h3 style="text-align: center;">Complete your Profile.</h3>
         </div>
-        <div id="check_data" class="modal hide fade">
-          <div class="modal-header">
-            <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3 style="text-align: center;">Did we get it all?</h3>
-          </div>
-          <div class="modal-body">
-            <table style="border-style: none;">
-              <tr>
-                <td>Email : </td>
-                <td><div id="email"></div></td>
-              </tr>
-              <tr>
-                <td>Name : </td>
-                <td><div id="name"></div></td>
-              </tr>
-              <tr>
-                <td>Bird Date : </td>
-                <td><div id="born_date"></div></td>
-              </tr>
-              <tr>
-                <td>Phone Number : </td>
-                <td><div id="user_phone"></div></td>
-              </tr>
-              <tr>
-                <td>Address : </td>
-                <td><div id="user_address_text"></div></td>
-              </tr>
-              <tr>
-                <td>Zip Code : </td>
-                <td><div id="zip_code"></div></td>
-              <tr>
-                <td>City : </td>
-                <td><div  id="user_city_text"></div></td>
-              </tr>
-              <tr>
-                <td>State : </td>
-                <td><div  id="user_state_text"></div></td>
-              </tr>
-              </tr>
-            </table>
-
-          </div>
-          <div class="modal-footer">
-            <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
-            <a class="btn" href="#user_location" data-dismiss="modal" data-toggle="modal">Back</a>
-            <%= f.submit "Submit", class: "btn-primary" %>
+        <div class="modal-body">
+          <%= simple_form_for(@user,url: users_update_completion_path, method: :get, html: {class: "form-horizontal" }) do |f| %>
+          <%#= devise_error_messages! %>
+              <b style="color: red;"><div id="validate_name"></div></b>
+          <%#= f.input :email, input_html: {value: ""} %>
+              <%= f.input :name %>
+            </div>
+            <div class="modal-footer">
+              <a class="btn" onclick="return validate_name()">Continue</a>
+              <a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_profile" style="display:none;">Continue</a>
+              <!--<a href="#user_second_profile" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_link">Continue</a>-->
             </div>
           </div>
+
+          <div id="user_second_profile" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3 style="text-align: center;">User Profile Detail?</h3>
+            </div>
+            <div class="modal-body">
+              <b style="color: red;"><div id="validate_bird_date"></div></b>
+              <%= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 20,
+                order: [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;", class: "user_bird_date"}, include_blank: true, required: true %>
+                <%= f.input :avatar %>
+                <%= f.input :phone_number %>
+              </div>
+              <div class="modal-footer">
+                <a class="btn" onclick="return validate_bird_date();">Continue</a>
+                <a href="#user_location" data-toggle="modal" data-dismiss="modal" class="btn" id="goto_address_modal" style="display:none;">Continue</a>
+                <a class="btn" href="#user_details" data-dismiss="modal" data-toggle="modal">Back</a>
+              </div>
+            </div>
+
+            <div id="user_location" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal"><b>x</b></a>
+                <h3 style="text-align: center;">What Your Address?</h3>
+              </div>
+              <div class="modal-body">
+                <%= f.input :address %>
+                <%= f.input :zip_code %>
+                <%= f.input :city %>
+                <%= f.input :state %>
+              </div>
+              <div class="modal-footer">
+                <!--<a class="btn" onclick="return validate_address();">Continue</a>
+                <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" id="goto_final_modal" style="display: none;">Continue</a>-->
+                <a class="btn" href="#check_data" data-dismiss="modal" data-toggle="modal" onclick="return get_all_data();" id="goto_final_modal">Continue</a>
+                <a class="btn" href="#user_second_profile" data-dismiss="modal" data-toggle="modal">Back</a>
+              </div>
+            </div>
+            <div id="check_data" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal"><b>x</b></a>
+                <h3 style="text-align: center;">Did we get it all?</h3>
+              </div>
+              <div class="modal-body">
+                <table style="border-style: none;">
+                  <tr>
+                    <td><b>Name : </b></td>
+                    <td><div id="name"></div></td>
+                    <td><div class="pull-right" id="avatar"><img style="height: 150px;"/></div></td>
+                  </tr>
+                  <tr>
+                    <td><b>Bird Date : </b></td>
+                    <td><div id="born_date"></div></td>
+                    <td><b>Phone Number : </b></td>
+                    <td><div id="user_phone"></div></td>
+                  </tr>
+                  <tr>
+                    <td><b>Address : </b></td>
+                    <td><div id="user_address_text"></div></td>
+                    <td><b>Zip Code : </b></td>
+                    <td><div id="zip_code"></div></td>
+                  </tr>
+                  <tr>
+                    <td><b>City : </b></td>
+                    <td><div  id="user_city_text"></div></td>
+                    <td><b>State : </b></td>
+                    <td><div  id="user_state_text"></div></td>
+                  </tr>
+                </table>
+
+              </div>
+              <div class="modal-footer">
+                <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+                <a class="btn" href="#user_location" data-dismiss="modal" data-toggle="modal">Back</a>
+                <%= f.submit "Submit", class: "btn-primary" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
         <% end %>
-      <% end %>

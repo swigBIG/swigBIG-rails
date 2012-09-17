@@ -4,10 +4,21 @@
     $("#mytags").tagit({ trigerKeys: ['enter', 'comma', 'tab']});
   });
 </script>
-<p>Invite your friend and get more benefit from Bars in your city!</p>
-<table>
-  <%= form_tag(users_after_sign_up_invite_friend_by_email_path) do %>
-    <%= text_field_tag(:mytags)  %>
-    <%= submit_tag "invite", class: "btn-primary" %>
+
+<%= form_tag(users_after_sign_up_invite_friend_by_email_path) do %>
+  <table style="margin-left: 40px;">
+    <tr style="margin-left: 40px;">
+    <h4 style="margin-left: 40px;">Invite your friend by email and get more benefit from Bars in your city!</h4>
+  </tr>
+  <tr >
+    <%= text_field_tag(:mytags) %>
+  <div style="margin-left: 100px;margin-top: -40px;">
+    <%= submit_tag "Invite", class: "btn-primary", style: "margin-left: 570px;margin-top: -40px;" %>
+
+    </div>
+    <div style="margin-left: 30px;margin-top: 30px;">
+      <b><%= link_to "Skip", users_completion_path, class: "btn" %></b>
+      </div>
+      </tr>
+      </table>
     <% end %>
-  </table>

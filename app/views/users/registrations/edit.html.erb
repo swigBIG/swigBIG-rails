@@ -23,6 +23,10 @@
     $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
   });
 </script>
+
+<%= content_for :side do %>
+  <%= image_tag(current_user.avatar.url, style: "height: 160px;") %>
+<% end %>
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: { :method => :put, class: "form-horizontal" }) do |f| %>
