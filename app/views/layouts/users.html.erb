@@ -99,7 +99,7 @@
     </div>
 
     <%= yield :user_notice %>
-    <%= render partial: "shared/user_completion" %>
+    <%= render partial: "shared/user_completion", locals: {style_margin: "standard"} %>
 
     <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
       <% if notice %>
