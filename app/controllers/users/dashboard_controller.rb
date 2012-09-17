@@ -155,7 +155,8 @@ class Users::DashboardController < ApplicationController
 
   def update_completion
     @user = current_user
-    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+#    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+    if (Time.now.to_date.year - "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date.year) >= 21
       if @user.update_attributes(params[:user])
         sign_in @user, :bypass => true
 #        redirect_to users_dashboard_path, notice: "Profile Completion Success!"

@@ -19,6 +19,7 @@ class HomeController < ApplicationController
     unless params[:zip_code].blank?
       geo = Geocoder.search("#{params[:zip_code]},#{@city.name}").first
       @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
+      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(zip_code: params[:zip_code])
     end
   end
 
@@ -37,6 +38,7 @@ class HomeController < ApplicationController
     unless params[:zip_code].blank?
       geo = Geocoder.search("#{params[:zip_code]},#{@city.name}").first
       @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
+      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(zip_code: params[:zip_code])
     end
   end
 
