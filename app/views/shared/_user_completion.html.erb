@@ -156,7 +156,7 @@
               </div>
               <div class="modal-body">
                 <b style="color: red;"><div id="validate_bird_date"></div></b>
-                <%= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 20,
+                <%= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 19,
                   order: [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;", class: "user_bird_date"}, include_blank: true, required: true %>
                   <div style="margin-left: 70px;">Avatar</div>
                   <div style="margin-left: 145px;margin-top: -20px;">
