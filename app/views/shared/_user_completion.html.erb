@@ -1,5 +1,23 @@
 <% if user_signed_in? %>
   <% if current_user.bird_date.blank? %>
+
+    <% if style_margin.eql?("user_no_side") %>
+      <script type="text/javascript">
+        alert("masuk no side");
+      </script>
+      <style type="text/css">
+        .name_form {
+          margin-left: 40px!important;
+        }
+        .location_form_group {
+          margin-left: 185px!important;
+        }
+        .phone_form {
+        margin-left: 200px!important;
+        }
+      </style>
+    <% end %>
+
     <script type="text/javascript">
       function validate_name(){
         if($("#user_name").val() == ""){
@@ -17,7 +35,7 @@
       }
 
       function validate_bird_date(){
-        if($('#user_bird_date').val() == ""){
+        if($('.user_bird_date').val() == ""){
           //$('#user_bird_date').css('border', '1px solid red');
           $('#validate_bird_date').text('Bird Date Must Fill!');
           valid_bird_date = false;
@@ -76,7 +94,6 @@
 
       $(document).ready(function(){
         //$('#completion_link').click();
-
         $("#user_avatar").change(function(evt){
           evt.preventDefault();
           var wmFile = evt.target.files[0];
@@ -89,11 +106,10 @@
         width: 600px!important;
         overflow: hidden!important;
       }
-
     </style>
 
 
-                                                                            <!--<div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= (current_user.name || "" ).split(" ").first %></b> Profile not complete yet!Click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete your profile!<a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>-->
+                                                                                                            <!--<div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= (current_user.name || "" ).split(" ").first %></b> Profile not complete yet!Click <a href="#ask" data-toggle="modal" id="completion_link">here</a> to complete your profile!<a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>-->
     <div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= (current_user.name || "" ).split(" ").first %></b> Profile not complete yet!Click <a href="#user_details" data-toggle="modal" id="completion_link">here</a> to complete your profile!<a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
 
 
@@ -125,7 +141,7 @@
             <%#= devise_error_messages! %>
                 <b style="color: red;"><div id="validate_name"></div></b>
             <%#= f.input :email, input_html: {value: ""} %>
-                <div style="margin-left: 200px;">
+                <div style="margin-left: 200px;" class="name_form">
                   <%= f.input :name %>
                 </div>
               </div>
@@ -150,7 +166,7 @@
                     <%= f.input :avatar, label: false %>
                   </div>
                   <div style="margin-left: 70px;">Phone Number</div>
-                  <div style="margin-left: 280px;margin-top: -20px;">
+                  <div style="margin-left: 280px;margin-top: -20px;" class="phone_form">
                     <%= f.input :phone_number, label: false %>
                   </div>
                 </div>
@@ -167,7 +183,7 @@
                   <h3 style="text-align: center;">What Your Address?</h3>
                 </div>
                 <div class="modal-body">
-                  <div style="margin-left: 280px;">
+                  <div style="margin-left: 280px;" class="location_form_group">
                     <%= f.input :address , label: false, placeholder: "Address" %>
                     <%= f.input :zip_code, label: false, placeholder: "Zip Code"  %>
                     <%= f.input :city, label: false, placeholder: "City"  %>
