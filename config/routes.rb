@@ -126,7 +126,7 @@ Swprototype::Application.routes.draw do
     post  "invite_friend_by_email" => "dashboard#after_sign_up_invite_friend_by_email", as: "after_sign_up_invite_friend_by_email"
     post  "invite_friend_by_fb" => "dashboard#after_sign_up_invite_friend_by_fb", as: "after_sign_up_invite_friend_by_fb"
     match  "completion" => "dashboard#completion", as: "completion"
-    get  "update_completion" => "dashboard#update_completion", as: "update_completion"
+    post  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "notifications" => "notifications#index", as: "notifications"
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"

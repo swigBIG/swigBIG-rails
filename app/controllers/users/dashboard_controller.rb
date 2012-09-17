@@ -2,7 +2,7 @@ class Users::DashboardController < ApplicationController
   before_filter :authenticate_user!
 
   layout "users_no_side"
-#  layout "users_view_bar_profile"
+  #  layout "users_view_bar_profile"
 
 
   def index
@@ -44,7 +44,7 @@ class Users::DashboardController < ApplicationController
   #  end
   def invite_swigbig
     fb = MiniFB::OAuthSession.new(current_user.access_token)
-#    @bar = Bar.find(params[:bar_ids][:bar_id])
+    #    @bar = Bar.find(params[:bar_ids][:bar_id])
     @bar = Bar.find(params[:bar_id])
     @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
     if @popularity_inviter.save
@@ -155,11 +155,9 @@ class Users::DashboardController < ApplicationController
 
   def update_completion
     @user = current_user
-#    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+    #    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
     if (Time.now.to_date.year - "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date.year) >= 21
-#      few
-#      if @user.update_attributes(params[:user])
-      if @user.update_attributes(avatar: params[:user][:avatar] , phone_number: params[:user][:phone_number] , address: params[:user][:address], zip_code: params[:user][:zip_code], city: params[:user][:city], state: params[:user][:state] )
+      if @user.update_attributes(avatar: params[:user][:avatar] , phone_number: params[:user][:phone_number] , address: params[:user][:address], zip_code: params[:user][:zip_code], city: params[:user][:city], state: params[:user][:state], bird_date: "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date )
         sign_in @user, :bypass => true
         redirect_to root_path, notice: "Profile Completion Success!"
       else
