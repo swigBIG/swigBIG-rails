@@ -10,7 +10,8 @@ class Users::BarsController < ApplicationController
     @bar = Bar.find(params[:bar_id])
     @bar_name = @bar.name
     @swigs = @bar.swigs#.where(status: "active")
-    @swigers = @bar.swigers.all
+    @total_swiggers = @bar.swigers.count
+    @swigers = @bar.swigers.today.limit(6) rescue nil
     @popularity = @bar.popularity
     @loyalty = @bar.loyalty
     @bar_hours = @bar.bar_hours
@@ -69,7 +70,8 @@ class Users::BarsController < ApplicationController
 
   def swiger_list
     @bar = Bar.find(params[:bar_id])
-    @swigers = @bar.swigers.order("created_at DESC")
+#    @swigers = @bar.swigers.order("created_at DESC")
+    @swigers = @bar.swigers.today.order("created_at DESC")
   end
 
   #  def create_popularity

@@ -97,26 +97,28 @@
 
   <%= content_for :profile_right_side do %>
     <div style="text-align: center;">
-      <b>Total Swigs Today:</b>
+      <b>Total Swigs:</b>
       <br/>
-      <b><%= @swigers.count %></b>
+      <b><%= @total_swiggers rescue nil %></b>
       <br/>
-      <b><%= "#{@bar.name} Swiggers" %></b>
+      <b><%= "#{@bar.name} Swiggers" %></b><div style="text-align: center;"><a class="" data-toggle="modal" href="#bar_swiger_list_modal" onclick="$('#swiger_list_modal').html('');$.get('/users/swiger_list/<%= @bar.id %>')"><b>See All</b></a></div>
     </div>
     <br/>
-    <% @swigers.limit(6).each do |swiger| %>
-      <div class="span2">
-        <% unless swiger.user.blank? %>
-          <% unless swiger.user.name.blank? %>
-            <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
-            <br/>
-            <%= swiger.user.name %>
-          <% else %>
+    <% unless @swigers.blank? %>
+      <% @swigers.each do |swiger| %>
+        <div class="span2">
+          <% unless swiger.user.blank? %>
+            <% unless swiger.user.name.blank? %>
+              <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
+              <br/>
+              <%= swiger.user.name %>
+            <% else %>
+            <% end %>
           <% end %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     <% end %>
-    <div style="text-align: center;"><a class="" data-toggle="modal" href="#bar_swiger_list_modal" onclick="$('#swiger_list_modal').html('');$.get('/users/swiger_list/<%= @bar.id %>')"><b>See All</b></a></div>
+    
   <% end %>
 
 
