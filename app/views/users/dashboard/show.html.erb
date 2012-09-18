@@ -27,8 +27,13 @@
 <% end %>
 
 <%= content_for :right_side do %>
-  <h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
-  <a href="http://swigbig.com/download.html" class="pull-right"><%= image_tag "/assets/available_on_android.png" %></a>
+  <!--<h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
+  <a href="http://swigbig.com/download.html" class="pull-right"><%#= image_tag "/assets/available_on_android.png" %></a>-->
+  <div style="text-align: center;"><b>People you may know<br/> that Swigging today:</b></div>
+  <% @friends_swigger.each do |swigger| %>
+    <%= swigger.user.name %>
+    fwefwf
+  <% end %>
 <% end %>
 
 

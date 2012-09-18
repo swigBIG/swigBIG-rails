@@ -23,7 +23,7 @@ Swprototype::Application.routes.draw do
 
   root to:  "home#main"
   
-  get "bars/city/:id" =>  "home#city", as: "city"
+  match "bars/city/:id" =>  "home#city", as: "city"
   get "live_swig_feed" =>  "home#live_swig_feed", as: "live_swig_feed"
   
   resource :home do
