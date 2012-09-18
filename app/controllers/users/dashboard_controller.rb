@@ -116,7 +116,7 @@ class Users::DashboardController < ApplicationController
     @user = User.new
     @users = User.all
     @friends = current_user.friends
-    bar_ids =  Bar.within(@radius_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
+    bar_ids =  Bar.within(100, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
     @friends_swigger = Swiger.today.where(["bar_id IN (?)", bar_ids])
     #    @winners = Winner.where(user_id: current_user)
   end
