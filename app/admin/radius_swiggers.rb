@@ -1,3 +1,3 @@
-#ActiveAdmin.register RadiusSwigger do
-#
-#end
+ActiveAdmin.register RadiusSwigger do
+
+end
