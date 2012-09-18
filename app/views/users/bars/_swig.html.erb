@@ -1,7 +1,7 @@
 <div class="well span9">
   <% if  swig.swig_type.eql?("Big") %>
     <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;border-radius: 2px;">
-    <%= swig.swig_type %>
+      <%= swig.swig_type %>
     </button>
     &nbsp;
     <b>Req: </b><%= swig.people %> people
@@ -9,10 +9,10 @@
     <%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
   <% else %>
     <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;border-radius: 2px;">
-    <b><%= swig.swig_type %></b>
+      <b><%= swig.swig_type %></b>
     </button>
   <% end %>
   <b class="pull-right">
-    <%= swig.deal %>
+    <%= n_line(swig.deal) %>
   </b>
 </div>
