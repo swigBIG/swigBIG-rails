@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  loyalty_expirate_date: 1
+  popularity_expirate_hours: 1
+
+two:
+  loyalty_expirate_date: 1
+  popularity_expirate_hours: 1

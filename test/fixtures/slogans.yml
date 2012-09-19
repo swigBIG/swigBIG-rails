@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  site_content_id: 1
+  first_paragraph: MyText
+  first_image: MyString
+  second_paragraph: MyText
+  second_image: MyString
+  third_paragraph: MyText
+  third_image: MyString
+  fourth_paragraph: MyText
+  fourth_image: MyString
+
+two:
+  site_content_id: 1
+  first_paragraph: MyText
+  first_image: MyString
+  second_paragraph: MyText
+  second_image: MyString
+  third_paragraph: MyText
+  third_image: MyString
+  fourth_paragraph: MyText
+  fourth_image: MyString

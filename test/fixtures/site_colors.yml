@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  nav_bar_color: MyString
+  background_color: MyString
+  site_content_id: 1
+
+two:
+  nav_bar_color: MyString
+  background_color: MyString
+  site_content_id: 1

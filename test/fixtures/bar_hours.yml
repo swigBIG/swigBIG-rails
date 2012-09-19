@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  open: 1.5
+  close: 1.5
+  bar_id: 1
+
+two:
+  open: 1.5
+  close: 1.5
+  bar_id: 1

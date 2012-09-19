@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  big_swig: MyString
+  category: MyString
+  bar_id: 1
+
+two:
+  big_swig: MyString
+  category: MyString
+  bar_id: 1
