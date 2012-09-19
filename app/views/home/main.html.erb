@@ -94,7 +94,7 @@
   }
 </script>
 
-<body onload="initialize()">
+<body>
   <%= content_for :side do %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
   <%#= @test %>
@@ -140,18 +140,18 @@
     <div class="clearfix"></div>
 
     <ul class="tabs" data-tabs="tabs">
-      <li><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-      <li class="active"><a href="#map" data-toggle="tab"><h3>Map</h3></a></li>
+      <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
+      <li><a href="#map" data-toggle="tab" onclick="initialize()"><h3>Map</h3></a></li>
       <!--<li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>-->
     </ul>
 
     <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="map"><!-----bar map------>
+      <div class="tab-pane" id="map"><!-----bar map------>
         <div id="map_home_canvas" >
         </div>
       </div>
 
-      <div class="tab-pane" id="list"><!-----list of swig------>
+      <div class="tab-pane active" id="list"><!-----list of swig------>
         <table class="zebra-striped">
           <th>Deals</th>
           <th>swigBIG Deals</th>

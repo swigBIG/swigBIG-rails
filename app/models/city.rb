@@ -9,6 +9,9 @@ class City < ActiveRecord::Base
 
   before_save  :set_city_lat_lng
 
+  validates :name, :state, :presence => true
+  validates :name, :uniqueness => true
+
   def set_city_lat_lng
     begin
       self.country = "US"

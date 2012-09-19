@@ -7,6 +7,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
+
+    debugger
+#    AdminUser.first.send_message(current_user, {topic: "<a href='#user_details' data-toggle='modal' id='completion_link'>here</a>", category: 22})
+    AdminUser.first.send_message(current_user, {topic: "<a href='#user_details' data-toggle='modal' id='completion_link'>Complete your profile!</a>", body: "<a href='#user_details' data-toggle='modal' id='completion_link'>here</a>", category: 22})
     guess = PopularityGuess.today.where(email: current_user.email).first
     unless guess.blank?
       guess.update_attributes(user_id: current_user.id)

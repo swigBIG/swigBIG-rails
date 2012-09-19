@@ -10,4 +10,8 @@ class Slogan < ActiveRecord::Base
   mount_uploader :fourth_image, ImageUploader
 
   belongs_to :site_content
+
+  validates :first_image, :first_paragraph, :fourth_image, :fourth_paragraph, :second_image, :second_paragraph, :site_content_id,
+    :third_image, :third_paragraph, :first_title, :second_title, :third_title, :fourth_title, :presence => true
+
 end
