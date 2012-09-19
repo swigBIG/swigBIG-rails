@@ -67,8 +67,18 @@
 
 
 <%= content_for :right_side do %>
-  <h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
-  <a href="http://swigbig.com/download.html" class="pull-right"><%= image_tag "/assets/available_on_android.png" %></a>
+  <!--<h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
+  <a href="http://swigbig.com/download.html" class="pull-right"><%#= image_tag "/assets/available_on_android.png" %></a>-->
+  <div style="text-align: center;"><b>People you may know<br/> that Swigging today:</b></div>
+  <br/>
+  <div class="clearfix"></div>
+  <% @friends_swigger.each do |swigger| %>
+    <div class="span2">
+      <%= swigger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swigger.user.avatar_url(:mini)) %>
+      <br/>
+      <%= swigger.user.name %>
+    </div>
+  <% end %>
 <% end %>
 
 <!--<a class="" data-toggle="modal" href="#invite_modal" id="invite_by_fb">invite</a>-->

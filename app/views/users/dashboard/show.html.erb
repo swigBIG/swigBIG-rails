@@ -37,6 +37,8 @@
       <%= swigger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swigger.user.avatar_url(:mini)) %>
       <br/>
       <%= swigger.user.name %>
+      <br/>
+      <%= swigger.bar.name %>
     </div>
   <% end %>
 <% end %>

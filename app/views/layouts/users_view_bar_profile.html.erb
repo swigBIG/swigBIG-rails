@@ -53,7 +53,7 @@
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_user.received_messages.where("opened is false").count %></span></a>
                     <ul class="dropdown-menu">
                       <% current_user.received_messages.where("opened is false").each do |notification| %>
-                        <li style="width: 220px;" onclick="window.location.href='<%= users_message_url(notification) %>'" ><%= notification.topic %>
+                        <li style="width: 220px;" ><%= notification.topic.html_safe %>
                           <br/>
                           <%= notification.created_at.strftime("%v") %>
                         </li>
@@ -95,10 +95,15 @@
             </div>
           </div>
         </div>
+        <% if user_signed_in? %>
+          <% if current_user.bird_date.blank? and current_user.access_token.blank?%>
+            <div style="text-align: center;color: red;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= (current_user.name || "" ).split(" ").first %></b> Profile not complete yet!Click <a href="#user_details" data-toggle="modal" id="completion_link">here</a> to complete your profile!<a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
+          <% end %>
+        <% end %>
       </div>
     </div>
 
-      <%= yield :user_notice %>
+    <%= yield :user_notice %>
     <%= render partial: "shared/user_completion", locals: {style_margin: "standard"} %>
 
     <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;width: 1220px;">
@@ -118,7 +123,7 @@
         <br />
         <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"></a>-->
       </div>
-        <div class="container span11 pull-left" style="margin-left: 30px;">
+      <div class="container span11 pull-left" style="margin-left: 30px;">
         <%= yield %>
       </div>
       <div class="span5 pull-right">
