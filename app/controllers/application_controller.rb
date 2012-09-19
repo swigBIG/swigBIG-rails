@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     @bar_message = ActsAsMessageable::Message.new
     @user_swig_feed = ActivityStream.last
     @test = request.remote_ip
-    @radius_swigger = RadiusSwigger.first rescue 100
+    @radius_swigger = RadiusSwigger.first.radius rescue 100
     @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
   end
