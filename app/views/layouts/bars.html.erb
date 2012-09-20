@@ -107,6 +107,9 @@
           </div>
 
         </div>
+        <% if controller_name == "dashboard" and params[:action] == "index" %>
+          <div style="text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal" >Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
+        <% end %>
       </div>
     </div>
 

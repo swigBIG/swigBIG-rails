@@ -20,21 +20,21 @@
     <% session[:show_big_list] = false %>
   <% end %>
     
-    //
+      //
   <% if session[:show_gift_list] %>
         $("#goto_gift_list").click();
         $("#gift_notification_text").text("Delete gift success!");
     <% session[:show_gift_list] = false %>
   <% end %>
 
-    //-- show popup reward list after update
+      //-- show popup reward list after update
   <% if session[:show_gift_list_after_update] %>
         $("#goto_gift_list").click();
         $("#gift_notification_text").text("Gift updated successfully!");
     <% session[:show_gift_list_after_update] = false %>
   <% end %>
 
-    //--start of show popup after create, update popularity and loyalty
+      //--start of show popup after create, update popularity and loyalty
   <% if session[:after_create_popularity] or session[:after_create_loyalty] or session[:after_update_loyalty] or session[:after_update_popularity] %>
         $("#go_to_reward").click();
         //$("#reward_text_notification").text("Reward successfuly created!");
@@ -44,112 +44,111 @@
     <% session[:after_update_loyalty] = false %>
   <% end %>
 
-    //--start of checking stardard swig to not blank
-    function validate_standard_swig(){
-      if($('#bar_standard_swig_to_copy').val() == ''){
-        $('#bar_standard_swig_to_copy').css('border', '1px solid red');
-        $('#swig_notice').text('Bar must have at least 1 standard swig!');
-        valid_standard_swig = false;
-      }else{
-        $('#bar_standard_swig_to_copy').css('border', '1px solid black');
-        valid_standard_swig = true;
+      //--start of checking stardard swig to not blank
+      function validate_standard_swig(){
+        if($('#bar_standard_swig_to_copy').val() == ''){
+          $('#bar_standard_swig_to_copy').css('border', '1px solid red');
+          $('#swig_notice').text('Bar must have at least 1 standard swig!');
+          valid_standard_swig = false;
+        }else{
+          $('#bar_standard_swig_to_copy').css('border', '1px solid black');
+          valid_standard_swig = true;
+        }
+        if(valid_standard_swig){
+          $('#goto_description').click();
+        }
       }
-      if(valid_standard_swig){
-        $('#goto_description').click();
+      //--start google chart
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+    
+      //---start of auto detect time for tab
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Days', 'Swiger'],
+          ['Mon',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
+          ['Tue',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
+          ['Wed',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
+          ['Thu',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
+          ['Fri',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
+          ['Sat',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
+          ['Sun',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
+        ]);
+        var options = {
+          title: 'Swig Stat',
+          hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}}
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar'));
+        chart.draw(data, options);
       }
-    }
-    //--start google chart
-    google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);
     
-    //---start of auto detect time for tab
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ['Days', 'Swiger'],
-        ['Mon',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
-        ['Tue',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
-        ['Wed',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
-        ['Thu',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
-        ['Fri',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
-        ['Sat',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
-        ['Sun',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
-      ]);
-      var options = {
-        title: 'Swig Stat',
-        hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}}
-      };
-      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar'));
-      chart.draw(data, options);
-    }
-    
-    //-- start of highchart
-    $(document).ready(function() {
-      var chart = new Highcharts.Chart({
-        chart: {
-          renderTo: 'pie_chart',
-          defaultSeriesType: 'pie'
-        },
-        title: {
-          text: 'Users Swig Presentage Loyalty Reward'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              color: '#000000',
-              connectorColor: '#000000',
-              formatter: function() {
-                return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+      //-- start of highchart
+      $(document).ready(function() {
+        var chart = new Highcharts.Chart({
+          chart: {
+            renderTo: 'pie_chart',
+            defaultSeriesType: 'pie'
+          },
+          title: {
+            text: 'Users Swig Presentage Loyalty Reward'
+          },
+          plotOptions: {
+            pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: true,
+                color: '#000000',
+                connectorColor: '#000000',
+                formatter: function() {
+                  return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                }
+              }
+            },
+            series: {
+              allowPointSelect: false,
+              dataLabels: {
+                enabled: true
+              },
+              events: {
+                click: function(event) {
+                  //alert(event.point.x);
+                  $('#bar_message'+event.point.x).modal();
+                }
               }
             }
           },
-          series: {
-            allowPointSelect: false,
-            dataLabels: {
-              enabled: true
-            },
-            events: {
-              click: function(event) {
-                //alert(event.point.x);
-                $('#bar_message'+event.point.x).modal();
-              }
-            }
-          }
-        },
-        series: [{
-            data: [
-              ['25% Swig', 25],
-              ['50% Swig', 50],
-              ['75% Swig', 75]
-            ]
-          }]
+          series: [{
+              data: [
+                ['25% Swig', 25],
+                ['50% Swig', 50],
+                ['75% Swig', 75]
+              ]
+            }]
+        });
       });
-    });
-    //-- end of highchart
-    function validate_reward_to_list(){
-      if($("#add_big_swig_list_in_modal").val() == ''){
-        alert("salah");
-        $("#add_big_swig_list_in_modal").css('border', '1px solid red');
-        valid_reward_to_create = false;
-      }else{
-        alert("bener");
-        $("#add_big_swig_list_in_modal").css('border', '1px solid black');
-        valid_reward_to_create = true;
+      //-- end of highchart
+      function validate_reward_to_list(){
+        if($("#add_big_swig_list_in_modal").val() == ''){
+          alert("salah");
+          $("#add_big_swig_list_in_modal").css('border', '1px solid red');
+          valid_reward_to_create = false;
+        }else{
+          alert("bener");
+          $("#add_big_swig_list_in_modal").css('border', '1px solid black');
+          valid_reward_to_create = true;
+        }
+        if(valid_reward_to_create){
+          $('#goto_bigswig_list_modal').click();
+        }
       }
-      if(valid_reward_to_create){
-        $('#goto_bigswig_list_modal').click();
-      }
-    }
   </script>
 <% end %>
 
 <!--<a href="#big_and_standard_swig" data-toggle="modal" id="moday_check"></a>-->
-
 <% if current_bar.address.blank? %>
   <%= content_for :bar_notice do %>
-    <div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal" >Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
+        <!--<div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal" >Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>-->
     <%= render partial: "completion_form_partial" %>
   <% end %>
 <% end %>
