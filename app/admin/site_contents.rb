@@ -53,7 +53,7 @@ ActiveAdmin.register SiteContent do
       div do
         render "data_site"
       end
-      
+
     end
 
   end
@@ -70,7 +70,7 @@ ActiveAdmin.register SiteContent do
       f.input :about_us
       f.input :learn_more
       f.input :contact_us
-      
+
       f.inputs "Site Color", :for => [:site_color, f.object.site_color || SiteColor.new] do |site_color|
         site_color.input :nav_bar_color, input_html: {class: "color"}
           site_color.input :background_color, input_html: {class: "color"}
@@ -99,7 +99,7 @@ ActiveAdmin.register SiteContent do
         end
       end
 
-      
+
 
       member_action :activate_logo, :method => :get do
         #    site = SiteContent.find(params[:id])

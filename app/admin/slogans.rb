@@ -1,18 +1,27 @@
 ActiveAdmin.register Slogan do
-  
+  menu label: "Bar Fronpage", parent: "Bar Content"
+
   index do |idx|
     column :first_title
     column :first_paragraph
-    column :first_image
+    column :first_image do |first|
+      image_tag(first.first_image_url(:thumb))
+    end
     column :second_title
     column :second_paragraph
-    column :second_image
+    column :second_image do |second|
+      image_tag(second.first_image_url(:thumb))
+    end
     column :third_title
     column :third_paragraph
-    column :third_image
+    column :third_image do |third|
+      image_tag(third.first_image_url(:thumb))
+    end
     column :fourth_title
     column :fourth_paragraph
-    column :fourth_image
+    column :fourth_image do |fourth|
+      image_tag(fourth.first_image_url(:thumb))
+    end
     default_actions
   end
 
@@ -73,6 +82,13 @@ ActiveAdmin.register Slogan do
       f.input :fourth_image
       f.input :fourth_paragraph
       f.buttons
+    end
+  end
+
+  controller do
+    def new
+      redirect_to edit_admin_slogan_url(Slogan.first.id) unless Slogan.first.blank?
+      @slogans = Slogan.new
     end
   end
       

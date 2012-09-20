@@ -1,4 +1,6 @@
 ActiveAdmin.register BigSwigList do
+  menu parent: "Bar Content"
+
   filter :big_swig
 
   index do

@@ -4,7 +4,6 @@ class Users::DashboardController < ApplicationController
   layout "users_no_side"
   #  layout "users_view_bar_profile"
 
-
   def index
     @user = current_user
     unless Bar.blank?
@@ -19,7 +18,7 @@ class Users::DashboardController < ApplicationController
     @top_bar = Swiger.select(:bar_id).group(:bar_id).max
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
-    bar_ids =  Bar.within( @radius_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
+    bar_ids =  Bar.within( @radius_for_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
     @friends_swigger = Swiger.today.where(["bar_id IN (?)", bar_ids])
     @user = User.new
     @fb_post = FbGraph::User.me(current_user.access_token).statuses.first.message
@@ -118,7 +117,7 @@ class Users::DashboardController < ApplicationController
     @user = User.new
     @users = User.all
     @friends = current_user.friends
-    bar_ids =  Bar.within( @radius_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
+    bar_ids =  Bar.within( @radius_for_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
     @friends_swigger = Swiger.today.where(["bar_id IN (?)", bar_ids])
     #    @winners = Winner.where(user_id: current_user)
   end

@@ -1,19 +1,25 @@
 ActiveAdmin::Dashboards.build do
 
-#  section "#{Bar.count} Bars in #{Time.now.strftime('%d %m %Y')}" do
-#    table_for Bar.all.each do |t|
-#      t.column("name")
-#      t.column("city")
-#      t.column([:swigs].count)
-#    end
-#  end
-#
-#  section "#{User.count} Users in #{Time.now.strftime('%d %m %Y')}" do
-#    table_for User.all.each do |t|
-#      t.column("name")
-#      t.column("city")
-#    end
-#  end
+  section "#{User.count} User in #{Time.now.strftime('%d-%m-%Y')}" do
+  end
+
+  section "#{Bar.count} Bar in #{Time.now.strftime('%d-%m-%Y')}" do
+  end
+
+  #  section "#{Bar.count} Bars in #{Time.now.strftime('%d %m %Y')}" do
+  #    table_for Bar.all.each do |t|
+  #      t.column("name")
+  #      t.column("city")
+  #      t.column([:swigs].count)
+  #    end
+  #  end
+  #
+  #  section "#{User.count} Users in #{Time.now.strftime('%d %m %Y')}" do
+  #    table_for User.all.each do |t|
+  #      t.column("name")
+  #      t.column("city")
+  #    end
+  #  end
 
   # Define your dashboard sections here. Each block will be
   # rendered on the dashboard in the context of the view. So just

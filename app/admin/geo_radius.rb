@@ -1,5 +1,5 @@
 ActiveAdmin.register GeoRadius do
-  menu parent: "Site Settings"
+  menu parent: "Site Radius Setting"
 
   filter :radius
 
@@ -18,7 +18,7 @@ ActiveAdmin.register GeoRadius do
   end
 
   form do |f|
-    f.inputs "Adding Radius in Mile" do
+    f.inputs "Add Radius(miles) for filtering in user homepage and city page!" do
       f.input :radius
     end
     f.buttons

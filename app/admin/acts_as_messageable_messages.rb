@@ -1,5 +1,5 @@
 ActiveAdmin.register ActsAsMessageable::Message do
-  menu parent: "Message"
+  menu false
 
   filter :topic
   filter :body

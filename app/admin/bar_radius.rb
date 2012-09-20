@@ -1,4 +1,5 @@
 ActiveAdmin.register BarRadius do
+  menu parent: "Site Radius Setting"
 
   index do
     column  :distance
@@ -19,7 +20,7 @@ ActiveAdmin.register BarRadius do
   end
 
   form do |f|
-        f.inputs "New Radius" do
+        f.inputs "Set Bar radius distance after user swigging!" do
           f.input :distance
         end
         f.buttons

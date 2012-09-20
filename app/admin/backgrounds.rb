@@ -1,4 +1,5 @@
 ActiveAdmin.register Background do
+  menu false
 
   controller do
     def destroy

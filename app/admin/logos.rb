@@ -1,4 +1,5 @@
 ActiveAdmin.register Logo do
+  menu false
 
   controller do
     def destroy

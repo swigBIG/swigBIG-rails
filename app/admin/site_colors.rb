@@ -1,4 +1,6 @@
 ActiveAdmin.register SiteColor do
+  menu false
+
   index do |idx|
     column :nav_bar_color
     column :background_color
