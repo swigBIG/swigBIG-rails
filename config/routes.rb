@@ -29,6 +29,9 @@ Swprototype::Application.routes.draw do
   resource :home do
     collection do
       get "main" =>  "home#main", as: "main"
+      get "contact_us" =>  "home#contact_us", as: "contact_us"
+      get "contact_us_for_homepage" =>  "home#contact_us_for_homepage", as: "contact_us_for_homepage"
+      post "create_contact_us" =>  "home#create_contact_us", as: "create_contact_us"
     end
   end
 
