@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal"><b>x</b></a>
+  <h3>Contact Us in homepage</h3>
+</div>
+<%= simple_form_for(@new_contact, url: create_contact_us_home_path, html: { :class => "form-horizontal"}) do |f| %>
+  <div class="modal-body well">
+    <div style="margin-bottom: -18px;margin-left: 106px;">Name</div>
+    <%= f.input :name, input_html: {style: "margin-left: 75px;"} %>
+    <%= f.input :phone, input_html: {style: "margin-left: -3px;"} %>
+    <%= f.input :email, input_html: {style: "margin-left: -1px;"} %>
+    <%= f.input :message, input_html: {style: "width: 280px;height: 150px;"} %>
+  </div>
+  <div class="modal-footer">
+    <%= f.submit "Send", class: "btn-primary pull-right"%>
+    </div>
+  <% end %>

@@ -119,7 +119,7 @@
             &nbsp;
             <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
             &nbsp;
-            <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            <a data-toggle="modal" href="#contact_modal" onclick="$('#contact_modal').html('');$.get('/home/contact_us')" style="color: white;"><b>Contact Us</b></a>
             &nbsp;
             <b><%= link_to "swigBIG.com", "http://#{with_subdomain(false)}", style: "color: white;"  %></b>
           </div>

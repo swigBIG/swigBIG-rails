@@ -46,6 +46,23 @@ class HomeController < ApplicationController
     render layout: false
   end
 
+  def contact_us
+    @new_contact = Contact.new
+  end
+
+  def contact_us_for_homepage
+    @new_contact = Contact.new
+  end
+
+  def create_contact_us
+    @new_contact = Contact.new(params[:contact])
+    if @new_contact.save
+      redirect_to :back, notice: "send contact success"
+    else
+      redirect_to :back, notice: "send contact fail"
+    end
+  end
+
 end
 
 

@@ -8,147 +8,99 @@
       });
       setInterval(function(){
         $('#total_swiger_dashboard').load('<%= bars_swigger_total_count_path %>');
-      }, 15000);
+      }, 70000);
 
   <% unless params[:coupon].blank? %>
-        $("#goto_redeem").click()
+      $("#goto_redeem").click()
   <% end %>
 
   <% if session[:show_big_list] %>
-        $("#goto_bigswig_list_courtesy").click();
-        $("#big_swig_list_partial_text").text("Delete success!");
+      $("#goto_bigswig_list_courtesy").click();
+      $("#big_swig_list_partial_text").text("Delete success!");
     <% session[:show_big_list] = false %>
   <% end %>
     
-      //
+    //
   <% if session[:show_gift_list] %>
-        $("#goto_gift_list").click();
-        $("#gift_notification_text").text("Delete gift success!");
+      $("#goto_gift_list").click();
+      $("#gift_notification_text").text("Delete gift success!");
     <% session[:show_gift_list] = false %>
   <% end %>
 
-      //-- show popup reward list after update
+    //-- show popup reward list after update
   <% if session[:show_gift_list_after_update] %>
-        $("#goto_gift_list").click();
-        $("#gift_notification_text").text("Gift updated successfully!");
+      $("#goto_gift_list").click();
+      $("#gift_notification_text").text("Gift updated successfully!");
     <% session[:show_gift_list_after_update] = false %>
   <% end %>
 
-      //--start of show popup after create, update popularity and loyalty
+    //--start of show popup after create, update popularity and loyalty
   <% if session[:after_create_popularity] or session[:after_create_loyalty] or session[:after_update_loyalty] or session[:after_update_popularity] %>
-        $("#go_to_reward").click();
-        //$("#reward_text_notification").text("Reward successfuly created!");
+      $("#go_to_reward").click();
+      //$("#reward_text_notification").text("Reward successfuly created!");
     <% session[:after_create_loyalty] = false %>
     <% session[:after_create_popularty] = false %>
     <% session[:after_update_popularity] = false %>
     <% session[:after_update_loyalty] = false %>
   <% end %>
+  });
+  //--start of checking stardard swig to not blank
+  function validate_standard_swig(){
+    if($('#bar_standard_swig_to_copy').val() == ''){
+      $('#bar_standard_swig_to_copy').css('border', '1px solid red');
+      $('#swig_notice').text('Bar must have at least 1 standard swig!');
+      valid_standard_swig = false;
+    }else{
+      $('#bar_standard_swig_to_copy').css('border', '1px solid black');
+      valid_standard_swig = true;
+    }
+    if(valid_standard_swig){
+      $('#goto_description').click();
+    }
+  }
+  //--start google chart
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+    
+  //---start of swig stats
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Days', 'Swigger'],
+      ['Mon',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
+      ['Tue',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
+      ['Wed',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
+      ['Thu',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
+      ['Fri',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
+      ['Sat',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
+      ['Sun',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
+    ]);
+    var options = {
+      title: 'User Swigging Stat',
+      hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}, 'width':500, 'height':300}
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar'));
+    chart.draw(data, options);
+  }
 
-      //--start of checking stardard swig to not blank
-      function validate_standard_swig(){
-        if($('#bar_standard_swig_to_copy').val() == ''){
-          $('#bar_standard_swig_to_copy').css('border', '1px solid red');
-          $('#swig_notice').text('Bar must have at least 1 standard swig!');
-          valid_standard_swig = false;
-        }else{
-          $('#bar_standard_swig_to_copy').css('border', '1px solid black');
-          valid_standard_swig = true;
-        }
-        if(valid_standard_swig){
-          $('#goto_description').click();
-        }
-      }
-      //--start google chart
-      google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawChart);
-    
-      //---start of auto detect time for tab
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Days', 'Swiger'],
-          ['Mon',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
-          ['Tue',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
-          ['Wed',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
-          ['Thu',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
-          ['Fri',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
-          ['Sat',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
-          ['Sun',  <%= @swigers.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
-        ]);
-        var options = {
-          title: 'Swig Stat',
-          hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}}
-        };
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar'));
-        chart.draw(data, options);
-      }
-    
-      //-- start of highchart
-      $(document).ready(function() {
-        var chart = new Highcharts.Chart({
-          chart: {
-            renderTo: 'pie_chart',
-            defaultSeriesType: 'pie'
-          },
-          title: {
-            text: 'Users Swig Presentage Loyalty Reward'
-          },
-          plotOptions: {
-            pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                enabled: true,
-                color: '#000000',
-                connectorColor: '#000000',
-                formatter: function() {
-                  return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-                }
-              }
-            },
-            series: {
-              allowPointSelect: false,
-              dataLabels: {
-                enabled: true
-              },
-              events: {
-                click: function(event) {
-                  //alert(event.point.x);
-                  $('#bar_message'+event.point.x).modal();
-                }
-              }
-            }
-          },
-          series: [{
-              data: [
-                ['25% Swig', 25],
-                ['50% Swig', 50],
-                ['75% Swig', 75]
-              ]
-            }]
-        });
-      });
-      //-- end of highchart
-      function validate_reward_to_list(){
-        if($("#add_big_swig_list_in_modal").val() == ''){
-          alert("salah");
-          $("#add_big_swig_list_in_modal").css('border', '1px solid red');
-          valid_reward_to_create = false;
-        }else{
-          alert("bener");
-          $("#add_big_swig_list_in_modal").css('border', '1px solid black');
-          valid_reward_to_create = true;
-        }
-        if(valid_reward_to_create){
-          $('#goto_bigswig_list_modal').click();
-        }
-      }
+  function validate_reward_to_list(){
+    if($("#add_big_swig_list_in_modal").val() == ''){
+      alert("salah");
+      $("#add_big_swig_list_in_modal").css('border', '1px solid red');
+      valid_reward_to_create = false;
+    }else{
+      alert("bener");
+      $("#add_big_swig_list_in_modal").css('border', '1px solid black');
+      valid_reward_to_create = true;
+    }
+    if(valid_reward_to_create){
+      $('#goto_bigswig_list_modal').click();
+    }
+  }
   </script>
 <% end %>
 
-<!--<a href="#big_and_standard_swig" data-toggle="modal" id="moday_check"></a>-->
 <% if current_bar.address.blank? %>
   <%= content_for :bar_notice do %>
-        <!--<div class="alert alert-danger" style="margin-top: 50px;text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal" >Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>-->
     <%= render partial: "completion_form_partial" %>
   <% end %>
 <% end %>
@@ -192,8 +144,6 @@
     </div>
   </div>
 
-
-
 <% end %>
 
 <%= content_for :right_side do %>
@@ -223,11 +173,6 @@
     <% unless @loyalty.blank? %>
       <div class="span6">
         <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %>
-  <%# if @loyalty.status.eql?("active") %>
-  <%#= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
-  <%# else %>
-  <%#= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
-  <%# end %>
         <br/>
         <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
         <br/>
@@ -237,11 +182,8 @@
         <a class="" data-toggle="modal" href="#update_bar_loyalty" onclick="$('#update_bar_loyalty').html('');$.get('/bars/edit_loyalty/<%= @loyalty.id %>')">Update</a>
         <%= content_for :outer do %>
           <div id="update_bar_loyalty" class="modal hide fade">
-    <%#= render partial: "update_loyalty", locals: {l: current_bar.loyalty} %>
           </div>
         <% end %>
-  <%# end %>
-        <!--<a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>-->
         <%= content_for :outer do %>
           <div id="message_all_winner" class="modal hide fade">
             <%= render partial: "all_winner_loyalty_reward" %>
@@ -291,9 +233,6 @@
         <div id="swigs_monday">
           <%= render partial: "swig_list_monday" %>
         </div>
-        <!--<div id="monday_paginator">
-<%#= paginate @swigs_monday, remote: true %>
-        </div>-->
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
         <div id="swigs_tuesday">
@@ -328,169 +267,54 @@
     </div>
   </div>
 
-  <div class="tab-pane" id="reward_tab">
-    <ul class="tabs" data-tabs="tabs">
-      <li class="active"><a href="#reward_loyalty" data-toggle="tab"><h3>Loyalty</h3></a></li>
-      <li><a href="#reward_popularity" data-toggle="tab"><h3>Popularity</h3></a></li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane active" id="reward_loyalty">
+</div>
 
-        <div class="clearfix"></div>
-        <div class="span6">
-          <b>Swig Require : </b><%= @loyalty.swigs_number rescue "" %><br/>
-          <b>Detail : </b><%= @loyalty.reward_detail rescue "" %>
-          <br/>
-          <% unless @loyalty.blank? %>
-            <% if @loyalty.status.eql?("active") %>
-              <%= link_to "Deacivate", bars_deactivate_loyalty_path(@loyalty.id), class: "btn-danger btn-mini", method: :post %>
-              <% else %>
-                <%= link_to "Acivate", bars_activate_loyalty_path(@loyalty.id), class: "btn-success btn-mini", method: :post %>
-                <% end %>
-              </div>
-              <div class="span4 pull-right">
-                <a class="" data-toggle="modal" href="#update_bar_loyalty">Change</a>
-      <%#= link_to  "Delete", bars_delete_loyalty_path(@loyalty.id), method: :delete, confirm: "Delete loyalty?" %>
-                <%= content_for :outer do %>
-                  <div id="update_bar_loyalty" class="modal hide fade">
-                    <%= render partial: "update_loyalty", locals: {l: @loyalty} %>
-                  </div>
-                <% end %>
-              <% end %>
-              <a class="" data-toggle="modal" href="#message_all_winner">Message all Winner</a>
-              <%= content_for :outer do %>
-                <div id="message_all_winner" class="modal hide fade">
-                  <%= render partial: "all_winner_loyalty_reward" %>
-                </div>
-              <% end %>
-            </div>
-    <%# end %>
 
-            <div class="clearfix"></div>
-            <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
-            <div class="span7">
-              <table class="zebra-striped">
-                <th>Name</th>
-                <th>Winning Date</th>
-                <% @winner.each do |w| %>
-                  <tr>
-                    <td>
-                      <% if w.coupon_status %>
-                        <b>Used</b>
-                      <% else %>
-                        <b>Unused</b>
-                      <% end %>
-                    </td>
-                    <td>
-                      <%=  w.user.name %>
-                    </td>
-                    <td>
-                      <%=  w.created_at.strftime("%m %d, %Y") %>
-                    </td>
-                    <td>
-                      <a href="#loyalty_reward_message<%= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
-                      <%= content_for :outer do %>
-                        <div id="loyalty_reward_message<%= w.id %>" class="modal hide fade">
-                          <%= render partial: "loyalty_reward", locals: { w: w.user} %>
-                        </div>
-                      <% end %>
-                    </td>
-                  </tr>
-                <% end %>
-              </table>
-            </div>
-          </div>
+<%= content_for :outer do %>
 
-        </div>
-      </div>
-
-      <div class="tab-pane" id="stat_chart">
-        <!--<div id="chart_bar" style="width: 700px; height: 300px;"></div>-->
-      </div>
+  <div id="swig_stat" class="modal hide fade" style="opacity: 1 ;">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal"><b>x</b></a>
+      <h3>Swig Stat</h3>
     </div>
+    <div class="modal-body well">
+      <div id="chart_bar" style="width: 510px; height: 300px;"></div>
+    </div>
+    <div class="modal-footer">
+      <a class="btn" data-dismiss="modal"><b>close</b></a>
+    </div>
+  </div>
 
+  <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal"><b>x</b></a>
+      <h3>Big Swig</h3>
+    </div>
+    <div class="modal-body well">
+      <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "big"}) do |f| %>
+        <%= f.input :swig_type, as: :hidden, input_html: {value: "Big"} %>
+        <%= f.input :swig_day, as: :select, collection: days %>
+    <%#= f.input :deal, as: :ckeditor, :label => false, input_html: { toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
+        <%= f.input :deal , as: :text ,input_html: {class: "ckeditor", toolbar: 'Basic', style: "width: 300px;height: 100px"}%>
+          <%= f.input :people, label: "Swig needed" %>
 
-    <%= content_for :outer do %>
-
-      <!--<div id="loyalty_winners" class="modal hide fade" style="opacity: 1 ;">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>loyalty Winners</h3>
-        </div>
-        <div class="modal-body well">
-          <table class="zebra-striped">
-            <th>Name</th>
-            <th>Winning Date</th>
-      <%# @winner.each do |w| %>
-              <tr>
-                <td>
-      <%# if w.coupon_status %>
-                    <b>Used</b>
-      <%# else %>
-                    <b>Unused</b>
-      <%# end %>
-                </td>
-                <td>
-      <%#=  w.user.name %>
-                </td>
-                <td>
-      <%#=  w.created_at.strftime("%m %d, %Y") %>
-                </td>
-                <td>
-                  <a href="#loyalty_reward_message<%#= w.id %>" data-toggle="modal"><b>Send Reward</b></a>
-      <%#= content_for :outer do %>
-                    <div id="loyalty_reward_message<%#= w.id %>" class="modal hide fade">
-      <%#= render partial: "loyalty_reward", locals: { w: w.user} %>
-                    </div>
-      <%# end %>
-                </td>
-              </tr>
-      <%# end %>
-          </table>
-        </div>
-      </div>-->
-
-
-      <div id="setup_big_swig" class="modal hide fade" style="opacity: 1 ;">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Create BigSwig?</h3>
-        </div>
-        <div class="modal-body well">
-          <b style="text-align: center;">No Big Swigs had been setup for this day. Create one now?</b>
-          <div style="text-align: center;"><br/>
-            <a class="btn" data-dismiss="modal" data-toggle="modal">Next Time</a>
-            &nbsp; &nbsp;
-            <strong><a class="btn-warning" style="padding-bottom: 3px;padding-left: 4px;padding-right: 4px;padding-top: 3px;border-radius: 2px;" data-toggle="modal" href="#bigswigModal">BIG</a></strong>
-          </div>
+          <div class="form-actions">
+            <%= f.submit "Create Swig", class: "btn-primary" %>
+            </div>
+          <% end %>
         </div>
       </div>
 
-
-      <div id="swig_stat" class="modal hide fade" style="opacity: 1 ;">
+      <div id="stadardswigModal" class="modal hide fade">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Swig Stat</h3>
+          <h3>Standard Swig</h3>
         </div>
         <div class="modal-body well">
-          <div id="chart_bar" style="width: 700px; height: 300px;"></div>
-        </div>
-      </div>
-
-
-      <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal"><b>x</b></a>
-          <h3>Big Swig</h3>
-        </div>
-        <div class="modal-body well">
-          <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "big"}) do |f| %>
-            <%= f.input :swig_type, as: :hidden, input_html: {value: "Big"} %>
+          <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
+            <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
             <%= f.input :swig_day, as: :select, collection: days %>
-        <%#= f.input :deal, as: :ckeditor, :label => false, input_html: { toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
-            <%= f.input :deal , as: :text ,input_html: {class: "ckeditor", toolbar: 'Basic', style: "width: 300px;height: 100px"}%>
-              <%= f.input :people, label: "Swig needed" %>
-
+            <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_standar", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
               <div class="form-actions">
                 <%= f.submit "Create Swig", class: "btn-primary" %>
                 </div>
@@ -498,141 +322,124 @@
             </div>
           </div>
 
-          <div id="stadardswigModal" class="modal hide fade">
+          <div id="swiger_list_modal" class="modal hide fade"></div>
+
+          <div id="popularity" class="modal hide fade"></div>
+
+          <div id="loyalty" class="modal hide fade"></div>
+
+          <div id="gift" class="modal hide fade">
             <div class="modal-header">
               <a class="close" data-dismiss="modal"><b>x</b></a>
-              <h3>Standard Swig</h3>
+              <h3>Add new Reward to the mix..</h3>
             </div>
             <div class="modal-body well">
-              <%= simple_form_for(@swig, url: bars_create_swig_path, html: { :class => "form-horizontal", id: "standart"}) do |f| %>
-                <%= f.input :swig_type, as: :hidden, input_html: {value: "Standard"} %>
-                <%= f.input :swig_day, as: :select, collection: days %>
-                <%= f.input :deal, as: :text, :label => false, input_html: {class: "ckeditor", id: "deal_standar", toolbar: 'Basic',style: "width: 300px;height: 100px" } %>
-                  <div class="form-actions">
-                    <%= f.submit "Create Swig", class: "btn-primary" %>
-                    </div>
-                  <% end %>
+              <div class="tab-pane" id="create_gift_form">
+                <h5>Add to rewards list</h5>
+                <%= render partial: "add_reward_form_partial" %>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a class="btn" data-toggle="modal" href="#view_reward_list" data-dismiss="modal">View Rewards list</a><br />
+            </div>
+          </div>
+
+          <div id="view_reward_list" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" id="close_add_bigswig_list"><b>x</b></a>
+              <h3>Rewards list</h3>
+            </div>
+            <div class="modal-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="gift_list">
+                  <b><div id="gift_notification_text" style="color: green; display: none">Delete Success!</div></b>
+                  <table>
+                    <th>Reward detail</th>
+                    <th></th>
+                    <tbody id="reward_in_list_tab">
+                      <%= render partial: "reward_list_on_update" %>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+              <div class="modal-footer">
+                <a class="btn" data-dismiss="modal" >close</a>
+              </div>
+            </div>
+          </div>
 
-              <div id="swiger_list_modal" class="modal hide fade"></div>
+          <div id="bigswig_add_to_list" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" id="close_add_bigswig_list"><b>x</b></a>
+              <h3>Add new BIG Swig to the mix..</h3>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
+                <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;margin-left: -40px;", id: "add_big_swig_list_in_modal"}, required: true %>
+              </div>
+              <div class="modal-footer">
+                <%= f.submit "Done", class: "btn-success pull-right", style: "", onclick: "$('#goto_bigswig_list_courtesy').click()" %>
+                  <div style="margin-right: 450px;">
+                    <a class="btn pull-left" data-dismiss="modal">Cancel</a>
+                  </div>
+              <%#= f.submit "Done", class: "btn-success", style: "margin-top: -50px;" , id: "goto_bigswig_list_modal" %>
+                <% end %>
+              </div>
+            </div>
 
-              <div id="popularity" class="modal hide fade"></div>
-
-              <div id="loyalty" class="modal hide fade"></div>
-
-              <div id="gift" class="modal hide fade">
-                <div class="modal-header">
-                  <a class="close" data-dismiss="modal"><b>x</b></a>
-                  <h3>Add new Reward to the mix..</h3>
+            <div id="display_bigswig_list" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
+                <h3>BIG Swigs courtesy of <%= current_bar.name %></h3>
+                <div id="big_swig_list_partial_text" style="color: green"></div>
+              </div>
+              <div class="modal-body">
+                <div id="big_swig_list_partial">
+                  <%= render partial: "big_swig_list_to_delete_or_update" %>
                 </div>
-                <div class="modal-body well">
-                  <div class="tab-pane" id="create_gift_form">
-                    <h5>Add to rewards list</h5>
-                    <%= render partial: "add_reward_form_partial" %>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+
+            <div id="display_redeem_information" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
+                <h3>Redeem a Reward</h3>
+              </div>
+              <%= simple_form_for(:search, url: bars_dashboard_path) do |f|%>
+                <div class="modal-body">
+                  <%= text_field_tag :coupon, params[:coupon], placeholder: "Enter reward code here..." %>
+                  <br/>
+                  <div style="margin: 5px;">
+                    <%= @redeem_info %>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <a class="btn" data-toggle="modal" href="#view_reward_list" data-dismiss="modal">View Rewards list</a><br />
+                  <%= f.submit "Redeem" %>
                 </div>
-              </div>
-
-              <div id="view_reward_list" class="modal hide fade">
-                <div class="modal-header">
-                  <a class="close" data-dismiss="modal" id="close_add_bigswig_list"><b>x</b></a>
-                  <h3>Rewards list</h3>
-                </div>
-                <div class="modal-body">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="gift_list">
-                      <b><div id="gift_notification_text" style="color: green; display: none">Delete Success!</div></b>
-                      <table>
-                        <th>Reward detail</th>
-                        <th></th>
-                        <tbody id="reward_in_list_tab">
-                          <%= render partial: "reward_list_on_update" %>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <a class="btn" data-dismiss="modal" >close</a>
-                  </div>
-                </div>
-              </div>
-
-              <div id="bigswig_add_to_list" class="modal hide fade">
-                <div class="modal-header">
-                  <a class="close" data-dismiss="modal" id="close_add_bigswig_list"><b>x</b></a>
-                  <h3>Add new BIG Swig to the mix..</h3>
-                </div>
-                <div class="modal-body">
-                  <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-                    <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;margin-left: -40px;", id: "add_big_swig_list_in_modal"}, required: true %>
-                  </div>
-                  <div class="modal-footer">
-                    <%= f.submit "Done", class: "btn-success pull-right", style: "", onclick: "$('#goto_bigswig_list_courtesy').click()" %>
-                      <div style="margin-right: 450px;">
-                        <a class="btn pull-left" data-dismiss="modal">Cancel</a>
-                      </div>
-                  <%#= f.submit "Done", class: "btn-success", style: "margin-top: -50px;" , id: "goto_bigswig_list_modal" %>
-                    <% end %>
-                  </div>
-                </div>
-
-                <div id="display_bigswig_list" class="modal hide fade">
-                  <div class="modal-header">
-                    <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
-                    <h3>BIG Swigs courtesy of <%= current_bar.name %></h3>
-                    <div id="big_swig_list_partial_text" style="color: green"></div>
-                  </div>
-                  <div class="modal-body">
-                    <div id="big_swig_list_partial">
-                      <%= render partial: "big_swig_list_to_delete_or_update" %>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                  </div>
-                </div>
-
-                <div id="display_redeem_information" class="modal hide fade">
-                  <div class="modal-header">
-                    <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
-                    <h3>Redeem a Reward</h3>
-                  </div>
-                  <%= simple_form_for(:search, url: bars_dashboard_path) do |f|%>
-                    <div class="modal-body">
-                      <%= text_field_tag :coupon, params[:coupon], placeholder: "Enter reward code here..." %>
-                      <br/>
-                      <div style="margin: 5px;">
-                        <%= @redeem_info %>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <%= f.submit "Redeem" %>
-                    </div>
-                  <% end %>
-                </div>
-
-                <div id="add_reward_to_list" class="modal hide fade">
-                  <div class="modal-header">
-                    <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
-                    <h3>Add Reward to list</h3>
-                  </div>
-                  <%= simple_form_for(:search, url: bars_dashboard_path) do |f|%>
-                    <div class="modal-body">
-                      <%= text_field_tag :coupon, params[:coupon], placeholder: "Enter reward code here..." %>
-                      <br/>
-                      <div style="margin: 5px;">
-                        <%= @redeem_info %>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <%= f.submit "Redeem" %>
-                    </div>
-                  <% end %>
-                </div>
-
               <% end %>
+            </div>
 
-              <!----------------compeltion---------------------------->
+            <div id="add_reward_to_list" class="modal hide fade">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal" id="close_bigswig_list"><b>x</b></a>
+                <h3>Add Reward to list</h3>
+              </div>
+              <%= simple_form_for(:search, url: bars_dashboard_path) do |f|%>
+                <div class="modal-body">
+                  <%= text_field_tag :coupon, params[:coupon], placeholder: "Enter reward code here..." %>
+                  <br/>
+                  <div style="margin: 5px;">
+                    <%= @redeem_info %>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <%= f.submit "Redeem" %>
+                </div>
+              <% end %>
+            </div>
+
+          <% end %>
+
+          <!----------------compeltion---------------------------->

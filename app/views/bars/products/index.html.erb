@@ -1,22 +1,22 @@
 <%= content_for :side do %>
-    <h3><%= @bar.name rescue nil %></h3>
-    <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
-    <br/>
-    <br />
-    <br />
-    <!--<button class="btn" data-toggle="modal" href="#swigModal">Create Swig</button><br />
-    <br/>
-    <button class="btn" data-toggle="modal" href="#productModal">Create Product</button><br />
-    <br/>-->
-    <div class="span4 well" style="margin-left: -25px;">
-      <% @products.each do |product| %>
-        <br/>
-        <b><%= product.name %></b>
-        <br/>
-        <%= product.price %>
-      <% end %>
-    </div>
-  <% end %>
+  <h3><%= @bar.name rescue nil %></h3>
+  <%= image_tag(@bar.logo_url(:thumb)) rescue nil %>
+  <br/>
+  <br />
+  <br />
+  <!--<button class="btn" data-toggle="modal" href="#swigModal">Create Swig</button><br />
+  <br/>
+  <button class="btn" data-toggle="modal" href="#productModal">Create Product</button><br />
+  <br/>-->
+  <div class="span4 well" style="margin-left: -25px;">
+    <% @products.each do |product| %>
+      <br/>
+      <b><%= product.name %></b>
+      <br/>
+      <%= product.price %>
+    <% end %>
+  </div>
+<% end %>
 
 
 <fieldset class="well">
@@ -44,14 +44,66 @@
   <div class="tab-pane active" id="monday">
     <% @swigs.where(swig_day: "Monday").each do |swig|%>
       <div class="well row-fluid span10">
-        <div class="span2 pull-left">
-          <% if swig.status.blank? %>
-            <%= button_to "Acivate", bars_active_swig_path(swig.id), method: :post, class: "label-success", style: "color: white;padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;"  %>
-            <% else %>
-              <%= button_to "Deacivate", bars_deactive_swig_path(swig.id), method: :post, class: "label-important", style: "color: white;padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;"  %>
+        <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
+        <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
+        <div id="editswig<%= swig.id %>" class="modal hide fade">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal"><b>x</b></a>
+            <h3>Update Swig</h3>
+          </div>
+          <div class="modal-body well">
+            <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
+              <%= f.input :swig_type, as: :select, collection: [["Big","Big"],["Standard","Standard"]] %>
+              <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
+              <%= f.input :deal %>
+              <%= f.input :people, label: "people required" %>
+              <div class="form-actions">
+                <%= f.submit "Update Swig", class: "btn-primary" %>
+                </div>
               <% end %>
             </div>
-            &nbsp;
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="tab-pane" id="tuesday">
+      <% @swigs.where(swig_day: "Tuesday").each do |swig|%>
+        <div class="well span9">
+          <% if  swig.swig_type.eql?("Big") %>
+            <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= swig.swig_type %>
+            </button>
+          <% else %>
+            <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
+              <%= swig.swig_type %>
+            </button>
+          <% end %>
+          <%= swig.deal %>
+          <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
+          <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
+          <div id="editswig<%= swig.id %>" class="modal hide fade">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal"><b>x</b></a>
+              <h3>Update Swig</h3>
+            </div>
+            <div class="modal-body well">
+              <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
+                <%= f.input :swig_type, as: :select, collection: [["Big","Big"],["Standard","Standard"]] %>
+                <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
+                <%= f.input :deal %>
+                <%= f.input :people, label: "people required" %>
+                <div class="form-actions">
+                  <%= f.submit "Update Swig", class: "btn-primary" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="tab-pane" id="wednesday">
+        <% @swigs.where(swig_day: "Wednesday").each do |swig|%>
+          <div class="well span9">
             <% if  swig.swig_type.eql?("Big") %>
               <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
                 <%= swig.swig_type %>
@@ -62,7 +114,6 @@
               </button>
             <% end %>
             <%= swig.deal %>
-
             <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
             <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
             <div id="editswig<%= swig.id %>" class="modal hide fade">
@@ -85,8 +136,8 @@
             </div>
           <% end %>
         </div>
-        <div class="tab-pane" id="tuesday">
-          <% @swigs.where(swig_day: "Tuesday").each do |swig|%>
+        <div class="tab-pane" id="thusday">
+          <% @swigs.where(swig_day: "Thusday").each do |swig|%>
             <div class="well span9">
               <% if  swig.swig_type.eql?("Big") %>
                 <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
@@ -120,8 +171,8 @@
               </div>
             <% end %>
           </div>
-          <div class="tab-pane" id="wednesday">
-            <% @swigs.where(swig_day: "Wednesday").each do |swig|%>
+          <div class="tab-pane" id="friday">
+            <% @swigs.where(swig_day: "Friday").each do |swig|%>
               <div class="well span9">
                 <% if  swig.swig_type.eql?("Big") %>
                   <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
@@ -155,8 +206,8 @@
                 </div>
               <% end %>
             </div>
-            <div class="tab-pane" id="thusday">
-              <% @swigs.where(swig_day: "Thusday").each do |swig|%>
+            <div class="tab-pane" id="saturday">
+              <% @swigs.where(swig_day: "Saturday").each do |swig|%>
                 <div class="well span9">
                   <% if  swig.swig_type.eql?("Big") %>
                     <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
@@ -190,8 +241,8 @@
                   </div>
                 <% end %>
               </div>
-              <div class="tab-pane" id="friday">
-                <% @swigs.where(swig_day: "Friday").each do |swig|%>
+              <div class="tab-pane" id="sunday">
+                <% @swigs.where(swig_day: "Sunday").each do |swig|%>
                   <div class="well span9">
                     <% if  swig.swig_type.eql?("Big") %>
                       <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
@@ -225,75 +276,5 @@
                     </div>
                   <% end %>
                 </div>
-                <div class="tab-pane" id="saturday">
-                  <% @swigs.where(swig_day: "Saturday").each do |swig|%>
-                    <div class="well span9">
-                      <% if  swig.swig_type.eql?("Big") %>
-                        <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-                          <%= swig.swig_type %>
-                        </button>
-                      <% else %>
-                        <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-                          <%= swig.swig_type %>
-                        </button>
-                      <% end %>
-                      <%= swig.deal %>
-                      <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
-                      <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
-                      <div id="editswig<%= swig.id %>" class="modal hide fade">
-                        <div class="modal-header">
-                          <a class="close" data-dismiss="modal"><b>x</b></a>
-                          <h3>Update Swig</h3>
-                        </div>
-                        <div class="modal-body well">
-                          <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
-                            <%= f.input :swig_type, as: :select, collection: [["Big","Big"],["Standard","Standard"]] %>
-                            <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
-                            <%= f.input :deal %>
-                            <%= f.input :people, label: "people required" %>
-                            <div class="form-actions">
-                              <%= f.submit "Update Swig", class: "btn-primary" %>
-                              </div>
-                            <% end %>
-                          </div>
-                        </div>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="tab-pane" id="sunday">
-                    <% @swigs.where(swig_day: "Sunday").each do |swig|%>
-                      <div class="well span9">
-                        <% if  swig.swig_type.eql?("Big") %>
-                          <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-                            <%= swig.swig_type %>
-                          </button>
-                        <% else %>
-                          <button class="btn-primary" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">
-                            <%= swig.swig_type %>
-                          </button>
-                        <% end %>
-                        <%= swig.deal %>
-                        <%= link_to "Delete", bars_delete_swig_path(swig.id), method: :delete, confirm: "Are You Sure?" %>
-                        <button class="btn pull-right" data-toggle="modal" href="#editswig<%= swig.id %>">Update</button>
-                        <div id="editswig<%= swig.id %>" class="modal hide fade">
-                          <div class="modal-header">
-                            <a class="close" data-dismiss="modal"><b>x</b></a>
-                            <h3>Update Swig</h3>
-                          </div>
-                          <div class="modal-body well">
-                            <%= simple_form_for(Swig.find(swig.id), url: bars_update_swig_path(swig.id), method: :post, html: { :class => "form-horizontal"} ) do |f| %>
-                              <%= f.input :swig_type, as: :select, collection: [["Big","Big"],["Standard","Standard"]] %>
-                              <%= f.input :swig_day, as: :select, collection: [["Monday","Monday"],["Tuesday","Tuesday"],["Wednesday","Wednesday"],["Thusday","Thusday"],["Friday","Friday"],["Saturday","Saturday"],["Sunday","Sunday"]] %>
-                              <%= f.input :deal %>
-                              <%= f.input :people, label: "people required" %>
-                              <div class="form-actions">
-                                <%= f.submit "Update Swig", class: "btn-primary" %>
-                                </div>
-                              <% end %>
-                            </div>
-                          </div>
-                        </div>
-                      <% end %>
-                    </div>
 
-                  </div>
+              </div>

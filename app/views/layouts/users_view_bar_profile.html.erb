@@ -63,7 +63,7 @@
                   </li>
                 <% end %>
                 <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || "" ).split(" ").first }!" %></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || current_user.email ).split(" ").first }!" %></b></a>
                   <ul class="dropdown-menu">
                     <% unless current_user.access_token.blank? %>
                       <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
@@ -145,7 +145,7 @@
             &nbsp;
             <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
             &nbsp;
-            <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            <a data-toggle="modal" href="#contact_modal" onclick="$('#contact_modal').html('');$.get('/home/contact_us')" style="color: white;"><b>Contact Us</b></a>
             &nbsp;
             <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
           </div>

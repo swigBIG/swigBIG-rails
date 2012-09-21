@@ -16,6 +16,7 @@ class Bars::DashboardController < ApplicationController
     #    render layout: "main_bars"
     @bar = current_bar
     @swigers = @bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours])
+    @swigers_in_stat = @bar.swigers
     @swigs_monday = @bar.swigs.monday.page(params[:page]).per(3)
     @swigs_tuesday = @bar.swigs.tuesday.page(params[:page]).per(3)
     @swigs_wednesday = @bar.swigs.wednesday.page(params[:page]).per(3)

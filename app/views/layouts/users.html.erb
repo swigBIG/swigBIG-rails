@@ -146,7 +146,7 @@
             &nbsp;
             <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
             &nbsp;
-            <a href="#contact" data-toggle="modal" style="color: white;" ><b>Contact Us</b></a>
+            <a data-toggle="modal" href="#contact_modal_for_hpage" onclick="$('#contact_modal_for_hpage').html('');$.get('/home/contact_us_for_homepage')" style="color: white;"><b>Contact Us</b></a>
             &nbsp;
             <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
           </div>
