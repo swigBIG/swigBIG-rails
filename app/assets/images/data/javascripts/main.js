@@ -322,3 +322,22 @@ function complete(){
   }
 }
 
+function show_reward(){
+  ajaxRequest("POST",url+"/api/v1/swig_mobiles/reward_list",data,function(data){
+    $("#bar_detail .reward_list").html("")
+    for(var i = 0; i < data.rewards.length; i++) {
+      var reward = data.rewards[i]
+      
+      $("#bar_detail .swig_list").append(
+        '<tr>'+
+        '<td>'+reward[0]+'<td>'+
+        '<td>'+reward[1]+'<td>'+
+        '<td>'+reward[2]+'<td>'+
+        '<td>'+reward[3]+'<td>'+
+        '<td>'+reward[4]+'<td>'+
+        '<tr>'
+        );
+    }
+  });
+}
+

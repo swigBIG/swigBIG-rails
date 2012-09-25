@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <!--<title><%#= h(yield(:title) || "mobile version") %></title>-->
+    <title>Swigbig Mobile</title>
+    <%= javascript_include_tag "mobile" %>
+    <%= stylesheet_link_tag "application.mobile" %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+<% if notice %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+      <% end %>
+    <!--<div data-role="header">
+      <div style="width: 100%; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+        <%# if !@site_content.blank? %>
+          <%# if !@site_content.logos.blank? %>
+            <%#= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;") rescue nil %>
+          <%# else %>
+            <h3 class="brand" style="color: white;">SwigBIG</h3>
+          <%# end %>
+        <%# else %>
+          <h3 class="brand" style="color: white;">SwigBIG</h3>
+        <%# end %>
+      </div>
+      <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+        <%#= yield :top_nav %>
+      </div>
+    </div>-->
+
+    <div data-role="content" style="padding: 15px">
+      <%= yield %>
+    </div>
+
+    <!--<div data-role="footer" data-position="fixed" style="width: 100%">
+      <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+        <%#= yield :bottom_nav %>
+      </div>
+    </div><!-- /footer -->
+  </body>
+</html>

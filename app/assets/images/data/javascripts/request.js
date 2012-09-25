@@ -1,3 +1,4 @@
+/*
 document.addEventListener("deviceready", onDeviceReady, false);
 
 // PhoneGap is ready
@@ -20,3 +21,4 @@ function onError(error) {
   alert('code: '    + error.code    + '\n' +
     'message: ' + error.message + '\n');
 }
+*/

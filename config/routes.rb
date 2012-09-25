@@ -32,6 +32,8 @@ Swprototype::Application.routes.draw do
       get "contact_us" =>  "home#contact_us", as: "contact_us"
       get "contact_us_for_homepage" =>  "home#contact_us_for_homepage", as: "contact_us_for_homepage"
       post "create_contact_us" =>  "home#create_contact_us", as: "create_contact_us"
+      get "bars_list_to_swig" =>  "home#bars_list_to_swig", as: "bars_list_to_swig"
+      get "mobile_dashboard" =>  "home#mobile_dashboard", as: "mobile_dashboard"
     end
   end
 

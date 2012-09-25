@@ -1,0 +1,53 @@
+<div data-role="page" id="swig_list_page" onclick="initialize()">
+  <div data-role="header" style="text-align: center;">
+    <%= render partial: "shared/swigbig_logo" %>
+    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
+      <h3><%= "#{@bar.name} Big Swigs" %></h3>
+      <% if notice %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <div data-role="collapsible-set">
+      <% @bar.swigs.where(swig_day: Time.zone.now.strftime("%A"), swig_type: "Big").each_with_index do |big_swig, x| %>
+        <div data-role="collapsible">
+          <h3><%= big_swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>&nbsp; <%= "Tier #{(x.to_i + 1)}" %> </h3>
+          <b>People require: </b><%= big_swig.people %>
+          <br/>
+          <%= big_swig.deal %>
+        </div>
+      <% end %>
+    </div>
+    <!--<div class="accordion" id="accordion2">
+    <% @bar.swigs.where(swig_day: Time.zone.now.strftime("%A"), swig_type: "Big").each_with_index do |big_swig, x| %>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= x %>">
+                      <div style="text-align: center;"><%= "Tier #{(x.to_i + 1)}" %>&nbsp;&nbsp;&nbsp;<%= big_swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %></div>
+                    </a>
+                  </div>
+                  <div id="collapse<%= x %>" class="accordion-body collapse">
+                    <div class="accordion-inner">
+
+                      <div style="text-align: center;"><b>People required: <%= big_swig.people %></b></div>
+                      <br/>
+                      <div style="text-align: center;"><%= big_swig.deal %></div>
+                    </div>
+                  </div>
+                </div>
+    <% end %>
+    </div>
+  </div>--><!-- /content -->
+
+    <div data-role="footer" data-position="fixed" style="width: 100%">
+      <div data-role="controlgroup" style="margin: 5px;width: 97%;">
+        <%= link_to "SWIG!", users_enter_bar_path(@bar), method: :post, "data-role" => "button", style: "width: 100%;margin: 5px;" %>
+        <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= main_home_path(:mobile)%>'" >CANCEL</a>
+      </div>
+    </div><!-- /footer -->
+  </div>

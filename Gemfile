@@ -21,6 +21,8 @@ end
 
 gem 'jquery-rails'
 gem 'cocoon'
+gem 'mobylette'
+gem 'jquery_mobile_rails'
 gem 'chronic'
 gem 'geokit'
 gem 'geokit-rails3'

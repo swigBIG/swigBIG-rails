@@ -35,6 +35,10 @@ class Users::BarsController < ApplicationController
     else
       @inviter = []
     end
+    respond_to do |format|
+      format.html
+      format.mobile
+    end
   end
 
   def create_popularity
@@ -70,7 +74,7 @@ class Users::BarsController < ApplicationController
 
   def swiger_list
     @bar = Bar.find(params[:bar_id])
-#    @swigers = @bar.swigers.order("created_at DESC")
+    #    @swigers = @bar.swigers.order("created_at DESC")
     @swigers = @bar.swigers.today.order("created_at DESC")
   end
 
