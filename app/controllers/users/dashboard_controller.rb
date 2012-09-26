@@ -6,12 +6,7 @@ class Users::DashboardController < ApplicationController
 
   def index
     @user = current_user
-    unless Bar.blank?
-      @bars = Bar.all
-    else
-      @bars = []
-    end
-    @swigs = Swig.where(status: "active")
+    
   end
 
   def facebook_page
@@ -196,6 +191,11 @@ class Users::DashboardController < ApplicationController
       fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit http://swigbig.com/"})
     end
     redirect_to :back, notice: "invite success"
+  end
+
+  def mobile_reward
+    @user = current_user
+    @reward = current_user.messages.where(["category = (?) OR category = (?)", 9, 16]).order("created_at DESC")
   end
 
 end

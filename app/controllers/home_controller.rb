@@ -4,9 +4,9 @@ class HomeController < ApplicationController
   def index;end
 
   def main
-#    if is_mobile_view? and !user_signed_in?
-#      redirect_to mobile_dashboard_home_url(:mobile)
-#    else
+    if is_mobile_view? and !user_signed_in?
+      redirect_to mobile_dashboard_home_url(:mobile)
+    else
 
 
       @city = City.where(name: @city_lat_lng[0].to_s).first
@@ -31,7 +31,7 @@ class HomeController < ApplicationController
         format.html
         format.mobile
       end
-#    end
+    end
   end
 
   def city
@@ -79,7 +79,6 @@ class HomeController < ApplicationController
   end
 
   def mobile_dashboard
-    
   end
 
 end

@@ -113,7 +113,8 @@
   <%= content_for :bottom_nav do %>
     <a href="#" data-role="button" style="width: 100%;margin: 5px;" class="btn-primary">SWIG!</a>
     <a href="#" data-role="button" style="width: 33%">DEALS</a>
-    <a href="#" data-role="button" style="width: 32%">REWARDS</a>
+    <!--<a href="#" data-role="button" style="width: 32%">REWARDS</a>-->
+    <%= link_to "REWARDS", users_mobile_reward_url, "data-role" => "button", style: "width: 32%" %>
     <a href="#" data-role="button" style="width: 33%">PROFILE</a>
   <% end %>
 </div>
@@ -153,11 +154,7 @@
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
       <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
-      <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
-        <a href="#" data-role="button" style="width: 33%">DEALS</a>
-        <a href="#" data-role="button" style="width: 32%">REWARDS</a>
-        <a href="#" data-role="button" style="width: 33%">PROFILE</a>
-      </div>
+      <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div><!-- /footer -->
 </div><!-- /page one -->
@@ -181,12 +178,7 @@
   </div><!-- /content -->
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
-    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
-      <a href="#" data-role="button" style="width: 33%">DEALS</a>
-      <a href="#" data-role="button" style="width: 32%">REWARDS</a>
-      <a href="#" data-role="button" style="width: 33%">PROFILE</a>
-    </div>
+    <<%= render partial: "shared/footer_menu_partial" %>
   </div><!-- /footer -->
 </div>
 

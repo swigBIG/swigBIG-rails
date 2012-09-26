@@ -1,0 +1,20 @@
+<div data-role="header" style="text-align: center;">
+  <%= render partial: "shared/swigbig_logo" %>
+  <div data-role="controlgroup" style="margin: 5px;width: 100%;">
+    <h3><%= @user.name.blank? ? @user.email : @user.name %></h3>
+  </div>
+</div>
+
+<div data-role="content" >
+
+  <div data-role="collapsible-set">
+    <%= image_tag(@user.avatar_url(:thumb)) %>
+    <%= @user.email %>
+
+    <%= @user.created_at.strftime("%r") %>
+  </div>
+</div><!-- /content -->
+
+<div data-role="footer" data-position="fixed" style="width: 100%">
+<%= render partial: "shared/footer_menu_partial" %>
+</div>

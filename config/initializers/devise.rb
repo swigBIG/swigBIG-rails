@@ -6,6 +6,9 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
   config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
 
+  config.http_authenticatable_on_xhr = false
+  config.navigational_formats = [:"*/*", "*/*", :html, :mobile]
+  
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
 
@@ -224,10 +227,10 @@ Devise.setup do |config|
 
   # use this for development
 #    config.omniauth :facebook, "217608421677403", "2e93553428ed01d4f5a850b3adc3e70b", :scope => "email, offline_access, read_stream"
-#    config.omniauth :facebook, "242752749159441", "af860632899895728d3f8925b20f127f", :scope => "publish_stream,email,offline_access,user_photos,user_location,user_relationships, user_hometown, user_about_me, user_status, user_videos, read_stream, user_notes, friends_about_me, friends_activities, friends_activities, friends_birthday, friends_photos, friends_status"
+   config.omniauth :facebook, "242752749159441", "af860632899895728d3f8925b20f127f", :scope => "publish_stream,email,offline_access,user_photos,user_location,user_relationships, user_hometown, user_about_me, user_status, user_videos, read_stream, user_notes, friends_about_me, friends_activities, friends_activities, friends_birthday, friends_photos, friends_status"
 
   #use this for production
-  config.omniauth :facebook, "410355872318354", "af14d3859f43ca38345e9c9368f3165d", :scope => "publish_stream,email,offline_access,user_photos,user_location,user_relationships, user_hometown, user_about_me, user_status, user_videos, read_stream, user_notes, friends_about_me, friends_activities, friends_activities, friends_birthday, friends_photos, friends_status"
+#  config.omniauth :facebook, "410355872318354", "af14d3859f43ca38345e9c9368f3165d", :scope => "publish_stream,email,offline_access,user_photos,user_location,user_relationships, user_hometown, user_about_me, user_status, user_videos, read_stream, user_notes, friends_about_me, friends_activities, friends_activities, friends_birthday, friends_photos, friends_status"
   #
   #
   #\\\  config.omniauth :twitter, "XNkbnBWRGmHY93LUFM5g", "NXObVWYWdFsSL4AT3lNyNMz6cKjA5CBfonpvY0Q"
