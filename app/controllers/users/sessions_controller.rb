@@ -32,23 +32,16 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    root_url
     #    unless current_user.name.blank?
     #      users_after_join_invite_friends_by_email_url
     #    else
     #  end
     #    root_url
-
-    #    if is_mobile_request?
-    #    if is_mobile_view?
-    #      respond_to do |format|
-    #        format.mobile {main_home_url}
-    #      end
-    #    else
-    #      respond_to do |format|
-    #        format.html {root_url}
-    #      end
-    #    end
+    if is_mobile_request?
+      main_home_url(:mobile)
+    else
+      root_url
+    end
   end
   
 end
