@@ -108,17 +108,14 @@
       <% @swigers.each do |swiger| %>
         <div class="span2">
           <% unless swiger.user.blank? %>
-            <% unless swiger.user.name.blank? %>
-              <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
-              <br/>
-              <%= swiger.user.name %>
-            <% else %>
-            <% end %>
+            <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
+            <br/>
+            <%= swiger.user.name rescue swiger.user.email %>
           <% end %>
         </div>
       <% end %>
     <% end %>
-    
+
   <% end %>
 
 
