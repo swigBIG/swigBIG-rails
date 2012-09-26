@@ -2,5 +2,5 @@
   <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 25%;">DEALS</a>
   <%= link_to "REWARDS", users_mobile_reward_url(:mobile), "data-role" => "button", style: "width: 25%;"  %>
   <%= link_to "PROFILE", users_dashboard_url(:mobile), "data-role" => "button", style: "width: 25%;"  %>
-  <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 20%" %>
+  <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 20%", "data-role" => "button" %>
 </div>
