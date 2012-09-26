@@ -17,7 +17,11 @@ class Users::SessionsController < Devise::SessionsController
     if resource.lock_status.eql?(false)
       set_flash_message(:notice, :signed_in) if is_navigational_format?
       sign_in(resource_name, resource)
-      respond_with resource, :location => after_sign_in_path_for(resource)
+      if is_mobile_request?
+        redirect_to main_home_url(:mobile)
+      else
+        respond_with resource, :location => after_sign_in_path_for(resource)
+      end
     elsif resource.lock_status.eql?(true)
       redirect_path = after_sign_out_path_for(resource_name)
       signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
