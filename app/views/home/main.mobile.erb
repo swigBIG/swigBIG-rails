@@ -90,37 +90,8 @@
   }
 </script>
 
-<!--<ul class="tabs" data-tabs="tabs">
-  <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
-  <li><a href="#map" data-toggle="tab" onclick="initialize()"><h3>Map</h3></a></li>
-</ul>-->
-
-<!--<div data-role="page active" id="bars_map" class="ui-page ui-body ui-page-active" data-url="bars_map" tabindex="0">-->
-
-<div id="my-tab-content" class="tab-content">
-  <div class="tab-pane" id="map">
-
-  </div>
-  <%= content_for :top_nav do %>
-    <a href="#" data-role="button" style="width: 49%">LIST</a>
-    <a href="#map" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 49%">MAP</a>
-  <% end %>
-
-  <div id="my-tab-content" class="tab-content">
-
-  </div>
-
-  <%= content_for :bottom_nav do %>
-    <a href="#" data-role="button" style="width: 100%;margin: 5px;" class="btn-primary">SWIG!</a>
-    <a href="#" data-role="button" style="width: 33%">DEALS</a>
-    <!--<a href="#" data-role="button" style="width: 32%">REWARDS</a>-->
-    <%= link_to "REWARDS", users_mobile_reward_url, "data-role" => "button", style: "width: 32%" %>
-    <a href="#" data-role="button" style="width: 33%">PROFILE</a>
-  <% end %>
-</div>
-
 <div data-role="page" id="swig_list_page" onclick="initialize()">
-  <div data-role="header" style="text-align: center;">
+  <div data-role="header" data-position="fixed" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
       <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
@@ -162,7 +133,7 @@
 
 <!-- Start of second page: #bar map -->
 <div data-role="page" id="bars_map_page" onclick="initialize()">
-  <div data-role="header" style="text-align: center;">
+  <div data-role="header" data-position="fixed" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
       <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
@@ -178,10 +149,9 @@
   </div><!-- /content -->
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
-    <<%= render partial: "shared/footer_menu_partial" %>
+    <%= render partial: "shared/footer_menu_partial" %>
   </div><!-- /footer -->
 </div>
-
 
 <!-- Start of third page: #popup -->
 <div data-role="page" id="popup">

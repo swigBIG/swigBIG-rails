@@ -40,11 +40,16 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     img = access_token.info.image
     data = access_token.extra.raw_info
+    debugger
+    puts img
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
       #      self.create!(:email => data.email, :password => Devise.friendly_token[0,20], avatar: img)
-      self.create!(:email => data.email, :password => Devise.friendly_token[0,20], name: data.name, avatar: img)
+      a = self.create!(:email => data.email, :password => Devise.friendly_token[0,20], name: data.name)
+      a.remote_avatar_url = img
+      a.save
+      return a
     end
   end
 

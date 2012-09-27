@@ -1,6 +1,12 @@
-<div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
-  <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 24%;">DEALS</a>
-  <%= link_to "REWARDS", users_mobile_reward_url(:mobile), "data-role" => "button", style: "width: 25%;"  %>
-  <%= link_to "PROFILE", users_dashboard_url(:mobile), "data-role" => "button", style: "width: 25%;"  %>
-  <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 25%", "data-role" => "button" %>
+<div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;" >
+  <% unless user_signed_in? %>
+    <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 49%;">DEALS</a>
+    <a class="" data-role="button" onclick="window.location.href='<%= mobile_dashboard_home_url(:mobile) %>'"  style="width: 49%;">LOG IN</a>
+  <% else %>
+    <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 24%;">DEALS</a>
+    <%= link_to "REWARDS", users_mobile_reward_url(:mobile), "data-role" => "button", style: "width: 25%;"  %>
+    <%= link_to "PROFILE", users_dashboard_url(:mobile), "data-role" => "button", style: "width: 25%;"  %>
+    <%#= link_to "LOG OUT", api_v1_user_logout_path, method: :delete, style: "width: 25%", "data-role" => "button", "data-ajax" => "false" %>
+    <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 25%", "data-role" => "button", "data-ajax" => "false" %>
+  <% end %>
 </div>
