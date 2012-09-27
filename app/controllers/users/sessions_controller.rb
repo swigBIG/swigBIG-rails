@@ -36,15 +36,29 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    #    unless current_user.name.blank?
-    #      users_after_join_invite_friends_by_email_url
-    #    else
-    #  end
-    #    root_url
     if is_mobile_request?
       main_home_url(:mobile)
     else
       root_url
+    end
+  end
+
+  def destroy
+    if is_mobile_request?
+      redirect_path = mobile_dashboard_home_url(:mobile)
+    else
+      redirect_path = after_sign_out_path_for(resource_name)
+    end
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
+
+    # We actually need to hardcode this as Rails default responder doesn't
+    # support returning empty response on GET request
+    respond_to do |format|
+      format.any(*navigational_formats) { redirect_to redirect_path }
+      format.all do
+        head :no_content
+      end
     end
   end
   

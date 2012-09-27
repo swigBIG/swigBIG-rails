@@ -1,3 +1,10 @@
+<%= content_for :head_js do %>
+  <script type="text/javascript">
+    $(document).bind("mobileinit", function(){
+      $.extend(  $.mobile, { ajaxFormsEnabled: false });
+    });
+  </script>
+<% end %>
 <div data-role="page" id="beggining_page" >
   <div data-role="header" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
@@ -24,7 +31,7 @@
   </div>
 
   <div data-role="content" >
-    <%= simple_form_for(:user, :url => user_session_path) do |f| %>
+    <%= simple_form_for(:user, :url => user_session_path, html: {"data-ajax" => "false"}) do |f| %>
 
       <%= f.input :email %>
       <%= f.input :password %>
