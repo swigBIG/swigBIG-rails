@@ -6,29 +6,47 @@ class Users::RegistrationsController < Devise::RegistrationsController
     main_home_path
   end
 
+  def create
+    build_resource
+
+    if resource.save
+      if resource.active_for_authentication?
+        set_flash_message :notice, :signed_up if is_navigational_format?
+        sign_in(resource_name, resource)
+        if is_mobile_request?
+          redirect_to main_home_url
+        else
+          respond_with resource, :location => after_sign_up_path_for(resource)
+        end
+      else
+        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
+        expire_session_data_after_sign_in!
+        respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      respond_with resource
+    end
+  end
+
   def after_sign_up_path_for(resource)
 
     #    AdminUser.first.send_message(current_user, {topic: "<a href='#user_details' data-toggle='modal' id='completion_link'>here</a>", category: 22})
     AdminUser.first.send_message(current_user, {topic: "<a href='#user_details' data-toggle='modal' id='completion_link'>Complete your profile!</a>", body: "<a href='#user_details' data-toggle='modal' id='completion_link'>here</a>", category: 22})
     guess = PopularityGuess.today.where(email: current_user.email).first
-
-    if is_mobile_request?
-      main_home_url(:mobile)
-    else
-      unless guess.blank?
-        guess.update_attributes(user_id: current_user.id)
-        if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
-          users_after_join_invite_friends_by_email_url
-        else
-          root_url
-        end
+    unless guess.blank?
+      guess.update_attributes(user_id: current_user.id)
+      if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
+        users_after_join_invite_friends_by_email_url
       else
-        if current_user.name.blank?
-          users_after_join_invite_friends_by_email_url
-          #        users_completion_url
-        else
-          root_url
-        end
+        root_url
+      end
+    else
+      if current_user.name.blank?
+        users_after_join_invite_friends_by_email_url
+        #        users_completion_url
+      else
+        root_url
       end
     end
   end
