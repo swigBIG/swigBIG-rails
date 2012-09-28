@@ -40,8 +40,6 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     img = access_token.info.image
     data = access_token.extra.raw_info
-    debugger
-    puts img
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
