@@ -6,9 +6,8 @@
 
   <div data-role="content" >
     <h3 style="text-align: center;">Join swigBIG today!</h3>
-    <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), "data-toggle" => "tab", "data-role" => "button", id: "goto_facebook_sign_in" %>
-    <a href="#" data-toggle="tab" data-role="button" style="width: 100%;"><%= image_tag("/assets/facebook_icon.jpg", style: "height: 20px;") %>&nbsp;&nbsp;Sign in with Facebook</a>
-    <a href="#to_sign_up" data-toggle="tab" data-role="button" style="width: 100%;" onclick="$('#goto_facebook_sign_in').click();">Sign up with Email</a>
+    <a class="" data-role="button" style="width: 100%;" onclick="window.location.href='<%= user_omniauth_authorize_path(:facebook) %>'"  style="width: 49%;"><%= image_tag("/assets/facebook_icon.jpg", style: "height: 20px;") %>&nbsp;&nbsp;Sign in with Facebook</a>
+    <a href="#to_sign_up" data-toggle="tab" data-role="button" style="width: 100%;" >Sign up with Email</a>
     <!--<a href="#bars_map_page" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 49%;color: white;">MAP</a>
     <a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a>-->
     <br/>
