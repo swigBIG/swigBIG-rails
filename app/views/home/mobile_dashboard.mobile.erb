@@ -26,7 +26,7 @@
   <div data-role="content" >
     <%= simple_form_for(:user, :url => user_session_path, html: {"data-ajax" => "false"}) do |f| %>
 
-      <%= f.input :email %>
+      <%= f.input :email , style: "height: 10px;"%>
       <%= f.input :password %>
       <div style="display: none">
         <%= f.submit "Sign in", id: "go_to_sign_in", style: "display: none;" %>
@@ -48,7 +48,7 @@
   </div>
 
   <div data-role="content" >
-    <%= simple_form_for(:user, :url => user_registration_path, html: {class: "form-horizontal" }) do |f| %>
+    <%= simple_form_for(:user, :url => user_registration_path, html: {class: "form-horizontal", "data-ajax" => "false" }) do |f| %>
         <%= f.input :email %>
         <%= f.input :password %>
         <%= f.input :password_confirmation %>
