@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     guess = PopularityGuess.today.where(email: current_user.email).first
 
     if is_mobile_request?
-      redirect_to main_home_url(:mobile)
+      main_home_url(:mobile)
     else
       unless guess.blank?
         guess.update_attributes(user_id: current_user.id)
