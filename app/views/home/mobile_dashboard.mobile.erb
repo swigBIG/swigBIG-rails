@@ -47,7 +47,7 @@
       <h1>sign in</h1>
       <%= simple_form_for(:user, :url => user_session_path, html: {"data-ajax" => "false"}) do |f| %>
 
-        <%= f.input :email , input_html: {id: "email_to_sign_in", name: "email_to_sign_in", style: "height: 30px;"} %>
+        <%= f.input :email , input_html: {id: "email_to_sign_in", style: "height: 30px;"} %>
         <%= f.input :password, input_html: {id: "password_to_sign_in", style: "height: 30px;"} %>
         <div style="display: none">
           <%= f.submit "Sign in", id: "go_to_sign_in", style: "display: none;" %>
