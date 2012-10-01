@@ -1,74 +1,86 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $(function(){
+      $("#email_public").keyup(function() {
+        emailGroups();
+      });
+      $("#password_public").keyup(function() {
+        passGroups();
+      });
+    });
+
+    var emailGroups = function() {
+      // First copy values
+      $("#email_to_sign_in").val($("#email_public").val());
+      $("#email_to_sign_up").val($("#email_public").val());
+    };
+    var passGroups = function() {
+      // First copy values
+      $("#password_to_sign_in").val($("#password_public").val());
+      $("#password_to_sign_up").val($("#password_public").val());
+    };
+
+  })
+</script>
 
 <div data-role="page" id="beggining_page" >
   <div data-role="header" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
   </div>
 
-  <div data-role="content" >
+  <div data-role="content" data-mini="true">
     <h3 style="text-align: center;">Join swigBIG today!</h3>
     <a class="" data-role="button" style="width: 100%;" onclick="window.location.href='<%= user_omniauth_authorize_path(:facebook) %>'"  style="width: 49%;"><%= image_tag("/assets/facebook_icon.jpg", style: "height: 20px;") %>&nbsp;&nbsp;Sign in with Facebook</a>
-    <a href="#to_sign_up" data-toggle="tab" data-role="button" style="width: 100%;" >Sign up with Email</a>
-    <!--<a href="#bars_map_page" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 49%;color: white;">MAP</a>
-    <a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a>-->
     <br/>
-    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
-      <h3 style="text-align: center;">Already signed up?</h3>
-      <a href="#to_sign_in" data-toggle="tab" data-role="button" style="width: 100%;">Sign In</a>
+
+    <input type="text"  id="email_public" style="height: 30px" placeholder="Email" />
+    <input type="password"  id="password_public" style="height: 30px" placeholder="Password"/>
+    <div>
+      <a  data-role="button" onclick="$('#go_to_sign_in').click()" data-inline="true" style="width: 47%">Sign In</a>
+      <span style="text-align: center;width: 18%"><b  style="text-align: center">&nbsp;Or&nbsp;</b></span>
+      <a  href="#" data-role="button" onclick="$('#goto_sign_up_in_mobile').click()" data-inline="true" style="width: 47%">Sign Up</a>
+    </div><!-- /grid-a -->
+
+
+    <div data-role="content" style="display: none;">
+      <h1>sign in</h1>
+      <%= simple_form_for(:user, :url => user_session_path, html: {"data-ajax" => "false"}) do |f| %>
+
+        <%= f.input :email , input_html: {id: "email_to_sign_in", name: "email_to_sign_in", style: "height: 30px;"} %>
+        <%= f.input :password, input_html: {id: "password_to_sign_in", style: "height: 30px;"} %>
+        <div style="display: none">
+          <%= f.submit "Sign in", id: "go_to_sign_in", style: "display: none;" %>
+        </div>
+      <% end %>
+      <br/>
+
     </div>
-  </div><!-- /content -->
-</div>
+    <div data-role="content" style="display: none;">
+      <h1>Su</h1>
+      <%= simple_form_for(:user, :url => user_registration_path, html: {class: "form-horizontal", "data-ajax" => "false" }) do |f| %>
+          <%= f.input :email, input_html: {id: "email_to_sign_up", style: "height: 30px;"} %>
+          <%= f.input :password, input_html: {id: "password_to_sign_up", style: "height: 30px;"} %>
+    <%#= f.input :password_confirmation %>
 
-<div data-role="page" id="to_sign_in" >
-  <div data-role="header" style="text-align: center;">
-    <%= render partial: "shared/swigbig_logo" %>
-  </div>
+          <%= f.input :terms, as: :boolean, type: "check-box", class: "custom", "data-mini" => "true", input_html: {checked: true} %>
+            <br/>
+            <div style="display: none;">
+              <%= f.submit "Sign up", class: "btn-primary", id: "goto_sign_up_in_mobile", style: "display: none;" %>
+              </div>
+            <% end %>
+          </div><!-- /content -->
 
-  <div data-role="content" >
-    <%= simple_form_for(:user, :url => user_session_path, html: {"data-ajax" => "false"}) do |f| %>
-
-      <%= f.input :email , style: "height: 10px;"%>
-      <%= f.input :password %>
-      <div style="display: none">
-        <%= f.submit "Sign in", id: "go_to_sign_in", style: "display: none;" %>
-
-      </div>
-    <% end %>
-
-    <a href="#" data-toggle="tab" data-role="button" onclick="$('#go_to_sign_in').click()" style="width: 100%;">Sign In</a>
-  </div><!-- /content -->
-
-  <div data-role="footer" data-position="fixed" style="width: 100%">
-    <a href="#beggining_page" data-toggle="tab" data-role="button" style="width: 100%;">Cancel</a>
-  </div><!-- /footer -->
-</div>
-
-<div data-role="page" id="to_sign_up" >
-  <div data-role="header" style="text-align: center;">
-    <%= render partial: "shared/swigbig_logo" %>
-  </div>
-
-  <div data-role="content" >
-    <%= simple_form_for(:user, :url => user_registration_path, html: {class: "form-horizontal", "data-ajax" => "false" }) do |f| %>
-        <%= f.input :email %>
-        <%= f.input :password %>
-        <%= f.input :password_confirmation %>
-        "I agree"  to swigBIG.com's
-        <a href="#terms_of_service" >Terms of Service</a>
-        before registration is complete
-        <%= f.input :terms, as: :boolean, type: "check-box", class: "custom", "data-mini" => "true" %>
-          <br/>
-          <div style="display: none;">
-            <%= f.submit "Sign up", class: "btn-primary", id: "goto_sign_up_in_mobile", style: "display: none;" %>
-            </div>
-          <% end %>
-
-        </div><!-- /content -->
-
+        </div>
         <div data-role="footer" data-position="fixed" style="width: 100%">
-          <a href="#" data-toggle="tab" data-role="button" style="width: 100%;" onclick="$('#goto_sign_up_in_mobile').click();">Sign In</a>
-          <a href="#beggining_page" data-toggle="tab" data-role="button" style="width: 100%;">Cancel</a>
-        </div><!-- /footer -->
+          <div style="text-align: center;" data-toggle="tab">
+            "I agree"  to swigBIG.com's
+            <a href="#terms_of_service" >Terms of Service</a>
+            before registration is complete
+          </div>
+        </div>
       </div>
+
       <div data-role="page" id="terms_of_service" >
         <div data-role="header" style="text-align: center;">
           <%= render partial: "shared/swigbig_logo" %>
@@ -82,6 +94,4 @@
           <a href="#beggining_page" data-toggle="tab" data-role="button" style="width: 100%;">Cancel</a>
         </div><!-- /footer -->
       </div>
-
-
 

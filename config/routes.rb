@@ -130,11 +130,13 @@ Swprototype::Application.routes.draw do
     match  "invite_friends" => "dashboard#after_join_invite_friends_by_fb", as: "after_join_invite_friends_by_fb"
     post  "invite_friend_by_email" => "dashboard#after_sign_up_invite_friend_by_email", as: "after_sign_up_invite_friend_by_email"
     post  "invite_friend_by_fb" => "dashboard#after_sign_up_invite_friend_by_fb", as: "after_sign_up_invite_friend_by_fb"
+    post  "update_user_for_mobile" => "dashboard#update_user_for_mobile", as: "update_user_for_mobile"
     match  "completion" => "dashboard#completion", as: "completion"
     post  "update_completion" => "dashboard#update_completion", as: "update_completion"
     match  "notifications" => "notifications#index", as: "notifications"
     match  "user_dashboard" => "dashboard#index", as: "dashboard"
     match  "facebook_dashboard" => "dashboard#facebook_page", as: "facebook_page"
+    match  "facebook_mobile_profile" => "dashboard#facebook_mobile_profile", as: "facebook_mobile_profile"
     match  "facebook_update_status" => "dashboard#facebook_update_status", as: "facebook_update_status"
     match  "invite_swigbig" => "dashboard#invite_swigbig", as: "invite_swigbig"
     post "invite_by_email" => "dashboard#invite_by_email", as: :invite_by_email

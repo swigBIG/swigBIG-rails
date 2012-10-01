@@ -7,6 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
+    fwe
     build_resource
 
     if resource.save
