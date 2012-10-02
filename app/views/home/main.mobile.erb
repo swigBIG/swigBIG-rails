@@ -1,3 +1,11 @@
+<script type="text/javascript">
+<% if session[:to_reload].eql?(true) %>
+    $(document).ready(function(){
+      window.location.reload(true);
+    });
+<% end %>
+</script>
+
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
   /*#map_home_canvas { height: 325px ; width: 820px;}*/

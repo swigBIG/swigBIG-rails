@@ -13,11 +13,13 @@ class Users::SessionsController < Devise::SessionsController
   #    end
   #  end
   def create
+
     resource = warden.authenticate!(auth_options)
     if resource.lock_status.eql?(false)
       set_flash_message(:notice, :signed_in) if is_navigational_format?
       sign_in(resource_name, resource)
       if is_mobile_request?
+        session[:to_reload] = true
         redirect_to main_home_url(:mobile)
       else
         respond_with resource, :location => after_sign_in_path_for(resource)
@@ -55,12 +57,12 @@ class Users::SessionsController < Devise::SessionsController
     # We actually need to hardcode this as Rails default responder doesn't
     # support returning empty response on GET request
     redirect_to redirect_path
-#    respond_to do |format|
-##      format.any(*navigational_formats) { redirect_to redirect_path }
-##      format.all do
-##        head :no_content
-##      end
-#    end
+    #    respond_to do |format|
+    ##      format.any(*navigational_formats) { redirect_to redirect_path }
+    ##      format.all do
+    ##        head :no_content
+    ##      end
+    #    end
   end
 
   def after_sign_out_path_for(resource, from)
