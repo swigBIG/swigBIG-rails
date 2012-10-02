@@ -5,22 +5,20 @@
       <h3><%= @user.name.blank? ? @user.email : @user.name %></h3>
       <a href="#" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Profile</a>
       <a href="#fb_user_stat_page" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Stats</a>
-      
+
     </div>
   </div>
 
-  <div data-role="content" style="margin: 10px;">
-    <%= image_tag(@user.avatar_url(:mini)) %>
-    <br/>
-    <b>Name</b>
-    <br/>
-    <%= @user.name rescue  "not set yet!" %>
-    <br/>
-    <br/>
-    <b>Email</b>
-    <br/>
-    <b><%= @user.email %></b>
-    <br/>
+  <div data-role="content" id="mobile_content">
+    <ul data-role="listview" class="ui-listview with_thumbnail" data-inset="true">
+      <li>
+        <a>
+          <%= @user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(@user.avatar_url(:mini)) %>
+          <%= @user.name rescue  "not set yet!" %><br/>
+          <%= @user.email %>
+        </a>
+      </li>
+    </ul>
   </div><!-- /content -->
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
