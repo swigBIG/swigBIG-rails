@@ -8,24 +8,41 @@
     </div>
   </div>
 
-  <div data-role="content" >
-    <div class="content-primary">
-      <ul data-role="listview" data-split-icon="gear" data-split-theme="d">
-        <li>
-          <a href="#user_update_name_page"  data-toggle="tab" data-role="button">
-            <%= @user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(@user.avatar_url(:mini)) %>
-            <b><%= @user.name rescue  "not set yet!" %></b>
-          </a>
-        </li>
-        <li>
-          <a href="#user_update_email_page"  data-toggle="tab" data-role="button"  ><b><%= @user.email %></b></a>
-        </li>
-        <li>
-          <a href="#user_update_password_page"  data-toggle="tab" data-role="button" >Change Password</a>
-        </li>
-      </ul>
-    </div>
-  </div><!-- /content -->
+  <div data-role="content" id="mobile_content">
+    <ul data-role="listview" class="ui-listview with_thumbnail" data-inset="true">
+      <li>
+        <a href="#user_update_name_page">
+          <%= @user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(@user.avatar_url(:mini)) %>
+          <%= @user.name rescue  "not set yet!" %>
+        </a>
+      </li>
+      <li>
+        <a href="#user_update_email_page"><%= @user.email %></a>
+      </li>
+      <li>
+        <a href="#user_update_password_page" >Change Password</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- <div data-role="content" >
+     <div class="content-primary">
+       <ul data-role="listview" data-split-icon="gear" data-split-theme="d">
+         <li>
+           <a href="#user_update_name_page"  data-toggle="tab" data-role="button">
+<%#= @user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(@user.avatar_url(:mini)) %>
+             <b><%#= @user.name rescue  "not set yet!" %></b>
+           </a>
+         </li>
+         <li>
+           <a href="#user_update_email_page"  data-toggle="tab" data-role="button"  ><b><%#= @user.email %></b></a>
+         </li>
+         <li>
+           <a href="#user_update_password_page"  data-toggle="tab" data-role="button" >Change Password</a>
+         </li>
+       </ul>
+     </div>
+   </div><!-- /content -->
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 99%;">
