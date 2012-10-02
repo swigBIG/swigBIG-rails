@@ -24,7 +24,9 @@
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 99%;">
-      <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 100%", "data-role" => "button", "data-ajax" => "false" %>
+<%#= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 100%", "data-role" => "button", "data-ajax" => "false" %>
+      <%= link_to "LOG OUT", destroy_user_session_path, method: :delete, style: "width: 100%", "data-role" => "button", "data-ajax" => "false"  %>
+      <a class="" data-role="button" onclick="window.location.href='<%= destroy_user_session_path %>'"  style="width: 33%;">LOG OUT</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div><!-- /footer -->
@@ -66,7 +68,7 @@
   </div><!-- /footer -->
 </div>
 
-<div data-role="page" id="user_update_profile_page">
+<div data-role="page" id="user_update_password_page">
   <div data-role="header" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
     <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
@@ -77,13 +79,47 @@
   </div>
 
   <div data-role="content">
+    <b>Change Password</b><br/>
     <%= simple_form_for(:user, :url => users_update_user_for_mobile_path, html: {"data-ajax" => "false"}) do |f| %>
-      <%= f.input :email , input_html: {id: "email_to_sign_in", name: "email_to_sign_in", style: "height: 30px;"} %>
+  <%#= f.input :email , input_html: {id: "email_to_sign_in", name: "email_to_sign_in", style: "height: 30px;"} %>
       <%= f.input :password %>
       <%= f.input :password_confirmation %>
-      <%= f.submit "Update", id: "go_to_update_in_mobile" %>
+      <div style="display: none;">
+        <%= f.submit "Update", id: "go_to_update_in_mobile", style: "display: none;" %>
+      </div>
     <% end %>
-    <a data-role="button" onclick="$('#go_to_update_in_mobile').click()" data-inline="true">Sign Up</a>
+    <a style="width: 99%" data-role="button" onclick="$('#go_to_update_in_mobile').click()" data-inline="true">Change</a>
+  </div><!-- /content -->
+
+  <div data-role="footer" data-position="fixed" style="width: 100%">
+    <div data-role="controlgroup" style="margin: 5px;width: 99%;">
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div><!-- /footer -->
+</div>
+
+<div data-role="page" id="user_update_email_page">
+  <div data-role="header" style="text-align: center;">
+    <%= render partial: "shared/swigbig_logo" %>
+    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+      <h3><%= @user.name.blank? ? @user.email : @user.name %></h3>
+      <a href="#user_profile_page" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Profile</a>
+      <a href="" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Stats</a>
+    </div>
+  </div>
+
+  <div data-role="content">
+    <b>Change Password</b><br/>
+    <%= simple_form_for(:user, :url => users_update_user_for_mobile_path, html: {"data-ajax" => "false"}) do |f| %>
+    <b>Current Email: </b><%= current_user.email %><br/>
+  <%= f.input :email , input_html: {id: "email_to_sign_in", name: "email_to_sign_in", style: "height: 30px;"} %>
+      <%= f.input :password %>
+      <%= f.input :password_confirmation %>
+      <div style="display: none;">
+        <%= f.submit "Update", id: "go_to_update_in_mobile", style: "display: none;" %>
+      </div>
+    <% end %>
+    <a style="width: 99%" data-role="button" onclick="$('#go_to_update_in_mobile').click()" data-inline="true">Change</a>
   </div><!-- /content -->
 
   <div data-role="footer" data-position="fixed" style="width: 100%">

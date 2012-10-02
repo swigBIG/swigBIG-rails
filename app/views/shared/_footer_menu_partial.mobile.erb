@@ -4,8 +4,9 @@
     <a class="" data-role="button" onclick="window.location.href='<%= mobile_dashboard_home_url(:mobile) %>'"  style="width: 49%;">LOG IN</a>
   <% else %>
     <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 33%;">Deals</a>
+    <a class="" data-role="button" onclick="window.location.href='<%= users_mobile_reward_url(:mobile) %>'"  style="width: 33%;">Rewards</a>
 
-    <%= link_to "Rewards", users_mobile_reward_url(:mobile), "data-role" => "button", style: "width: 33%;"  %>
+    <%#= link_to "Rewards", users_mobile_reward_url(:mobile), "data-role" => "button", style: "width: 33%;"  %>
     <% unless current_user.fb_id.blank? %>
     <%#= link_to "Account", users_facebook_mobile_profile_url(:mobile), "data-role" => "button", style: "width: 33%;"  %>
       <a class="" data-role="button" onclick="window.location.href='<%= users_facebook_mobile_profile_url(:mobile) %>'"  style="width: 33%;">Account</a>

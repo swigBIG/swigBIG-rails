@@ -1,20 +1,17 @@
 class ApplicationController < ActionController::Base
-
   include Mobylette::RespondToMobileRequests
   include LogActivityStreams
 
+  protect_from_forgery
+  require 'open-uri'
 
   mobylette_config do |config|
     config[:fallback_chains] = { mobile: [:mobile, :html] }
     config[:skip_xhr_requests] = false
   end
-  
-  protect_from_forgery
-  require 'open-uri'
+
   before_filter :reject_bot_request, :swigbig_content, :set_time_zone
   before_filter :set_access_control_headers
-
- 
 
   def reject_bot_request
     user_agent = request.env['HTTP_USER_AGENT']

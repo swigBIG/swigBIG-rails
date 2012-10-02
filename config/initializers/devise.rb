@@ -4,10 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
-
-  config.http_authenticatable_on_xhr = false
-  config.navigational_formats = [:"*/*", "*/*", :html, :mobile]
+  config.mailer_sender = "admin@swigbig.com"
   
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -206,6 +203,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ["*/*", :html]
+  config.navigational_formats = [:"*/*", "*/*", :html, :mobile]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -223,7 +221,10 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
-
+  
+  ActionController::Responder.class_eval do
+    alias :to_mobile :to_html
+  end
 
   FACEBOOK_SETUP_PROC = lambda do |env|
     request = Rack::Request.new(env)
@@ -231,22 +232,8 @@ Devise.setup do |config|
     request.env['omniauth.strategy'].options[:display] = mobile_device ? "touch" : "page"
   end
 
-  # use this for development
-  #    config.omniauth :facebook, "217608421677403", "2e93553428ed01d4f5a850b3adc3e70b", :scope => "email, offline_access, read_stream"
-#  config.omniauth :facebook, "242752749159441", "af860632899895728d3f8925b20f127f",
-#    :scope => "publish_stream,email,offline_access,user_photos,user_location,user_relationships, user_hometown, user_about_me, user_status, user_videos, read_stream, user_notes, friends_about_me, friends_activities, friends_activities, friends_birthday, friends_photos, friends_status",
-#    :setup => FACEBOOK_SETUP_PROC,
-#    :client_options => { :ssl => { :ca_file => Rails.root.join("config/ca-bundle.crt").to_s }}
-
-  #use this for production
-  config.omniauth :facebook, "410355872318354", "af14d3859f43ca38345e9c9368f3165d",
+  config.omniauth :facebook, Settings.omniauth.facebook.api_key, Settings.omniauth.facebook.api_secret,
     :scope => "publish_stream,email,offline_access,user_photos,user_location,user_relationships, user_hometown, user_about_me, user_status, user_videos, read_stream, user_notes, friends_about_me, friends_activities, friends_activities, friends_birthday, friends_photos, friends_status",
     :setup => FACEBOOK_SETUP_PROC,
     :client_options => { :ssl => { :ca_file => Rails.root.join("config/ca-bundle.crt").to_s }}
-  #
-  #
-  #\\\  config.omniauth :twitter, "XNkbnBWRGmHY93LUFM5g", "NXObVWYWdFsSL4AT3lNyNMz6cKjA5CBfonpvY0Q"
-  #  config.omniauth :twitter, "ljTiP8tlNC2VjKIzQsP4g", "S8lx1slu56Wr3LscMdBNfqtygvRfxLhLsIjFQa1M2EA"
-  #  config.omniauth :open_id, OpenID::Store::Filesystem.new('/tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id'
-
 end

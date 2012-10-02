@@ -1,6 +1,9 @@
 class Users::SessionsController < Devise::SessionsController
   layout "users"
 
+  skip_before_filter :verify_authenticity_token, :authenticate_user!, only: :destroy
+  before_filter :set_access_control_headers
+
   #  def create
   #    resource = warden.authenticate!(auth_options)
   #    if resource.lock_status.eql?(false)
@@ -47,31 +50,37 @@ class Users::SessionsController < Devise::SessionsController
 
   
 
-  def destroy
-    puts "@" *80
-    puts params
-    redirect_path = after_sign_out_path_for(resource_name, params[:format])
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
+  #  def destroy
+  #    puts "@" *80
+  #    puts params
+  #    redirect_path = after_sign_out_path_for(resource_name, params[:format])
+  #    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+  #    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
+  #
+  #    # We actually need to hardcode this as Rails default responder doesn't
+  #    # support returning empty response on GET request
+  #    respond_to do |format|
+  #      format.any(*navigational_formats) { redirect_to redirect_path }
+  #      format.all do
+  #        head :no_content
+  #      end
+  #    end
+  #  end
 
-    # We actually need to hardcode this as Rails default responder doesn't
-    # support returning empty response on GET request
-    redirect_to redirect_path
-    #    respond_to do |format|
-    ##      format.any(*navigational_formats) { redirect_to redirect_path }
-    ##      format.all do
-    ##        head :no_content
-    ##      end
+  def after_sign_out_path_for(resource)
+    #    if from.eql?("mobile")
+    main_home_url
+    #    else
+    #      root_url
     #    end
   end
 
-  def after_sign_out_path_for(resource, from)
-    puts from
-    if from.eql?("mobile")
-      main_home_url
-    else
-      root_url
-    end
+  private
+
+  def set_access_control_headers
+    headers["Access-Control-Allow-Origin"] = "*"
+    headers["Access-Control-Request-Method"] = "*"
   end
+
   
 end
