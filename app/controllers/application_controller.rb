@@ -43,8 +43,6 @@ class ApplicationController < ActionController::Base
     end
 
     if request.xhr?
-      raise session["geo_#{set_current_ip}"].to_s
-
       render :nothing => true
     end
     #    if session["offset_#{set_current_ip}"].blank?
