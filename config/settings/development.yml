@@ -1,4 +1,8 @@
 omniauth:
   facebook:
-    api_key: "242752749159441"
-    api_secret: "af860632899895728d3f8925b20f127f"
+    api_key: "410355872318354"
+    api_secret: "af14d3859f43ca38345e9c9368f3165d"
+#omniauth:
+#  facebook:
+#    api_key: "242752749159441"
+#    api_secret: "af860632899895728d3f8925b20f127f"
