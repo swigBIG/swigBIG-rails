@@ -21,20 +21,43 @@ class ApplicationController < ActionController::Base
   end
 
   def set_time_zone
-    if session["geo_#{set_current_ip}"].blank?
-      geo = Geokit::Geocoders::MultiGeocoder.geocode(set_current_ip)
-      @city_lat_lng = [geo.city, geo.lat, geo.lng]
+    if request.xhr?
+      geo = Geokit::Geocoders::MultiGeocoder.geocode("#{params[:geo][:mobile_lat]},#{params[:geo][:mobile_lng]}")
+      @city_lat_lng = [geo.city, params[:geo][:mobile_lat], params[:geo][:mobile_lng]]
       session["geo_#{set_current_ip}"] = @city_lat_lng
     else
-      @city_lat_lng = session["geo_#{set_current_ip}"]
+      if session["geo_#{set_current_ip}"].blank?
+        geo = Geokit::Geocoders::MultiGeocoder.geocode(set_current_ip)
+        @city_lat_lng = [geo.city, geo.lat, geo.lng]
+        session["geo_#{set_current_ip}"] = @city_lat_lng
+      else
+        @city_lat_lng = session["geo_#{set_current_ip}"]
+      end
     end
 
-    if session["offset_#{set_current_ip}"].blank?
+    if @city_lat_lng
       timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
       Time.zone = timezone.zone
     else
       Time.zone = 'Pacific Time (US & Canada)'
     end
+
+    if request.xhr?
+      raise session["geo_#{set_current_ip}"].to_s
+
+      render :nothing => true
+    end
+    #    if session["offset_#{set_current_ip}"].blank?
+    #      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
+    #      Time.zone = timezone.zone
+    #    else
+    #      if request.xhr?
+    #        timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
+    #        Time.zone = timezone.zone
+    #      else
+    #        Time.zone = 'Pacific Time (US & Canada)'
+    #      end
+    #    end
   end
 
   def swigbig_content

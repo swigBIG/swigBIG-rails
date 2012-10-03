@@ -3,6 +3,10 @@ class HomeController < ApplicationController
 
   def index;end
 
+  def get_latitude_and_longitude_from_mobile
+    data = User.find_by_email(params[:user][:email])
+  end
+
   def main
     #    if is_mobile_view? and !user_signed_in?
     #      redirect_to mobile_dashboard_home_url(:mobile)

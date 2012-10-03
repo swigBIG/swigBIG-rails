@@ -18,6 +18,7 @@
           <%= @user.email %>
         </a>
       </li>
+      <a href="#fb_user_profile_page" >Setting</a>
     </ul>
   </div><!-- /content -->
 
@@ -63,4 +64,28 @@
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div><!-- /footer -->
+</div>
+
+<div data-role="page" id="fb_user_post_setting_page">
+  <div data-role="header" style="text-align: center;">
+    <%= render partial: "shared/swigbig_logo" %>
+    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+      <h3><%= @user.name.blank? ? @user.email : @user.name %></h3>
+      <a href="#fb_user_profile_page" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Profile</a>
+      <a href="" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Stats</a>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <b>This is page for activate and deactivate to posting swigbig event in facebook</b>
+    <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="width: 99%;">Activate</a>
+    <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="width: 99%;">Deactivate</a>
+  </div>
+  <div data-role="footer" data-position="fixed" style="width: 100%">
+    <div data-role="controlgroup" style="margin: 5px;width: 99%;">
+      <a href="#fb_user_profile_page" data-toggle="tab" data-role="button" style="width: 99%;color: white;">Profile</a>
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div>
+
 </div>

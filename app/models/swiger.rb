@@ -42,10 +42,12 @@ class Swiger < ActiveRecord::Base
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
         self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial, coupon_status: false, reward: self.bar.loyalty.reward_detail })
         unless self.user.access_token.blank?
-          me = FbGraph::User.me(user.access_token)
-          me.feed!(
-            :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name}"
-          )
+          if self.user.lock_fb_post.blank?
+            me = FbGraph::User.me(user.access_token)
+            me.feed!(
+              :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name}"
+            )
+          end
         end
       end
     end
@@ -149,10 +151,12 @@ class Swiger < ActiveRecord::Base
         self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
         ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
         unless user.access_token.blank?
-          me = FbGraph::User.me(user.access_token)
-          me.feed!(
-            :message => "#{user.name} just earned #{swig.deal} at #{swig.bar.name}"
-          )
+          if self.user.lock_fb_post.blank?
+            me = FbGraph::User.me(user.access_token)
+            me.feed!(
+              :message => "#{user.name} just earned #{swig.deal} at #{swig.bar.name}"
+            )
+          end
         end
       end
     end

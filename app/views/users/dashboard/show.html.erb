@@ -156,7 +156,7 @@
               <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
                 <%= f.input :password,label: false, placeholder: "Password" %>
                 <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
-                <%= f.input :current_password, label: false, placeholder: "Current Password" %>
+                <%#= f.input :current_password, label: false, placeholder: "Current Password" %>
                 <%= f.submit "Change Password" %>
               <% end %>
             </div>

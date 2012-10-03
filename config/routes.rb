@@ -25,7 +25,10 @@ Swprototype::Application.routes.draw do
   
   match "bars/city/:id" =>  "home#city", as: "city"
   get "live_swig_feed" =>  "home#live_swig_feed", as: "live_swig_feed"
-  
+#  post "set_time_zone" =>  "application#set_time_zone", as: "set_time_zone"
+  get "set_time_zone" =>  "application#set_time_zone", as: "set_time_zone"
+
+
   resource :home do
     collection do
       get "main" =>  "home#main", as: "main"
@@ -34,6 +37,7 @@ Swprototype::Application.routes.draw do
       post "create_contact_us" =>  "home#create_contact_us", as: "create_contact_us"
       get "bars_list_to_swig" =>  "home#bars_list_to_swig", as: "bars_list_to_swig"
       get "mobile_dashboard" =>  "home#mobile_dashboard", as: "mobile_dashboard"
+#      post "get_latitude_and_longitude_from_mobile/:data" =>  "home#get_latitude_and_longitude_from_mobile", as: "get_latitude_and_longitude_from_mobile"
     end
   end
 
@@ -156,6 +160,8 @@ Swprototype::Application.routes.draw do
     post "approve_friend/:id" => "friends#approve_friend", as: :approve_friend
     get  "swiger_list/:bar_id" => "bars#swiger_list", as: "swiger_list"
     get  "mobile_reward" => "dashboard#mobile_reward", as: "mobile_reward"
+    get  "lock_post_event" => "dashboard#lock_post_event", as: "lock_post_event"
+    get  "unlock_post_event" => "dashboard#unlock_post_event", as: "unlock_post_event"
 
     resources :messages do
       collection do

@@ -142,10 +142,10 @@ class Users::DashboardController < ApplicationController
       redirect_to :back, notice: "Update Failed!"
     end
   end
-  
+
   def update_password
-    @user = current_user
-    if @user.update_with_password(params[:user])
+    @user = User.find(current_user.id)
+    if @user.update_attributes(params[:user])
       sign_in @user, :bypass => true
       redirect_to :back, notice: "Update Success!"
     else
@@ -223,5 +223,18 @@ class Users::DashboardController < ApplicationController
     end
   end
 
+
+  def lock_post_event
+    current_user.update_attributes(lock_fb_post: true)
+    redirect_to :back
+  end
+
+  def unlock_post_event
+    current_user.update_attributes(lock_fb_post: nil)
+    redirect_to :back
+  end
+
+
+  
 end
 
