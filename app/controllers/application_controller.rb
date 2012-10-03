@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     end
 
     if request.xhr?
-      render :nothing => true
+#      render :nothing => true
     end
     #    if session["offset_#{set_current_ip}"].blank?
     #      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
