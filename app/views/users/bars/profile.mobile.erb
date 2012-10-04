@@ -1,0 +1,181 @@
+<div data-role="page" id="bar_homepage">
+  <div data-role="header" style="text-align: center;">
+    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
+      <h3><%= @bar.name %></h3>
+      <h4><%= @bar.full_address %></h4>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <p><%= @bar.bar_description %></p>
+    <ul class="tabs" data-tabs="tabs">
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h4>Mon</h4></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h4>Tue</h4></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h4>Wed</h4></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h4>Thu</h4></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h4>Fri</h4></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h4>Sat</h4></a></li>
+      <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h4>Sun</h4></a></li>
+    </ul>
+
+    <div id="my-tab-content" class="tab-content">
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
+        <% @swigs.standard.monday %>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
+        <% @swigs.standard.tuesday %>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
+        <% @swigs.standard.wednesday %>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
+        <% @swigs.standard.thursday %>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
+        <% @swigs.standard.friday %>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
+        <% @swigs.standard.saturday %>
+      </div>
+      <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
+        <% @swigs.standard.sunday %>
+      </div>
+    </div>
+  </div>
+
+  <div data-role="footer" data-position="fixed" style="width: 100%">
+    <div data-role="controlgroup" style="margin: 5px;width: 97%;">
+      <% if user_signed_in? %>
+        <%= link_to "SWIG!", users_enter_bar_path(@bar), method: :post, "data-role" => "button", style: "width: 100%;margin: 5px;" %>
+      <% end %>
+      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#bigswig_list_page" >Big Swig</a>
+      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#rewards_list_page" >Rewards</a>
+      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= main_home_path(:mobile)%>'" >CANCEL</a>
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div><!-- /footer -->
+</div>
+
+
+<div data-role="page" id="bigswig_list_page">
+  <div data-role="header" style="text-align: center;">
+    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
+      <h3><%= @bar.name %></h3>
+      <h4><%= @bar.full_address %></h4>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <div data-role="collapsible-set">
+      <div data-role="collapsible">
+        <h3>Moday</h3>
+        <% @big_swigs.monday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Tuesday</h3>
+        <% @big_swigs.tuesday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Wednesday</h3>
+        <% @big_swigs.wednesday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Thursday</h3>
+        <% @big_swigs.thursday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Friday</h3>
+        <% @big_swigs.friday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Saturday</h3>
+        <% @big_swigs.saturday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Sunday</h3>
+        <% @big_swigs.sunday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div data-role="footer" data-position="fixed" style="width: 100%">
+    <div data-role="controlgroup" style="margin: 5px;width: 97%;">
+      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#bar_homepage" >Big Swig</a>
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div>
+</div>
+
+<div data-role="page" id="rewards_list_page">
+  <div data-role="header" style="text-align: center;">
+    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
+      <h3><%= @bar.name %></h3>
+      <h4><%= @bar.full_address %></h4>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <div data-role="collapsible-set">
+      <div data-role="collapsible">
+        <h3>Sunday</h3>
+        <% @big_swigs.sunday.each do |swig| %>
+          <br/>
+          <%= swig.deal %>
+          <br/>
+          <%= swig.people %>
+          <br/>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div data-role="footer" data-position="fixed" style="width: 100%">
+    <div data-role="controlgroup" style="margin: 5px;width: 97%;">
+      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#bar_homepage" >Big Swig</a>
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div>
+</div>
+

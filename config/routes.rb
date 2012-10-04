@@ -162,6 +162,7 @@ Swprototype::Application.routes.draw do
     get  "mobile_reward" => "dashboard#mobile_reward", as: "mobile_reward"
     get  "lock_post_event" => "dashboard#lock_post_event", as: "lock_post_event"
     get  "unlock_post_event" => "dashboard#unlock_post_event", as: "unlock_post_event"
+    get  "bar_profile/:bar_id" => "bars#profile", as: "bar_profile"
 
     resources :messages do
       collection do

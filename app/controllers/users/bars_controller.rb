@@ -78,6 +78,28 @@ class Users::BarsController < ApplicationController
     @swigers = @bar.swigers.today.order("created_at DESC")
   end
 
+  def profile
+    @bar = Bar.find(params[:bar_id])
+    @swigs = @bar.swigs
+#    @big_swigs = @bar.swigs.big.group_by{ |s| s.swig_day }
+    @big_swigs = @bar.swigs.big
+    @total_swiggers = @bar.swigers.count
+    @swigers = @bar.swigers.today.limit(6) rescue nil
+    @popularity = @bar.popularity
+    @loyalty = @bar.loyalty
+    @monday_hour = @bar.bar_hours.where(day: "Monday")
+    @tuesday_hour = @bar.bar_hours.where(day: "Tuesday")
+    @wednesday_hour = @bar.bar_hours.where(day: "Wednesday")
+    @thurday_hour = @bar.bar_hours.where(day: "Thursday")
+    @friday_hour = @bar.bar_hours.where(day: "Friday")
+    @saturday_hour = @bar.bar_hours.where(day: "Saturday")
+    @sunday_hour = @bar.bar_hours.where(day: "Sunday")
+    respond_to do |format|
+      format.html
+      format.mobile
+    end
+  end
+
   #  def create_popularity
   #    @bar = Bar.find(params[:bar_id])
   #    if !params[:guess_ids].blank?

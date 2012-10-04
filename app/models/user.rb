@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   attr_accessor :authenticity_token
   attr_accessible :email, :password, :password_confirmation, :remember_me, :terms, :bird_date,
     :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen, :access_token,
-    :fb_id, :lock_status, :lock_fb_post
+    :fb_id, :lock_status, :lock_fb_post, :lock_fb_post_swigs
 
   extend  FriendlyId
 

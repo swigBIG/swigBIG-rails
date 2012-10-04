@@ -1,8 +1,5 @@
-
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <style type="text/css">
-  /*#map_home_canvas { height: 325px ; width: 820px;}*/
-  #map_home_canvas { height: 325px ; width: 95%;}
+  #map_home_canvas { height: 325px ; width: 98%;}
 </style>
 <style type="text/css">
   .string{margin-left: -80px;}
@@ -97,7 +94,7 @@
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
       <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
         <a href="#" data-toggle="tab" data-role="button" style="width: 49%;color: white;">LIST</a>
-        <a href="#bars_map_page" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 49%;color: white;">MAP</a>
+        <a href="#bars_map_page" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 47%;color: white;">MAP</a>
         <!--<a href="#bars_map_page" data-role="button" style="">Map</a>-->
         <!--<a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a>-->
       </div>
@@ -107,12 +104,12 @@
 
   <div data-role="content" >
     <table class="zebra-striped">
-      <th>Bar Name</th>
+      <th>Bar Nametest</th>
       <th>Distance</th>
       <tbody id="main_swigs_list">
         <% @bars.each do |bar| %>
           <tr>
-            <td><%= bar.name %></td>
+            <td><a onclick="window.location.href='<%= users_bar_profile_url(bar,:mobile) %>'"><%= bar.name %></a></td>
             <td><%=  begin
                 sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [bar.latitude, bar.longitude]))
               rescue
