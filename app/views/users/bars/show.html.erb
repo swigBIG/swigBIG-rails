@@ -83,16 +83,16 @@
     <div id="map_canvas" style="margin-left: -25px;">
   <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
-    <br />
-    <% if user_signed_in? %>
-      <% unless current_user.fb_id.blank? %>
+    <!--<br />
+    <%# if user_signed_in? %>
+      <%# unless current_user.fb_id.blank? %>
         <a class="btn" data-toggle="modal" href="#invite_modal">invite to <%= @bar.name %></a>
-      <% end %>
-    <% end %>
+      <%# end %>
+    <%# end %>
     <div class="clearfix"></div>
     <fieldset class="well" style="margin-left: -15px;">
-      <%= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
-    </fieldset>
+      <%#= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
+    </fieldset>-->
   <% end %>
 
   <%= content_for :profile_right_side do %>

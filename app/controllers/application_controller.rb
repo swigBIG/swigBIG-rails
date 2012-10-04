@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_time_zone
-    if request.xhr?
+    if request.xhr? and !params[:geo].blank?
       geo = Geokit::Geocoders::MultiGeocoder.geocode("#{params[:geo][:mobile_lat]},#{params[:geo][:mobile_lng]}")
       @city_lat_lng = [geo.city, params[:geo][:mobile_lat], params[:geo][:mobile_lng]]
       session["geo_#{set_current_ip}"] = @city_lat_lng
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
       Time.zone = 'Pacific Time (US & Canada)'
     end
 
-    if request.xhr?
+    if request.xhr? and !params[:geo].blank?
       render :nothing => true
     end
     #    if session["offset_#{set_current_ip}"].blank?
