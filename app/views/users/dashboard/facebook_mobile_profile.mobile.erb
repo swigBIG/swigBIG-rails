@@ -5,7 +5,12 @@
       <h3><%= @user.name.blank? ? @user.email : @user.name %></h3>
       <a href="#" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Profile</a>
       <a href="#fb_user_stat_page" data-toggle="tab" data-role="button" style="width: 49%;color: white;">Stats</a>
-
+      <% if notice %>
+        <div onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+      <% end %>
     </div>
   </div>
 
@@ -79,17 +84,17 @@
   </div>
 
   <div data-role="content" >
-    <b>This is page for activate and deactivate to posting swigbig event in facebook</b>
+    <b>This is page for activate and deactivate to posting swigbig event getting reward in facebook</b>
     <% if current_user.lock_fb_post.blank? %>
       <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="width: 99%;">Activate</a>
     <% else %>
       <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="width: 99%;">Deactivate</a>
     <% end %>
-    <b>This is page for activate and deactivate to posting swigbig event in facebook</b>
+    <b>This button for activate and deactivate to posting unlock Bigswig in facebook</b>
     <% if current_user.fb_post_swig.blank? %>
-      <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="width: 99%;">Activate</a>
+      <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_to_swigbig_unlock_url %>'"  style="width: 99%;">Activate</a>
     <% else %>
-      <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="width: 99%;">Deactivate</a>
+      <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_to_swigbig_unlock_url %>'"  style="width: 99%;">Deactivate</a>
     <% end %>
   </div>
   <div data-role="footer" data-position="fixed" style="width: 100%">
