@@ -224,23 +224,23 @@ class Users::DashboardController < ApplicationController
   end
 
   def lock_post_event
-    current_user.update_attributes(lock_fb_post: true)
-    redirect_to :back
+    message = current_user.update_attributes(lock_fb_post: true) ? "success block event status" : "failed block event status"
+    redirect_to :back, notice: message
   end
 
   def unlock_post_event
-    current_user.update_attributes(lock_fb_post: nil)
-    redirect_to :back
+    message = current_user.update_attributes(lock_fb_post: nil)  ? "success block event status" : "failed block event status"
+    redirect_to :back, notice: message
   end
 
   def lock_post_to_swigbig_unlock
-    current_user.update_attributes(fb_post_swig: true)
-    redirect_to :back
+    message = current_user.update_attributes(fb_post_swig: true)  ? "success block unlock bigswig event status" : "failed block unlock bigswig event status"
+    redirect_to :back, notice: message
   end
 
   def unlock_post_to_swigbig_unlock
-    current_user.update_attributes(fb_post_swig: nil)
-    redirect_to :back
+    message = current_user.update_attributes(fb_post_swig: nil)  ? "success block unlock bigswig event status" : "failed block unlock bigswig event status"
+    redirect_to :back, notice: message
   end
   
 end
