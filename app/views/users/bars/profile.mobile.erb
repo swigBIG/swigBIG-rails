@@ -1,46 +1,83 @@
+<style type="text/css">
+  #map_home_canvas { height: 325px ; width: 98%;}
+</style>
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+</script>
+<script type="text/javascript">
+  var condition = true
+  function initialize() {
+    if (condition){
+      condition = false;
+      var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
+      var myOptions = {
+        center: latlo,
+        zoom: 14,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map_home_canvas"),
+      myOptions);
+      var marker = new google.maps.Marker({
+        position: latlo,
+        map: map
+      });
+    }
+  }
+</script>
+
 <div data-role="page" id="bar_homepage">
   <div data-role="header" style="text-align: center;">
-    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
-      <h3><%= @bar.name %></h3>
-      <h4><%= @bar.full_address %></h4>
+    <div data-role="controlgroup" style="width: 100%;">
+      <h4><%= @bar.name %></h4>
+      <b><%= @bar.full_address %></b>
+      <a href="#bar_map_page" data-icon="arrow-r" data-role="button" class="ui-btn-right" onclick="initialize();">Map</a>
     </div>
   </div>
 
   <div data-role="content" >
     <p><%= @bar.bar_description %></p>
     <ul class="tabs" data-tabs="tabs">
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><h4>Mon</h4></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><h4>Tue</h4></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><h4>Wed</h4></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><h4>Thu</h4></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><h4>Fri</h4></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><h4>Sat</h4></a></li>
-      <li class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><h4>Sun</h4></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>"><a href="#monday" data-toggle="tab"><b>Mon</b></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>"><a href="#tuesday" data-toggle="tab"><b>Tue</b></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>"><a href="#wednesday" data-toggle="tab"><b>Wed</b></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>"><a href="#thursday" data-toggle="tab"><b>Thu</b></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>"><a href="#friday" data-toggle="tab"><b>Fri</b></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>"><a href="#saturday" data-toggle="tab"><b>Sat</b></a></li>
+      <li style="width: 14.1%;text-align: center;" class="<%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>"><a href="#sunday" data-toggle="tab"><b>Sun</b></a></li>
     </ul>
 
-    <div id="my-tab-content" class="tab-content">
+    <div class="tab-content">
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
-        <% @swigs.standard.monday %>
+        <%= @standard_swigs.monday.first.deal rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
-        <% @swigs.standard.tuesday %>
+        <%= @standard_swigs.tuesday.first.deal rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
-        <% @swigs.standard.wednesday %>
+        <%= @standard_swigs.wednesday.first.deal rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
-        <% @swigs.standard.thursday %>
+        <%= @standard_swigs.thursday.first.deal rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
-        <% @swigs.standard.friday %>
+        <%= @standard_swigs.friday.first.deal rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
-        <% @swigs.standard.saturday %>
+        <%= @standard_swigs.saturday.first.deal rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
-        <% @swigs.standard.sunday %>
+        <%= @standard_swigs.sunday.first.deal rescue nil %>
       </div>
     </div>
+    <ul data-role="listview" class="ui-listview with_thumbnail" data-inset="true">
+
+      <li>
+        <a href="#bigswig_list_page" >Big Swig</a>
+      </li>
+      <li>
+        <a href="#rewards_list_page" >Rewards</a>
+      </li>
+    </ul>
   </div>
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
@@ -48,8 +85,6 @@
       <% if user_signed_in? %>
         <%= link_to "SWIG!", users_enter_bar_path(@bar), method: :post, "data-role" => "button", style: "width: 100%;margin: 5px;" %>
       <% end %>
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#bigswig_list_page" >Big Swig</a>
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#rewards_list_page" >Rewards</a>
       <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= main_home_path(:mobile)%>'" >CANCEL</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
@@ -60,8 +95,8 @@
 <div data-role="page" id="bigswig_list_page">
   <div data-role="header" style="text-align: center;">
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
-      <h3><%= @bar.name %></h3>
-      <h4><%= @bar.full_address %></h4>
+      <h4><%= @bar.name %></h4>
+      <b><%= @bar.full_address %></b>
     </div>
   </div>
 
@@ -151,22 +186,24 @@
 <div data-role="page" id="rewards_list_page">
   <div data-role="header" style="text-align: center;">
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
-      <h3><%= @bar.name %></h3>
-      <h4><%= @bar.full_address %></h4>
+      <h4><%= @bar.name %></h4>
+      <b><%= @bar.full_address %></b>
     </div>
   </div>
 
   <div data-role="content" >
     <div data-role="collapsible-set">
       <div data-role="collapsible">
-        <h3>Sunday</h3>
-        <% @big_swigs.sunday.each do |swig| %>
-          <br/>
-          <%= swig.deal %>
-          <br/>
-          <%= swig.people %>
-          <br/>
-        <% end %>
+        <h3>Loyalty</h3>
+        <b>Reward: </b><%= "#{(@loyalty.reward_detail rescue 'Not set Yet!')}" %>
+        <br/>
+        <%= "Require Swig: #{(@loyalty.swigs_number rescue 'Not set Yet!')}" %>
+      </div>
+      <div data-role="collapsible">
+        <h3>Popularity</h3>
+        <b>Reward: </b><%= "#{@popularity.reward_detail rescue 'Not set Yet!'}" %>
+        <br/>
+        <%= "Require Swig: #{(@popularity.swig_number rescue 'Not set Yet!')}" %>
       </div>
     </div>
   </div>
@@ -179,3 +216,16 @@
   </div>
 </div>
 
+<div data-role="page" id="bar_map_page">
+  <div data-role="header" style="text-align: center;">
+    <div data-role="controlgroup" style="width: 100%;">
+      <h4><%= @bar.name %></h4>
+      <b><%= @bar.full_address %></b>
+      <a href="#bar_homepage" data-icon="arrow-r" data-role="button" class="ui-btn-right">Back</a>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <div id="map_home_canvas"></div>
+  </div>
+</div>

@@ -4,4 +4,6 @@
 *= require jquery.mobile
 *= require engage.itoggle
 *= require bootstrap
+*= require bootstrap-responsive
+*= require docs
 */

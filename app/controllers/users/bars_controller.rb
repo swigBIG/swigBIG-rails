@@ -80,8 +80,7 @@ class Users::BarsController < ApplicationController
 
   def profile
     @bar = Bar.find(params[:bar_id])
-    @swigs = @bar.swigs
-#    @big_swigs = @bar.swigs.big.group_by{ |s| s.swig_day }
+    @standard_swigs = @bar.swigs.standard
     @big_swigs = @bar.swigs.big
     @total_swiggers = @bar.swigers.count
     @swigers = @bar.swigers.today.limit(6) rescue nil

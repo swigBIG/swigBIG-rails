@@ -8,10 +8,6 @@ class HomeController < ApplicationController
   end
 
   def main
-    #    if is_mobile_view? and !user_signed_in?
-    #      redirect_to mobile_dashboard_home_url(:mobile)
-    #    else
-
     @city = City.where(name: @city_lat_lng[0].to_s).first
     conditions = []
     conditions << "swigs.swig_type = '#{params[:swig_type]}'" unless params[:swig_type].blank?
@@ -21,20 +17,21 @@ class HomeController < ApplicationController
     unless params[:radius].blank?
       @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
     else
+#      @bars = Bar.
       #      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND "))
-      @bars = Bar.within(25, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+#      @bars = Bar.within(25, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+      @bars = Bar.within( origin: @origin).includes(:swigs).where(conditions.join(" AND "))
     end
     unless params[:zip_code].blank?
+      dizip
       geo = Geocoder.search("#{params[:zip_code]},#{@city.name}").first
       @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
       @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(zip_code: params[:zip_code])
     end
-
     respond_to do |format|
       format.html
       format.mobile
     end
-    #    end
   end
 
   def city
@@ -81,9 +78,7 @@ class HomeController < ApplicationController
     @bars = Bar.near("#{@city_lat_lng[1]},#{@city_lat_lng[2]}", 2000, order: :distance)
   end
 
-  def mobile_dashboard
-  end
-
+  def mobile_dashboard;end
 end
 
 

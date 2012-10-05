@@ -537,7 +537,6 @@ class Bars::DashboardController < ApplicationController
   end
 
   def swigger_total_count
-    #    @total_swiger = current_bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours]).count
     @total_swiger = current_bar.swigers.count
   end
 
