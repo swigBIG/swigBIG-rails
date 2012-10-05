@@ -20,7 +20,7 @@ ActiveAdmin.register RewardPolicy do
         b.popularity_expirate_hours
       end
       row :expire_within do
-        b.popularity_expirate_hours
+        b.expire_within
       end
     end
   end
