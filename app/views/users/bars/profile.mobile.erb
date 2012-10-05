@@ -48,25 +48,25 @@
 
     <div class="tab-content">
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Monday') ? 'active' : '' %>" id="monday">
-        <%= @standard_swigs.monday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.monday.first.deal) rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Tuesday') ? 'active' : '' %>" id="tuesday">
-        <%= @standard_swigs.tuesday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.tuesday.first.deal) rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Wednesday') ? 'active' : '' %>" id="wednesday">
-        <%= @standard_swigs.wednesday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.wednesday.first.deal) rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Thursday') ? 'active' : '' %>" id="thursday">
-        <%= @standard_swigs.thursday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.thursday.first.deal) rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Friday') ? 'active' : '' %>" id="friday">
-        <%= @standard_swigs.friday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.friday.first.deal) rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Saturday') ? 'active' : '' %>" id="saturday">
-        <%= @standard_swigs.saturday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.saturday.first.deal) rescue nil %>
       </div>
       <div class="tab-pane <%= Time.zone.now.strftime('%A').eql?('Sunday') ? 'active' : '' %>" id="sunday">
-        <%= @standard_swigs.sunday.first.deal rescue nil %>
+        <%= n_line(@standard_swigs.sunday.first.deal) rescue nil %>
       </div>
     </div>
     <ul data-role="listview" class="ui-listview with_thumbnail" data-inset="true">
@@ -85,7 +85,7 @@
       <% if user_signed_in? %>
         <%= link_to "SWIG!", users_enter_bar_path(@bar), method: :post, "data-role" => "button", style: "width: 100%;margin: 5px;" %>
       <% end %>
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= main_home_path(:mobile)%>'" >CANCEL</a>
+      <!--<a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%#= main_home_path(:mobile)%>'" >CANCEL</a>-->
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div><!-- /footer -->
@@ -104,71 +104,71 @@
     <div data-role="collapsible-set">
       <div data-role="collapsible">
         <h3>Moday</h3>
-        <% @big_swigs.monday.each do |swig| %>
+        <% @big_swigs.monday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
       <div data-role="collapsible">
         <h3>Tuesday</h3>
-        <% @big_swigs.tuesday.each do |swig| %>
+        <% @big_swigs.tuesday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
       <div data-role="collapsible">
         <h3>Wednesday</h3>
-        <% @big_swigs.wednesday.each do |swig| %>
+        <% @big_swigs.wednesday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
       <div data-role="collapsible">
         <h3>Thursday</h3>
-        <% @big_swigs.thursday.each do |swig| %>
+        <% @big_swigs.thursday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
       <div data-role="collapsible">
         <h3>Friday</h3>
-        <% @big_swigs.friday.each do |swig| %>
+        <% @big_swigs.friday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
       <div data-role="collapsible">
         <h3>Saturday</h3>
-        <% @big_swigs.saturday.each do |swig| %>
+        <% @big_swigs.saturday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
       <div data-role="collapsible">
         <h3>Sunday</h3>
-        <% @big_swigs.sunday.each do |swig| %>
+        <% @big_swigs.sunday.order("people").each do |swig| %>
           <br/>
           <%= swig.deal %>
           <br/>
-          <%= swig.people %>
+          <b>People Require: </b><%= swig.people %>&nbsp;<%= swig.lock_status.blank? ? image_tag("/assets/Lock-icon.png", style: "height: 30px;") : image_tag("/assets/Unlock-icon.png", style: "height: 30px;") %>
           <br/>
         <% end %>
       </div>
