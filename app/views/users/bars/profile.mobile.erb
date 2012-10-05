@@ -31,6 +31,12 @@
       <h4><%= @bar.name %></h4>
       <b><%= @bar.full_address %></b>
       <a href="#bar_map_page" data-icon="arrow-r" data-role="button" class="ui-btn-right" onclick="initialize();">Map</a>
+      <% if notice %>
+        <div onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+      <% end %>
     </div>
   </div>
 
@@ -83,9 +89,10 @@
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
       <% if user_signed_in? %>
-        <%= link_to "SWIG!", users_enter_bar_path(@bar), method: :post, "data-role" => "button", style: "width: 100%;margin: 5px;" %>
+        <%= link_to "Swig!", users_enter_bar_path(@bar), method: :delete, style: "width: 100%", "data-role" => "button", "data-ajax" => "false"  %>
+        <%= link_to "MSWIG!", users_mobile_swigging_path(@bar), "data-role" => "button", style: "width: 100%;margin: 5px;", "data-ajax" => "false" %>
+        <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" data-ajax="false" onclick="window.location.href='<%= users_enter_bar_path(@bar) %>'" >SWIG!</a>
       <% end %>
-      <!--<a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%#= main_home_path(:mobile)%>'" >CANCEL</a>-->
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div><!-- /footer -->
@@ -97,6 +104,7 @@
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
       <h4><%= @bar.name %></h4>
       <b><%= @bar.full_address %></b>
+      <a href="#bar_homepage" data-icon="arrow-r" data-role="button" class="ui-btn-right">Back</a>
     </div>
   </div>
 
@@ -177,7 +185,6 @@
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#bar_homepage" >Big Swig</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div>
@@ -188,6 +195,7 @@
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
       <h4><%= @bar.name %></h4>
       <b><%= @bar.full_address %></b>
+      <a href="#bar_homepage" data-icon="arrow-r" data-role="button" class="ui-btn-right">Back</a>
     </div>
   </div>
 
@@ -210,7 +218,6 @@
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" href="#bar_homepage" >Big Swig</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div>

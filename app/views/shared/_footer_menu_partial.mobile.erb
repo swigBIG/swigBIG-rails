@@ -1,18 +1,21 @@
 <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;" >
+
   <% unless user_signed_in? %>
+
     <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 49%;">DEALS</a>
     <a class="" data-role="button" onclick="window.location.href='<%= mobile_dashboard_home_url(:mobile) %>'"  style="width: 49%;">LOG IN</a>
+
   <% else %>
+
     <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 33%;">Deals</a>
     <a class="" data-role="button" onclick="window.location.href='<%= users_mobile_reward_url(:mobile) %>'"  style="width: 33%;">Rewards</a>
 
-    <%#= link_to "Rewards", users_mobile_reward_url(:mobile), "data-role" => "button", style: "width: 33%;"  %>
     <% unless current_user.fb_id.blank? %>
-    <%#= link_to "Account", users_facebook_mobile_profile_url(:mobile), "data-role" => "button", style: "width: 33%;"  %>
       <a class="" data-role="button" onclick="window.location.href='<%= users_facebook_mobile_profile_url(:mobile) %>'"  style="width: 33%;">Account</a>
     <% else %>
-    <%#= link_to "", users_dashboard_url(:mobile, rr: "to_reload" ), "data-role" => "button", style: "width: 33%;", rr: "to_reload"  %>
       <a class="" data-role="button" onclick="window.location.href='<%= users_dashboard_url(:mobile) %>'"  style="width: 33%;">Account</a>
     <% end %>
+
   <% end %>
+
 </div>
