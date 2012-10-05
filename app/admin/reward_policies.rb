@@ -6,6 +6,7 @@ ActiveAdmin.register RewardPolicy do
   index do
     column :loyalty_expirate_date
     column :popularity_expirate_hours
+    column :expire_within
     default_actions
   end
 
@@ -18,6 +19,9 @@ ActiveAdmin.register RewardPolicy do
       row :popularity_expirate_hours do
         b.popularity_expirate_hours
       end
+      row :expire_within do
+        b.popularity_expirate_hours
+      end
     end
   end
 
@@ -25,6 +29,7 @@ ActiveAdmin.register RewardPolicy do
     f.inputs "Adding Reward policy to set expired" do
       f.input :loyalty_expirate_date
       f.input :popularity_expirate_hours
+      f.input :expire_within
     end
     f.buttons
   end
