@@ -1,7 +1,14 @@
 class Users::SessionsController < Devise::SessionsController
   layout "users"
 
-  skip_before_filter :verify_authenticity_token, :authenticate_user!, only: :destroy
+  include Mobylette::RespondToMobileRequests
+
+  mobylette_config do |config|
+    config[:fallback_chains] = { mobile: [:mobile, :html] }
+    config[:skip_xhr_requests] = false
+  end
+
+  #skip_before_filter :verify_authenticity_token, :authenticate_user!, only: :destroy
   before_filter :set_access_control_headers
 
   #  def create

@@ -223,7 +223,6 @@ class Users::DashboardController < ApplicationController
     end
   end
 
-
   def lock_post_event
     current_user.update_attributes(lock_fb_post: true)
     redirect_to :back
@@ -234,7 +233,15 @@ class Users::DashboardController < ApplicationController
     redirect_to :back
   end
 
+  def lock_post_to_swigbig_unlock
+    current_user.update_attributes(fb_post_swig: true)
+    redirect_to :back
+  end
 
+  def unlock_post_to_swigbig_unlock
+    current_user.update_attributes(fb_post_swig: nil)
+    redirect_to :back
+  end
   
 end
 

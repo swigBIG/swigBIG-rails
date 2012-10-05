@@ -162,6 +162,8 @@ Swprototype::Application.routes.draw do
     get  "mobile_reward" => "dashboard#mobile_reward", as: "mobile_reward"
     get  "lock_post_event" => "dashboard#lock_post_event", as: "lock_post_event"
     get  "unlock_post_event" => "dashboard#unlock_post_event", as: "unlock_post_event"
+    get  "lock_post_to_swigbig_unlock" => "dashboard#lock_post_to_swigbig_unlock", as: "lock_post_to_swigbig_unlock"
+    get  "unlock_post_to_swigbig_unlock" => "dashboard#unlock_post_to_swigbig_unlock", as: "unlock_post_to_swigbig_unlock"
     get  "bar_profile/:bar_id" => "bars#profile", as: "bar_profile"
     match  "mobile_swigging/:bar_id" => "bar_swigs#mobile_swigging", as: "mobile_swigging"
 

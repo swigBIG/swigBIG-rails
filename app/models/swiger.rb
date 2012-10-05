@@ -151,7 +151,7 @@ class Swiger < ActiveRecord::Base
         self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
         ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
         unless user.access_token.blank?
-          if self.user.lock_fb_post.blank?
+          if self.user.fb_post_swig.blank?
             me = FbGraph::User.me(user.access_token)
             me.feed!(
               :message => "#{user.name} just earned #{swig.deal} at #{swig.bar.name}"

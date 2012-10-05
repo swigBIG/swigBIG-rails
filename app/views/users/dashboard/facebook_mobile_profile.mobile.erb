@@ -85,6 +85,12 @@
     <% else %>
       <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="width: 99%;">Deactivate</a>
     <% end %>
+    <b>This is page for activate and deactivate to posting swigbig event in facebook</b>
+    <% if current_user.fb_post_swig.blank? %>
+      <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="width: 99%;">Activate</a>
+    <% else %>
+      <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="width: 99%;">Deactivate</a>
+    <% end %>
   </div>
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 99%;">
