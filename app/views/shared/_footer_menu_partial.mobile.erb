@@ -7,7 +7,7 @@
 
   <% else %>
 
-    <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 33%;">Deals</a>
+    <a class="" data-role="button" onclick="window.location.href='<%= root_url %>'"  style="width: 33%;">Deals</a>
     <a class="" data-role="button" onclick="window.location.href='<%= users_mobile_reward_url(:mobile) %>'"  style="width: 33%;">Rewards</a>
 
     <% unless current_user.fb_id.blank? %>
