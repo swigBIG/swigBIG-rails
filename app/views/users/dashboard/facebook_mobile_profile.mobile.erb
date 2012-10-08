@@ -1,3 +1,25 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+  });
+  function fb_posting_status(){
+    if ($('#post_options').val() == "on"){
+      $('#goto_on_post_reward').click()
+    }
+    else if ($('#post_options').val() == "off"){
+      $('#goto_off_post_reward').click()
+    }
+  }
+
+  function fb_posting_swig_status(){
+    if ($('#post_options').val() == "on"){
+      $('#goto_on_post_unlock_bigswig').click()
+    }
+    else if ($('#post_options').val() == "off"){
+      $('#goto_off_post_unlock_bigswig').click()
+    }
+  }
+</script>
+
 <div data-role="page" id="fb_user_profile_page">
   <div data-role="header"  style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
@@ -85,17 +107,34 @@
 
   <div data-role="content" >
     <b>This is page for activate and deactivate to posting swigbig event getting reward in facebook</b>
-    <% if current_user.lock_fb_post.blank? %>
-      <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="width: 99%;">Activate</a>
-    <% else %>
-      <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="width: 99%;">Deactivate</a>
-    <% end %>
-    <b>This button for activate and deactivate to posting unlock Bigswig in facebook</b>
-    <% if current_user.fb_post_swig.blank? %>
-      <a class="" data-role="button" onclick="window.location.href='<%= users_lock_post_to_swigbig_unlock_url %>'"  style="width: 99%;">Activate</a>
-    <% else %>
-      <a class="" data-role="button" onclick="window.location.href='<%= users_unlock_post_to_swigbig_unlock_url %>'"  style="width: 99%;">Deactivate</a>
-    <% end %>
+    <br/>
+    <select id="post_options" data-role="slider" onchange="fb_posting_status()">
+      <% if current_user.lock_fb_post %>
+        <option value="on">ON</option>
+        <option value="off" selected="selected">OFF</option>
+      <% else %>
+        <option value="on" selected="selected">ON</option>
+        <option value="off">OFF</option>
+      <% end %>
+    </select><br/>
+
+    <b>This button for activate and deactivate to posting unlock Bigswig in facebook</b><br/>
+
+    <select id="post_swig_options" data-role="slider" onchange="fb_posting_swig_status()">
+      <% if current_user.fb_post_swig %>
+        <option value="on">ON</option>
+        <option value="off" selected="selected">OFF</option>
+      <% else %>
+        <option value="on" selected="selected">ON</option>
+        <option value="off">OFF</option>
+      <% end %>
+    </select>
+
+    <a id="goto_off_post_reward" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="display: none;">Activate</a>
+    <a id="goto_on_post_reward" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="display: none;">Deactivate</a>
+    <a id="goto_off_post_unlock_bigswig" data-role="button" onclick="window.location.href='<%= users_lock_post_to_swigbig_unlock_url %>'"  style="display: none;">Activate</a>
+    <a id="goto_on_post_unlock_bigswig" data-role="button" onclick="window.location.href='<%= users_unlock_post_to_swigbig_unlock_url %>'"  style="display: none;">Deactivate</a>
+
   </div>
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 99%;">

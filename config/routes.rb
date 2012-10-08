@@ -37,6 +37,7 @@ Swprototype::Application.routes.draw do
       post "create_contact_us" =>  "home#create_contact_us", as: "create_contact_us"
       get "bars_list_to_swig" =>  "home#bars_list_to_swig", as: "bars_list_to_swig"
       get "mobile_dashboard" =>  "home#mobile_dashboard", as: "mobile_dashboard"
+      match "sign_out_turning_point" =>  "home#sign_out_turning_point", as: "sign_out_turning_point"
       #      post "get_latitude_and_longitude_from_mobile/:data" =>  "home#get_latitude_and_longitude_from_mobile", as: "get_latitude_and_longitude_from_mobile"
     end
   end
@@ -166,6 +167,7 @@ Swprototype::Application.routes.draw do
     get  "unlock_post_to_swigbig_unlock" => "dashboard#unlock_post_to_swigbig_unlock", as: "unlock_post_to_swigbig_unlock"
     get  "bar_profile/:bar_id" => "bars#profile", as: "bar_profile"
     match  "mobile_swigging/:bar_id" => "bar_swigs#mobile_swigging", as: "mobile_swigging"
+    get  "sign_out_for_mobile" => "dashboard#sign_out_for_mobile", as: "sign_out_for_mobile"
 
     resources :messages do
       collection do
