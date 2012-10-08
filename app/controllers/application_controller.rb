@@ -36,8 +36,9 @@ class ApplicationController < ActionController::Base
     end
 
     if @city_lat_lng
-      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
-      Time.zone = timezone.zone
+      raise @city_lat_lng
+      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]]) rescue nil
+      Time.zone = timezone.zone rescue nil
     else
       Time.zone = 'Pacific Time (US & Canada)'
     end
@@ -76,9 +77,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_ip
-    return request.remote_ip.to_s if Rails.env.eql?("development")
+    #    return request.remote_ip.to_s if Rails.env.eql?("development")
     #    "75.85.54.184"
-    #    "64.90.182.55"
+    "64.90.182.55"
     #    '180.246.28.94'
     #    '75.85.48.139'
   end
