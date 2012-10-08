@@ -3,11 +3,12 @@
     <%= render partial: "shared/swigbig_logo" %>
     <div data-role="controlgroup" style="margin: 5px;width: 100%;">
       <h3><%= "#{@bar.name} Big Swigs" %></h3>
+      <a data-icon="home" onclick="window.location.href='<%= main_home_path(:mobile)%>'" data-role="button" class="ui-btn-right">Back</a>
       <% if notice %>
-        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+        <div onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
       <% end %>
       <% if alert %>
-        <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+        <div onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
       <% end %>
     </div>
   </div>
@@ -27,8 +28,9 @@
 
     <div data-role="footer" data-position="fixed" style="width: 100%">
       <div data-role="controlgroup" style="margin: 5px;width: 97%;">
-        <%= link_to "SWIG!", users_enter_bar_path(@bar), method: :post, "data-role" => "button", style: "width: 100%;margin: 5px;" %>
-        <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= main_home_path(:mobile)%>'" >CANCEL</a>
+        <% if user_signed_in? %>
+          <%= link_to "SWIG!", users_mobile_swigging_path(@bar), "data-role" => "button", style: "width: 100%;margin: 5px;", "data-ajax" => "false" %>
+        <% end %>
         <%= render partial: "shared/footer_menu_partial" %>
       </div>
     </div><!-- /footer -->
