@@ -36,7 +36,6 @@ class ApplicationController < ActionController::Base
     end
 
     if @city_lat_lng
-      raise @city_lat_lng
       timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]]) rescue nil
       Time.zone = timezone.zone rescue nil
     else
