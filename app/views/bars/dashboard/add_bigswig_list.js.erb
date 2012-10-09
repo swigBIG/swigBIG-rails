@@ -2,6 +2,15 @@ var days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", 
 
 $("#big_swig_list_partial").html('<%=j(render partial: "big_swig_list_to_delete_or_update") %>');
 $("#big_swig_list_partial_text").text('Add Success!');
+$(".add_bigswig_text").show();
+
+$(function() {
+var timer = setTimeout( showDiv, 3000);
+var counter = 0;
+function showDiv() {
+$(".add_bigswig_text").hide();
+}
+});
 
 for(var i = 0; i <= 6; i++)
 for(var j = 1; j <= 4; j++)
