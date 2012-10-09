@@ -229,7 +229,7 @@ class Users::DashboardController < ApplicationController
   end
 
   def unlock_post_event
-    message = current_user.update_attributes(lock_fb_post: nil)  ? "success block event status" : "failed block event status"
+    message = current_user.update_attributes(lock_fb_post: false)  ? "success block event status" : "failed block event status"
     redirect_to :back, notice: message
   end
 
@@ -239,8 +239,18 @@ class Users::DashboardController < ApplicationController
   end
 
   def unlock_post_to_swigbig_unlock
-    message = current_user.update_attributes(fb_post_swig: nil)  ? "success block unlock bigswig event status" : "failed block unlock bigswig event status"
+    message = current_user.update_attributes(fb_post_swig: false)  ? "success block unlock bigswig event status" : "failed block unlock bigswig event status"
     redirect_to :back, notice: message
+  end
+
+  def sign_out_for_mobile
+    redirect_path = after_sign_out_path_for(resource_name)
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
+
+    # We actually need to hardcode this as Rails default responder doesn't
+    # support returning empty response on GET request
+    redirect_to redirect_path
   end
   
 end

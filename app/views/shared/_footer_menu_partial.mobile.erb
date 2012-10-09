@@ -2,7 +2,7 @@
 
   <% unless user_signed_in? %>
 
-    <a class="" data-role="button" onclick="window.location.href='<%= main_home_url(:mobile) %>'"  style="width: 49%;">DEALS</a>
+    <a class="" data-role="button" onclick="window.location.href='<%= root_url %>'"  style="width: 49%;">DEALS</a>
     <a class="" data-role="button" onclick="window.location.href='<%= mobile_dashboard_home_url(:mobile) %>'"  style="width: 49%;">LOG IN</a>
 
   <% else %>
