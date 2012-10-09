@@ -13,7 +13,7 @@
       <tbody id="main_swigs_list">
         <% @bars.each do |bar| %>
           <tr>
-            <td><%= link_to  bar.name, bar_profile_path(bar,:mobile) %></td>
+            <td><a onclick="window.location.href='<%= users_bar_profile_url(bar,:mobile) %>'"><%= bar.name %></a></td>
             <td><%=  begin
                 sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [bar.latitude, bar.longitude]))
               rescue

@@ -30,10 +30,6 @@
     <div data-role="controlgroup" style="width: 100%;">
       <h4><%= @bar.name %></h4>
       <b><%= @bar.full_address %></b>
-      <br/>
-      <b><%= @city_lat_lng[0] %></b>,
-      <b><%= @city_lat_lng[1] %></b>,
-      <b><%= @city_lat_lng[2] %></b>
       <a href="#bar_map_page" data-icon="arrow-r" data-role="button" class="ui-btn-right" onclick="initialize();">Map</a>
       <% if notice %>
         <div onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
@@ -94,8 +90,6 @@
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
       <% if user_signed_in? %>
         <% @city_lat_lng %>
-        <%= sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [@bar.latitude, @bar.longitude])) %>
-        <%= @valid_radius_for_swigging %>
         <% if sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [@bar.latitude, @bar.longitude])).to_f <= @valid_radius_for_swigging%>
           <%= link_to "SWIG!", users_mobile_swigging_path(@bar), "data-role" => "button", style: "width: 100%;margin: 5px;", "data-ajax" => "false" %>
         <% else %>
