@@ -20,8 +20,12 @@ class HomeController < ApplicationController
     else
       #      @bars = Bar.
       #      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND "))
-      #      @bars = Bar.within(25, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
-      @bars = Bar.within( origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+      #      @bars = Bar.within(1100, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+      if is_mobile_request?
+        @bars = Bar.within(10,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin).take(5)
+      else
+        @bars = Bar.within(10,origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+      end
     end
     
     unless params[:zip_code].blank?
@@ -78,8 +82,8 @@ class HomeController < ApplicationController
 
   def bars_list_to_swig
     conditions = ["swigs.swig_day = '#{Time.zone.now.strftime("%A").to_s}'"]
-    @bars = Bar.within(25, origin: [@city_lat_lng[1], @city_lat_lng[2]]).includes(:swigs).where(conditions.join(" AND "))
-    #@bars = Bar.near("#{@city_lat_lng[1]},#{@city_lat_lng[2]}", 2000, order: :distance)
+    @bars = Bar.within(@valid_radius_for_swigging, origin: [@city_lat_lng[1], @city_lat_lng[2]], order: "distance DESC").includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from([@city_lat_lng[1], @city_lat_lng[2]])
+    #    @bars = Bar.within( origin: @origin, order: "distance DESC").includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)
   end
 
   def mobile_dashboard;end

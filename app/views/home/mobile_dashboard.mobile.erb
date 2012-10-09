@@ -87,7 +87,7 @@
         </div>
 
         <div data-role="content" >
-          <%= @site_content.term_of_service.html_safe %>
+          <%= @site_content.term_of_service.html_safe rescue "Not set Yet!" %>
         </div><!-- /content -->
 
         <div data-role="footer" data-position="fixed" style="width: 100%">
