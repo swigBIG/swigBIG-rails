@@ -66,6 +66,7 @@ class ApplicationController < ActionController::Base
     @radius_for_swigger = RadiusSwigger.first.radius rescue 100
     @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
+    @valid_radius_for_swigging = RadiusSwigging.first.radius rescue 1
   end
 
   protected
