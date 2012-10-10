@@ -64,9 +64,11 @@ class ApplicationController < ActionController::Base
     @user_swig_feed = ActivityStream.last
     @test = request.remote_ip
     @radius_for_swigger = RadiusSwigger.first.radius rescue 100
-    @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 0
+    @loyalty_reward_policy = RewardPolicy.first.loyalty_expirate_date rescue 10
     @popularity_reward_policy = RewardPolicy.first.popularity_expirate_hours rescue 6
+    @expirate_within_to_expire = RewardPolicy.first.expirate_within rescue 10
     @valid_radius_for_swigging = RadiusSwigging.first.radius rescue 1
+    @radius_to_show_in_mobile_list = RadiusToShowBarInMobile.first.radius rescue 10
   end
 
   protected

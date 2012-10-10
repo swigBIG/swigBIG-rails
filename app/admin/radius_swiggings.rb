@@ -3,6 +3,11 @@ ActiveAdmin.register RadiusSwigging do
 
   filter false
 
+  index do
+    column :radius
+    default_actions
+  end
+
   form do |f|
     f.inputs "to validate for swigging!(note: it will be 1 mile in default)" do
       f.input :radius
