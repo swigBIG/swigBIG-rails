@@ -101,5 +101,8 @@ module ApplicationHelper
     (reward_date + (@loyalty_reward_policy rescue 0).days).strftime("%v")
   end
 
+  def counting_day(day)
+    (day - Date.today).to_i
+  end
  
 end

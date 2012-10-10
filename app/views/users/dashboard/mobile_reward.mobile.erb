@@ -2,22 +2,26 @@
   <div data-role="header" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
     <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
-      <h3><%= @user.name %> rewards</h3>
-      <a data-role="button" style="width: 49%;" class="btn-primary">Expiring Soon</a>
-      <a href="expiring_soon" data-role="button" style="width: 49%;" class="btn-primary">Expiring Soon</a>
+      <h3><%= @user.name rescue @user.email %> rewards</h3>
+      <a data-role="button" style="width: 49%;" class="btn-primary">Rewards</a>
+      <a href="#expiring_soon" data-role="button" style="width: 49%;">Expiring Soon</a>
     </div>
   </div>
 
   <div data-role="content" >
     <div data-role="collapsible-set">
       <% @reward.each do |reward| %>
-        <div data-role="collapsible">
-          <h5><%= reward.sent_messageable.name %></h5>
+        <div data-role="collapsible" data-mini="true" data-content-theme="b" >
+          <h6><%= reward.sent_messageable.name %></h6>
           <b>Serial code: </b><%= reward.coupon %>
           <br/>
           <b>Date : </b><%= reward.created_at.strftime("%v") %>
           <br/>
           <b>Reward : </b><%= reward.reward %>
+          <br/>
+          <b>Expirate Reward : </b><%= reward.expirate_reward.strftime("%v") %>
+          <br/>
+          <b>Days Remain : </b><%= counting_day(reward.expirate_reward) %>
         </div>
       <% end %>
     </div>
@@ -35,18 +39,17 @@
 <div data-role="page" id="expiring_soon" >
   <div data-role="header" style="text-align: center;">
     <%= render partial: "shared/swigbig_logo" %>
-    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
-      <h3><%= @user.name %> rewards</h3>
-      <a href="swig_list_page" data-role="button" style="width: 49%;">Reward</a>
+    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+      <h3><%= @user.name rescue @user.email %> rewards</h3>
+      <a href="#swig_list_page" data-role="button" style="width: 49%;">Reward</a>
       <a data-role="button" style="width: 49%;">Expiring Soon</a>
     </div>
   </div>
 
   <div data-role="content" >
-
     <div data-role="collapsible-set">
-      <% @reward.each do |reward| %>
-        <div data-role="collapsible">
+      <% @reward_to_expirate.each do |reward| %>
+        <div data-role="collapsible" data-mini="true" data-content-theme="b" >
           <h5><%= reward.sent_messageable.name %></h5>
           <b>Serial code: </b><%= reward.coupon %>
           <br/>

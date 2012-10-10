@@ -1,5 +1,5 @@
 class RewardPolicy < ActiveRecord::Base
-  attr_accessible :loyalty_expirate_date, :popularity_expirate_hours, :expire_within
+  attr_accessible :loyalty_expirate_date, :popularity_expirate_hours, :expire_within, :time_between_swig
 
-  validates :loyalty_expirate_date, :popularity_expirate_hours, :expire_within, :numericality => true
+  validates :loyalty_expirate_date, :popularity_expirate_hours, :expire_within,:time_between_swig, :numericality => true
 end

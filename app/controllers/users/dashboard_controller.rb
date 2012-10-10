@@ -202,6 +202,7 @@ class Users::DashboardController < ApplicationController
   def mobile_reward
     @user = current_user
     @reward = current_user.messages.where(["category = (?) OR category = (?)", 9, 16]).order("created_at DESC")
+    @reward_to_expirate = current_user.messages.expirate_reward_soon.where(["category = (?) OR category = (?)", 9, 16]).order("expirate_reward DESC")
   end
 
   def facebook_mobile_profile

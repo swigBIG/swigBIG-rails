@@ -40,7 +40,13 @@ class Swiger < ActiveRecord::Base
           end
         end
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
-        self.bar.send_message(self.user, {topic: "You got loyalty reward from #{self.bar.name}", body: "You got reward from #{self.bar.name} and your coupon: #{serial}", category: 16, coupon: serial, coupon_status: false, reward: self.bar.loyalty.reward_detail })
+        self.bar.send_message(self.user, {
+            topic: "You got loyalty reward from #{self.bar.name}",
+            body: "You got reward from #{self.bar.name} and your coupon: #{serial}",
+            category: 16, coupon: serial, coupon_status: false,
+            reward: self.bar.loyalty.reward_detail,
+            expirate_reward: (self.created_at + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days)
+          })
         unless self.user.access_token.blank?
           if self.user.lock_fb_post.blank?
             me = FbGraph::User.me(user.access_token)
@@ -87,10 +93,11 @@ class Swiger < ActiveRecord::Base
           self.errors.add("time and distance", "#{self.bar.name} is Close!")
         elsif (Chronic.parse("now") >= Chronic.parse(bar_hour.open_time)) && (Chronic.parse("now") <= bar_hour.close_time)
           user_swig = self.user.swigers.last
-          radius = BarRadius.where(status: true).first.distance rescue 25
+          radius = BarRadius.where(status: true).first.distance rescue 1
           unless user_swig.blank?
-            if (Chronic.parse("now") - user_swig.created_at) >= 3600
-              self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
+            time_between_swigging = (RewardPolicy.first.time_between_swig rescue 1) * 3600
+            if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
+              self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
               ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               return true
             else
@@ -98,14 +105,14 @@ class Swiger < ActiveRecord::Base
                 unless (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
                   return true
                 else
-                  self.errors.add("time and distance", "Permision denied(Near Bar)!")
+                  self.errors.add("time and distance", "Permision denied(Near Bar)! you must swigging at another bar atleast #{radius}.miles.")
                 end
               else
-                self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((60 - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
+                self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((((RewardPolicy.first.time_between_swig rescue 1) * 60) - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
               end
             end
           else
-            self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )
+            self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
             ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             return true
           end

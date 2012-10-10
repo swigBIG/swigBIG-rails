@@ -76,14 +76,18 @@ class Bar < ActiveRecord::Base
   end
 
   def set_full_address
-    self.full_address = "#{self.address},#{self.city},#{self.zip_code}, United States"
+    unless self.address.blank?
+      self.full_address = "#{self.address},#{self.city},#{self.zip_code}, United States"
+    end
   end
 
   def locate
-    loc = MultiGeocoder.geocode(set_full_address)
-    if loc.success
-      self.latitude = loc.lat
-      self.longitude = loc.lng
+    unless self.address.blank? 
+      loc = MultiGeocoder.geocode(set_full_address)
+      if loc.success
+        self.latitude = loc.lat
+        self.longitude = loc.lng
+      end
     end
   end
 
