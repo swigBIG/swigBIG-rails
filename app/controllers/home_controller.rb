@@ -22,7 +22,7 @@ class HomeController < ApplicationController
       #      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND "))
       #      @bars = Bar.within(1100, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
       if is_mobile_request?
-        @bars = Bar.within(10,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin).take(5)
+        @bars = Bar.within(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin).take(5)
       else
         @bars = Bar.within(10,origin: @origin).includes(:swigs).where(conditions.join(" AND "))
       end
