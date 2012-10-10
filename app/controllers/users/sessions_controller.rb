@@ -49,7 +49,8 @@ class Users::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(resource)
     if is_mobile_request?
-      main_home_url(:mobile)
+#      main_home_url(:mobile)
+      root_url
     else
       root_url
     end
@@ -58,8 +59,6 @@ class Users::SessionsController < Devise::SessionsController
   
 
   #  def destroy
-  #    puts "@" *80
-  #    puts params
   #    redirect_path = after_sign_out_path_for(resource_name, params[:format])
   #    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
   #    set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
