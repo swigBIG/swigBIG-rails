@@ -1,4 +1,5 @@
 ActiveAdmin.register RewardPolicy, as: "time_between_swigs" do
+  menu label: "Time Between Swig", parent: "Site Settings"
 
   filter :loyalty_expirate_date
   filter :popularity_expirate_hours
