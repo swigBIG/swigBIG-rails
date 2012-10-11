@@ -13,13 +13,15 @@ ActiveAdmin.register SportTeam do
   show do |b|
 
     attributes_table do
+
       row :team_name do
-        
         b.team_name
       end
+
       row :category do
         b.category
       end
+
     end
   end
 
@@ -28,6 +30,8 @@ ActiveAdmin.register SportTeam do
       f.input :team_name
       f.input :category
     end
+    
     f.buttons
   end
+
 end

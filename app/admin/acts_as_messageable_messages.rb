@@ -3,8 +3,6 @@ ActiveAdmin.register ActsAsMessageable::Message do
 
   filter :topic
   filter :body
-  #  filter :sent_messageable_id
-  #  filter :sent_messageable_type
 
   index do
     column :received_messageable
@@ -30,21 +28,11 @@ ActiveAdmin.register ActsAsMessageable::Message do
       row :body do
         b.body
       end
-      #      row :sent_messageable_id do
-      #        b.sent_messageable_id
-      #      end
-      #      row :sent_messageable_type do
-      #        b.sent_messageable_type
-      #      end
     end
   end
 
   form do |f|
-    
-#    render partial: "form"
     f.inputs "New Message" do
-      #      f.input :sent_messageable_id, as: :select, collection: bar_collection
-      #      f.input :sent_messageable, collection: bar_collection
       f.input :to, collection: bar_collection
       f.input :topic
       f.input :body
@@ -60,7 +48,5 @@ ActiveAdmin.register ActsAsMessageable::Message do
       redirect_to action: :index
     end
   end
-
-
 
 end

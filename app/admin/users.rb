@@ -8,7 +8,6 @@ ActiveAdmin.register User do
   filter  :phone_number
   filter  :city
   filter  :state
-#  filter  :country
   filter  :sports_team
 
   index do
@@ -20,7 +19,6 @@ ActiveAdmin.register User do
     column  :phone_number
     column  :city
     column  :state
-#    column  :country
     column  :bird_date
     column  :lock_status
 
@@ -35,43 +33,49 @@ ActiveAdmin.register User do
       end
     end
 
-#    column("Lock"){  |user| link_to("Unlock", unlock_admin_user_path(user)) }
+    #    column("Lock"){  |user| link_to("Unlock", unlock_admin_user_path(user)) }
     default_actions
   end
 
   show do |b|
-
     attributes_table do
+
       row :email do
         b.email
       end
+
       row :name do
         b.name
       end
+
       row :bird_date do
         b.bird_date
       end
+
       row :avatar do
         image_tag(b.avatar_url(:thumb))
       end
+
       row :address do
         b.address
       end
+
       row :zip_code do
         b.zip_code
       end
+
       row :phone_number do
         b.phone_number
       end
+
       row :city do
         b.city
       end
+
       row :state do
         b.state
       end
-#      row :country do
-#        b.country
-#      end
+
     end
   end
 
@@ -85,7 +89,7 @@ ActiveAdmin.register User do
       f.input :zip_code
       f.input :phone_number
       f.input :state
-#      f.input :country
+
       f.buttons
     end
   end
@@ -95,11 +99,11 @@ ActiveAdmin.register User do
     user.update_attributes(lock_status: 1)
     redirect_to admin_users_url, :notice => "Locked!"
   end
+
   member_action :unlock, :method => :get do
     user = User.find(params[:id])
     user.update_attributes(lock_status: 0)
     redirect_to admin_users_url, :notice => "Locked!"
   end
-
 
 end

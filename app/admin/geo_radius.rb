@@ -11,16 +11,21 @@ ActiveAdmin.register GeoRadius do
   show do |b|
 
     attributes_table do
+
       row :radius do
         b.radius
       end
+
     end
+    
   end
 
   form do |f|
+    
     f.inputs "Add Radius(miles) for filtering in user homepage and city page!" do
       f.input :radius
     end
+
     f.buttons
   end
   

@@ -18,22 +18,27 @@ ActiveAdmin.register City do
       row :name do
         b.name
       end
+
       row :state do
         b.state
       end
+
       row :country do
         b.country
       end
     end
+
   end
 
   form do |f|
+
     f.inputs "Adding City" do
       f.input :name
       f.input :state, collection: states_collection
-#      f.input :country
     end
+    
     f.buttons
+    
   end
 
 end

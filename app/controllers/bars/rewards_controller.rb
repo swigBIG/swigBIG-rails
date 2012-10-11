@@ -6,4 +6,5 @@ class Bars::RewardsController < ApplicationController
     @loyalty = @bar.rewards.where(reward_type: "Loyalty")
     @popularity = @bar.rewards.where(reward_type: "Popularity")
   end
+  
 end

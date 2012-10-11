@@ -17,7 +17,6 @@ class Bars::RegistrationsController < Devise::RegistrationsController
 
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    #      @bar = User.find(current_bar.id)
 
     if current_bar.update_attributes(params[:bar])
       # Sign in the user by passing validation in case his password changed
@@ -26,14 +25,14 @@ class Bars::RegistrationsController < Devise::RegistrationsController
     else
       render action: :edit, notice: "field with * mark must filled!"
     end
+    
   end
 
   def edit
     @bar_hours = current_bar.bar_hours.order("id").group_by {|hour| "#{hour.open_time} - #{hour.close_time}" }
     @counter = BarHour::DAY_LIST[@bar_hours.to_a.last.last.last.day] rescue 0
-    #    @bar_hours = current_bar.bar_hours.group("open_time, close_time")
+    
     render :edit
   end
-
   
 end

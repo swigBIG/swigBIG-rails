@@ -1,5 +1,5 @@
 ActiveAdmin.register ActsAsMessageable::Message, as: "all_bars_message" do
-menu parent: "Message"
+  menu parent: "Message"
 
   form do |f|
     f.inputs "New Message to All User" do
@@ -8,8 +8,7 @@ menu parent: "Message"
     end
     f.buttons
   end
-
-
+  
   controller do
     def index
       redirect_to new_admin_all_bars_message_url

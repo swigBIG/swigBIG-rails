@@ -11,9 +11,11 @@ ActiveAdmin.register RewardPolicy, as: "time_between_swigs" do
 
   show do |b|
     attributes_table do
+
       row :time_between_swig do
         b.time_between_swig
       end
+      
     end
   end
 
@@ -21,13 +23,17 @@ ActiveAdmin.register RewardPolicy, as: "time_between_swigs" do
     f.inputs "Time for " do
       f.input :time_between_swig
     end
+    
     f.buttons
   end
 
   controller do
+
     def new
       redirect_to edit_admin_time_between_swig_url(RewardPolicy.first.id) unless RewardPolicy.first.blank?
       @reward_policy = RewardPolicy.new
     end
+    
   end
+
 end
