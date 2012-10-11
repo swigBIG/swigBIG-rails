@@ -17,7 +17,7 @@ ActiveAdmin.register RadiusToShowBarInMobile do
 
   controller do
     def new
-      redirect_to edit_admin_radius_to_show_bar_in_mobile_url(RadiusToShowBarInMobile.first.id) unless RadiusSwigging.first.blank?
+      redirect_to edit_admin_radius_to_show_bar_in_mobile_url(RadiusToShowBarInMobile.first.id) unless RadiusToShowBarInMobile.first.blank?
       @radius_to_show_bar_in_mobile = RadiusToShowBarInMobile.new
     end
   end
