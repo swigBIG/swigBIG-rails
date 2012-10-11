@@ -2,7 +2,6 @@ class Users::DashboardController < ApplicationController
   before_filter :authenticate_user!
 
   layout "users_no_side"
-  #  layout "users_view_bar_profile"
 
   def index
     @user = current_user
@@ -24,7 +23,6 @@ class Users::DashboardController < ApplicationController
     @user = User.new
     @fb_post = FbGraph::User.me(current_user.access_token).statuses.first.message
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
-    #    @feed = FbGraph::User.me(current_user.access_token).feed!
   end
 
   def facebook_update_status
@@ -44,6 +42,7 @@ class Users::DashboardController < ApplicationController
   #
   #    redirect_to :back, notice: "invite success"
   #  end
+  
   def invite_swigbig
     fb = MiniFB::OAuthSession.new(current_user.access_token)
     #    @bar = Bar.find(params[:bar_ids][:bar_id])
@@ -145,12 +144,15 @@ class Users::DashboardController < ApplicationController
 
   def update_password
     @user = User.find(current_user.id)
+    
     if @user.update_attributes(params[:user])
       sign_in @user, :bypass => true
-      redirect_to :back, notice: "Update Success!"
+      msg = "Update Success!"
     else
-      redirect_to :back, notice: "Update Failed!"
+      msg = "Update Failed!"
     end
+
+    redirect_to :back, notice: msg
   end
 
   def completion
@@ -158,17 +160,17 @@ class Users::DashboardController < ApplicationController
   end
 
   def update_completion
-    @user = current_user
+    user = current_user
     #    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
     if (Time.now.to_date.year - "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date.year) >= 21
-      if @user.update_attributes(avatar: params[:user][:avatar] , phone_number: params[:user][:phone_number] , address: params[:user][:address], zip_code: params[:user][:zip_code], city: params[:user][:city], state: params[:user][:state], bird_date: "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date )
-        sign_in @user, :bypass => true
+      if user.update_attributes(avatar: params[:user][:avatar] , phone_number: params[:user][:phone_number] , address: params[:user][:address], zip_code: params[:user][:zip_code], city: params[:user][:city], state: params[:user][:state], bird_date: "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date )
+        sign_in user, :bypass => true
         redirect_to root_path, notice: "Profile Completion Success!"
       else
         redirect_to :back, notice: "Profile Completion Failed!"
       end
     else
-      @user.destroy
+      user.destroy
       redirect_to :root, notice: "Age under 21 can't register!"
     end
   end
@@ -202,7 +204,7 @@ class Users::DashboardController < ApplicationController
   def mobile_reward
     @user = current_user
     @reward = current_user.messages.where(["category = (?) OR category = (?)", 9, 16]).order("created_at DESC")
-    @reward_to_expirate = current_user.messages.expirate_reward_soon.where(["category = (?) OR category = (?)", 9, 16]).order("expirate_reward DESC")
+    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
   end
 
   def facebook_mobile_profile

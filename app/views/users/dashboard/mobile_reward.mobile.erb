@@ -48,6 +48,7 @@
 
   <div data-role="content" >
     <div data-role="collapsible-set">
+      <%= @expirate_within_to_expire %>
       <% @reward_to_expirate.each do |reward| %>
         <div data-role="collapsible" data-mini="true" data-content-theme="b" >
           <h5><%= reward.sent_messageable.name %></h5>
