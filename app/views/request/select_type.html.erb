@@ -1,0 +1,29 @@
+
+<div class="container-fluid" style="min-height: 600px;opacity: 0">
+  <div class="row-fluid">
+
+    <div class="span11" style="text-align: center;">
+      <% if !@site_content.blank? %>
+        <% if !@site_content.logos.blank? %>
+          <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 100px;") rescue nil %>
+        <% else %>
+          <h3 class="brand" style="color: gray;">SwigBIG</h3>
+        <% end %>
+      <% else %>
+        <h3 class="brand" style="color: gray;">SwigBIG</h3>
+      <% end %>
+    </div>
+
+    <div class="span6">
+      <h3>User Type</h3>
+      <p>User Type is for the user that often goto the bar and want get more benefit from they favorite bar!</p>
+      <b><%= link_to "User", "http://#{with_subdomain(false)}", style: "color: green;", class: "btn" %></b>
+      </div>
+
+      <div class="span5">
+        <h3>Bar Type</h3>
+      <p>Bar Type is for the Bar Owner that want to publish his bar and give costomer special offer by creating reward and BigSwig!</p>
+        <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: blue;", class: "btn"  %></b>
+        </div>
+      </div>
+    </div>

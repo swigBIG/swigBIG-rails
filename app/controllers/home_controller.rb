@@ -1,6 +1,16 @@
 class HomeController < ApplicationController
   layout "users", except: :invite_page
 
+  before_filter :redirect_to_request_invitation_page
+
+  def redirect_to_request_invitation_page
+    unless session[:request_user_privilage] or is_mobile_request?
+      redirect_to invitations_request_url
+    else
+      return
+    end
+  end
+
   def index; end
 
   def get_latitude_and_longitude_from_mobile

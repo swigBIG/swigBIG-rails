@@ -1,0 +1,31 @@
+
+<div class="container-fluid">
+  <div class="row-fluid">
+
+    <div class="span6">
+      <% if !@site_content.blank? %>
+        <% if !@site_content.logos.blank? %>
+          <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 100px;") rescue nil %>
+        <% else %>
+          <h3 class="brand" style="color: gray;">SwigBIG</h3>
+        <% end %>
+      <% else %>
+        <h3 class="brand" style="color: gray;">SwigBIG</h3>
+      <% end %>
+      <h2>Invitation Request</h2>
+      <p>Get involve in SwigBIG! and get more benefit from bar with swigging! Start Now!</p>
+      <p>Already Involve !? <b><%= link_to "Login", login_request_url, style: "color: green;" %></b></p>
+
+    </div>
+
+    <div class="span5" style="margin-top: 20px;">
+      <%= simple_form_for(:request_user, url: create_request_request_url) do |f| %>
+        <div style="margin-left: -163px;">
+          <%= f.input  :full_name, label: false, placeholder: "Full Name" %>
+          <%= f.input  :email, label: false, placeholder: "Email" %>
+        </div>
+        <%= f.submit "Request", class: "btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>

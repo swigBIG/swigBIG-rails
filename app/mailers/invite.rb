@@ -1,5 +1,5 @@
 class Invite < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "swigbig@noreply.ca"
 
   def send_invite_email(friend, sender, bar)
     @friend = friend
@@ -19,4 +19,11 @@ class Invite < ActionMailer::Base
     @user = user
     mail(to: @friend, subject: "#{@user.name} have been joined SwigBIG")
   end
+
+  def request_user_invite_to_swigbig(user)
+    @user = user
+    mail(to: @user.email, subject: "#{@user.enter_key} have been joined SwigBIG")
+  end
+
+
 end

@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+
+    <div class="span6" style="text-align: center;">
+      <% if !@site_content.blank? %>
+        <% if !@site_content.logos.blank? %>
+          <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 100px;") rescue nil %>
+        <% else %>
+          <h3 class="brand" style="color: gray;">SwigBIG</h3>
+        <% end %>
+      <% else %>
+        <h3 class="brand" style="color: gray;">SwigBIG</h3>
+      <% end %>
+    </div>
+
+    <div class="span5" style="margin-top: 20px;">
+      <h2>Your Request has Sent!</h2>
+      <p>Please be passion, while Admin send you the enter Key!</p>
+    </div>
+  </div>
+</div>
