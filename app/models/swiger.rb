@@ -95,7 +95,8 @@ class Swiger < ActiveRecord::Base
           user_swig = self.user.swigers.last
           radius = BarRadius.where(status: true).first.distance rescue 1
           unless user_swig.blank?
-            time_between_swigging = (RewardPolicy.first.time_between_swig rescue 1) * 3600
+            #            time_between_swigging = (RewardPolicy.first.time_between_swig rescue 1) * 3600
+            time_between_swigging = (RewardPolicy.first.time_between_swig.blank? ?  RewardPolicy.first.time_between_swig :  1)   * 3600
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
               self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
               ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
