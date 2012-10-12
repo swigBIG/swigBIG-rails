@@ -1,12 +1,5 @@
 Swprototype::Application.routes.draw do
-
-
-
   mount Ckeditor::Engine => '/ckeditor'
-
-  get "swig_friends_list/index"
-
-  get "notifications/index"
 
   ActiveAdmin.routes(self)
 
@@ -39,14 +32,18 @@ Swprototype::Application.routes.draw do
       get "bars_list_to_swig" =>  "home#bars_list_to_swig", as: "bars_list_to_swig"
       get "mobile_dashboard" =>  "home#mobile_dashboard", as: "mobile_dashboard"
       match "sign_out_turning_point" =>  "home#sign_out_turning_point", as: "sign_out_turning_point"
-
       #      post "get_latitude_and_longitude_from_mobile/:data" =>  "home#get_latitude_and_longitude_from_mobile", as: "get_latitude_and_longitude_from_mobile"
     end
   end
 
-  resource :invitation do
+  resource :request do 
     collection do
-      match "invite" =>  "invitation#invite", as: "invite"
+      match "invitations" =>  "request#invitations", as: "invitations"
+      post "create_request" =>  "request#create_request", as: "create_request"
+      match "welcome" =>  "request#welcome", as: "welcome"
+      post "login_to_swigbig" =>  "request#login_to_swigbig", as: "login_to_swigbig"
+      match "login" =>  "request#login", as: "login"
+      match "select_type" =>  "request#select_type", as: "select_type"
     end
   end
 
