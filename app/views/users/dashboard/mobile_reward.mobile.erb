@@ -13,15 +13,15 @@
       <% @reward.each do |reward| %>
         <div data-role="collapsible" data-mini="true" data-content-theme="b" >
           <h6><%= reward.sent_messageable.name %></h6>
-          <b>Serial code: </b><%= reward.coupon %>
+          <b>Serial code: </b><%= reward.coupon rescue nil %>
           <br/>
-          <b>Date : </b><%= reward.created_at.strftime("%v") %>
+          <b>Date : </b><%= reward.created_at.strftime("%v") rescue nil  %>
           <br/>
-          <b>Reward : </b><%= reward.reward %>
+          <b>Reward : </b><%= reward.reward rescue nil  %>
           <br/>
-          <b>Expirate Reward : </b><%= reward.expirate_reward.strftime("%v") %>
+          <b>Expirate Reward : </b><%= reward.expirate_reward.strftime("%v") rescue nil  %>
           <br/>
-          <b>Days Remain : </b><%= counting_day(reward.expirate_reward) %>
+          <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
         </div>
       <% end %>
     </div>
@@ -51,12 +51,12 @@
       <%= @expirate_within_to_expire %>
       <% @reward_to_expirate.each do |reward| %>
         <div data-role="collapsible" data-mini="true" data-content-theme="b" >
-          <h5><%= reward.sent_messageable.name %></h5>
-          <b>Serial code: </b><%= reward.coupon %>
+          <h5><%= reward.sent_messageable.name rescue nil %></h5>
+          <b>Serial code: </b><%= reward.coupon rescue nil %>
           <br/>
-          <b>Date : </b><%= reward.created_at.strftime("%v") %>
+          <b>Date : </b><%= reward.created_at.strftime("%v") rescue nil %>
           <br/>
-          <b>Reward : </b><%= reward.reward %>
+          <b>Reward : </b><%= reward.reward rescue nil %>
         </div>
       <% end %>
     </div>
