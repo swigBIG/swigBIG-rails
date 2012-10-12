@@ -34,6 +34,8 @@ module ActsAsMessageable
 
     # Sample documentation for scope
     default_scope order("created_at desc")
+    reward_expire_within_day = (RewardPolicy.first.expire_within rescue 5).days
+    scope :expirate_reward_soon, where("expirate_reward >= created_at AND expirate_reward  <= ?", reward_expire_within_day )
     scope :are_from,          lambda { |*args| where(:sent_messageable_id => args.first, :sent_messageable_type => args.first.class.name) }
     scope :are_to,            lambda { |*args| where(:received_messageable_id => args.first, :received_messageable_type => args.first.class.name) }
     scope :with_id,           lambda { |*args| where(:id => args.first) }
