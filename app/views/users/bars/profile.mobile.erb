@@ -90,11 +90,11 @@
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
       <% if user_signed_in? %>
         <% @city_lat_lng %>
-        <%# if sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [@bar.latitude, @bar.longitude])).to_f <= @valid_radius_for_swigging%>
+        <% if sprintf("%.2f",Geocoder::Calculations.distance_between([@city_lat_lng[1].to_f, @city_lat_lng[2].to_f], [@bar.latitude, @bar.longitude])).to_f <= @valid_radius_for_swigging%>
           <%= link_to "SWIG!", users_mobile_swigging_path(@bar), "data-role" => "button", style: "width: 100%;margin: 5px;", "data-ajax" => "false" %>
-        <%# else %>
-          <!--<a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>-->
-        <%# end %>
+        <% else %>
+          <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
+        <% end %>
       <% end %>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
