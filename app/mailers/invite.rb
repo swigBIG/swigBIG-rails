@@ -22,7 +22,7 @@ class Invite < ActionMailer::Base
 
   def request_user_invite_to_swigbig(user)
     @user = user
-    mail(to: @user.email, subject: "#{@user.enter_key} have been joined SwigBIG")
+    mail(to: @user.email, subject: "SwigBIG request confirmation")
   end
 
 
