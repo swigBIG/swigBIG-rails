@@ -23,7 +23,7 @@ class Users::SessionsController < Devise::SessionsController
   #    end
   #  end
   def create
-
+    session[:request_user_privilage] = true
     resource = warden.authenticate!(auth_options)
     if resource.lock_status.eql?(false)
       set_flash_message(:notice, :signed_in) if is_navigational_format?
@@ -75,7 +75,7 @@ class Users::SessionsController < Devise::SessionsController
 
   def destroy
     redirect_path = after_sign_out_path_for(resource_name)
-#    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(current_user))
+    #    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(current_user))
     signed_out = sign_out(current_user)
     set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
 

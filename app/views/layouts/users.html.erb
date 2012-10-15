@@ -7,6 +7,7 @@
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
+    <% if session[:request_user_privilage] %>
     <script type="text/javascript">
       $(document).ready(
       function(){
@@ -16,6 +17,7 @@
         }, 55000);
       })
     </script>
+    <% end %>
   </head>
   <body style="padding-top: 20px;">
     <div class="navbar-fixed-top" style="">

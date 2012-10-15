@@ -1,6 +1,16 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   layout "users"
 
+  before_filter :redirect_to_request_invitation_page
+
+  def redirect_to_request_invitation_page
+    unless session[:request_user_privilage] or is_mobile_request?
+      redirect_to invitations_request_url, notice: "Request invitation first!"
+    else
+      return
+    end
+  end
+
   def after_inactive_sign_up_path_for(resource)
     #    new_user_session_url
     main_home_path

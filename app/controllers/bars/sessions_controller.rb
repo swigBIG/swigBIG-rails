@@ -14,7 +14,8 @@ class Bars::SessionsController < Devise::SessionsController
     elsif resource.lock_status.eql?(true)
 
       redirect_path = after_sign_out_path_for(resource_name)
-      signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+#      signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+      signed_out = sign_out(current_bar)
       flash[:notice] = "Your Account locked!"
 
       respond_to do |format|

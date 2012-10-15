@@ -24,7 +24,7 @@ class RequestController < ApplicationController
     unless user.enter_key.blank?
       if user.enter_key.eql?(params[:request_user][:enter_key])
         session[:request_user_privilage] = true
-        redirect_to  root_url, notice: "Login success! please pick you type!"
+        redirect_to  root_url, notice: "Enter Key is match!"
       else
         redirect_to :back, notice: "Login fail please check your Enter key or Email"
       end
