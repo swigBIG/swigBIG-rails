@@ -4,7 +4,6 @@ ActiveAdmin.register RequestUser do
 
   index do
     column  :email
-    column  :full_name
     column  :enter_key
 
     column("Invite") do |user|
@@ -21,10 +20,6 @@ ActiveAdmin.register RequestUser do
         b.email
       end
 
-      row :full_name do
-        b.full_name
-      end
-      
       row :enter_key do
         b.enter_key
       end
@@ -35,7 +30,6 @@ ActiveAdmin.register RequestUser do
   form do |f|
     f.inputs "Register" do
       f.input :email
-      f.input :full_name
       f.input :enter_key
 
       f.buttons

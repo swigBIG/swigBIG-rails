@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
       geo = Geokit::Geocoders::MultiGeocoder.geocode("#{params[:geo][:mobile_lat]},#{params[:geo][:mobile_lng]}")
       @city_lat_lng = [geo.city, params[:geo][:mobile_lat], params[:geo][:mobile_lng]]
       session["geo_#{set_current_ip}"] = @city_lat_lng
+      
     else
       if session["geo_#{set_current_ip}"].blank?
         geo = Geokit::Geocoders::MultiGeocoder.geocode(set_current_ip)
@@ -43,8 +44,18 @@ class ApplicationController < ActionController::Base
     end
 
     if request.xhr? and !params[:geo].blank?
-      render :nothing => true
+      #      if params[:controller] == 'home' and params[:action] == 'main'
+      #        render "home/redirect_with_js"
+      #      else
+     debugger
+      if session[:homepage_request_page].eql?(true)
+        session[:homepage_request_page] = false
+        render "home/redirect_with_js"
+      else
+        render :nothing => true
+      end
     end
+    
     #    if session["offset_#{set_current_ip}"].blank?
     #      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
     #      Time.zone = timezone.zone
