@@ -98,7 +98,7 @@
         <!--<a href="#bars_map_page" data-role="button" style="">Map</a>-->
         <!--<a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a>-->
       </div>
-      <a href="#" data-role="button" style="color: white;width: 97%;border-radius: 3px;">FILTER</a>
+      <a href="#filter_page" data-role="button" style="color: white;width: 97%;border-radius: 3px;">FILTER</a>
     </div>
   </div>
 
@@ -152,3 +152,37 @@
     <%= render partial: "shared/footer_menu_partial" %>
   </div><!-- /footer -->
 </div>
+
+<div data-role="page" id="filter_page">
+  <div data-role="header" data-position="fixed" style="text-align: center;">
+    <%= render partial: "shared/swigbig_logo" %>
+    <div data-role="controlgroup" style="margin: 5px;width: 100%;">
+      <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+        <a href="#swig_list_page" data-role="button" style="width: 49%;color: white;">LIST</a>
+        <a href="#bars_map_page" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 47%;color: white;">MAP</a>
+      </div>
+      <a href="#" data-role="button" style="color: white;border-radius: 3px;width: 97%;">FILTER</a>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <%= simple_form_for(:search, url: root_path) do |f|%>
+      <%= text_field_tag :zip_code, params[:zip_code], placeholder: "Zip Code" %>
+      <b style="margin-left: 60px;">Radius in Mile</b>
+      <%= select_tag(:radius, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift([""]), params[:radius])) %>
+      <br/>
+      <br/>
+      <b style="margin-left: 60px;">Swig Type</b>
+      <%= select_tag :swig_type, options_for_select([["",""], ["Standard","Standard"],["Big","Big"]], params[:swig_type]) %>
+      <b style="margin-left: 60px;">Sports teams</b>
+      <%= select_tag :sports_team, options_for_select(sport_teams_collection.unshift(""), params[:sports_team]) %>
+      <%= f.submit "Search", class: "btn-mini btn-primary pull-right", style: "margin: 10px;", id: "search_btn" %>
+      <% end %>
+      <a  data-role="button" onclick="$('#search_btn').click()" style="width: 100%;margin: 5px;" >Search!!</a>
+
+    </div>
+
+    <div data-role="footer" data-position="fixed" style="width: 100%">
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div>
