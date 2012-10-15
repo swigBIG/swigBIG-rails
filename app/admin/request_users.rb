@@ -51,8 +51,8 @@ ActiveAdmin.register RequestUser do
       end
     end
 
-    Invite.request_user_invite_to_swigbig(user).deliver
     user.update_attributes(enter_key: serial )
+    Invite.request_user_invite_to_swigbig(user).deliver
     redirect_to admin_request_users_url, :notice => "Invite!"
   end
 
