@@ -176,10 +176,11 @@
       <%= select_tag :swig_type, options_for_select([["",""], ["Standard","Standard"],["Big","Big"]], params[:swig_type]) %>
       <b style="margin-left: 60px;">Sports teams</b>
       <%= select_tag :sports_team, options_for_select(sport_teams_collection.unshift(""), params[:sports_team]) %>
-      <%= f.submit "Search", class: "btn-mini btn-primary pull-right", style: "margin: 10px;", id: "search_btn" %>
+      <div style="display: none;">
+        <%= f.submit "Search", class: "btn-mini btn-primary pull-right", style: "margin: 10px;", id: "search_btn" %>
+        </div>
       <% end %>
       <a  data-role="button" onclick="$('#search_btn').click()" style="width: 100%;margin: 5px;" >Search!!</a>
-
     </div>
 
     <div data-role="footer" data-position="fixed" style="width: 100%">
