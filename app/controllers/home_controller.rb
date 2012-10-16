@@ -32,12 +32,9 @@ class HomeController < ApplicationController
     else
 
       if is_mobile_request?
-        #        unless session[:after_redirect]
-        unless params[:geo]
-          unless session["after_redirect_#{params[:geo][:mobile_lat]}"]
-            #        if @city_lat_lng[1].blank?
-            session[:homepage_request_page] = true
-          end
+        unless session[:after_redirect]
+          #        if @city_lat_lng[1].blank?
+          session[:homepage_request_page] = true
         end
         @bars = Bar.within( @radius_to_show_in_mobile_list.to_i ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)#.take(5)
       else
