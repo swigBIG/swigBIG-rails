@@ -51,98 +51,98 @@
                     <li><b>notification</b></li>
                     <li class="divider"></li>
                     <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?) OR category = (?)", 9, 15, 16]).order("created_at DESC").limit(10).each do |notification| %>
-                      <% if notification.category.eql?(9) %>
-                            <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just unlock <b>Bigswig</b></li>-->
-                        <li><%=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %> just unlock <b>Bigswig</b></li>
-                        <li class="divider"></li>
-                      <% elsif notification.category.eql?(15) %>
-                        <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Popularity</b></li>-->
-                        <li><%=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %>just earned <b>Popularity</b></li>
-                        <li class="divider"></li>
-                      <% elsif notification.category.eql?(16) %>
-                        <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Loyalty</b></li>-->
-                        <li><%=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %> just earned <b>Loyalty</b></li>
-                        <li class="divider"></li>
-                      <% end %>
-                    <% end %>
-                  </ul>
-                <% end %>
-              </li>
-              <li><b><%#= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
-              <li>
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color: white;"><b>Messaging</b></a>
-                <ul class="dropdown-menu" id="messaging" style="margin-right: 220px;">
-                  <li><a class="" data-toggle="modal" href="#bar_message" onclick="$('#bar_message').html('');$.get('/bars/messages/message_popup')"><b style="color: white;">New</b></a></li>
-                  <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Inbox", bars_messages_path, style: "color: white;" %></b></a></li>
-                  <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Sent", sent_bars_messages_path, style: "color: white;" %></b></a></li>
-                  <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Trash", trash_bars_messages_path, style: "color: white;" %></b></a></li>
-                </ul>
-              </li>
-              <li id="message" class="dropdown">
-                <% unless  current_bar.received_messages.where("opened is false").blank? %>
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
-                  <ul class="dropdown-menu" id="message" style="margin-left: -350px !important;">
-                    <li style="margin-left: 5px;"><b>messages</b></li>
-                    <li class="divider"></li>
-                    <% current_bar.received_messages.where("opened is false").each do |message| %>
-                      <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %>
-                        <br/>
-                        <%= message.created_at.strftime("%v") %>
-                      </li>
+      <%# if notification.category.eql?(9) %>
+                              <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just unlock <b>Bigswig</b></li>-->
+                      <li><%=  notification.received_messageable.name rescue notification.received_messageable.id %> just unlock <b>Bigswig</b></li>
+                      <!--<li class="divider"></li>
+      <%# elsif notification.category.eql?(15) %>
+                      <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Popularity</b></li>
+                      <li><%#=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %>just earned <b>Popularity</b></li>
+                      <li class="divider"></li>
+      <%# elsif notification.category.eql?(16) %>
+                      <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Loyalty</b></li>
+                      <li><%#=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %> just earned <b>Loyalty</b></li>-->
                       <li class="divider"></li>
                     <% end %>
-                  </ul>
-                <% end %>
-              </li>
-              <li id="fat-menu" class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Welcome back <%= current_bar.name %>!</b></a>
-                <ul class="dropdown-menu">
-                  <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
-                  <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
-                  <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
+                  <% end %>
                 </ul>
-              </li>
-            <% else %>
-              <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
-              <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
-              <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
-              <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
-            <% end %>
+              <% end %>
+            </li>
+            <li><b><%#= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
+            <li>
+              <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color: white;"><b>Messaging</b></a>
+              <ul class="dropdown-menu" id="messaging" style="margin-right: 220px;">
+                <li><a class="" data-toggle="modal" href="#bar_message" onclick="$('#bar_message').html('');$.get('/bars/messages/message_popup')"><b style="color: white;">New</b></a></li>
+                <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Inbox", bars_messages_path, style: "color: white;" %></b></a></li>
+                <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Sent", sent_bars_messages_path, style: "color: white;" %></b></a></li>
+                <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Trash", trash_bars_messages_path, style: "color: white;" %></b></a></li>
+              </ul>
+            </li>
+            <li id="message" class="dropdown">
+              <% unless  current_bar.received_messages.where("opened is false").blank? %>
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
+                <ul class="dropdown-menu" id="message" style="margin-left: -350px !important;">
+                  <li style="margin-left: 5px;"><b>messages</b></li>
+                  <li class="divider"></li>
+                  <% current_bar.received_messages.where("opened is false").each do |message| %>
+                    <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %>
+                      <br/>
+                      <%= message.created_at.strftime("%v") %>
+                    </li>
+                    <li class="divider"></li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </li>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Welcome back <%= current_bar.name %>!</b></a>
+              <ul class="dropdown-menu">
+                <li><b><%= link_to "Edit Profile", edit_bar_registration_path, style: "color: white;" %></b></li>
+                <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
+                <li><b><%= link_to "Log out", destroy_bar_session_path, method: :delete, style: "color: white;" %></b></li>
+              </ul>
+            </li>
+          <% else %>
+            <li><b><a href="/" id="fat-menu" style="color: white;">Home</a></b></li>
+            <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
+            <li><b><%= link_to "Sign In", sign_in_bars_path, style: "color: white;" %></b></li>
+            <li><b> <%= link_to "Sign Up", sign_up_bars_path, style: "color: white;" %></b></li>
+          <% end %>
           </div>
 
         </div>
-        <% if bar_signed_in? %>
-          <% if current_bar.address.blank? %>
-            <% if controller_name == "dashboard" and params[:action] == "index" %>
-              <div style="text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal" >Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
-            <% end %>
+      <% if bar_signed_in? %>
+        <% if current_bar.address.blank? %>
+          <% if controller_name == "dashboard" and params[:action] == "index" %>
+            <div style="text-align: center;" id="red_notice"><i class="icon-warning-sign"></i><b> <%= current_bar.name %></b> is not yet listed!<a href="#location" data-toggle="modal" data-dismiss="modal" >Please complete your profile</a><a class="close" onclick="$('#red_notice').toggle()"><b>x</b></a></div>
           <% end %>
         <% end %>
+      <% end %>
       </div>
     </div>
 
-    <%= yield :bar_notice %>
+  <%= yield :bar_notice %>
 
     <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;width: 1200px;">
-      <% if notice %>
-        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
-      <% end %>
-      <% if alert %>
-        <div class="alert alert-success"><%= alert %><a class="close"><b>x</b></a></div>
-      <% end %>
-      <%= yield :opening %>
+    <% if notice %>
+      <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-success"><%= alert %><a class="close"><b>x</b></a></div>
+    <% end %>
+    <%= yield :opening %>
       <div class="span4 pull-left" style="margin-left: -20px;margin-right: 20px;">
         <br />
-        <%= yield :side %>
+      <%= yield :side %>
       </div>
       <div class="span11 pull-left">
-        <%= yield %>
+      <%= yield %>
       </div>
       <div class="span5 pull-right">
-        <%= yield :right_side %>
+      <%= yield :right_side %>
       </div>
     </div>
-    <%= yield :outer %>
+  <%= yield :outer %>
     <div style="margin-top: 30px;"></div>
 
     <div class="navbar-fixed-bottom">
@@ -166,10 +166,10 @@
     </div>
 
     <!--Bar popup-->
-    <%= render partial: "shared/bar_modal_partial.html" %>
-    <%= render partial: "shared/site_modal_partial.html" %>
+  <%= render partial: "shared/bar_modal_partial.html" %>
+  <%= render partial: "shared/site_modal_partial.html" %>
 
 
   </body>
-  <%= yield :bottom_js %>
+<%= yield :bottom_js %>
 </html>
