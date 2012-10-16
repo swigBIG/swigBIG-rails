@@ -1,5 +1,6 @@
 alert("show current location!");
 $(document).ready(function(){
 $(window.location.replace(""))
-<%= session[:after_redirect] = true %>
+<%#= session[:after_redirect] = true %>
+<%= session["after_redirect_#{params[:geo][:mobile_lat]}"] = true %>
 });
