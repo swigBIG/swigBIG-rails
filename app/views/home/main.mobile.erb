@@ -167,15 +167,15 @@
 
   <div data-role="content" >
     <%= simple_form_for(:search, url: root_path) do |f|%>
-      <%= text_field_tag :zip_code, params[:zip_code], placeholder: "Zip Code" %>
+      <%= text_field_tag :zip_code, params[:zip_code], placeholder: "Zip Code", style: "height: 30px;" %>
       <b style="margin-left: 60px;">Radius in Mile</b>
-      <%= select_tag(:radius, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift([""]), params[:radius])) %>
+      <%= select_tag(:radius, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift(["any"]), params[:radius])) %>
       <br/>
       <br/>
       <b style="margin-left: 60px;">Swig Type</b>
-      <%= select_tag :swig_type, options_for_select([["",""], ["Standard","Standard"],["Big","Big"]], params[:swig_type]) %>
+      <%= select_tag :swig_type, options_for_select([["any",""], ["Standard","Standard"],["Big","Big"]], params[:swig_type]) %>
       <b style="margin-left: 60px;">Sports teams</b>
-      <%= select_tag :sports_team, options_for_select(sport_teams_collection.unshift(""), params[:sports_team]) %>
+      <%= select_tag :sports_team, options_for_select(sport_teams_collection.unshift("any"), params[:sports_team]) %>
       <div style="display: none;">
         <%= f.submit "Search", class: "btn-mini btn-primary pull-right", style: "margin: 10px;", id: "search_btn" %>
         </div>
