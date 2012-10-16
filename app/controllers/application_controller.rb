@@ -47,7 +47,6 @@ class ApplicationController < ActionController::Base
       #      if params[:controller] == 'home' and params[:action] == 'main'
       #        render "home/redirect_with_js"
       #      else
-     debugger
       if session[:homepage_request_page].eql?(true)
         session[:homepage_request_page] = false
         render "home/redirect_with_js"
