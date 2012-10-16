@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Swprototype</title>
-    <%#= stylesheet_link_tag    "application", :media => "all" %>
+<%#= stylesheet_link_tag    "application", :media => "all" %>
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application" %>
     <%= stylesheet_link_tag "token-input-facebook" %>
@@ -52,13 +52,16 @@
                     <li class="divider"></li>
                     <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?) OR category = (?)", 9, 15, 16]).order("created_at DESC").limit(10).each do |notification| %>
                       <% if notification.category.eql?(9) %>
-                        <li><%=  notification.received_messageable.name rescue notification.received_messageable.email %> just unlock <b>Bigswig</b></li>
+                            <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just unlock <b>Bigswig</b></li>-->
+                        <li><%=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %> just unlock <b>Bigswig</b></li>
                         <li class="divider"></li>
                       <% elsif notification.category.eql?(15) %>
-                        <li><%=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Popularity</b></li>
+                        <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Popularity</b></li>-->
+                        <li><%=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %>just earned <b>Popularity</b></li>
                         <li class="divider"></li>
                       <% elsif notification.category.eql?(16) %>
-                        <li><%=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Loyalty</b></li>
+                        <!--<li><%#=  notification.received_messageable.name rescue notification.received_messageable.email %> just earned <b>Loyalty</b></li>-->
+                        <li><%=  User.find(notification.received_messageable.id).name rescue User.find(notification.received_messageable.id).email %> just earned <b>Loyalty</b></li>
                         <li class="divider"></li>
                       <% end %>
                     <% end %>
