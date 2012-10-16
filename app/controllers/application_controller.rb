@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
       #      else
       if session[:homepage_request_page].eql?(true)
         session[:homepage_request_page] = false
-        render template: "home/redirect_with_js"
+        render "home/redirect_with_js"
       else
         render :nothing => true
       end

@@ -255,6 +255,19 @@ class Users::DashboardController < ApplicationController
     # support returning empty response on GET request
     redirect_to redirect_path
   end
+
+  def mobile_invite_friend_by_email
+    unless params[:mytags].blank?
+      params[:mytags].split(",").each do |email|
+        Invite.user_invite_to_swigbig(email, current_user).deliver
+      end
+      redirect_to users_completion_url, notice: "invite success!"
+    else
+      redirect_to :back, notice: "undefine email address!"
+    end
+  end
+
+  def mobile_invite_friends;  end
   
 end
 
