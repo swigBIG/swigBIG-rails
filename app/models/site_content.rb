@@ -16,4 +16,5 @@ class SiteContent < ActiveRecord::Base
   accepts_nested_attributes_for :site_color#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :logos#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :backgrounds#, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
+  
 end

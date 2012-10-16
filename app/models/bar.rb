@@ -23,19 +23,15 @@ class Bar < ActiveRecord::Base
   mount_uploader :bar_background, ImageUploader
 
   before_update  :set_http_website
-
-  geocoded_by :address
-  
   before_validation :set_full_address, :locate
-
   after_update :update_swig_location
 
+  geocoded_by :address
+
+  extend  FriendlyId
+  friendly_id :name , use: :slugged
+  
   acts_as_taggable_on :sports_teams
-
-  #  geocoded_by :full_address, :latitude  => :latitude, :longitude => :longitude
-
-  #  after_validation :geocode, :if => :full_address_changed?
-
   acts_as_messageable required: [:topic, :body, :received_messageable_id]
   
   with_options dependent: :destroy do |bar|
@@ -54,12 +50,8 @@ class Bar < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :bar_hours, :allow_destroy => true
-  #  accepts_nested_attributes_for :bar_hours, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
-  #  accepts_nested_attributes_for :swigs #, :reject_if => lambda { |a| a[:content].blank? }, :allow_destroy => true
 
-  extend  FriendlyId
 
-  friendly_id :name , use: :slugged
   
   acts_as_mappable :default_units => :miles,
     :default_formula => :sphere,
@@ -67,11 +59,10 @@ class Bar < ActiveRecord::Base
     :lat_column_name => :latitude,
     :lng_column_name => :longitude
 
-  #    geocoded_by :latitude  => :latitude, :longitude => :longitude
-
   def update_swig_location
     self.swigs.each do |swig|
-      swig.update_attributes(address: self.address, latitude: self.latitude, longitude: self.longitude, city: self.city)
+      swig.update_attributes(address: self.address, latitude: self.latitude,
+        longitude: self.longitude, city: self.city)
     end
   end
 

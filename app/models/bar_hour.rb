@@ -1,6 +1,6 @@
 class BarHour < ActiveRecord::Base
-  attr_accessible :bar_id, :close, :open_hour, :day, :open_time, :close_time, :open_word, :close_word,
-    :close_day
+  attr_accessible :bar_id, :close, :open_hour, :day, :open_time, :close_time,
+    :open_word, :close_word, :close_day
 
   belongs_to :bar
 
@@ -25,13 +25,12 @@ class BarHour < ActiveRecord::Base
   }
 
   def close_day_checker
+
     if self.close_day
       self.open_time = "Close"
       self.close_time = "Close"
-      #    else
-      #      self.open_time = "#{self.open_hour.to_i}.#{self.open_word}"
-      #      self.close_time = "#{self.close.to_i}.#{self.close_word}"
     end
+    
   end
   
 end

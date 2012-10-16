@@ -7,14 +7,11 @@ class Swiger < ActiveRecord::Base
   belongs_to :user
 
   has_many :popularity_guesses
-
-  #  before_create :check_swiger
   
   validate :time_and_distance_valid?, :popularity_reward_valid?
 
   after_create :unlock_bigswig, :get_loyalty
 
-  #  scope :today, where("created_at >= ? AND created_at  <= ?", Date.today.to_time.in_time_zone.beginning_of_day,  Date.today.to_time.in_time_zone.end_of_day)
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
 
@@ -59,14 +56,6 @@ class Swiger < ActiveRecord::Base
     end
   end
 
-
-  #  def create_activity(actor, object)
-  #    ActivityStream.create(activity: "winloyalty", verb: "Winner Confirmation", actor_id: actor, actor_type: "User", object_id: object, object_type: "Winner")
-  #    user = User.find(actor)
-  #    self.bar.send_message(user, {topic: "Loyalty winner", body: "You win Loyalty reward from #{self.bar.name}"})
-  #  end
-
-
   def time_and_distance_valid?
     #    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first rescue nil
     bar_hour = self.bar.bar_hours.where(day: Time.zone.now.strftime("%A")).first rescue nil
@@ -95,7 +84,7 @@ class Swiger < ActiveRecord::Base
           user_swig = self.user.swigers.last
           radius = BarRadius.where(status: true).first.distance rescue 1
           unless user_swig.blank?
-            time_between_swigging = (RewardPolicy.first.time_between_swig rescue 1) * 3600
+            time_between_swigging = (TimeSwigging.first.time_between_swig rescue 1) * 3600
             #            time_between_swigging = (RewardPolicy.first.time_between_swig.blank? ?  RewardPolicy.first.time_between_swig :  1)   * 3600
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
               self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
@@ -109,7 +98,7 @@ class Swiger < ActiveRecord::Base
                   self.errors.add("time and distance", "Permision denied(Near Bar)! you must swigging at another bar atleast #{radius}.miles.")
                 end
               else
-                self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((((RewardPolicy.first.time_between_swig rescue 1) * 60) - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
+                self.errors.add("time and distance", "You already Swigged in the last hour, please wait #{((((TimeSwigging.first.time_between_swig rescue 1) * 60) - (Time.zone.now - user_swig.created_at) / 60)).to_i} minutes and try again. You can also try a bar at least #{radius} miles from your last Swig.")
               end
             end
           else

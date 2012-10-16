@@ -30,20 +30,12 @@ class User < ActiveRecord::Base
 
   validates :terms, :acceptance => true
 
-
-  #  def age_
-  #    now = Time.now.utc.to_date
-  #    age = now.year - self.bird_date.year - (self.bird_date.change(:year => now.year) > now ? 1 : 0)
-  #    unless
-  #  end
-
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     img = access_token.info.image
     data = access_token.extra.raw_info
     if user = self.find_by_email(data.email)
       user
     else # Create a user with a stub password.
-      #      self.create!(:email => data.email, :password => Devise.friendly_token[0,20], avatar: img)
       a = self.create!(:email => data.email, :password => Devise.friendly_token[0,20], name: data.name)
       a.remote_avatar_url = img
       a.save
@@ -58,4 +50,5 @@ class User < ActiveRecord::Base
       end
     end
   end
+  
 end

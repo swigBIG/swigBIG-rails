@@ -5,10 +5,6 @@ class Swig < ActiveRecord::Base
 
   belongs_to :bar
   
-  with_options dependent: :destroy do
-    #    has_many :swigers
-  end
-
   geocoded_by :address
   after_validation :geocode
 
@@ -23,6 +19,7 @@ class Swig < ActiveRecord::Base
   scope :friday, where("swig_day = 'Friday'")
   scope :saturday, where("swig_day = 'Saturday'")
   scope :sunday, where("swig_day = 'Sunday'")
+
   def swig_lock
     self.people
   end

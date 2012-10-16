@@ -4,7 +4,6 @@ class City < ActiveRecord::Base
   belongs_to :site_content
 
   extend  FriendlyId
-
   friendly_id :name , use: :slugged
 
   before_save  :set_city_lat_lng
