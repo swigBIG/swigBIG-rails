@@ -7,15 +7,17 @@
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
-    <script type="text/javascript">
-      $(document).ready(
-      function(){
-        setInterval(function(){
-          //$('#live_feed').load('/live_swig_feed');
-          $('#live_feed').load('<%= live_swig_feed_path %>');
-        }, 55000);
-      })
-    </script>
+    <% if session[:request_user_privilage] %>
+      <script type="text/javascript">
+        $(document).ready(
+        function(){
+          setInterval(function(){
+            //$('#live_feed').load('/live_swig_feed');
+            $('#live_feed').load('<%= live_swig_feed_path %>');
+          }, 55000);
+        })
+      </script>
+    <% end %>
   </head>
   <body style="padding-top: 20px;">
     <div class="navbar-fixed-top">
