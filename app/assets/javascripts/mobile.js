@@ -4,6 +4,8 @@
 //= require jquery.mobile
 //= require jquery.easing.compatibility
 //= require bootstrap-tab
+//= require tag-it
+//= require jquery-ui-1.8.autocomplete.min
 
 
 $(document).ready(function(){

@@ -1,0 +1,29 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#mytags").tagit({ trigerKeys: ['space', 'comma', 'tab']});
+    //$("#mytags").tagit({allowSpaces: false});
+  });
+</script>
+
+
+<div data-role="header" style="text-align: center;">
+  <%= render partial: "shared/swigbig_logo" %>
+  <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+    <h3>Invitation</h3>
+  </div>
+</div>
+
+<div data-role="content" >
+  <%= form_tag(users_after_sign_up_invite_friend_by_email_path) do %>
+    <%= text_field_tag(:mytags,"", style: "height: 30px;")  %>
+    <%= submit_tag "Invite", class: "btn-primary", style: "margin-left: 570px;margin-top: -40px;" %>
+
+    <% end %>
+  </div><!-- /content -->
+
+  <div data-role="footer" data-position="fixed" style="width: 100%">
+    <div data-role="controlgroup" style="margin: 5px;width: 97%;">
+      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
+      <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div>

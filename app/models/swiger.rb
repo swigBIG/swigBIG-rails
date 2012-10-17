@@ -48,7 +48,7 @@ class Swiger < ActiveRecord::Base
           if self.user.lock_fb_post.blank?
             me = FbGraph::User.me(user.access_token)
             me.feed!(
-              :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name}"
+              :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
             )
           end
         end
@@ -89,10 +89,12 @@ class Swiger < ActiveRecord::Base
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
               self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
               ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+              swigging_post_to_wall
               return true
             else
               unless user_swig.bar.latitude.eql?(self.bar.latitude)
                 unless (Geocoder::Calculations.distance_between([user_swig.bar.latitude, user_swig.bar.longitude], [self.bar.latitude, self.bar.longitude])) <= (radius)
+                  swigging_post_to_wall
                   return true
                 else
                   self.errors.add("time and distance", "Permision denied(Near Bar)! you must swigging at another bar atleast #{radius}.miles.")
@@ -104,6 +106,7 @@ class Swiger < ActiveRecord::Base
           else
             self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
             ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+            swigging_post_to_wall
             return true
           end
         else
@@ -151,10 +154,21 @@ class Swiger < ActiveRecord::Base
           if self.user.fb_post_swig.blank?
             me = FbGraph::User.me(user.access_token)
             me.feed!(
-              :message => "#{user.name} just earned #{swig.deal} at #{swig.bar.name}"
+              :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
             )
           end
         end
+      end
+    end
+  end
+
+  def swigging_post_to_wall
+    unless self.user.access_token.blank?
+      if self.user.fb_post_swig.blank?
+        me = FbGraph::User.me(user.access_token)
+        me.feed!(
+          :message => "#{self.user.name} just swigged at #{self.bar.name} !"
+        )
       end
     end
   end

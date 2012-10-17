@@ -21,6 +21,7 @@ class HomeController < ApplicationController
     @city = City.where(name: @city_lat_lng[0].to_s).first
 
     conditions = []
+    conditions << "bars.address IS NOT NULL "
     conditions << "swigs.swig_type = '#{params[:swig_type]}'" unless params[:swig_type].blank?
     conditions << "bars.sports_team LIKE '%#{params[:sports_team]}%'" unless params[:sports_team].blank?
     conditions << "swigs.swig_day = '#{Time.zone.now.strftime("%A").to_s}'"
@@ -79,9 +80,9 @@ class HomeController < ApplicationController
     end
   end
 
-  def live_swig_feed
-    render layout: false
-  end
+#  def live_swig_feed
+#    render layout: false
+#  end
 
   def contact_us
     @new_contact = Contact.new

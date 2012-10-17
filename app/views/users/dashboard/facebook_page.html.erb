@@ -87,176 +87,175 @@
       <div id="wizard" class="swMain">
 
         <ul>
-          <li>
+          <!--<li>
             <b>Last Status</b>
             <br>
             <div class="span5">
-              <%= @fb_post %>
+<%#= @fb_post %>
             </div>
             </br>
             <b>Facebook Status Message</b>
-            <%= form_tag users_facebook_update_status_path do %>
-              <%= text_area_tag :message, nil, :placeholder => 'Message here.' %>
-  <%#= submit_tag 'Update', :disable_with => 'Updating.' %>
+<%#= form_tag users_facebook_update_status_path do %>
+<%#= text_area_tag :message, nil, :placeholder => 'Message here.' %>
               <br/>
-              <%= submit_tag 'Update', class: "btn-primary pull-right", style: "margin-top: 10px;" %>
-              <% end %>
-            </li>
-            <li>
-              <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Profile Stat</b>
-              </a>
-            </li>
-            <li>
-              <a data-toggle="modal" href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Invite Friends</b>
-              </a>
-            </li>
+<%#= submit_tag 'Update', class: "btn-primary pull-right", style: "margin-top: 10px;" %>
+<%# end %>
+            </li>-->
+          <li>
+            <a href="#stat" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Profile Stat</b>
+            </a>
+          </li>
+          <li>
+            <a href="#invite" onclick="$('#goto_fb_invite').click()" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Invite Friends</b>
+            </a>
+          </li>
 
-            <li>
-              <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Contact Prefrences</b>
-              </a>
-            </li>
-            <li>
-              <a href="#delink" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>De-Link Facebook</b>
-              </a>
-            </li>
-            <li>
-              <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Delete Account</b>
-              </a>
-            </li>
-            <li>
-              <a href="#fb_setting" style="height: 30px;text-align: center;padding-top: 5px;">
-                <b>Facebook Event Setting</b>
-              </a>
-            </li>
+          <li>
+            <a href="#contact" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Contact Prefrences</b>
+            </a>
+          </li>
+          <li>
+            <a href="#delink" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>De-Link Facebook</b>
+            </a>
+          </li>
+          <li>
+            <a href="#delete" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Delete Account</b>
+            </a>
+          </li>
+          <li>
+            <a href="#fb_setting" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>Facebook Event Setting</b>
+            </a>
+          </li>
 
-          </ul>
+        </ul>
 
-          <div id="stat">
-            <h2 class="StepTitle"><b>Profile Stat</b></h2>
-            <div class="span4 pull-right">
-              <b>Favorite Bar</b>
-              <%= @top_bar.bar.name rescue "---"%>
-            </div>
-            <br/>
-            <div class="span4 pull-right">
-              <b>Last 5 Swigs</b>
-              <% @swigers.limit(5).each do |swiger| %>
-                <div class="span3">
-                  <b><%= swiger.bar.name rescue "No Name"%></b>
-                  <br/>
-                  <%= swiger.created_at.strftime("%d/%m/%Y") %>
-                </div>
-              <% end %>
-            </div>
-            <div class="span4">
-              <b>Swig This</b>
-            </div>
+        <div id="stat">
+          <h2 class="StepTitle"><b>Profile Stat</b></h2>
+          <div class="span4 pull-right">
+            <b>Favorite Bar</b>
+            <%= @top_bar.bar.name rescue "---"%>
           </div>
-          <div id="invite">
-            <h2 class="StepTitle"><b>Invite Friends</b></h2>
-            <a class="" data-toggle="modal" href="#invite_modal">invite</a>
-          </div>
-
-          <div id="contact">
-            <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
-          </div>
-          <div id="delink">
-            <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
-
-          </div>
-        
-          <div id="delete">
-            <h2 class="StepTitle"><b>Delete Account</b></h2>
-            <p></p>
-          </div>
-
-          <div id="fb_setting">
-            <h2 class="StepTitle"><b>Delete Account</b></h2>
-            <p></p>
-          </div>
-
-        </div>
-      </td></tr>
-  </table>
-
-
-  <%= content_for :outer do %>
-
-    <!--<div id="invite_modal" class="modal hide fade" style="opacity: 1 ;">-->
-    <!--<div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
-      <div class="modal-header">
-        <div style="background-color: #6D84B4;margin-bottom: 5px;">
-          <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
-          <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
-        </div>
-        <button class="btn btn-mini">Search:</button>
-        <input type="text" name="q" value="" style="width: 450px"></input>
-        <span id="count"></span>
-        <p id="none" style="display:none">There were no names to match your search!</p>
-      </div>
-    <%#= form_tag(users_invite_swigbig_path) do %>
-    <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-    <%#= select_tag "bar_id", options_for_select(bar_collection), html: {class: "chzn-select"} %>
-        <div class="modal-body" style="height:350px">
-          <ul id="fb">
-    <%# @friends.each do |friend| %>
-              <li class="span4" style="margin-top: 10px;list-style: none;">
-    <%#= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-    <%#= link_to image_tag(friend.picture) %>
-    <%#= friend.name %>
-              </li>
-    <%# end %>
-          </ul>
-        </div>
-        <div class="modal-footer">
-    <%#= submit_tag "invite", class: "btn-primary " %>
-            &nbsp;
-            &nbsp;
-            <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
-          </div>
-    <%# end %>
-      </div>-->
-
-    <!--<div id="invite_friends" class="modal hide fade active" style="opacity: 1 ;">-->
-    <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
-      <div class="modal-header">
-        <div style="background-color: #6D84B4;margin-bottom: 5px;">
-          <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
-          <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends to Join SwigBIG?</h5>
-        </div>
-        <button class="btn btn-mini">Search:</button>
-        <input type="text" name="q" value="" style="width: 450px"></input>
-        <span id="count"></span>
-        <p id="none" style="display:none">There were no names to match your search!</p>
-      </div>
-      <%= form_tag(users_after_sign_up_invite_friend_by_fb_path) do %>
-        <div class="modal-body" style="height:350px">
-          <ul id="fb">
-            <% @friends.each do |friend| %>
-              <li class="span4" style="margin-top: 10px;list-style: none;">
-                <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-                <%= link_to image_tag(friend.picture) %>
-                <%= friend.name %>
-                <%= friend.email %>
-              </li>
+          <br/>
+          <div class="span4 pull-right">
+            <b>Last 5 Swigs</b>
+            <% @swigers.limit(5).each do |swiger| %>
+              <div class="span3">
+                <b><%= swiger.bar.name rescue "No Name"%></b>
+                <br/>
+                <%= swiger.created_at.strftime("%d/%m/%Y") %>
+              </div>
             <% end %>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <%= submit_tag "invite", class: "btn-primary " %>
-            &nbsp;
-            &nbsp;
-            <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
           </div>
-        <% end %>
+          <div class="span4">
+            <b>Swig This</b>
+          </div>
+        </div>
+        <div id="invite">
+          <h2 class="StepTitle"><b>Invite Friends</b></h2>
+          <a class="" data-toggle="modal" href="#invite_modal" id="goto_fb_invite">invite</a>
+        </div>
+
+        <div id="contact">
+          <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
+        </div>
+        
+        <div id="delink">
+          <h2 class="StepTitle"><b>De-Link Facebook</b></h2>
+        </div>
+
+        <div id="delete">
+          <h2 class="StepTitle"><b>Delete Account</b></h2>
+          <p></p>
+        </div>
+
+        <div id="fb_setting">
+          <h2 class="StepTitle"><b>Delete Account</b></h2>
+          <p></p>
+        </div>
+
       </div>
-    <% end %>
-    <%- session[:invite_fb_friend_popup_was_appeared] = true %>
+    </td></tr>
+</table>
+
+
+<%= content_for :outer do %>
+
+  <!--<div id="invite_modal" class="modal hide fade" style="opacity: 1 ;">-->
+  <!--<div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
+    <div class="modal-header">
+      <div style="background-color: #6D84B4;margin-bottom: 5px;">
+        <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
+        <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
+      </div>
+      <button class="btn btn-mini">Search:</button>
+      <input type="text" name="q" value="" style="width: 450px"></input>
+      <span id="count"></span>
+      <p id="none" style="display:none">There were no names to match your search!</p>
+    </div>
+  <%#= form_tag(users_invite_swigbig_path) do %>
+  <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+  <%#= select_tag "bar_id", options_for_select(bar_collection), html: {class: "chzn-select"} %>
+      <div class="modal-body" style="height:350px">
+        <ul id="fb">
+  <%# @friends.each do |friend| %>
+            <li class="span4" style="margin-top: 10px;list-style: none;">
+  <%#= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
+  <%#= link_to image_tag(friend.picture) %>
+  <%#= friend.name %>
+            </li>
+  <%# end %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+  <%#= submit_tag "invite", class: "btn-primary " %>
+          &nbsp;
+          &nbsp;
+          <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
+        </div>
+  <%# end %>
+    </div>-->
+
+  <!--<div id="invite_friends" class="modal hide fade active" style="opacity: 1 ;">-->
+  <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
+    <div class="modal-header">
+      <div style="background-color: #6D84B4;margin-bottom: 5px;">
+        <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
+        <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends to Join SwigBIG?</h5>
+      </div>
+      <button class="btn btn-mini">Search:</button>
+      <input type="text" name="q" value="" style="width: 450px"></input>
+      <span id="count"></span>
+      <p id="none" style="display:none">There were no names to match your search!</p>
+    </div>
+    <%= form_tag(users_after_sign_up_invite_friend_by_fb_path) do %>
+      <div class="modal-body" style="height:350px">
+        <ul id="fb">
+          <% @friends.each do |friend| %>
+            <li class="span4" style="margin-top: 10px;list-style: none;">
+              <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
+              <%= link_to image_tag(friend.picture) %>
+              <%= friend.name %>
+              <%= friend.email %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag "invite", class: "btn-primary " %>
+          &nbsp;
+          &nbsp;
+          <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <%- session[:invite_fb_friend_popup_was_appeared] = true %>
 
 
 

@@ -55,7 +55,7 @@
             </a>
           </li>
           <li>
-            <a href="#invite" style="height: 30px;text-align: center;padding-top: 5px;">
+            <a href="#invite" onclick="$('#goto_invite_modal').click()" style="height: 30px;text-align: center;padding-top: 5px;">
               <b>Invite Friends</b>
             </a>
           </li>
@@ -114,65 +114,91 @@
           </div>
         </div>
         <div id="invite">
-          <h2 class="StepTitle"><b>Invite</b></h2>
-          <%= link_to "Find Friends in SwigBig", users_friend_index_path %>
+          <!--<h2 class="StepTitle"><b>Invite</b></h2>
+<%#= link_to "Find Friends in SwigBig", users_friend_index_path %>
 
           <table>
-            <%= form_tag(users_invite_by_email_path) do %>
-              <%= submit_tag "invite", class: "btn-primary" %>
-                <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-                <%= text_field_tag(:mytags)  %>
-    <%# @friends.each do |f| %>
-                <!--<tr>
-                  <td>
-    <%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
-                  </td>
-                  <td>
-    <%#= f.name %>
-                  </td>
-                  <td>
-    <%#= f.email %>
-                  </td>
-                </tr>-->
-    <%# end %>
-              <% end %>
-            </table>
-          </div>
-
-          <div id="email">
-            <h2 class="StepTitle"><b>Progress</b></h2>
-            <div style="margin-top: 30px;">
-              <div style="margin-left: 80px;margin-top: 40px;">
-                <%= simple_form_for(@user, url: users_update_account_path) do |f| %>
-                  <%= f.input :email, label: false, placeholder: "Email" %>
-                  <%= f.submit "change email"  %>
-                <% end %>
-              </div>
-            </div>
-          </div>
-          <div id="password">
-            <h2 class="StepTitle"><b>Change Password</b></h2>
-            <div style="margin-left: 80px;margin-top: 40px;">
-              <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
-                <%= f.input :password,label: false, placeholder: "Password" %>
-                <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
-                <%#= f.input :current_password, label: false, placeholder: "Current Password" %>
-                <%= f.submit "Change Password" %>
-              <% end %>
-            </div>
-          </div>
-          <div id="contact">
-            <h2 class="StepTitle"><b>Contact Rewards</b></h2>
-            <p></p>
-          </div>
-          <div id="delete">
-            <h2 class="StepTitle"><b>Delete Account</b></h2>
-            <p></p>
-          </div>
-
+<%#= form_tag(users_invite_by_email_path) do %>
+<%#= submit_tag "invite", class: "btn-primary" %>
+<%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+<%#= text_field_tag(:mytags)  %>
+<%# @friends.each do |f| %>
+          <!--<tr>
+            <td>
+<%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
+            </td>
+            <td>
+<%#= f.name %>
+            </td>
+            <td>
+<%#= f.email %>
+            </td>
+          </tr>
+<%# end %>
+<%# end %>
+      </table>-->
         </div>
-      </td></tr>
-  </table>
+
+        <div id="email">
+          <h2 class="StepTitle"><b>Progress</b></h2>
+          <div style="margin-top: 30px;">
+            <div style="margin-left: 80px;margin-top: 40px;">
+              <%= simple_form_for(@user, url: users_update_account_path) do |f| %>
+                <%= f.input :email, label: false, placeholder: "Email" %>
+                <%= f.submit "change email"  %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="password">
+          <h2 class="StepTitle"><b>Change Password</b></h2>
+          <div style="margin-left: 80px;margin-top: 40px;">
+            <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
+              <%= f.input :password,label: false, placeholder: "Password" %>
+              <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
+  <%#= f.input :current_password, label: false, placeholder: "Current Password" %>
+              <%= f.submit "Change Password" %>
+            <% end %>
+          </div>
+        </div>
+        <div id="contact">
+          <h2 class="StepTitle"><b>Contact Rewards</b></h2>
+          <p></p>
+        </div>
+        <div id="delete">
+          <h2 class="StepTitle"><b>Delete Account</b></h2>
+          <p></p>
+        </div>
+
+      </div>
+    </td></tr>
+</table>
+
+
+<a class="" data-toggle="modal" href="#invite_friends_modal" style="display: none;" id="goto_invite_modal">invite</a>
+<%= content_for :outer do %>
+  <div id="invite_friends_modal" class="modal hide fade active">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal" style="padding-right: 10px;"><b>x</b></a>
+      <h5>Invite Friends to Join SwigBIG?</h5>
+    </div>
+
+    <%= form_tag(users_invite_by_email_path) do %>
+      <div class="modal-body" style="height:230px;">
+
+
+        <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+        <div style="margin-left: 50px;margin-top: 20px;">
+        </div>
+        <%= text_field_tag(:mytags)  %>
+      </div>
+
+      <div class="modal-footer">
+        <%= submit_tag "invite", class: "btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
 
 

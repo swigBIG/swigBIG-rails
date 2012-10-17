@@ -18,7 +18,8 @@ Swprototype::Application.routes.draw do
   root to:  "home#main"
   
   match "bars/city/:id" =>  "home#city", as: "city"
-  get "live_swig_feed" =>  "home#live_swig_feed", as: "live_swig_feed"
+  get "live_swig_feed" =>  "request#live_swig_feed", as: "live_swig_feed"
+  #  get "live_swig_feed" =>  "home#live_swig_feed", as: "live_swig_feed"
   #  post "set_time_zone" =>  "application#set_time_zone", as: "set_time_zone"
   get "set_time_zone" =>  "application#set_time_zone", as: "set_time_zone"
 

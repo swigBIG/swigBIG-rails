@@ -111,7 +111,7 @@ class Users::DashboardController < ApplicationController
   end
 
   def show
-    @top_bar = Swiger.select(:bar_id).group(:bar_id).max
+    @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     @user = User.new

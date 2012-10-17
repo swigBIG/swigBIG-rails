@@ -2,8 +2,9 @@
 *= require bootstrap
 *= require bootstrap.min
 *= require jquery.mobile
-*= require engage.itoggle
 *= require bootstrap
 *= require bootstrap-responsive
 *= require docs
+*= require tagit-simple-blue
+*= require jquery.ui.autocomplete
 */

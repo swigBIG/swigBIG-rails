@@ -35,4 +35,9 @@ class RequestController < ApplicationController
   end
 
   def login;  end
+
+  def live_swig_feed
+    render layout: false
+  end
+  
 end
