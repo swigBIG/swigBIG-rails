@@ -43,6 +43,14 @@ class HomeController < ApplicationController
         @bars = Bar.within(@radius_to_show_in_mobile_list.to_i ,origin: @origin).includes(:swigs).where(conditions.join(" AND "))
       end
       
+      if user_signed_in? 
+        if current_user.access_token
+          fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
+          fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
+          @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
+        end
+      end
+
     end
     
     unless params[:zip_code].blank?
@@ -80,9 +88,9 @@ class HomeController < ApplicationController
     end
   end
 
-#  def live_swig_feed
-#    render layout: false
-#  end
+  #  def live_swig_feed
+  #    render layout: false
+  #  end
 
   def contact_us
     @new_contact = Contact.new

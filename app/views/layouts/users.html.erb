@@ -8,15 +8,15 @@
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
     <% if session[:request_user_privilage] %>
-    <script type="text/javascript">
-      $(document).ready(
-      function(){
-        setInterval(function(){
-          //$('#live_feed').load('/live_swig_feed');
-          $('#live_feed').load('<%= live_swig_feed_path %>');
-        }, 55000);
-      })
-    </script>
+      <script type="text/javascript">
+        $(document).ready(
+        function(){
+          setInterval(function(){
+            //$('#live_feed').load('/live_swig_feed');
+            $('#live_feed').load('<%= live_swig_feed_path %>');
+          }, 55000);
+        })
+      </script>
     <% end %>
   </head>
   <body style="padding-top: 20px;">
@@ -56,16 +56,16 @@
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_user.received_messages.where("opened is false").count %></span></a>
                     <ul class="dropdown-menu">
                       <% current_user.received_messages.where("opened is false").each do |notification| %>
-                        <!--<li style="width: 220px;" onclick="window.location.href='<%#= users_message_url(notification) %>'" ><%#= notification.topic.html_safe %>-->
+                                    <!--<li style="width: 220px;" onclick="window.location.href='<%#= users_message_url(notification) %>'" ><%#= notification.topic.html_safe %>-->
                         <li style="width: 220px;" ><%= notification.topic.html_safe %>
                           <br/>
                           <%= notification.created_at.strftime("%v") %>
                         </li>
                         <li class="divider"></li>
                       <% end %>
-                        <li>
+                      <li>
                         <b><%=  link_to "See All", users_messages_path, style: "color: white;" %></b>
-                        </li>
+                      </li>
                     </ul>
                   </li>
                 <% end %>
@@ -112,52 +112,68 @@
     <%= yield :user_notice %>
     <%= render partial: "shared/user_completion", locals: {style_margin: "standard"} %>
 
-    <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
-      <% if notice %>
-        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
-      <% end %>
-      <% if alert %>
-        <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
-      <% end %>
-      <div class="span4 pull-left">
-        <br />
-        <%= yield :side %>
-        <br />
-        <br />
-        <!--<a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'apple.com');"></a>
-        <br />
-        <br />
-        <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"></a>-->
-      </div>
-      <div class="container span11 pull-right">
-        <%= yield %>
-      </div>
-      <div style="margin-top: 30px;"></div>
-    </div>
+    <!--<div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;width: 1200px;">-->
+    <% if user_signed_in? %>
+      <% if current_user.access_token %>
+        <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;width: 1200px;">
+        <% else %>
+          <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
+          <% end %>
+        <% else %>
+          <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
+          <% end %>
+          <% if notice %>
+            <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+          <% end %>
+          <% if alert %>
+            <div class="alert alert-success" onclick="$(this).toggle()"><%= alert %><a class="close"><b>x</b></a></div>
+          <% end %>
+          <div class="span4 pull-left">
+            <br />
+            <%= yield :side %>
+            <br />
+            <br />
+            <!--<a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'apple.com');"></a>
+            <br />
+            <br />
+            <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"></a>-->
+          </div>
+          <div class="container span11">
+            <%= yield %>
+          </div>
+          <% if user_signed_in? %>
+            <% if current_user.access_token %>
+              <div class="span5 pull-right" style="margin-right: -10px;">
+                <%= yield :right_side %>
+              </div>
+            <% end %>
+          <% end %>
+          <div style="margin-top: 30px;"></div>
+        </div>
 
-    <%= yield :outer %>
+        <%= yield :outer %>
 
-    <div class="navbar-fixed-bottom">
-      <div class="navbar-inner" style="background-image: none;height: 25px;">
-        <div class="container" style="padding-top: 5px;">
-          <div class="pull-left" style="color: white;" id="live_feed"><%= render partial: "shared/user_swig_feed_partial" %></div>
-          <div class="pull-right">
-            <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
-            &nbsp;
-            <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
-            &nbsp;
-            <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
-            &nbsp;
-            <a data-toggle="modal" href="#contact_modal_for_hpage" onclick="$('#contact_modal_for_hpage').html('');$.get('/home/contact_us_for_homepage')" style="color: white;"><b>Contact Us</b></a>
-            &nbsp;
-            <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
+        <div class="navbar-fixed-bottom">
+          <div class="navbar-inner" style="background-image: none;height: 25px;">
+            <div class="container" style="padding-top: 5px;">
+              <div class="pull-left" style="color: white;" id="live_feed"><%= render partial: "shared/user_swig_feed_partial" %></div>
+              <div class="pull-right">
+                <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
+                &nbsp;
+                <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
+                &nbsp;
+                <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
+                &nbsp;
+                <a data-toggle="modal" href="#contact_modal_for_hpage" onclick="$('#contact_modal_for_hpage').html('');$.get('/home/contact_us_for_homepage')" style="color: white;"><b>Contact Us</b></a>
+                &nbsp;
+                <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <%= render partial: "shared/site_modal_partial.html" %>
+        <%= render partial: "shared/site_modal_partial.html" %>
 
-  </body>
-  <%= yield :bottom_js %>
-</html>
+        </body>
+        <%= yield :bottom_js %>
+        </html>

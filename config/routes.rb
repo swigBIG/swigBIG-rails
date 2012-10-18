@@ -175,7 +175,7 @@ Swprototype::Application.routes.draw do
     match  "mobile_swigging/:bar_id" => "bar_swigs#mobile_swigging", as: "mobile_swigging"
     get  "sign_out_for_mobile" => "dashboard#sign_out_for_mobile", as: "sign_out_for_mobile"
     post  "mobile_invite_friends_by_email/:bar_id" => "dashboard#mobile_invite_friend_by_email", as: "mobile_invite_friend_by_email"
-    get  "mobile_invite_friends" => "dashboard#mobile_invite_friends", as: "mobile_invite_friends"
+    get  "mobile_invite_friends/:bar_id" => "dashboard#mobile_invite_friends", as: "mobile_invite_friends"
 
     resources :messages do
       collection do

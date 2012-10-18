@@ -15,6 +15,19 @@
       width: 650px!important;
     }
   </style>
+
+  <script type="text/javascript">
+    function hovering_style(t){
+      alert("masuk");
+      $("#p1").hover(function () {
+        $("#p1text").slideDown();
+        $("#p1image").slideUp();
+      }, function(){
+        $("#p1text").slideUp();
+        $("#p1image").slideDown();
+      });
+    }
+  </script>
 <% end %>
 
 <%= content_for :right_side do %>
@@ -40,14 +53,33 @@
   <div class="span11 ">
     <div class="tab-content">
       <div class="tab-pane active" id="summary">
+        <td><a style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>See All</b></a></td>
         <table>
           <tr><h4>Recently Earned</h4></tr>
-          <tr>
-            <% @bar_rewards.each do |bar| %>
-              <td><%= bar.sent_messageable.name %><br/><%= bar.created_at.strftime("%v") %></td>
-            <% end %>
-            <td><a style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>See All</b></a></td>
-          </tr>
+          <% @bar_rewards.each_with_index do |bar, x| %>
+            <tr>
+            <div id="p<%= x %>">
+              <div id="ptext<%= x %>" class="well" style="display:none;">
+                <h6>Reward Detail</h6>
+                <%= bar.body rescue "not set yet" %>
+                <br/>
+                <%= bar.expirate_reward.strftime("%v") rescue nil %>
+              </div>
+              <div id="pimage<%= x %>" class="well">
+                <%= bar.sent_messageable.name rescue "not set yet!" %><br/><%= bar.created_at.strftime("%v") %>
+              </div>
+            </div>
+            <script type="text/javascript">
+              $("#p<%= x %>").hover(function () {
+                $("#ptext<%= x %>").slideDown();
+                $("#pimage<%= x %>").slideUp();
+              }, function(){
+                $("#ptext<%= x %>").slideUp();
+                $("#pimage<%= x %>").slideDown();
+              });
+            </script>
+            </tr>
+          <% end %>
         </table>
         <table>
           <tr><h4>Expiring Soon</h4></tr>

@@ -12,6 +12,7 @@ class Users::DashboardController < ApplicationController
   end
 
   def facebook_page
+    #    debugger
     if is_mobile_view? and !user_signed_in?
       redirect_to mobile_dashboard_home_url(:mobile)
     end
@@ -19,10 +20,13 @@ class Users::DashboardController < ApplicationController
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     bar_ids =  Bar.within( @radius_for_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
-    @friends_swigger = Swiger.today.where(["bar_id IN (?)", bar_ids])
+    fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
+    fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
+    @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.now.beginning_of_month, Time.now.end_of_month ])
+    #      @friends_swigger = Swiger.joins(:user).where(["users.email IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", emails, Time.now.beginning_of_day, Time.now.end_of_day ])
     @user = User.new
     @fb_post = FbGraph::User.me(current_user.access_token).statuses.first.message
-    @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
+    @friends = FbGraph::User.me(current_user.access_token).friends#.sort_by(&:name)
   end
 
   def facebook_update_status
@@ -267,7 +271,9 @@ class Users::DashboardController < ApplicationController
     end
   end
 
-  def mobile_invite_friends;  end
+  def mobile_invite_friends
+    @bar = Bar.find(params[:bar_id])
+  end
   
 end
 

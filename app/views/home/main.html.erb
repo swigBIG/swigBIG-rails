@@ -174,5 +174,21 @@
       </div>
     </div>
 
+    <% if user_signed_in?  %>
+      <% if current_user.access_token %>
+        <%= content_for :right_side do %>
+          <h4>People you May Know!</h4>
+          <div class="clearfix"></div>
+          <% @friends_swigger.each do |swigger| %>
+            <div class="span2">
+              <%= swigger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swigger.user.avatar_url(:mini)) %>
+              <br/>
+              <%= swigger.user.name %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
   </body>
 

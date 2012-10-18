@@ -5,25 +5,59 @@
   });
 </script>
 
-
-<div data-role="header" style="text-align: center;">
-  <%= render partial: "shared/swigbig_logo" %>
-  <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
-    <h3>Invitation</h3>
+<div data-role="page" id="after_swigging_page">
+  <div data-role="header" style="text-align: center;">
+    <%= render partial: "shared/swigbig_logo" %>
+    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+      <h3><%= @bar.name %></h3>
+      <% if notice %>
+        <div onclick="$(this).toggle()" class="alert alert-success"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div onclick="$(this).toggle()" class="alert alert-success"><%= alert %><a class="close"><b>x</b></a></div>
+      <% end %>
+    </div>
   </div>
-</div>
 
-<div data-role="content" >
-  <%= form_tag(users_after_sign_up_invite_friend_by_email_path) do %>
-    <%= text_field_tag(:mytags,"", style: "height: 30px;")  %>
-    <%= submit_tag "Invite", class: "btn-primary", style: "margin-left: 570px;margin-top: -40px;" %>
+  <div data-role="content" >
+    <div style="background-color: gray;">
 
-    <% end %>
+    </div>
+
+
   </div><!-- /content -->
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
       <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
       <%= render partial: "shared/footer_menu_partial" %>
+    </div>
+  </div>
+</div>
+
+<div data-role="page" id="invite_friends_page">
+  <div data-role="header" style="text-align: center;">
+    <%= render partial: "shared/swigbig_logo" %>
+    <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
+      <h3><%= @bar.name %></h3>
+    </div>
+  </div>
+
+  <div data-role="content" >
+    <div style="background-color: gray;">
+
+    </div>
+
+    <%= form_tag(users_after_sign_up_invite_friend_by_email_path) do %>
+      <%= text_field_tag(:mytags,"", style: "height: 30px;")  %>
+      <%= submit_tag "Invite", class: "btn-primary", style: "margin-left: 570px;margin-top: -40px;" %>
+      <% end %>
+    </div><!-- /content -->
+
+    <div data-role="footer" data-position="fixed" style="width: 100%">
+      <div data-role="controlgroup" style="margin: 5px;width: 97%;">
+        <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
+        <%= render partial: "shared/footer_menu_partial" %>
+      </div>
     </div>
   </div>

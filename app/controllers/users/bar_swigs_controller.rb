@@ -62,16 +62,17 @@ class Users::BarSwigsController < ApplicationController
 
   def mobile_swigging
     
-    bar = Bar.find(params[:bar_id])
+    @bar = Bar.find(params[:bar_id])
     
     if user_signed_in?
-      swiger = bar.swigers.new(user_id: current_user.id)
-
-      msg =  swiger.save ? "You added as Swiger in this BigSwig!" : "#{swiger.errors["time and distance"].first}"
-        
-      redirect_to :back, notice: msg
+      swiger = @bar.swigers.new(user_id: current_user.id)
+      if swiger.save
+        redirect_to users_mobile_invite_friends_url(@bar, :mobile), notice:  "Thank you for Swigging!"
+      else
+        redirect_to :back, notice: "#{swiger.errors["time and distance"].first}"
+      end
     else
-      redirect_to users_enter_bar_path(bar), notice: "You must sign in first!"
+      redirect_to users_enter_bar_path(bar, :mobile), notice: "You must sign in first!"
     end
 
   end
