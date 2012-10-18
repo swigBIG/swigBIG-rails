@@ -43,6 +43,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.update_for_facebook_oauth(access_token, signed_in_resource=nil)
+    img = access_token.info.image
+    data = access_token.extra.raw_info
+    if user = self.find_by_email(data.email)
+      user
+    else # Create a user with a stub password.
+      signed_in_resource.remote_avatar_url = img
+      signed_in_resource.save
+      return signed_in_resource
+    end
+  end
+
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]

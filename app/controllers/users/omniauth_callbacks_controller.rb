@@ -3,7 +3,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     # You need to implement the method below in your model
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
-
+    User.update_for_facebook_oauth(request.env["omniauth.auth"], @user)
     if @user.persisted?
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
       sign_in_and_redirect @user, :event => :authentication
@@ -26,6 +26,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def after_sign_in_path_for(resource)
     session[:request_user_privilage] = true
     #    current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, name: request.env["omniauth.auth"].info.name, fb_id: request.env["omniauth.auth"].uid)
+    
     current_user.update_attributes(access_token: request.env["omniauth.auth"].credentials.token, fb_id: request.env["omniauth.auth"].uid)
     guess_by_fb_id = PopularityGuess.today.where(fb_id: current_user.fb_id).first
     guess_by_email = PopularityGuess.today.where(email: current_user.email).first
