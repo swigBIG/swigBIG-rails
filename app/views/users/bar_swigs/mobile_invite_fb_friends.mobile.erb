@@ -65,11 +65,13 @@
 
   <div data-role="content" >
     <a data-role="button" style="width: 100%;margin: 5px;" data-theme="b" onclick="$('#goto_invite').click()" >Invite Friends</a>
-    <input type="text" name="q" value="" style="height: 30px;"></input>
+    <input type="text" name="q" value="" style="height: 30px;" placeholder="Search Name!"></input>
     <span id="count"></span>
     <p id="none" style="display:none">There were no names to match your search!</p>
     <%= form_tag(users_invite_fb_friends_path(@bar)) do %>
-      <%= submit_tag "invite", style: "display: none;" , id: "goto_invite"%>
+      <div style="display: none;">
+        <%= submit_tag "invite" , id: "goto_invite"%>
+      </div>
       <ul id="fb" data-role="listview" class="ui-listview with_thumbnail" data-inset="true">
         <% @friends.each do |friend| %>
           <li>
