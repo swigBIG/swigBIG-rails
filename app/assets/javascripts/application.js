@@ -25,6 +25,7 @@
 //= require jquery.numeric
 //= require jquery.smartWizard-2.0
 //= require jquery.tokeninput
+//= require jquery.shorten.1.0
 //= require jscolor
 //= require tag-it
 //= require validate_people
