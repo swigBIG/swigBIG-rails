@@ -91,7 +91,10 @@
       </li>
       <li>
 <%#= link_to "Invite Friends", users_mobile_invite_friends_url(@bar) %>
-        <a onclick="window.location.href='<%= users_mobile_invite_friends_url %>'">Invite Friends</a>
+        <a onclick="window.location.href='<%= users_mobile_invite_friends_url(@bar, :mobile) %>'">Invite Friends</a>
+      </li>
+      <li>
+        <a onclick="window.location.href='<%= users_mobile_invite_fb_friends_url(@bar, :mobile) %>'">Invite Friends</a>
       </li>
     </ul>
   </div>

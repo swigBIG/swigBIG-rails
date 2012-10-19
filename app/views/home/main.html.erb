@@ -101,6 +101,16 @@
   }
 </script>
 
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".comment").shorten({
+      "showChars" : 50,
+      "moreText"  : "See More",
+      "lessText"  : "Less",
+    });
+  });
+</script>
+
 <body>
   <%= content_for :side do %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>

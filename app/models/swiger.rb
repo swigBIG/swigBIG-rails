@@ -123,6 +123,7 @@ class Swiger < ActiveRecord::Base
 
       if !self.user.popularity_inviters.today.first.blank?
         self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
+        debugger
         popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})

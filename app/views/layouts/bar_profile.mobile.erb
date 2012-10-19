@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <!--<title><%#= h(yield(:title) || "mobile version") %></title>-->
+    <title>Swigbig Mobile</title>
+    <%= javascript_include_tag "mobile" %>
+    <%= javascript_include_tag "jquery.livesearch" %>
+    <%= stylesheet_link_tag "application.mobile" %>
+    <%= yield(:js_mobile) %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

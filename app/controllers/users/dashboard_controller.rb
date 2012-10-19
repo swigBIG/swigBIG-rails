@@ -115,7 +115,7 @@ class Users::DashboardController < ApplicationController
   end
 
   def show
-    @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name
+    @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "never swigging yet!"
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     @user = User.new
@@ -274,6 +274,30 @@ class Users::DashboardController < ApplicationController
   def mobile_invite_friends
     @bar = Bar.find(params[:bar_id])
   end
-  
+
+  def convert_facebook_account_to_email_account
+    
+    chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+    serial = (0...6).collect { chars[Kernel.rand(chars.length)] }.join
+    is_existed = true
+    while is_existed.eql?(true)
+      if RequestUser.where(enter_key: serial).first.nil?
+        is_existed = false
+      else
+        chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+        serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
+      end
+    end
+
+    if current_user.update_attributes(access_token: nil, fb_id: nil, password: serial)
+      sign_in current_user, :bypass => true
+      Messages.new_email_account_password(current_user, serial).deliver
+      redirect_to root_url, notice: "success convert account! Please Check your email to sign in with new password"
+    else
+      redirect_to :back, notice: "success convert account! Please Check your email to sign in with new password"
+    end
+
+  end
+
 end
 

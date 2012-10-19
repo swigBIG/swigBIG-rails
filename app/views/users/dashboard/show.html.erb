@@ -79,6 +79,11 @@
               <b>Delete Account</b>
             </a>
           </li>
+          <li>
+            <a href="#delink_fb" style="height: 30px;text-align: center;padding-top: 5px;">
+              <b>De Link to facebook Account</b>
+            </a>
+          </li>
         </ul>
 
         <div id="stat">
@@ -169,36 +174,42 @@
           <h2 class="StepTitle"><b>Delete Account</b></h2>
           <p></p>
         </div>
+        <div id="delink_fb">
+          <h2 class="StepTitle"><b>De Link to Facebook Account</b></h2>
+          <b>This feature is for convert to get facebook access, please make sure your email same with facebook account email or all your account data will gone!or change your email first!</b>
+          <br/>
+          <%= link_to "Delink with Facebook", omniauth_authorize_path(:user, "facebook"), class: "btn", style: "color: blue;" %><br />
+          </div>
 
-      </div>
-    </td></tr>
-</table>
-
-
-<a class="" data-toggle="modal" href="#invite_friends_modal" style="display: none;" id="goto_invite_modal">invite</a>
-<%= content_for :outer do %>
-  <div id="invite_friends_modal" class="modal hide fade active">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal" style="padding-right: 10px;"><b>x</b></a>
-      <h5>Invite Friends to Join SwigBIG?</h5>
-    </div>
-
-    <%= form_tag(users_invite_by_email_path) do %>
-      <div class="modal-body" style="height:230px;">
-
-
-        <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-        <div style="margin-left: 50px;margin-top: 20px;">
         </div>
-        <%= text_field_tag(:mytags)  %>
+      </td></tr>
+  </table>
+
+
+  <a class="" data-toggle="modal" href="#invite_friends_modal" style="display: none;" id="goto_invite_modal">invite</a>
+  <%= content_for :outer do %>
+    <div id="invite_friends_modal" class="modal hide fade active">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal" style="padding-right: 10px;"><b>x</b></a>
+        <h5>Invite Friends to Join SwigBIG?</h5>
       </div>
 
-      <div class="modal-footer">
-        <%= submit_tag "invite", class: "btn-primary" %>
+      <%= form_tag(users_invite_by_email_path) do %>
+        <div class="modal-body" style="height:230px;">
+
+
+          <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+          <div style="margin-left: 50px;margin-top: 20px;">
+          </div>
+          <%= text_field_tag(:mytags)  %>
         </div>
-      <% end %>
-    </div>
-  <% end %>
+
+        <div class="modal-footer">
+          <%= submit_tag "invite", class: "btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
 
 
 
