@@ -181,6 +181,8 @@ class Swiger < ActiveRecord::Base
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           inviter  = popularity_invitation.popularity_inviter.user
           #          self.bar.send_message(inviter, {topic: "#{inviter.name} has unlock #{self.bar} popularity", body: "", category: 9})
+          chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+          serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
           is_existed = true
           while is_existed.eql?(true)
             if Coupon.where(coupon_serial: serial).first.nil?
