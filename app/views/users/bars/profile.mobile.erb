@@ -88,19 +88,6 @@
       <li>
         <a href="#rewards_list_page" >Rewards</a>
       </li>
-      <!--<li>
-        <a onclick="window.location.href='<%#= users_mobile_invite_friends_url(@bar, :mobile) %>'">Invite Friends</a>
-      </li>-->
-      <% if user_signed_in? %>
-        <% unless current_user.access_token.blank? %>
-          <li>
-            <a onclick="window.location.href='<%= users_mobile_invite_fb_friends_url(@bar, :mobile) %>'">Invite Friends & get popularity reward <br/>
-              current popularity: <%= @popularity.reward_detail rescue 'Not set Yet!' %><br/>
-              <%= "Require People: #{(@popularity.swig_number rescue 'Not set Yet!')}" %>
-            </a>
-          </li>
-        <% end %>
-      <% end %>
     </ul>
   </div>
 

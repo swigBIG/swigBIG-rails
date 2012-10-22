@@ -21,7 +21,15 @@
           <br/>
           <b>Expirate Reward : </b><%= reward.expirate_reward.strftime("%v") rescue nil  %>
           <br/>
-          <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
+          <% if reward.category.eql?(16) %>
+            <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
+          <% elsif reward.category.eql?(9) %>
+            <b>Hours Remain : </b><%= counting_hours(reward.expirate_reward) rescue nil %> 
+            <br/>
+            <b>Hours Remain : </b><%= reward.expirate_reward.strftime('%r') %> : to <%= Time.now.strftime('%r') %>
+          <% else %>
+            <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
+          <% end %>
         </div>
       <% end %>
     </div>

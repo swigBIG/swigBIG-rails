@@ -1,23 +1,24 @@
 <% unless @user_swig_feed.blank? %>
-  <% if @user_swig_feed.verb.eql?("loyalty reward") %>
-    <% unless @user_swig_feed.actor.name.blank? %>
-      <%= "Live Swig Feed: #{@user_swig_feed.actor.name rescue @user_swig_feed.actor.email} got loyalty reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
+  <% if @user_swig_feed.verb.eql?("loyalty reward")  %>
+    <%# unless @user_swig_feed.actor.name.blank? %>
+    <% unless @user_swig_feed.actor.blank? %>
+      <%= "Live Swig Feed: #{(@user_swig_feed.actor.name rescue @user_swig_feed.actor.email) rescue 'anonimus'} got loyalty reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
     <% else %>
-      <%= "Live Swig Feed: #{@user_swig_feed.actor.email rescue @user_swig_feed.actor.email} got loyalty reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
+      <%= "Live Swig Feed: #{(@user_swig_feed.actor.email rescue @user_swig_feed.actor.email) rescue 'anonimus'} got loyalty reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
     <% end %>
   <% elsif @user_swig_feed.verb.eql?("popularity reward") %>
-    <% unless @user_swig_feed.actor.name.blank? %>
-      <%= "Live Swig Feed: #{@user_swig_feed_actor.name rescue @user_swig_feed.actor.email} got popularity reward at " %><%= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
+    <% unless @user_swig_feed.actor.blank? %>
+      <%= "Live Swig Feed: #{(@user_swig_feed.actor.name rescue @user_swig_feed.actor.email) rescue 'anonimus'} got popularity reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
     <% else %>
-      <%= "Live Swig Feed: #{@user_swig_feed_actor.email rescue @user_swig_feed.actor.email} got popularity reward at " %><%= link_to @user_swig_feed_object.name, bar_profile_path(@user_swig_feed_object) %>
+      <%= "Live Swig Feed: #{(@user_swig_feed.actor.email rescue @user_swig_feed.actor.email) rescue 'anonimus'} got popularity reward at " %><%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
     <% end %>
   <% elsif @user_swig_feed.verb.eql?("bigswig unlock") %>
     <%= "Live Swig Feed:  Unlocked Bigswig at" %>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
   <% elsif @user_swig_feed.verb.eql?("user swiging") %>
-    <% unless @user_swig_feed.actor.name.blank? %>
-      <%= "Live Swig Feed: #{@user_swig_feed.actor.name rescue @user_swig_feed.actor.email} swiging at  "%>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
+    <% unless @user_swig_feed.actor.blank? %>
+      <%= "Live Swig Feed: #{(@user_swig_feed.actor.name rescue @user_swig_feed.actor.email) rescue 'anonimus'} swiging at  "%>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
     <% else %>
-      <%= "Live Swig Feed: #{@user_swig_feed.actor.email rescue @user_swig_feed.actor.email} swiging at  "%>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
+      <%= "Live Swig Feed: #{(@user_swig_feed.actor.email rescue @user_swig_feed.actor.email) rescue 'anonimus'} swiging at  "%>&nbsp;<%= link_to @user_swig_feed.object.name, bar_profile_path(@user_swig_feed.object) %>
     <% end %>
   <% end %>
 <% else %>

@@ -8,9 +8,9 @@ class Swiger < ActiveRecord::Base
 
   has_many :popularity_guesses
   
-  validate :time_and_distance_valid?, :popularity_reward_valid?
+  validate :time_and_distance_valid? #, :popularity_reward_valid?
 
-  after_create :unlock_bigswig, :get_loyalty
+  after_create :unlock_bigswig, :get_loyalty, :get_popularity_reward
 
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
@@ -39,13 +39,13 @@ class Swiger < ActiveRecord::Base
         win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
         self.bar.send_message(self.user, {
             topic: "You got loyalty reward from #{self.bar.name}",
-            body: "You got reward from #{self.bar.name} and your coupon: #{serial}",
+            body: "You got loyalty reward from #{self.bar.name} and your coupon: #{serial}",
             category: 16, coupon: serial, coupon_status: false,
             reward: self.bar.loyalty.reward_detail,
             expirate_reward: (self.created_at + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days)
           })
         unless self.user.access_token.blank?
-          if self.user.lock_fb_post.blank?
+          if self.user.lock_fb_post
             me = FbGraph::User.me(user.access_token)
             me.feed!(
               :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
@@ -64,8 +64,6 @@ class Swiger < ActiveRecord::Base
     else
       if !bar_hour.open_time.blank? && !bar_hour.close_time.blank?
         Chronic.time_class = Time.zone
-
-        #        if bar_hour.open_word.eql?("PM") and bar_hour.close_word.eql?("AM")
         if (Chronic.parse(bar_hour.close_time) - Chronic.parse(bar_hour.open_time)) < 0
           bar_hour.close_time = Chronic.parse(bar_hour.close_time) + 1.days
         else
@@ -87,7 +85,6 @@ class Swiger < ActiveRecord::Base
             time_between_swigging = (TimeSwigging.first.time_between_swig rescue 1) * 3600
             #            time_between_swigging = (RewardPolicy.first.time_between_swig.blank? ?  RewardPolicy.first.time_between_swig :  1)   * 3600
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
-              self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
               ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               swigging_post_to_wall
               return true
@@ -104,7 +101,6 @@ class Swiger < ActiveRecord::Base
               end
             end
           else
-            self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
             ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             swigging_post_to_wall
             return true
@@ -118,29 +114,29 @@ class Swiger < ActiveRecord::Base
     end
   end
 
-  def popularity_reward_valid?
-    if !self.bar.popularity.blank?
-
-      if !self.user.popularity_inviters.today.first.blank?
-        self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
-        debugger
-        popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
-        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
-          self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
-          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
-        end
-      elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
-        user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
-        user_guess.update_attributes(enter_status: "swig")
-        popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
-      else
-        return true
-      end
-
-    else
-      return true
-    end
-  end
+  #  def popularity_reward_valid?
+  #    if !self.bar.popularity.blank?
+  #
+  #      if !self.user.popularity_inviters.today.first.blank?
+  #        self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
+  #        debugger
+  #        popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+  #        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+  #          self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
+  #          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+  #        end
+  #      elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
+  #        user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
+  #        user_guess.update_attributes(enter_status: "swig")
+  #        popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+  #      else
+  #        return true
+  #      end
+  #
+  #    else
+  #      return true
+  #    end
+  #  end
 
   def unlock_bigswig
     today_swiger = self.bar.swigers.today
@@ -164,14 +160,60 @@ class Swiger < ActiveRecord::Base
   end
 
   def swigging_post_to_wall
+    self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
     unless self.user.access_token.blank?
-      if self.user.fb_post_swig.blank?
+      if self.user.fb_post_swig
         me = FbGraph::User.me(user.access_token)
         me.feed!(
           :message => "#{self.user.name} just swigged at #{self.bar.name} !"
         )
       end
     end
+  end
+
+  #  def popularity_reward_valid?
+  def get_popularity_reward
+    unless self.bar.popularity.blank?
+      popularity_invitation = self.user.popularity_guesses.today.where(bar_id: self.bar).first
+      unless popularity_invitation.blank?
+        popularity_invitation.update_attributes(enter_status: "swig")
+        popularity_numbers = popularity_invitation.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
+          inviter  = popularity_invitation.popularity_inviter.user
+          #          self.bar.send_message(inviter, {topic: "#{inviter.name} has unlock #{self.bar} popularity", body: "", category: 9})
+          is_existed = true
+          while is_existed.eql?(true)
+            if Coupon.where(coupon_serial: serial).first.nil?
+              is_existed = false
+            else
+              chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+              serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
+            end
+          end
+          self.bar.send_message(inviter, {
+              topic: "You got popularity reward from #{self.bar.name}",
+              body: "You got popularity reward from #{self.bar.name} and your coupon: #{serial}",
+              category: 9, coupon: serial, coupon_status: false,
+              reward: self.bar.popularity.reward_detail,
+              expirate_reward: (self.created_at + (RewardPolicy.first.popularity_expirate_hours rescue 10).to_i.hours)
+            })
+          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: inviter.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+          if inviter.fb_post_swig
+            udah_ngebuat_status
+            me = FbGraph::User.me(inviter.access_token)
+            me.feed!(
+              :message => "#{inviter.name} just earned #{self.bar.popularity.reward_detail} at #{self.bar.name} for being the popular kid on the block!"
+            )
+          end
+          return true
+        end
+      else
+        return true
+      end
+    else
+      return true
+    end
+
   end
 
 end

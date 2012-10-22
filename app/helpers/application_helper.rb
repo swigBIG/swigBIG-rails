@@ -104,5 +104,9 @@ module ApplicationHelper
   def counting_day(day)
     (day - Date.today).to_i
   end
+
+  def counting_hours(hours)
+    (hours - Time.now).to_f
+  end
  
 end
