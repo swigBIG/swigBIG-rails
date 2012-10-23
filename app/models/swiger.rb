@@ -46,10 +46,13 @@ class Swiger < ActiveRecord::Base
           })
         unless self.user.access_token.blank?
           if self.user.lock_fb_post
-            me = FbGraph::User.me(user.access_token)
-            me.feed!(
-              :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
-            )
+            begin
+              me = FbGraph::User.me(user.access_token)
+              me.feed!(
+                :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
+              )
+            rescue 
+            end
           end
         end
       end
@@ -201,11 +204,13 @@ class Swiger < ActiveRecord::Base
             })
           ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: inviter.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
           if inviter.fb_post_swig
-            udah_ngebuat_status
             me = FbGraph::User.me(inviter.access_token)
             me.feed!(
               :message => "#{inviter.name} just earned #{self.bar.popularity.reward_detail} at #{self.bar.name} for being the popular kid on the block!"
             )
+          end
+          if inviter.fb_id.blank?
+            RewardsMessages.popularity_reward_email(inviter, self.bar, serial).deliver
           end
           return true
         end

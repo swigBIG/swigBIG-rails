@@ -1,6 +1,7 @@
 /*
 * jQuery UI Tag-it!
 *
+*
 * @version v2.0 (06/2011)
 *
 * Copyright 2011, Levy Carneiro Jr.

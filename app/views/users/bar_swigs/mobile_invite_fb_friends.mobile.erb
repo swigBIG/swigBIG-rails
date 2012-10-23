@@ -66,7 +66,7 @@
     <input type="text" name="q" value="" style="height: 30px;" placeholder="Search Name!"></input>
     <span id="count"></span>
     <p id="none" style="display:none">There were no names to match your search!</p>
-    <%= form_tag(users_invite_fb_friends_path(@bar)) do %>
+    <%= form_tag(users_invite_fb_friends_path(@bar), "data-ajax" => 'false' ) do %>
       <div style="display: none;">
         <%= submit_tag "invite" , id: "goto_invite"%>
       </div>
@@ -89,7 +89,6 @@
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div>

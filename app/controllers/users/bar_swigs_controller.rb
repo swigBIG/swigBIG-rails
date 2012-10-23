@@ -67,7 +67,11 @@ class Users::BarSwigsController < ApplicationController
     if user_signed_in?
       swiger = @bar.swigers.new(user_id: current_user.id)
       if swiger.save
-        redirect_to users_mobile_invite_fb_friends_url(@bar, :mobile), notice:  "Thank you for Swigging!"
+        unless current_user.access_token.blank?
+          redirect_to users_mobile_invite_fb_friends_url(@bar, :mobile), notice:  "Thank you for Swigging!"
+        else
+          redirect_to users_mobile_invite_email_friends_url(@bar, :mobile), notice:  "Thank you for Swigging!"
+        end
       else
         redirect_to :back, notice: "#{swiger.errors["time and distance"].first}"
       end
@@ -81,6 +85,11 @@ class Users::BarSwigsController < ApplicationController
     @bar = Bar.find(params[:bar_id])
     @loyalty_points = current_user.points
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
+  end
+
+  def mobile_invite_email_friends
+    @bar = Bar.find(params[:bar_id])
+    @loyalty_points = current_user.points
   end
 
   #  def invite_fb_friends
@@ -98,7 +107,7 @@ class Users::BarSwigsController < ApplicationController
     if popularity_inviter.save and !params[:fb_ids].blank?
       popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
       params[:fb_ids].each do |fb_id|
-        fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit #{bar.name} or join http://swigbig.com/"})
+        fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
         user = User.where(fb_id: fb_id).first
         if user
           popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
@@ -106,11 +115,30 @@ class Users::BarSwigsController < ApplicationController
           popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
         end
       end
-      redirect_to :back, notice: "Popularity success created!"
+      redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"
     else
       redirect_to :back, notice: "Fail Create Popularity! Please check your Guesses!"
     end
+  end
 
+  def invite_email_friends
+    bar = Bar.find(params[:bar_id])
+    popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
+    if popularity_inviter.save and !params[:mytags].blank?
+      popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: bar.id, enter_status: "swig")
+      params[:mytags].split(",").each do |email|
+        Invite.send_invite_email(email, current_user, bar).deliver
+        user = User.where(email: email).first
+        if user
+          popularity_inviter.popularity_guesses.create(user_id: user.id, email: email, bar_id: popularity_inviter.bar_id)
+        else
+          popularity_inviter.popularity_guesses.create(user_id: nil, email: email, bar_id: popularity_inviter.bar_id)
+        end
+      end
+      redirect_to users_bar_profile_url(bar), notice: "Success Create Popularity!"
+    else
+      redirect_to :back, notice: "Fail Create Popularity! or no guess that you add!"
+    end
   end
 
 end

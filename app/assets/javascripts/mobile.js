@@ -6,6 +6,7 @@
 //= require bootstrap-tab
 //= require tag-it
 //= require jquery-ui-1.8.autocomplete.min
+//= require jquery-ui.min
 
 
 $(document).ready(function(){
