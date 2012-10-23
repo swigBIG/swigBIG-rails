@@ -29,18 +29,18 @@ class HomeController < ApplicationController
     @origin = params[:zip_code].blank? ? [@city_lat_lng[1], @city_lat_lng[2]] : params[:zip_code]
     
     unless params[:radius].blank?
-      @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+      @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND ")).order("swig_type DESC")
     else
 
       if is_mobile_request?
         unless session[:after_redirect]
-          #        if @city_lat_lng[1].blank?
           session[:homepage_request_page] = true
         end
+
         @bars = Bar.within( @radius_to_show_in_mobile_list.to_i ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)#.take(5)
       else
         #        session[:homepage_request_page] = true
-        @bars = Bar.within(@radius_to_show_in_mobile_list.to_i ,origin: @origin).includes(:swigs).where(conditions.join(" AND "))
+        @bars = Bar.within(@radius_to_show_in_mobile_list.to_i ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).order("swig_type DESC")
       end
       
       if user_signed_in? 
