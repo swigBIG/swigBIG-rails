@@ -76,15 +76,15 @@ class HomeController < ApplicationController
     @origin = params[:zip_code].blank? ? [@city.latitude, @city.longitude] : params[:zip_code]
 
     unless params[:radius].blank?
-      @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(city: @city.name)
+      @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(city: @city.name).order("swig_type DESC")
     else
-      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(city: @city.name)
+      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(city: @city.name).order("swig_type DESC")
     end
 
     unless params[:zip_code].blank?
       geo = Geocoder.search("#{params[:zip_code]},#{@city.name}").first
       @city_lat_lng = [geo.data['city'], geo.data['latitude'], geo.data['longitude']]
-      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(zip_code: params[:zip_code])
+      @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(zip_code: params[:zip_code]).order("swig_type DESC")
     end
   end
 

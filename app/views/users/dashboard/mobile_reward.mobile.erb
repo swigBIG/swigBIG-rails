@@ -12,7 +12,7 @@
     <div data-role="collapsible-set">
       <% @reward.each do |reward| %>
         <div data-role="collapsible" data-mini="true" data-content-theme="b" >
-          <h6><%= reward.sent_messageable.name %></h6>
+          <h6><%= reward.sent_messageable.name rescue 'undefine' %></h6>
           <b>Serial code: </b><%= reward.coupon rescue nil %>
           <br/>
           <b>Date : </b><%= reward.created_at.strftime("%v") rescue nil  %>
@@ -21,15 +21,7 @@
           <br/>
           <b>Expirate Reward : </b><%= reward.expirate_reward.strftime("%v") rescue nil  %>
           <br/>
-          <% if reward.category.eql?(16) %>
-            <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
-          <% elsif reward.category.eql?(9) %>
-            <b>Hours Remain : </b><%= counting_hours(reward.expirate_reward) rescue nil %>
-            <br/>
-            <b>Hours Remain : </b><%= reward.expirate_reward.strftime('%r') %> : to <%= Time.now.strftime('%r') %>
-          <% else %>
-            <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
-          <% end %>
+          <b>Remaining Time : </b><%= counting_time(reward.expirate_reward) rescue nil %>
         </div>
       <% end %>
     </div>

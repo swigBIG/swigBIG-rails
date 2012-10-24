@@ -174,7 +174,6 @@ class Swiger < ActiveRecord::Base
     end
   end
 
-  #  def popularity_reward_valid?
   def get_popularity_reward
     unless self.bar.popularity.blank?
       popularity_invitation = self.user.popularity_guesses.today.where(bar_id: self.bar).first
@@ -195,6 +194,7 @@ class Swiger < ActiveRecord::Base
               serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
             end
           end
+          debugger
           self.bar.send_message(inviter, {
               topic: "You got popularity reward from #{self.bar.name}",
               body: "You got popularity reward from #{self.bar.name} and your coupon: #{serial}",
