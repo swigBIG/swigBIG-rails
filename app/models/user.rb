@@ -37,21 +37,9 @@ class User < ActiveRecord::Base
       user
     else # Create a user with a stub password.
       a = self.create!(:email => data.email, :password => Devise.friendly_token[0,20], name: data.name)
-      a.remote_avatar_url = img
-      a.save
+#      a.remote_avatar_url = img
+#      a.save
       return a
-    end
-  end
-
-  def self.update_for_facebook_oauth(access_token, signed_in_resource=nil)
-    img = access_token.info.image
-    data = access_token.extra.raw_info
-    if user = self.find_by_email(data.email)
-      user
-    else # Create a user with a stub password.
-      signed_in_resource.remote_avatar_url = img
-      signed_in_resource.save
-      return signed_in_resource
     end
   end
 
