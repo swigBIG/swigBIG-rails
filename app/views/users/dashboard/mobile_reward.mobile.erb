@@ -24,7 +24,7 @@
           <% if reward.category.eql?(16) %>
             <b>Days Remain : </b><%= counting_day(reward.expirate_reward) rescue nil %>
           <% elsif reward.category.eql?(9) %>
-            <b>Hours Remain : </b><%= counting_hours(reward.expirate_reward) rescue nil %> 
+            <b>Hours Remain : </b><%= counting_hours(reward.expirate_reward) rescue nil %>
             <br/>
             <b>Hours Remain : </b><%= reward.expirate_reward.strftime('%r') %> : to <%= Time.now.strftime('%r') %>
           <% else %>
@@ -37,7 +37,6 @@
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div>
@@ -73,7 +72,6 @@
 
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
-      <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
   </div>

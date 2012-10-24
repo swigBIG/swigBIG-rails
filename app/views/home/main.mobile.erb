@@ -1,5 +1,5 @@
 <style type="text/css">
-  #map_home_canvas { height: 325px ; width: 98%;}
+  #map_home_canvas { height: 325px ; width: 100%;}
 </style>
 <style type="text/css">
   .string{margin-left: -80px;}
@@ -95,8 +95,6 @@
       <div data-role="controlgroup" data-type="horizontal" style="margin: 5px;width: 100%;">
         <a href="#" data-toggle="tab" data-role="button" style="width: 49%;color: white;">LIST</a>
         <a href="#bars_map_page" data-toggle="tab" onclick="initialize()" data-role="button" style="width: 47%;color: white;">MAP</a>
-        <!--<a href="#bars_map_page" data-role="button" style="">Map</a>-->
-        <!--<a href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Show page "popup" (as a dialog)</a>-->
       </div>
       <a href="#filter_page" data-role="button" style="color: white;width: 97%;border-radius: 3px;">FILTER</a>
     </div>
@@ -123,7 +121,6 @@
   <div data-role="footer" data-position="fixed" style="width: 100%">
     <div data-role="controlgroup" style="margin: 5px;width: 97%;">
       <% if user_signed_in? %>
-        <a data-role="button" style="width: 100%;margin: 5px;" class="btn-primary" onclick="window.location.href='<%= bars_list_to_swig_home_path(:mobile)%>'">SWIG!</a>
       <% end %>
       <%= render partial: "shared/footer_menu_partial" %>
     </div>
