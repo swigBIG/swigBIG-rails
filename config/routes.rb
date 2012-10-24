@@ -49,6 +49,9 @@ Swprototype::Application.routes.draw do
   end
 
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", confirmations: "users/confirmations",passwords: "users/passwords", omniauth_callbacks: "users/omniauth_callbacks"}
+  devise_scope :user do
+    post "/update_picture_from_facebook" => "users/omniauth_callbacks#update_picture_from_facebook", :as => :update_picture_from_facebook
+  end
 
   get "bar/:bar_id" => "users/bars#show", as: "bar_profile"
   

@@ -21,9 +21,9 @@ class Swiger < ActiveRecord::Base
     unless self.bar.loyalty.blank?
       loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
       loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
-      if self.bar.loyalty.swigs_number.eql?(loyalty_points)
+      #      if self.bar.loyalty.swigs_number.eql?(loyalty_points)
+      if self.bar.loyalty.swigs_number >= loyalty_points
         ActivityStream.create(activity: "winloyalty", verb: "loyalty reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
-        #        create_activity(self.user_id, win.id)
         Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
         chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
         serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
@@ -194,7 +194,7 @@ class Swiger < ActiveRecord::Base
               serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
             end
           end
-          debugger
+          #          debugger
           self.bar.send_message(inviter, {
               topic: "You got popularity reward from #{self.bar.name}",
               body: "You got popularity reward from #{self.bar.name} and your coupon: #{serial}",
