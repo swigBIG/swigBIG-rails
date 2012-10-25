@@ -105,7 +105,6 @@
               <% @loyalty_points.each do |point| %>
                 <tr>
                   <td>
-  <%#= point.bar.name %>
                     <%= link_to  point.bar.name, bar_profile_path(point.bar) %>
                   </td>
                   <td>
@@ -127,19 +126,18 @@
               <% @populrity_points.each do |point| %>
                 <tr>
                   <td>
-                    <%= point.bar.name %>
+                    <%= link_to  point.bar.name, bar_profile_path(point.bar) %>
                   </td>
                   <td>
-                    <%= point.bar.loyalty.reward_detail rescue nil %>
+                    <%= point.bar.popularity.reward_detail rescue nil %>
                   </td>
                   <td>
-                    <%= point.bar.loyalty.swigs_number rescue nil %>
+                    <%= point.bar.popularity.swigs_number rescue nil %>
                     <b> of </b>
-                    <%= point.bar.points.count %>
-                    <%= "#{(point.bar.loyalty.swigs_number / point.bar.points.count * 100)}%" rescue nil %>
+                    <%= point.popularity_guesses.swigging.count %>
                   </td>
                   <td>
-                    <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
+                    <%= point.bar.popularity.swigs_number.eql?(point.popularity_guesses.swigging.count) ? "Complete" : "#{(point.bar.popularity.swigs_number - point.popularity_guesses.swigging.count).to_i} more swigging friends"  rescue nil %>
                   </td>
                 </tr>
               <% end %>
