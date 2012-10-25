@@ -191,7 +191,7 @@
           <div class="clearfix"></div>
           <% @friends_swigger.each do |swigger| %>
             <div class="span2">
-              <img src="http://graph.facebook.com/<%= swigger.user.fb_id rescue nil %>/picture?type=large" alt=""></img>
+              <img src="http://graph.facebook.com/<%= swigger.user.fb_id rescue nil %>/picture?type=small" alt=""></img>
               <br/>
               <%= swigger.user.name %>
               <br/>
