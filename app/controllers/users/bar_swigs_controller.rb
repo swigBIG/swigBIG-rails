@@ -9,32 +9,6 @@ class Users::BarSwigsController < ApplicationController
     @swig = @bar.swigs.find(params[:swig_id])
   end
 
-  #  def enter_bar
-  #    @bar = Bar.find(params[:bar_id])
-  #    if user_signed_in?
-  #      @swiger = @bar.swigers.new(user_id: current_user.id)
-  #
-  #      if @swiger.save
-  #        if !@bar.loyalty.blank?
-  ##          @point = current_user.points.new(bar_id: @bar.id, loyalty_points: 1 )
-  #
-  ##          if @point.save
-  #            redirect_to :back, notice: "You added as Swiger in this BigSwig!"
-  ##          else
-  ##            redirect_to :back, notice: "You failed added as Swiger in this BigSwig!"
-  ##          end
-  #        else
-  #          redirect_to :back, notice: "You added as Swiger in this BigSwig!"
-  #        end
-  #      else
-  #        redirect_to :back, notice: "#{@swiger.errors["time and distance"].first} #{@swiger.errors["time and distance"].first}"
-  #      end
-  #    else
-  #      redirect_to :back, notice: "You must sign in first!"
-  #    end
-  #  end
-
-  
   def enter_bar
     @bar = Bar.find(params[:bar_id])
 
@@ -43,12 +17,7 @@ class Users::BarSwigsController < ApplicationController
 
       if @swiger.save
         if !@bar.loyalty.blank?
-          #          @point = current_user.points.new(bar_id: @bar.id, loyalty_points: 1 )
-          #          if @point.save
           redirect_to :back, notice: "You added as Swiger in this BigSwig!"
-          #          else
-          #            redirect_to :back, notice: "You failed added as Swiger in this BigSwig!"
-          #          end
         else
           redirect_to :back, notice: "You added as Swiger in this BigSwig!"
         end
@@ -83,7 +52,9 @@ class Users::BarSwigsController < ApplicationController
 
   def mobile_invite_fb_friends
     @bar = Bar.find(params[:bar_id])
-    @loyalty_points = current_user.points
+    @loyalty_points = current_user.points.where(bar_id: @bar.id).first
+    @reward = current_user.messages.where(category: [9, 16]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
+    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
   end
 
