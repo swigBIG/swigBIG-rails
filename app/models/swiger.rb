@@ -10,54 +10,10 @@ class Swiger < ActiveRecord::Base
   
   validate :time_and_distance_valid? #, :popularity_reward_valid?
 
+  before_create :time_and_distance_valid?
   after_create :unlock_bigswig, :get_loyalty, :get_popularity_reward
 
-
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
-
-  def get_loyalty
-    today_swiger = self.bar.swigers.today
-    today_swigs = self.bar.swigs.today.big.lock_status_active.where("people <= ?", today_swiger.count)
-    unless self.bar.loyalty.blank?
-      loyalty_points = Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).count
-      loyalty_points = self.user.points.where(bar_id:  self.bar_id, loyalty_points: 1).count
-      #      if self.bar.loyalty.swigs_number.eql?(loyalty_points)
-      if self.bar.loyalty.swigs_number >= loyalty_points
-        ActivityStream.create(activity: "winloyalty", verb: "loyalty reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
-        Point.where(bar_id:  self.bar_id, user_id: self.user_id, loyalty_points: 1).delete_all
-        chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
-        serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
-        is_existed = true
-        while is_existed.eql?(true)
-          if Coupon.where(coupon_serial: serial).first.nil?
-            is_existed = false
-          else
-            chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
-            serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
-          end
-        end
-        win = Winner.create(bar_id: self.bar_id, user_id: self.user_id, coupon: serial)
-        self.bar.send_message(self.user, {
-            topic: "You got loyalty reward from #{self.bar.name}",
-            body: "You got loyalty reward from #{self.bar.name} and your coupon: #{serial}",
-            category: 16, coupon: serial, coupon_status: false,
-            reward: self.bar.loyalty.reward_detail,
-            expirate_reward: (self.created_at + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days)
-          })
-        unless self.user.access_token.blank?
-          if self.user.lock_fb_post
-            begin
-              me = FbGraph::User.me(user.access_token)
-              me.feed!(
-                :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
-              )
-            rescue 
-            end
-          end
-        end
-      end
-    end
-  end
 
   def time_and_distance_valid?
     #    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first rescue nil
@@ -117,30 +73,6 @@ class Swiger < ActiveRecord::Base
     end
   end
 
-  #  def popularity_reward_valid?
-  #    if !self.bar.popularity.blank?
-  #
-  #      if !self.user.popularity_inviters.today.first.blank?
-  #        self.user.popularity_guesses.today.where(bar_id: self.bar).first.update_attributes(enter_status: "swig")
-  #        debugger
-  #        popularity_numbers = self.user.popularity_guesses.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
-  #        if self.bar.popularity.swigs_number.eql?(popularity_numbers)
-  #          self.bar.send_message(self.user, {topic: "#{self.user.name} has unlock #{self.bar} popularity", body: ""})
-  #          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
-  #        end
-  #      elsif !self.user.popularity_guesses.today.where(bar_id: self.bar).first.blank?
-  #        user_guess = self.user.popularity_guesses.today.where(bar_id: self.bar).first
-  #        user_guess.update_attributes(enter_status: "swig")
-  #        popularity_numbers = user_guess.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
-  #      else
-  #        return true
-  #      end
-  #
-  #    else
-  #      return true
-  #    end
-  #  end
-
   def unlock_bigswig
     today_swiger = self.bar.swigers.today
     today_swigs = self.bar.swigs.today.big.where("people <= ?", today_swiger.count)
@@ -152,10 +84,10 @@ class Swiger < ActiveRecord::Base
         ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
         unless user.access_token.blank?
           if self.user.fb_post_swig.blank?
-            me = FbGraph::User.me(user.access_token)
-            me.feed!(
-              :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
-            )
+            #            me = FbGraph::User.me(user.access_token)
+            #            me.feed!(
+            #              :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
+            #            )
           end
         end
       end
@@ -163,15 +95,15 @@ class Swiger < ActiveRecord::Base
   end
 
   def swigging_post_to_wall
-    self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 ) unless self.bar.loyalty.blank?
-    unless self.user.access_token.blank?
-      if self.user.fb_post_swig
-        me = FbGraph::User.me(user.access_token)
-        me.feed!(
-          :message => "#{self.user.name} just swigged at #{self.bar.name} !"
-        )
-      end
-    end
+    #    self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )# unless self.bar.loyalty.blank?
+    #    unless self.user.access_token.blank?
+    #      if self.user.fb_post_swig
+    #        me = FbGraph::User.me(user.access_token)
+    #        me.feed!(
+    #          :message => "#{self.user.name} just swigged at #{self.bar.name} !"
+    #        )
+    #      end
+    #    end
   end
 
   def get_popularity_reward
@@ -182,23 +114,11 @@ class Swiger < ActiveRecord::Base
         popularity_numbers = popularity_invitation.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
         if self.bar.popularity.swigs_number.eql?(popularity_numbers)
           inviter  = popularity_invitation.popularity_inviter.user
-          #          self.bar.send_message(inviter, {topic: "#{inviter.name} has unlock #{self.bar} popularity", body: "", category: 9})
-          chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
-          serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
-          is_existed = true
-          while is_existed.eql?(true)
-            if Coupon.where(coupon_serial: serial).first.nil?
-              is_existed = false
-            else
-              chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
-              serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
-            end
-          end
-          #          debugger
+          
           self.bar.send_message(inviter, {
               topic: "You got popularity reward from #{self.bar.name}",
-              body: "You got popularity reward from #{self.bar.name} and your coupon: #{serial}",
-              category: 9, coupon: serial, coupon_status: false,
+              body: "You got popularity reward from #{self.bar.name} and your coupon: #{code_generator}",
+              category: 9, coupon: code_generator, coupon_status: false,
               reward: self.bar.popularity.reward_detail,
               expirate_reward: (self.created_at + (RewardPolicy.first.popularity_expirate_hours rescue 10).to_i.hours)
             })
@@ -210,7 +130,7 @@ class Swiger < ActiveRecord::Base
             )
           end
           if inviter.fb_id.blank?
-            RewardsMessages.popularity_reward_email(inviter, self.bar, serial).deliver
+            RewardsMessages.popularity_reward_email(inviter, self.bar, code_generator).deliver
           end
           return true
         end
@@ -221,6 +141,52 @@ class Swiger < ActiveRecord::Base
       return true
     end
 
+  end
+
+  def get_loyalty
+    unless self.bar.loyalty.blank?
+
+      points = self.user.points.where(bar_id: self.bar.id).first
+      
+      points.blank? ?
+        self.user.points.create(bar_id: self.bar.id, loyalty_points: 1) :
+        points.update_attributes(loyalty_points: (points.loyalty_points + 1))
+
+      total_points = self.user.points.where(bar_id: self.bar.id).first
+
+      if self.bar.loyalty.swigs_number.eql?(total_points.loyalty_points)
+        self.bar.send_message(self.user, {
+            topic: "You got loyalty reward from #{self.bar.name}",
+            body: "You got loyalty reward from #{self.bar.name} and your coupon: #{code_generator}",
+            category: 16, coupon: code_generator, coupon_status: false,
+            reward: self.bar.loyalty.reward_detail,
+            expirate_reward: (self.created_at + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days)
+          })
+
+        if !self.user.access_token.blank? and self.user.lock_fb_post
+          me = FbGraph::User.me(self.user.access_token)
+          me.feed!(
+            :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
+          )
+        end
+      end
+      
+    end
+  end
+
+  def code_generator
+    chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+    serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
+    is_existed = true
+    while is_existed.eql?(true)
+      if Coupon.where(coupon_serial: serial).first.nil?
+        is_existed = false
+      else
+        chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+        serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
+      end
+    end
+    return serial
   end
 
 end

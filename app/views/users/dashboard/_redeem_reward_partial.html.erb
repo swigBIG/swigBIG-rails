@@ -1,6 +1,6 @@
 <% @redeem_rewards.each do |reward| %>
   <tr>
-    <td><%= reward.created_at.strftime("%v") %></td>
+    <td><%= format_date_global(reward.created_at) %></td>
     <td>
       <b><%= reward.sent_messageable.name %></b>
       <br/>

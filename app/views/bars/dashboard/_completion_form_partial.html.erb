@@ -342,47 +342,50 @@
             <a class="btn" href="#description" data-dismiss="modal" data-toggle="modal">Back</a>
           </div>
         </div>
+
         <div id="check_data" class="modal hide fade">
           <div class="modal-header">
             <a class="close" data-dismiss="modal"><b>x</b></a>
-            <h3 style="text-align: center;">Did we get it all?</h3>
-          </div>
-          <div class="modal-body">
-            <div class="span4 pull-left" >
-              <b>Address : </b><div id="address_text"></div>
-              <br/>
-              <b>City : </b><div id="city_text"></div>
-              <br/>
-              <b>Zip Code : </b><div id="zip_text"></div>
-              <br/>
-              <b>Phone : </b><div id="phone_text"></div>
-              <br/>
-              <b>Sport Team : </b><div  id="sport_text"></div>
-              <br/>
+            <h3 style="text-align: center;"><a class="btn pull-left" href="#sport_team" data-dismiss="modal" data-toggle="modal">< Back</a>
+              Did we get it all?
+              <%= f.submit "Submit", class: "btn-primary" %> </h3>
             </div>
-            <div class="span4 pull-right" >
-              <b>Website link: </b><div id="website_text"></div>
-              <br/>
-              <b>Facebook link: </b><div id="facebook_text"></div>
-              <br/>
-              <b>Twitter link: </b><div  id="twitter_text"></div>
-              <br/>
-              <b>Google Plus link: </b><div  id="google_text"></div>
-              <td></td>
-            </div>
-            <div class="clearfix"></div>
-            <div class="span9 clearfix">
-              <b>Description : </b><div  id="description_text"></div>
-              <br/>
-            </div>
-          </div>
-          <div class="modal-footer navbar-fixed-bottom">
-            <div class="container">
-              <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
-              <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
-              <%= f.submit "Submit", class: "btn-primary" %>
+            <div class="modal-body">
+              <div class="span4 pull-left" >
+                <b>Address : </b><div id="address_text"></div>
+                <br/>
+                <b>City : </b><div id="city_text"></div>
+                <br/>
+                <b>Zip Code : </b><div id="zip_text"></div>
+                <br/>
+                <b>Phone : </b><div id="phone_text"></div>
+                <br/>
+                <b>Sport Team : </b><div  id="sport_text"></div>
+                <br/>
+              </div>
+              <div class="span4 pull-right" >
+                <b>Website link: </b><div id="website_text"></div>
+                <br/>
+                <b>Facebook link: </b><div id="facebook_text"></div>
+                <br/>
+                <b>Twitter link: </b><div  id="twitter_text"></div>
+                <br/>
+                <b>Google Plus link: </b><div  id="google_text"></div>
+                <td></td>
+              </div>
+              <div class="clearfix"></div>
+              <div class="span9 clearfix">
+                <b>Description : </b><div  id="description_text"></div>
+                <br/>
               </div>
             </div>
-          </div>
+            <!--<div class="modal-footer navbar-fixed-bottom">
+              <div class="container">
+                <a class="btn" data-dismiss="modal" data-toggle="modal">Cancel</a>
+                <a class="btn" href="#sport_team" data-dismiss="modal" data-toggle="modal">Back</a>
+                <%#= f.submit "Submit", class: "btn-primary" %>
+                </div>
+              </div>-->
+            </div>
+          <% end %>
         <% end %>
-      <% end %>

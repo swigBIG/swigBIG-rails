@@ -93,10 +93,6 @@ module ApplicationHelper
     link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
   end
 
-  def loyalty_expirate_date(reward_date)
-    (reward_date + (@loyalty_reward_policy rescue 0).days).strftime("%v")
-  end
-  
   def popularity_expirate_hours(reward_date)
     (reward_date + (@loyalty_reward_policy rescue 0).days).strftime("%v")
   end

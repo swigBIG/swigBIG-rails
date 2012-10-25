@@ -132,7 +132,7 @@ class Users::DashboardController < ApplicationController
     @winners = current_user.winners
     @loyalty_points = current_user.points.where(loyalty_points: 1).group(:bar_id)
     @populrity_points = current_user.points.where(popularity_points: 1).group(:bar_id)
-    @rewards = current_user.received_messages.where(coupon_status: false).where(["category = ? OR category = ? OR category = ?", 9, 15, 16]).order("created_at DESC").page(params[:page]).per(5)
+    @rewards = current_user.received_messages.where(coupon_status: false).where(["expirate_reward <= ? AND expirate_reward > ? AND category = ? OR category = ? OR category = ?", @expirate_within_to_expire.days.from_now, Time.zone.now, 9, 15, 16]).order("expirate_reward ASC").page(params[:page]).per(5)
     @redeem_rewards = current_user.received_messages.where(coupon_status: true).where(["category = ? OR category = ? OR category = ?", 9, 15, 16]).order("created_at DESC").page(params[:page]).per(5)
     #    @loyalty_points = Bar.loyalty.nil?
   end

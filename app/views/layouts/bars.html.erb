@@ -45,12 +45,11 @@
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
 
 
-              <li><b><%= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>
+      <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
               <li id="notification" class="dropdown">
                 <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count %></span></a>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown" ><b style="color: white;">Notification</b><span class="badge badge-error" style="margin-left: 5px;"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count %></span></a>
                   <ul class="dropdown-menu" style="width: 350px;">
-                    <li><b>notification</b></li>
                     <li class="divider"></li>
                     <% current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?) OR category = (?)", 9, 15, 16]).order("created_at DESC").limit(10).each do |notification| %>
                       <% if notification.category.eql?(9) and !notification.received_messageable_id.blank? %>

@@ -1,6 +1,6 @@
 <% @rewards.each do |reward| %>
   <tr>
-    <td><%= reward.created_at.strftime("%v") %></td>
+    <td><%= format_date_global(reward.created_at) %></td>
     <td>
       <b><%= reward.sent_messageable.name %></b>
       <br/>
@@ -20,6 +20,6 @@
     <td>
 
     </td>
-    <td><%= loyalty_expirate_date(reward.created_at) %></td>
+    <td><b>Remaining Time : </b><%= time_remaining(reward.expirate_reward) rescue nil %></td>
   </tr>
 <% end %>

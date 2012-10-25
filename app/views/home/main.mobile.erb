@@ -105,9 +105,11 @@
   <div data-role="content" style="margin-bottom: 80px;">
     <table class="zebra-striped">
       <!--<a onclick="window.location.href='<%#= users_mobile_invite_fb_friends_url(16,:mobile) %>'">Invite test</a>-->
+
       <th>Bar Name</th>
       <th>Distance</th>
       <tbody id="main_swigs_list">
+      <b><%= @bars.blank? ? "No Bar in #{@radius_to_show_in_mobile_list}.miles radius" : "" %></b>
         <% @bars.each do |bar| %>
           <tr>
             <td><a onclick="window.location.href='<%= users_bar_profile_url(bar,:mobile) %>'"><%= bar.name %></a></td>
