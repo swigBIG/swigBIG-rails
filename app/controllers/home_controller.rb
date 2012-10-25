@@ -20,6 +20,14 @@ class HomeController < ApplicationController
   def main
     @city = City.where(name: @city_lat_lng[0].to_s).first
 
+    if user_signed_in?
+      if current_user.access_token
+        fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
+        fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
+        @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
+      end
+    end
+
     conditions = []
     conditions << "bars.address IS NOT NULL "
     conditions << "swigs.swig_type = '#{params[:swig_type]}'" unless params[:swig_type].blank?
@@ -37,19 +45,12 @@ class HomeController < ApplicationController
           session[:homepage_request_page] = true
         end
 
-        @bars = Bar.within(100 ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)#.take(5)
+        @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)#.take(5)
       else
         #        session[:homepage_request_page] = true
-        @bars = Bar.within(100 ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).order("swig_type DESC")
+        @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).order("swig_type DESC")
       end
       
-      if user_signed_in? 
-        if current_user.access_token
-          fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
-          fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
-          @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
-        end
-      end
 
     end
     
