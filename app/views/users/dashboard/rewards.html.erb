@@ -111,7 +111,7 @@
                     <%= " #{('x' * point.bar.points.count)}#{"o" * (point.bar.loyalty.swigs_number - point.bar.points.count)}" rescue nil %>
                   </td>
                   <td>
-                    <%= point.bar.loyalty.swigs_number.eql?(point.bar.points.count) ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
+                    <%= point.bar.loyalty.swigs_number >= point.bar.points.count ? "Complete" : "#{(point.bar.loyalty.swigs_number - point.bar.points.count).to_i} more"  rescue nil %>
                   </td>
                 </tr>
               <% end %>
@@ -137,7 +137,7 @@
                     <%= point.popularity_guesses.swigging.count %>
                   </td>
                   <td>
-                    <%= point.bar.popularity.swigs_number.eql?(point.popularity_guesses.swigging.count) ? "Complete" : "#{(point.bar.popularity.swigs_number - point.popularity_guesses.swigging.count).to_i} more swigging friends"  rescue nil %>
+                    <%= point.bar.popularity.swigs_number >= point.popularity_guesses.swigging.count ? "Complete" : "#{(point.bar.popularity.swigs_number - point.popularity_guesses.swigging.count).to_i} more swigging friends"  rescue nil %>
                   </td>
                 </tr>
               <% end %>
