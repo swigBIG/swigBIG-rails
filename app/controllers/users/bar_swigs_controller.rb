@@ -60,7 +60,9 @@ class Users::BarSwigsController < ApplicationController
 
   def mobile_invite_email_friends
     @bar = Bar.find(params[:bar_id])
-    @loyalty_points = current_user.points
+    @loyalty_points = current_user.points.where(bar_id: @bar.id).first
+    @reward = current_user.messages.where(category: [9, 16]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
+    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
   end
 
   #  def invite_fb_friends
