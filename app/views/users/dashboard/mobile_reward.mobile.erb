@@ -15,11 +15,11 @@
           <h6><%= reward.sent_messageable.name rescue 'undefine' %></h6>
           <b>Serial code: </b><%= reward.coupon rescue nil %>
           <br/>
-          <b>Date : </b><%= reward.created_at.strftime("%v") rescue nil  %>
+          <b>Earning Date : </b><%= format_date_global(reward.created_at) rescue nil  %>
           <br/>
           <b>Reward : </b><%= reward.reward rescue nil  %>
           <br/>
-          <b>Expirate Reward : </b><%= reward.expirate_reward.strftime("%v") rescue nil  %>
+          <b>Expirate Reward : </b><%= format_date_global(reward.expirate_reward) rescue nil  %>
           <br/>
           <b>Remaining Time : </b><%= counting_time(reward.expirate_reward) rescue nil %>
         </div>
@@ -47,16 +47,17 @@
 
   <div data-role="content" >
     <div data-role="collapsible-set">
-      <%= @expirate_within_to_expire %>
       <%= @reward_to_expirate.blank? ? "You are all good, you don't have any Rewards expiring soon!" : "" %>
       <% @reward_to_expirate.each do |reward| %>
         <div data-role="collapsible" data-mini="true" data-content-theme="b" >
           <h5><%= reward.sent_messageable.name rescue nil %></h5>
           <b>Serial code: </b><%= reward.coupon rescue nil %>
           <br/>
-          <b>Date : </b><%= reward.created_at.strftime("%v") rescue nil %>
+          <b>Earning Date : </b><%= format_date_global(reward.created_at) rescue nil %>
           <br/>
           <b>Reward : </b><%= reward.reward rescue nil %>
+          <br/>
+          <b>Remaining Time : </b><%= time_remaining(reward.expirate_reward) rescue nil %>
         </div>
       <% end %>
     </div>
