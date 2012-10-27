@@ -432,7 +432,8 @@ class Bars::DashboardController < ApplicationController
       @sport_lists << {id: sport_group.team_name, name: sport_group.team_name}
     end
 
-    respond_to { render :json => @sport_lists }
+    render :json => @sport_lists 
+#    respond_to { render :json => @sport_lists }
   end
 
   def users_lists
@@ -443,7 +444,8 @@ class Bars::DashboardController < ApplicationController
       @users_lists << {id: user.id, name: user.name}
     end
     
-    respond_to { render :json => @users_lists }
+    render :json => @users_lists
+#    respond_to { render :json => @users_lists }
   end
 
   def after_join_invite_friends; end
