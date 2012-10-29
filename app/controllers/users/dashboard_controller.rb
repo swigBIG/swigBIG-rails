@@ -26,7 +26,6 @@ class Users::DashboardController < ApplicationController
 
     #      @friends_swigger = Swiger.joins(:user).where(["users.email IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", emails, Time.now.beginning_of_day, Time.now.end_of_day ])
     @user = User.new
-    @fb_post = FbGraph::User.me(current_user.access_token).statuses.first.message
     @friends = FbGraph::User.me(current_user.access_token).friends#.sort_by(&:name)
   end
 
@@ -207,9 +206,9 @@ class Users::DashboardController < ApplicationController
 
   def mobile_reward
     @user = current_user
-#    @reward = current_user.messages.where(["category = (?) OR category = (?) AND expirate_reward > (?) ", 9, 16, Time.now ]).order("created_at DESC")
+    #    @reward = current_user.messages.where(["category = (?) OR category = (?) AND expirate_reward > (?) ", 9, 16, Time.now ]).order("created_at DESC")
     @reward = current_user.messages.where(category: [9, 16]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
-#    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
+    #    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
     @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
   end
 

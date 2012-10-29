@@ -79,7 +79,7 @@
         <br/>
         <%= swigger.user.name %>
         <br/>
-        @<%= link_to  swigger.bar.name, bar_profile_path(swigger.bar) rescue nil %>
+        <%= link_to  swigger.bar.name, bar_profile_path(swigger.bar) rescue nil %>
       </div>
     </div>
   <% end %>

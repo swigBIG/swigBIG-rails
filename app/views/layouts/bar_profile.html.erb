@@ -9,6 +9,19 @@
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
+    <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      // Enable pusher logging - don't include this in production
+      /*Pusher.log = function(message) {
+        if (window.console && window.console.log) window.console.log(message);
+      };*/
+
+      var pusher = new Pusher('2e8605c76edee2e7bdcd');
+      var channel = pusher.subscribe('test_channel');
+      channel.bind('my-event', function(data) {
+        $("#live_feed").html("Live Swig Feed: "+data.message)
+      });
+    </script>
   </head>
   <body style="padding-top: 20px;">
     <%= yield :facebook_like %>
@@ -111,7 +124,7 @@
     <div class="navbar-fixed-bottom">
       <div class="navbar-inner" style="background-image: none;height: 25px;">
         <div class="container" style="padding-top: 5px;">
-          <div class="pull-left">Live Swig Feed: James J. just swigged at Duffy's in Chicago</div>
+          <div class="pull-left" style="color: white;" id="live_feed">Live Feed : &nbsp;<%= Feed.last.content.html_safe rescue nil %></div>
           <div class="pull-right">
             <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
             &nbsp;

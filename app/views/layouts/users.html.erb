@@ -4,20 +4,23 @@
     <title>Swprototype</title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag :defaults, "http://localhost:9292/faye.js" %>
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
-    <% if session[:request_user_privilage] %>
-      <script type="text/javascript">
-        $(document).ready(
-        function(){
-          setInterval(function(){
-            //$('#live_feed').load('/live_swig_feed');
-            $('#live_feed').load('<%= live_swig_feed_path %>');
-          }, 55000);
-        })
-      </script>
-    <% end %>
+    <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      // Enable pusher logging - don't include this in production
+      /*Pusher.log = function(message) {
+        if (window.console && window.console.log) window.console.log(message);
+      };*/
+
+      var pusher = new Pusher('2e8605c76edee2e7bdcd');
+      var channel = pusher.subscribe('test_channel');
+      channel.bind('my-event', function(data) {
+        $("#live_feed").html("Live Swig Feed: "+data.message)
+      });
+    </script>
   </head>
   <body style="padding-top: 20px;">
     <div class="navbar-fixed-top" style="">
@@ -56,7 +59,7 @@
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_user.received_messages.where("opened is false").count %></span></a>
                     <ul class="dropdown-menu">
                       <% current_user.received_messages.where("opened is false").each do |notification| %>
-                                    <!--<li style="width: 220px;" onclick="window.location.href='<%#= users_message_url(notification) %>'" ><%#= notification.topic.html_safe %>-->
+                                              <!--<li style="width: 220px;" onclick="window.location.href='<%#= users_message_url(notification) %>'" ><%#= notification.topic.html_safe %>-->
                         <li style="width: 220px;" ><%= notification.topic.html_safe %>
                           <br/>
                           <%= notification.created_at.strftime("%v") %>
@@ -156,7 +159,9 @@
         <div class="navbar-fixed-bottom">
           <div class="navbar-inner" style="background-image: none;height: 25px;">
             <div class="container" style="padding-top: 5px;">
-              <div class="pull-left" style="color: white;" id="live_feed"><%= render partial: "shared/user_swig_feed_partial" %></div>
+              <div class="pull-left" style="color: white;" id="live_feed">Live Feed : &nbsp;<%= Feed.last.content.html_safe rescue nil %></div>
+              &nbsp;&nbsp;
+              <div class="pull-left" style="color: white;" id="live_swigging">test</div>
               <div class="pull-right">
                 <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
                 &nbsp;

@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>You got Popularity reward from <%= @bar.name %></h1>
+    <p>Hi <%= @user.name rescue @user.email %></p>
+    <br/>
+    <br/>
+    <p>You rewarded popularity reward from <%= @bar.name %></p>
+    <p><b>Your reward code:</b> <%= @coupon %></p>
+    <br/>
+    <i>*reward code used for claim reward in <%= @bar.name %></i>
+    <p>
+      please check our bar <a href="swigbig.com/bar/'<%= @bar.name.gsub(" ","-").gsub("'","-") %>'"><%= @bar.name %></a>
+    </p>
+    <br/>
+    <p>Thanks and have a great day!</p>
+  </body>
+</html>
+

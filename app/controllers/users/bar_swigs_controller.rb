@@ -37,6 +37,7 @@ class Users::BarSwigsController < ApplicationController
       swiger = @bar.swigers.new(user_id: current_user.id)
       if swiger.save
         unless current_user.access_token.blank?
+#          respond_with LiveSwigging
           redirect_to users_mobile_invite_fb_friends_url(@bar, :mobile), notice:  "Thank you for Swigging!"
         else
           redirect_to users_mobile_invite_email_friends_url(@bar, :mobile), notice:  "Thank you for Swigging!"

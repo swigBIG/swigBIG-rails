@@ -20,7 +20,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'pusher'
 gem 'thin'
+gem 'backbone-on-rails'
 gem 'jquery-rails'
 gem 'cocoon'
 gem 'mobylette'
@@ -28,14 +30,13 @@ gem 'jquery_mobile_rails'
 gem 'chronic'
 gem 'geokit'
 gem 'geokit-rails3'
-#gem "barby", "~> 0.5.0"
 #gem 'tod'
 gem 'fog'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 gem 'timezone'
 gem "formtastic", "~> 2.1.1"
-gem "activeadmin", "~> 0.4.3"
-#gem 'activeadmin', :git => "git://github.com/gregbell/active_admin.git"
+#gem "activeadmin", "~> 0.4.3"
+gem 'activeadmin', :git => "git://github.com/gregbell/active_admin.git"
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise'

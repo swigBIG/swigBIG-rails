@@ -10,7 +10,7 @@ class Swiger < ActiveRecord::Base
   
   validate :time_and_distance_valid? #, :popularity_reward_valid?
 
-  before_create :time_and_distance_valid?
+  #  before_create :time_and_distance_valid?
   after_create :unlock_bigswig, :get_loyalty, :get_popularity_reward
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
@@ -84,10 +84,10 @@ class Swiger < ActiveRecord::Base
         ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
         unless user.access_token.blank?
           if self.user.fb_post_swig.blank?
-            #            me = FbGraph::User.me(user.access_token)
-            #            me.feed!(
-            #              :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
-            #            )
+            me = FbGraph::User.me(user.access_token)
+            me.feed!(
+              :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
+            )
           end
         end
       end
@@ -95,15 +95,15 @@ class Swiger < ActiveRecord::Base
   end
 
   def swigging_post_to_wall
-    #    self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )# unless self.bar.loyalty.blank?
-    #    unless self.user.access_token.blank?
-    #      if self.user.fb_post_swig
-    #        me = FbGraph::User.me(user.access_token)
-    #        me.feed!(
-    #          :message => "#{self.user.name} just swigged at #{self.bar.name} !"
-    #        )
-    #      end
-    #    end
+    Pusher['test_channel'].trigger('my-event', {'message' => "#{self.user.name rescue self.user.email} just swigged at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>"})
+    Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just swigged at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>" )
+    self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )# unless self.bar.loyalty.blank?
+    if !self.user.access_token.blank? and self.user.fb_post_swig
+      me = FbGraph::User.me(user.access_token)
+      me.feed!(
+        :message => "#{self.user.name} just swigged at #{self.bar.name}! bar info http://swigbig.com/bar/#{self.bar.slug}"
+      )
+    end
   end
 
   def get_popularity_reward
@@ -122,7 +122,9 @@ class Swiger < ActiveRecord::Base
               reward: self.bar.popularity.reward_detail,
               expirate_reward: (self.created_at + (RewardPolicy.first.popularity_expirate_hours rescue 10).to_i.hours)
             })
-          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: inviter.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+          Pusher['test_channel'].trigger('my-event', {'message' => "#{self.user.name rescue self.user.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!  bar info http://swigbig.com/bar/#{self.bar.slug}"})
+          Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!" )
+          #          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: inviter.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
           if inviter.fb_post_swig
             me = FbGraph::User.me(inviter.access_token)
             me.feed!(
@@ -154,7 +156,10 @@ class Swiger < ActiveRecord::Base
 
       total_points = self.user.points.where(bar_id: self.bar.id).first
 
-      if self.bar.loyalty.swigs_number.eql?(total_points.loyalty_points)
+      #      if self.bar.loyalty.swigs_number.eql?(total_points.loyalty_points)
+      if total_points.loyalty_points >= self.bar.loyalty.swigs_number
+        total_points.destroy
+        Rails.cache.write('angga', true)
         self.bar.send_message(self.user, {
             topic: "You got loyalty reward from #{self.bar.name}",
             body: "You got loyalty reward from #{self.bar.name} and your coupon: #{code_generator}",
@@ -169,6 +174,8 @@ class Swiger < ActiveRecord::Base
             :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"
           )
         end
+        Pusher['test_channel'].trigger('my-event', {'message' => "#{self.user.name rescue self.user.email} just earned #{self.bar.loyalty.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for going there way too much!"})
+        Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just earned #{self.bar.loyalty.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for going there way too much!" )
       end
       
     end

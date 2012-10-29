@@ -9,16 +9,20 @@
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
     <%= yield :head_js %>
-    <% if session[:request_user_privilage] %>
-      <script type="text/javascript">
-        $(document).ready(
-        function(){
-          setInterval(function(){
-            $('#live_feed').load('<%= live_swig_feed_path %>');
-          }, 55000);
-        })
-      </script>
-    <% end %>
+
+    <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      // Enable pusher logging - don't include this in production
+      /*Pusher.log = function(message) {
+        if (window.console && window.console.log) window.console.log(message);
+      };*/
+
+      var pusher = new Pusher('2e8605c76edee2e7bdcd');
+      var channel = pusher.subscribe('test_channel');
+      channel.bind('my-event', function(data) {
+        $("#live_feed").html("Live Swig Feed: "+data.message)
+      });
+    </script>
   </head>
   <body style="padding-top: 20px;">
     <div class="navbar-fixed-top">
@@ -45,7 +49,7 @@
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
 
 
-      <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
+        <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
               <li id="notification" class="dropdown">
                 <% unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
                   <a class="dropdown-toggle" href="#" data-toggle="dropdown" ><b style="color: white;">Notification</b><span class="badge badge-error" style="margin-left: 5px;"><%=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count %></span></a>
@@ -147,7 +151,7 @@
       <div class="navbar-inner" style="background-image: none;height: 25px;">
         <div class="container" style="padding-top: 5px;">
           <!--<div class="pull-left" style="color: white;" id="show_time_zone"></div>-->
-          <div class="pull-left" style="color: white;" id="live_feed"><%= render partial: "shared/user_swig_feed_partial" %></div>
+          <div class="pull-left" style="color: white;" id="live_feed">Live Feed : &nbsp;<%= Feed.last.content.html_safe rescue nil %></div>
           <div class="pull-right">
             <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
             &nbsp;
