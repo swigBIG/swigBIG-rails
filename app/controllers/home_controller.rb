@@ -25,6 +25,7 @@ class HomeController < ApplicationController
         fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
         fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
         @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
+#        @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids,( Time.zone.now - @swigger_show_within ), Time.zone.now ])
       end
     end
 

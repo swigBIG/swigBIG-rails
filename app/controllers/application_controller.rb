@@ -79,6 +79,7 @@ class ApplicationController < ActionController::Base
     @expirate_within_to_expire = RewardPolicy.first.expirate_within rescue 10
     @valid_radius_for_swigging = RadiusSwigging.first.radius rescue 1
     @radius_to_show_in_mobile_list = RadiusToShowBarInMobile.first.radius rescue 10
+#    @swigger_show_within = FbSwiggerHour.blank? ? FbSwiggerHour.first : 6
   end
 
   protected
