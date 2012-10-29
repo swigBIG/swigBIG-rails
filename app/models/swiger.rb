@@ -158,7 +158,8 @@ class Swiger < ActiveRecord::Base
 
       #      if self.bar.loyalty.swigs_number.eql?(total_points.loyalty_points)
       if total_points.loyalty_points >= self.bar.loyalty.swigs_number
-        total_points.destroy
+        self.user.points.where(bar_id: self.bar.id).destroy_all
+#        total_points.destroy
         Rails.cache.write('angga', true)
         self.bar.send_message(self.user, {
             topic: "You got loyalty reward from #{self.bar.name}",
