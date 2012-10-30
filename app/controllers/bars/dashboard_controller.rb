@@ -187,8 +187,14 @@ class Bars::DashboardController < ApplicationController
       msg = "Message success Send!"
 
     when "1"
+      debugger
       current_bar.swigers.where("created_at >= ?", params[:acts_as_messageable_message][:days].to_i.days.ago.beginning_of_day).pluck(:user_id).uniq.each do |user|
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
+        user = User.find(user)
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], 
+            #            expirate_reward: params[:acts_as_messageable_message][:expirate_reward],
+            reward: params[:acts_as_messageable_message][:gift_id].to_s,
+            expirate_reward: (Time.zone.now + (RewardPolicy.first.popularity_expirate_hours rescue 5).to_i.days)
+          })
       end
       msg = "Message success Send to User last #{params[:number_days]}!"
 
@@ -432,8 +438,8 @@ class Bars::DashboardController < ApplicationController
       @sport_lists << {id: sport_group.team_name, name: sport_group.team_name}
     end
 
-    render :json => @sport_lists 
-#    respond_to { render :json => @sport_lists }
+    render :json => @sport_lists
+    #    respond_to { render :json => @sport_lists }
   end
 
   def users_lists
@@ -445,7 +451,7 @@ class Bars::DashboardController < ApplicationController
     end
     
     render :json => @users_lists
-#    respond_to { render :json => @users_lists }
+    #    respond_to { render :json => @users_lists }
   end
 
   def after_join_invite_friends; end
