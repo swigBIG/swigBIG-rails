@@ -78,10 +78,12 @@ class Swiger < ActiveRecord::Base
     today_swigs = self.bar.swigs.today.big.where("people <= ?", today_swiger.count)
     today_swigs.each do |swig|
       swig.update_attributes(lock_status: "unlock")
-      today_swiger.pluck(:user_id).each do |swiger|
+      debugger
+      today_swiger.pluck(:user_id).uniq.each do |swiger|
         user = User.find(swiger)
         self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
-        ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+#        ActivityStream.create(activity: "bigswig unlock", verb: "bigswig unlock", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+        Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just unlocked #{swig.deal} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>" )
         unless user.access_token.blank?
           if self.user.fb_post_swig.blank?
             me = FbGraph::User.me(user.access_token)

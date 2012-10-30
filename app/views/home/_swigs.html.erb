@@ -1,9 +1,22 @@
+<%= content_for :js_footer do %>
+  <%= javascript_include_tag "jquery.shorten.1.0", "bootstrap-collapse" %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".comment").shorten({
+        "showChars" : 50,
+        "moreText"  : "See More",
+        "lessText"  : "Less"
+      });
+    });
+  </script>
+<% end %>
+
 <% @bars.each do |bar| %>
   <tr>
 
     <% unless params[:swig_type].blank? %>
       <% bar.swigs.today.where(:swig_type => params[:swig_type]).limit(1).each do |swig| %>
-    <td><div class="comment"><%= swig.deal %></div></td>
+        <td><div class="comment"><%= swig.deal %></div></td>
         <td>
           <% if  swig.swig_type.eql?("Big") %>
             <button class="btn-warning" style="padding-bottom: 3px;padding-left: 3px;padding-right: 3px;padding-top: 3px;">

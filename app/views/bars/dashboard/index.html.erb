@@ -1,4 +1,6 @@
-<%= content_for :head_js do %>
+<%= content_for :js_footer do %>
+  <%= javascript_include_tag "bootstrap-collapse", "validate_people" %>
+
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -150,17 +152,22 @@
   <b><div style="text-align: center;" id="total_swiger_dashboard"><%= render partial: "total_swiger_partial" %></div></b>
   <div class="clearfix"></div>
   <div style="text-align: center;"><b>Who is there?</b></div>
+  <div style="text-align: center;"><a class="" data-toggle="modal" href="#swiger_list_modal" onclick="$('#swiger_list_modal').html('');$.get('/bars/swiger_list')"><b>See All</b></a></div>
   <div class="clearfix"></div>
   <br/>
   <% @swigers.limit(6).each do |swiger| %>
     <div class="span2">
-      <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
+      <% unless swiger.user.fb_id.blank? %>
+        <img style="height: 45px;" src="http://graph.facebook.com/<%= swiger.user.fb_id rescue nil %>/picture?type=small" alt=""></img>
+      <% else %>
+        <%= swiger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.user.avatar.url, style: "height: 50px;") %>
+      <% end %>
       <br/>
-      <%= swiger.user.name  %>
+      <%= swiger.user.name.blank? ? swiger.user.email : swiger.user.name %>
     </div>
   <% end %>
   <div class="clearfix"></div>
-  <div style="text-align: center;"><a class="" data-toggle="modal" href="#swiger_list_modal" onclick="$('#swiger_list_modal').html('');$.get('/bars/swiger_list')"><b>See All</b></a></div>
+
 <% end %>
 
 <h3><%= @bar.name rescue nil %></h3>

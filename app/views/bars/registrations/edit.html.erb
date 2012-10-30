@@ -79,7 +79,7 @@
           <%= f.input :sports_team, required: false, input_html: {id: "tk_sports"} %>
           <%= f.input :bar_description, label: "Description", input_html: {style: "width: 350px;height: 150px;", onkeyup: "countChar(this)"} %>
           <div class="pull-right"id="charNum"></div>
-          <div class="form-actions">
+          <div class="form-actions" style="margin-left: 45px;">
             <%= f.submit "Update", class: "btn-primary" %>
             </div>
           </div>
@@ -88,7 +88,7 @@
             <%= f.input :facebook_link %>
             <%= f.input :twitter_link %>
             <%= f.input :google_plus_link %>
-            <div class="form-actions">
+            <div class="form-actions" style="margin-left: 45px;">
               <%= f.submit "Update", class: "btn-primary" %>
               </div>
             </div>
@@ -96,7 +96,7 @@
               <%= f.input :address %>
               <%= f.input :zip_code %>
               <%= f.input :city, as: :select, collection: avaliable_cities %>
-              <div class="form-actions">
+              <div class="form-actions" style="margin-left: 45px;">
                 <%= f.submit "Update", class: "btn-primary" %>
                 </div>
               </div>
@@ -114,7 +114,10 @@
                     <%= hidden_field_tag "total", @counter %>
                     <%= link_to "Add", bars_add_bar_hours_on_edit_path(count: @counter), method: :post, remote: true, class: "btn", style: "color: green:" %>
                     </div>
-                    <%= f.submit "Update", class: "pull-right" %>
+              
+                    <div class="form-actions" >
+                      <%= f.submit "Update", class: "pull-right" %>
+                      </div>
                     <% end %>
                   </div>
                 </div>
@@ -129,29 +132,3 @@
                   <%= link_to "Back", :back %>
                 </div>
               </body>
-              <!--<script type="text/javascript">
-                $(document).ready(function(){
-                  $(".day_bar").click(function(){
-                    var day = $("#"+this.id).attr("day_bar");
-                    day_last = day - 1
-                    var open = $("#open_hour"+day_last+" > option:selected").text();
-                    var close = $("#close_hour"+day_last+" > option:selected").text();
-                    var openw = $("#open_w"+day_last+" > option:selected").text();
-                    var closew = $("#close_w"+day_last+" > option:selected").text();
-                    //if ($("#"+this.id).attr('checked', true) && open != "" && close != "" && openw != "" && closew != ""){
-                    if ($("#"+this.id).attr('checked') == "checked"){
-
-                      $("#open_hour"+day+" > option").eq(open).attr("selected","selected")
-                      $("#close_hour"+day+" > option").eq(close).attr("selected","selected")
-                      $("#open_w"+day+" [value='"+openw+"']").attr('selected',true)
-                      $("#close_w"+day+" [value='"+closew+"']").attr('selected',true)
-
-                    }else{
-                      $("#open_hour"+day+" > option").eq(open).attr("selected","")
-                      $("#close_hour"+day+" > option").eq(close).attr("selected","")
-                      $("#open_w"+day+" > option").eq(openw).attr("selected","")
-                      $("#close_w"+day+" > option").eq(closew).attr("selected","")
-                    }
-                  });
-                });
-              </script>-->

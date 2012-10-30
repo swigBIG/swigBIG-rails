@@ -7,8 +7,8 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= render partial: "layouts/body.css" %>
+    <%= yield :js_head %>
   </head>
-
   <body>
 
     <div class="container" style="background-color: white;border-radius: 7px;opacity: 0.8;margin-top: 55px;padding: 10px;">
@@ -24,4 +24,5 @@
     </div>
 
   </body>
+  <%= yield :js_footer %>
 </html>

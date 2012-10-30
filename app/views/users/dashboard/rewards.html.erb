@@ -1,4 +1,4 @@
-<%= content_for :head_js do %>
+<%= content_for :js_footer do %>
   <script type="text/javascript">
     $(document).ready(function(){
       // Smart Wizard
@@ -50,7 +50,8 @@
     <br/>
     <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#redeemed" data-toggle="tab"><b>Redeemed Rewards</b></a>
   </div>
-  <div class="span11 ">
+  
+  <div class="span8 ">
     <div class="tab-content">
       <div class="tab-pane active" id="summary">
         <td><a style="width: 200px;margin-bottom: 5px;" href="#earned" data-toggle="tab"><b>See All</b></a></td>
@@ -105,7 +106,7 @@
               <% @loyalty_points.each do |point| %>
                 <tr>
                   <td>
-                    <%= link_to  point.bar.name, bar_profile_path(point.bar) %>
+                    <%= link_to point.bar.name, bar_profile_path(point.bar) %>
                   </td>
                   <td>
                     <%= " #{('x' * point.bar.points.count)}#{"o" * (point.bar.loyalty.swigs_number - point.bar.points.count)}" rescue nil %>

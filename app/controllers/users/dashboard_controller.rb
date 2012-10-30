@@ -23,7 +23,7 @@ class Users::DashboardController < ApplicationController
     fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
     fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
     @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
-#    @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids,( Time.zone.now - @swigger_show_within ), Time.zone.now ])
+    #    @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids,( Time.zone.now - @swigger_show_within ), Time.zone.now ])
 
     #      @friends_swigger = Swiger.joins(:user).where(["users.email IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", emails, Time.now.beginning_of_day, Time.now.end_of_day ])
     @user = User.new
@@ -299,6 +299,15 @@ class Users::DashboardController < ApplicationController
       redirect_to :back, notice: "success convert account! Please Check your email to sign in with new password"
     end
 
+  end
+
+  def notify_mark_as_read
+    current_user.messages.each do |message|
+      message.mark_as_read
+    end
+    
+    @total_notification = current_user.received_messages.where('opened is false').count.to_s
+    respond_to :js
   end
 
 end

@@ -119,7 +119,7 @@
       </div>
       <div id="search" class="accordion-body collapse">
         <div class="accordion-inner" style="margin-left: 0px;">
-          <%= text_field_tag :zip_code, params[:zip_code], placeholder: "Zip Code" %>
+          <%= text_field_tag :zip_code, params[:zip_code], placeholder: "Zip Code", style: "width: 190px;" %>
           <b style="margin-left: 60px;">Radius in Mile</b>
           <%= select_tag(:radius, options_for_select(GeoRadius.all.collect {|b| [ b.radius, b.radius]}.unshift([""]), params[:radius])) %>
           <br/>
@@ -154,8 +154,8 @@
           <th>swigBIG Deals</th>
           <th>Bar Name</th>
           <th>Distance</th>
-          <tbody id="swigs_list">
-            <%= render "swigs"  %>
+          <tbody id="main_swigs_list">
+            <%= render "swigs" %>
           </tbody>
         </table>
         <div id="swig_paginator">

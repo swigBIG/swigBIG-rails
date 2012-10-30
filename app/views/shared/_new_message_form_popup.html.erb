@@ -1,3 +1,5 @@
+
+
 <style type="text/css">
   ul.token-input-list-facebook{
     margin-left: -105px;
@@ -21,36 +23,60 @@
   });
 </script>
 
+<div class="modal-header">
+  <a class="close" data-dismiss="modal"><b>x</b></a>
+  <h3>New Message</h3>
+</div>
+<div class="modal-body well">
+  <ul class="tabs" data-tabs="tabs">
+    <li><a href="#personal" class="btn" data-toggle="tab"><b style="font-size: 11px;">Select User</b></a></li>
+    <li><a href="#last_visit" class="btn" data-toggle="tab"><b style="font-size: 11px;">Last Visit</b></a></li>
+    <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b style="font-size: 11px;">Almost Rewarded</b></a></li>
+    <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b style="font-size: 11px;">Unused Rewarded</b></a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="personal">
+      <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+        <div style="margin-bottom: -30px;margin-left: 14px;"><b>To: </b></div>
+        <div style="margin-top: 10px;">
+          <%= m.input :to, label: false, input_html: {id: "tk_users"} %>
+        </div>
+        <div style="margin-left: -105px;">
+          <%= m.input :gift_id,label: "<b>Gift:</b>".html_safe, as: :select, collection: gift_collections,  input_html: {style: "width: 430px;"} %>
+        </div>
+        <div style="margin-bottom: -20px;margin-left: -15px;">
+          <b>Subject: </b>
+        </div>
+        <%= m.input :topic, label: false, input_html: {style: "margin-left: -105px;width: 420px;margin-bottom: 40px"} %>
+        <div style="margin-top: -45px;">
+  <%#= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+        </div>
+        <%= m.input :category, as: :hidden, input_html: {value: 5} %>
+        <div style="text-align: center;">
+          <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 104px;"} %>
+        </div>
+        <div class="form-actions">
+          <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+          <%= m.submit "Send", class: "btn-success pull-right" %>
+          </div>
+        <% end %>
+      </div>
 
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal"><b>x</b></a>
-      <h3>New Message</h3>
-    </div>
-    <div class="modal-body well">
-      <ul class="tabs" data-tabs="tabs">
-        <li><a href="#personal" class="btn" data-toggle="tab"><b style="font-size: 11px;">Select User</b></a></li>
-        <li><a href="#last_visit" class="btn" data-toggle="tab"><b style="font-size: 11px;">Last Visit</b></a></li>
-        <li><a href="#almost_rewarded" class="btn" data-toggle="tab"><b style="font-size: 11px;">Almost Rewarded</b></a></li>
-        <li><a href="#unused_rewards" class="btn" data-toggle="tab"><b style="font-size: 11px;">Unused Rewarded</b></a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active" id="personal">
-          <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-            <div style="margin-bottom: -30px;margin-left: 14px;"><b>To: </b></div>
-            <div style="margin-top: 10px;">
-              <%= m.input :to, label: false, input_html: {id: "tk_users"} %>
+      <div class="tab-pane" id="last_visit">
+        <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
+          <div style="margin-left: 20px;"><b>To: </b> All User that nave not swiggerd here in </div>
+          <%= text_field_tag :days, "",style: "width: 40px;margin-right: 150px;margin-top: -20px;", class: "pull-right", placeholder: "days" %>
+            <div style="margin-top: 20px;margin-bottom: -20px;margin-left: 20px;">
+              <b>Gift: </b>
             </div>
-            <div style="margin-left: -105px;">
-              <%= m.input :gift_id,label: "<b>Gift:</b>".html_safe, as: :select, collection: gift_collections,  input_html: {style: "width: 430px;"} %>
+            <div style="margin-left: -90px;">
+              <%= m.input :gift_id, label: false, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
             </div>
-            <div style="margin-bottom: -20px;margin-left: -15px;">
+            <div style="margin-top: 20px;margin-bottom: -20px;margin-left: 20px;">
               <b>Subject: </b>
             </div>
-            <%= m.input :topic, label: false, input_html: {style: "margin-left: -105px;width: 420px;margin-bottom: 40px"} %>
-            <div style="margin-top: -45px;">
-    <%#= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
-            </div>
-            <%= m.input :category, as: :hidden, input_html: {value: 5} %>
+            <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -80px;width: 300px;"} %>
+            <%= m.input :category, as: :hidden, input_html: {value: 1} %>
             <div style="text-align: center;">
               <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 104px;"} %>
             </div>
@@ -61,21 +87,23 @@
             <% end %>
           </div>
 
-          <div class="tab-pane" id="last_visit">
+          <div class="tab-pane" id="almost_rewarded">
             <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-              <div style="margin-left: 20px;"><b>To: </b> All User that nave not swiggerd here in </div>
-              <%= text_field_tag :days, "",style: "width: 40px;margin-right: 150px;margin-top: -20px;", class: "pull-right", placeholder: "days" %>
-                <div style="margin-top: 20px;margin-bottom: -20px;margin-left: 20px;">
-                  <b>Gift: </b>
+              <!--<div style="margin-left: -105px;">
+        <%#= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+              </div>
+              <div style="margin-top: -45px;">
+        <%#= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
+                </div>-->
+              <div style=""><p><b>To: </b> All users that will earn a reward within</p></div>
+              <div style="margin-bottom: 20px;margin-top: -30px;">
+                <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 155px;", class: "pull-right", placeholder: "Swigs required" %>
                 </div>
-                <div style="margin-left: -90px;">
-                  <%= m.input :gift_id, label: false, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
+                <div style="margin-top: 50px;"><b>Subject:</b></div>
+                <div style="margin-top: -15px;">
+                  <%= m.input :topic, label: "Subject", placeholder: "Subject", input_html: {style: "margin-left: -80px;width: 300px;"} %>
                 </div>
-                <div style="margin-top: 20px;margin-bottom: -20px;margin-left: 20px;">
-                  <b>Subject: </b>
-                </div>
-                <%= m.input :topic, label: false, placeholder: "Subject", input_html: {style: "margin-left: -80px;width: 300px;"} %>
-                <%= m.input :category, as: :hidden, input_html: {value: 1} %>
+                <%= m.input :category, as: :hidden, input_html: {value: 2} %>
                 <div style="text-align: center;">
                   <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 104px;"} %>
                 </div>
@@ -85,54 +113,26 @@
                   </div>
                 <% end %>
               </div>
-
-              <div class="tab-pane" id="almost_rewarded">
+              <div class="tab-pane" id="unused_rewards">
                 <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                  <!--<div style="margin-left: -105px;">
-          <%#= m.input :gift_id, as: :select, collection: gift_collections,  style: "margin-left: -75px;" %>
-                  </div>
-                  <div style="margin-top: -45px;">
-          <%#= m.input :expirate_reward, label: false, as: :string,  placeholder: "Reward Expirate Date", input_html: {class: "datepicker", style: "width: 135px;margin-left: 170px;"} %>
-                    </div>-->
-                  <div style=""><p><b>To: </b> All users that will earn a reward within</p></div>
+                  <div style=""><p><b>To: </b> All users that have not used their rewards</p></div>
                   <div style="margin-bottom: 20px;margin-top: -30px;">
-                    <%= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 155px;", class: "pull-right", placeholder: "Swigs required" %>
-                    </div>
-                    <div style="margin-top: 50px;"><b>Subject:</b></div>
-                    <div style="margin-top: -15px;">
-                      <%= m.input :topic, label: "Subject", placeholder: "Subject", input_html: {style: "margin-left: -80px;width: 300px;"} %>
-                    </div>
-                    <%= m.input :category, as: :hidden, input_html: {value: 2} %>
-                    <div style="text-align: center;">
-                      <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 104px;"} %>
-                    </div>
-                    <div class="form-actions">
-                      <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                      <%= m.submit "Send", class: "btn-success pull-right" %>
-                      </div>
-                    <% end %>
+            <%#= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 155px;", class: "pull-right", placeholder: "Swigs required" %>
                   </div>
-                  <div class="tab-pane" id="unused_rewards">
-                    <%= simple_form_for(@bar_message ,url: bars_create_bar_message_path) do |m| %>
-                      <div style=""><p><b>To: </b> All users that have not used their rewards</p></div>
-                      <div style="margin-bottom: 20px;margin-top: -30px;">
-              <%#= text_field_tag :required_swigs, "",style: "width: 40px;margin-right: 155px;", class: "pull-right", placeholder: "Swigs required" %>
-                      </div>
-                      <div style="margin-top: 50px;"><b>Subject:</b></div>
-                      <div style="margin-top: -15px;">
-                        <%= m.input :topic, label: "Subject", placeholder: "Subject", input_html: {style: "margin-left: -80px;width: 300px;"} %>
-                      </div>
-                      <%= m.input :category, as: :hidden, input_html: {value: 17} %>
-                      <div style="text-align: center;">
-                        <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 104px;"} %>
-                      </div>
-                      <div class="form-actions">
-                        <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
-                        <%= m.submit "Send", class: "btn-success pull-right" %>
-                        </div>
-                      <% end %>
-                    </div>
+                  <div style="margin-top: 50px;"><b>Subject:</b></div>
+                  <div style="margin-top: -15px;">
+                    <%= m.input :topic, label: "Subject", placeholder: "Subject", input_html: {style: "margin-left: -80px;width: 300px;"} %>
                   </div>
+                  <%= m.input :category, as: :hidden, input_html: {value: 17} %>
+                  <div style="text-align: center;">
+                    <%= m.input :body, input_html: {style: "margin-left: -180px;width: 445px;height: 104px;"} %>
+                  </div>
+                  <div class="form-actions">
+                    <a href="#" class="btn pull-left" data-dismiss="modal" >Cancel</a>
+                    <%= m.submit "Send", class: "btn-success pull-right" %>
+                    </div>
+                  <% end %>
                 </div>
+              </div>
+            </div>
 
-              

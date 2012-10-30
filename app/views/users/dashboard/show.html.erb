@@ -1,12 +1,7 @@
-<style type="text/css">
-  .stepContainer .content{
-    width: 675px!important;
-  }
-</style>
-
-<%= content_for :head_js do %>
+<%= content_for :js_footer do %>
+  <%= javascript_include_tag "jquery.smartWizard-2.0", "tag-it", "jquery-ui-1.8.autocomplete.min", "jquery-ui.min" %>
   <%= javascript_include_tag "chosen.jquery" %>
-  <%= stylesheet_link_tag "chosen" %>
+  <%= stylesheet_link_tag "chosen", "tagit-simple-blue" %>
   <script type="text/javascript">
     $(document).ready(function(){
       // Smart Wizard
@@ -26,6 +21,16 @@
   </script>
 <% end %>
 
+<style type="text/css">
+  .stepContainer .content{
+    width: 675px!important;
+  }
+</style>
+
+<%= content_for :head_js do %>
+
+<% end %>
+
 <%= content_for :right_side do %>
   <!--<h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
   <a href="http://swigbig.com/download.html" class="pull-right"><%#= image_tag "/assets/available_on_android.png" %></a>-->
@@ -34,11 +39,11 @@
   <div class="clearfix"></div>
   <% @friends_swigger.each do |swigger| %>
     <div class="span2">
-      <%= swigger.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swigger.user.avatar_url(:mini)) %>
+      <img src="http://graph.facebook.com/<%= swigger.user.fb_id rescue nil %>/picture?type=small" alt=""></img>
       <br/>
       <%= swigger.user.name %>
       <br/>
-      <%= swigger.bar.name %>
+      @<%= link_to  swigger.bar.name, bar_profile_path(swigger.bar) rescue nil %>
     </div>
   <% end %>
 <% end %>
@@ -119,29 +124,7 @@
           </div>
         </div>
         <div id="invite">
-          <!--<h2 class="StepTitle"><b>Invite</b></h2>
-<%#= link_to "Find Friends in SwigBig", users_friend_index_path %>
 
-          <table>
-<%#= form_tag(users_invite_by_email_path) do %>
-<%#= submit_tag "invite", class: "btn-primary" %>
-<%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-<%#= text_field_tag(:mytags)  %>
-<%# @friends.each do |f| %>
-          <!--<tr>
-            <td>
-<%#= check_box_tag "emails_address[]", f.email, false, :class => "checkbox" %>
-            </td>
-            <td>
-<%#= f.name %>
-            </td>
-            <td>
-<%#= f.email %>
-            </td>
-          </tr>
-<%# end %>
-<%# end %>
-      </table>-->
         </div>
 
         <div id="email">

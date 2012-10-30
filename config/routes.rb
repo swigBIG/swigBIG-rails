@@ -179,6 +179,7 @@ Swprototype::Application.routes.draw do
     get  "convert_facebook_account_to_email_account" => "dashboard#convert_facebook_account_to_email_account", as: "convert_facebook_account_to_email_account"
     post  "mobile_invite_friends_by_email/:bar_id" => "dashboard#mobile_invite_friend_by_email", as: "mobile_invite_friend_by_email"
     get  "mobile_invite_friends/:bar_id" => "dashboard#mobile_invite_friends", as: "mobile_invite_friends"
+    get  "notify_mark_as_read" => "dashboard#notify_mark_as_read", as: "notify_mark_as_read"
 
     match  "mobile_swigging/:bar_id" => "bar_swigs#mobile_swigging", as: "mobile_swigging"
     get  "mobile_invite_fb_friends/:bar_id" => "bar_swigs#mobile_invite_fb_friends", as: "mobile_invite_fb_friends"

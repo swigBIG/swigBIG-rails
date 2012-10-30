@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require ckeditor/ckeditor
-//= require bootstrap-collapse
 //= require bootstrap-dropdown
 //= require bootstrap-modal
 //= require bootstrap-tab
@@ -21,16 +20,13 @@
 //= require chosen.jquery
 //= require jquery-ui-1.8.autocomplete.min
 //= require jquery-ui.min
-//= require jquery.livesearch
-//= require jquery.numeric
-//= require jquery.smartWizard-2.0
 //= require jquery.tokeninput
-//= require jquery.shorten.1.0
+//= require jquery.numeric
 //= require jscolor
-//= require tag-it
 //= require validate_people
 
 $(document).ready(function(){
+
   $("#options_action").change(function(){
     if($(this).val() == "1"){
       $(".checkbox").attr("checked", "checked")
@@ -47,3 +43,4 @@ $(document).ready(function(){
 })
 
 //---test time zone
+
