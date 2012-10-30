@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
     @expirate_within_to_expire = RewardPolicy.first.expirate_within rescue 10
     @valid_radius_for_swigging = RadiusSwigging.first.radius rescue 1
     @radius_to_show_in_mobile_list = RadiusToShowBarInMobile.first.radius rescue 10
-#    @swigger_show_within = FbSwiggerHour.blank? ? FbSwiggerHour.first : 6
+    @swigger_show_within = FbSwiggerHour.blank? ? FbSwiggerHour.first : 6
   end
 
   protected
@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
     return request.remote_ip.to_s if Rails.env.eql?("development")
     #    "75.85.54.184"
     #    "64.90.182.55"
-    #    '180.246.28.94'
+    #        '180.246.28.94'
     #    '75.85.48.139'
   end
 
