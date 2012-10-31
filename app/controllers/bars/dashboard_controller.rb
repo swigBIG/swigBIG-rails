@@ -187,7 +187,6 @@ class Bars::DashboardController < ApplicationController
       msg = "Message success Send!"
 
     when "1"
-      debugger
       current_bar.swigers.where("created_at >= ?", params[:acts_as_messageable_message][:days].to_i.days.ago.beginning_of_day).pluck(:user_id).uniq.each do |user|
         user = User.find(user)
         current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], 
