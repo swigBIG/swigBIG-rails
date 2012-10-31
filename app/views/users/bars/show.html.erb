@@ -1,72 +1,73 @@
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<style type="text/css">
-  #map_canvas { height: 350px ; width: 275px;}
-</style>
-<script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
-</script>
-<script type="text/javascript">
-  function initialize() {
-    var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
-    var myOptions = {
-      center: latlo,
-      zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas"),
-    myOptions);
-    var marker = new google.maps.Marker({
-      position: latlo,
-      map: map
-    });
-  }
-</script>
-<script type="text/javascript" charset="utf-8">
-  (function($) {
-    $(document).ready(function() {
-      $('input[name="q"]').search('#fb li', function(on) {
-        on.all(function(results) {
-          var size = results ? results.size() : 0
-          $('#count').text(size + ' results');
-        });
+<%= content_for :js_footer do %>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <style type="text/css">
+    #map_canvas { height: 350px ; width: 275px;}
+  </style>
+  <style type="text/css">
+    .stepContainer .content{
+      width: 650px!important;
+    }
 
-        on.reset(function() {
-          $('#none').hide();
-          $('#fb li').show();
-        });
+    .modal{
+      width: 790px!important;
+      overflow: hidden!important;
+    }
+    .modal-header{
+      padding: 0px!important;
+    }
+    .modal-body{
+      max-height: 320px!important;
+    }
+  </style>
+  <script type="text/javascript"
+          src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&sensor=true">
+  </script>
+  <script type="text/javascript">
+    function initialize() {
+      var latlo = new google.maps.LatLng(<%= @bar.latitude.to_f %>, <%= @bar.longitude.to_f %>)
+      var myOptions = {
+        center: latlo,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map_canvas"),
+      myOptions);
+      var marker = new google.maps.Marker({
+        position: latlo,
+        map: map
+      });
+    }
+  </script>
+  <script type="text/javascript" charset="utf-8">
+    (function($) {
+      $(document).ready(function() {
+        $('input[name="q"]').search('#fb li', function(on) {
+          on.all(function(results) {
+            var size = results ? results.size() : 0
+            $('#count').text(size + ' results');
+          });
 
-        on.empty(function() {
-          $('#none').show();
-          $('#fb li').hide();
-        });
+          on.reset(function() {
+            $('#none').hide();
+            $('#fb li').show();
+          });
 
-        on.results(function(results) {
-          $('#none').hide();
-          $('#fb li').hide();
-          results.show();
+          on.empty(function() {
+            $('#none').show();
+            $('#fb li').hide();
+          });
+
+          on.results(function(results) {
+            $('#none').hide();
+            $('#fb li').hide();
+            results.show();
+          });
         });
       });
-    });
-  })(jQuery);
-</script>
-<style type="text/css">
-  .stepContainer .content{
-    width: 650px!important;
-  }
+    })(jQuery);
+  </script>
 
-  .modal{
-    width: 790px!important;
-    overflow: hidden!important;
-  }
-  .modal-header{
-    padding: 0px!important;
-  }
-  .modal-body{
-    max-height: 320px!important;
-  }
-</style>
-
-
+<% end %>
 
 <body onload="initialize()">
 
@@ -77,22 +78,10 @@
     <br/>
     <b>Sport Team : </b><%= @bar.sports_team rescue nil %>
     <br/>
-
     <div class="clearfix"></div>
     <br/>
     <div id="map_canvas" style="margin-left: -25px;">
-  <%#= image_tag("http://maps.googleapis.com/maps/api/js?key=AIzaSyBaz4HYWs-2If2J6Awpc23Twds3i-1Mj88&markers=#{@bar.latitude}%2C#{@bar.longitude}") %>
     </div>
-    <!--<br />
-    <%# if user_signed_in? %>
-      <%# unless current_user.fb_id.blank? %>
-        <a class="btn" data-toggle="modal" href="#invite_modal">invite to <%= @bar.name %></a>
-      <%# end %>
-    <%# end %>
-    <div class="clearfix"></div>
-    <fieldset class="well" style="margin-left: -15px;">
-      <%#= link_to "Enter Bar", users_enter_bar_path(@bar), method: :post  %>
-    </fieldset>-->
   <% end %>
 
   <%= content_for :profile_right_side do %>
@@ -278,43 +267,5 @@
 
 <%= content_for :outer do %>
   <div id="bar_swiger_list_modal" class="modal hide fade"></div>
-
-  <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
-    <div class="modal-header">
-      <div style="background-color: #6D84B4;margin-bottom: 5px;">
-        <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
-        <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
-      </div>
-      <button class="btn btn-mini">Search:</button>
-      <input type="text" name="q" value="" style="width: 450px"></input>
-      <span id="count"></span>
-      <p id="none" style="display:none">There were no names to match your search!</p>
-    </div>
-    <% if user_signed_in? %>
-      <% if current_user.fb_id %>
-        <%= form_tag(users_invite_swigbig_path) do %>
-        <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-          <%= hidden_field_tag 'bar_id', @bar.id %>
-          <div class="modal-body" style="height:350px">
-            <ul id="fb">
-              <% @friends.each do |friend| %>
-                <li class="span4" style="margin-top: 10px;list-style: none;">
-                  <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-                  <%= link_to image_tag(friend.picture) %>
-                  <%= friend.name %>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <%= submit_tag "invite", class: "btn-primary " %>
-              &nbsp;
-              &nbsp;
-              <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
-            </div>
-          <% end %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
+<% end %>
 

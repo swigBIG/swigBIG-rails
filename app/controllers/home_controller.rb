@@ -49,7 +49,7 @@ class HomeController < ApplicationController
         @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)#.take(5)
       else
         #        session[:homepage_request_page] = true
-        @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).order("swig_type DESC")
+        @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)
       end
       
 
