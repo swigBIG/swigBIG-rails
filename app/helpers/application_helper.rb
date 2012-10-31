@@ -38,7 +38,8 @@ module ApplicationHelper
   end
 
   def gift_collections
-    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).order("created_at DESC").map{ |reward| [reward.descriptions, reward.descriptions] }.unshift([nil, nil])
+    Gift.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).order("created_at DESC").map{ |reward| [reward.descriptions, reward.descriptions] }
+    #    current_bar.where(["bar_id is NULL OR bar_id = (?)", current_bar.id ]).order("created_at DESC").map{ |reward| [reward.descriptions, reward.descriptions] }
   end
 
   def reward_collections
