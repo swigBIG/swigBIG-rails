@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  layout "users", except: :invite_page
+  layout "users"
 
   before_filter :redirect_to_request_invitation_page
 

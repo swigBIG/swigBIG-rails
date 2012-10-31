@@ -178,7 +178,23 @@ class Bars::DashboardController < ApplicationController
     redirect_to :back, notice: "Loyalty deleted"
   end
 
+  def reward_code_generator
+    chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+    serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
+    is_existed = true
+    while is_existed.eql?(true)
+      if Coupon.where(coupon_serial: serial).first.nil?
+        is_existed = false
+      else
+        chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a
+        serial = (0...20).collect { chars[Kernel.rand(chars.length)] }.join
+      end
+    end
+    return serial
+  end
+
   def create_bar_message
+    debugger
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
@@ -192,7 +208,8 @@ class Bars::DashboardController < ApplicationController
         current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], 
             #            expirate_reward: params[:acts_as_messageable_message][:expirate_reward],
             reward: params[:acts_as_messageable_message][:gift_id].to_s,
-            expirate_reward: (Time.zone.now + (RewardPolicy.first.popularity_expirate_hours rescue 5).to_i.days)
+            expirate_reward: (Time.zone.now + (RewardPolicy.first.popularity_expirate_hours rescue 5).to_i.days),
+            coupon: reward_code_generator
           })
       end
       msg = "Message success Send to User last #{params[:number_days]}!"

@@ -1,74 +1,72 @@
 <%= content_for :js_footer do %>
-  <%= javascript_include_tag "jquery.smartWizard-2.0", "jquery.livesearch" %>
-<% end %>
+  <%= javascript_include_tag "jquery.smartWizard-2.0", "jquery.livesearch", "chosen.jquery" %>
+  <%= stylesheet_link_tag "chosen" %>
 
-<%= javascript_include_tag "chosen.jquery" %>
-<%= stylesheet_link_tag "chosen" %>
-<script type="text/javascript">
-  $(document).ready(function(){
-    // Smart Wizard
-    $('#wizard').smartWizard({
-      transitionEffect:'slide',
-      enableAllSteps: true,
-      hideButtonsOnDisabled: false
-    });
-    $('.actionBar').hide();
-    $('.chzn-select').chosen();
-  });
-</script>
-<%- unless session[:invite_fb_friend_popup_was_appeared].eql?(true) %>
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#invite_by_fb').click();
-      $('#invite_by_fb').click();
-    })
+      // Smart Wizard
+      $('#wizard').smartWizard({
+        transitionEffect:'slide',
+        enableAllSteps: true,
+        hideButtonsOnDisabled: false
+      });
+      $('.actionBar').hide();
+      $('.chzn-select').chosen();
+    });
   </script>
-<%- end %>
-<script type="text/javascript" charset="utf-8">
-  (function($) {
-    $(document).ready(function() {
-      $('input[name="q"]').search('#fb li', function(on) {
-        on.all(function(results) {
-          var size = results ? results.size() : 0
-          $('#count').text(size + ' results');
-        });
+  <%- unless session[:invite_fb_friend_popup_was_appeared].eql?(true) %>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#invite_by_fb').click();
+        $('#invite_by_fb').click();
+      })
+    </script>
+  <%- end %>
+  <script type="text/javascript" charset="utf-8">
+    (function($) {
+      $(document).ready(function() {
+        $('input[name="q"]').search('#fb li', function(on) {
+          on.all(function(results) {
+            var size = results ? results.size() : 0
+            $('#count').text(size + ' results');
+          });
 
-        on.reset(function() {
-          $('#none').hide();
-          $('#fb li').show();
-        });
+          on.reset(function() {
+            $('#none').hide();
+            $('#fb li').show();
+          });
 
-        on.empty(function() {
-          $('#none').show();
-          $('#fb li').hide();
-        });
+          on.empty(function() {
+            $('#none').show();
+            $('#fb li').hide();
+          });
 
-        on.results(function(results) {
-          $('#none').hide();
-          $('#fb li').hide();
-          results.show();
+          on.results(function(results) {
+            $('#none').hide();
+            $('#fb li').hide();
+            results.show();
+          });
         });
       });
-    });
-  })(jQuery);
-</script>
-<style type="text/css">
-  .stepContainer .content{
-    width: 650px!important;
-  }
+    })(jQuery);
+  </script>
+  <style type="text/css">
+    .stepContainer .content{
+      width: 650px!important;
+    }
 
-  .modal{
-    width: 790px!important;
-    overflow: hidden!important;
-  }
-  .modal-header{
-    padding: 0px!important;
-  }
-  .modal-body{
-    max-height: 320px!important;
-  }
-</style>
-
+    .modal{
+      width: 790px!important;
+      overflow: hidden!important;
+    }
+    .modal-header{
+      padding: 0px!important;
+    }
+    .modal-body{
+      max-height: 320px!important;
+    }
+  </style>
+<% end %>
 
 <%= content_for :right_side do %>
   <!--<h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
