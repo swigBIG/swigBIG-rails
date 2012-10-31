@@ -194,7 +194,6 @@ class Bars::DashboardController < ApplicationController
   end
 
   def create_bar_message
-    debugger
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
@@ -203,12 +202,16 @@ class Bars::DashboardController < ApplicationController
       msg = "Message success Send!"
 
     when "1"
-      current_bar.swigers.where("created_at >= ?", params[:acts_as_messageable_message][:days].to_i.days.ago.beginning_of_day).pluck(:user_id).uniq.each do |user|
+      debugger
+      not_sent = current_bar.swigers.where(['created_at >= ?', (params[:days].to_i - 1).to_i.days.ago]).pluck(:user_id).uniq
+
+      current_bar.swigers.where(['user_id NOT IN (?)', not_sent]).pluck(:user_id).uniq.each do |user|
         user = User.find(user)
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], 
-            #            expirate_reward: params[:acts_as_messageable_message][:expirate_reward],
+        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body],
+            category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id],
             reward: params[:acts_as_messageable_message][:gift_id].to_s,
             expirate_reward: (Time.zone.now + (RewardPolicy.first.popularity_expirate_hours rescue 5).to_i.days),
+            #            expirate_reward: (Time.zone.now + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days),
             coupon: reward_code_generator
           })
       end
