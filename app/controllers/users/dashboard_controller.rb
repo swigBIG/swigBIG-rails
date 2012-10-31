@@ -311,12 +311,9 @@ class Users::DashboardController < ApplicationController
   end
 
   def update_profile
-
     @user = User.find(current_user.id)
-    debugger
+    
     if (Time.now - Chronic.parse(params[:user][:bird_date])) >= 21 and @user.update_attributes(params[:user])
-#      sign_in @user, :bypass => true
-
       redirect_to root_url, notice: "Update Success!"
     else
       redirect_to :root, notice: "Can't register under 21 age!"

@@ -1,18 +1,20 @@
-<script type="text/javascript">
-  function validate_reward_to_list(){
-    if($("#reward_text_form_to_add").val() == ''){
-      alert("salah");
-      $("#reward_text_form_to_add").css('border', '1px solid red');
-      valid_reward_to_create = false;
-    }else{
-      $("#reward_text_form_to_add").css('border', '1px solid black');
-      valid_reward_to_create = true;
+<%= content_for :js_footer do %>
+  <script type="text/javascript">
+    function validate_reward_to_list(){
+      if($("#reward_text_form_to_add").val() == ''){
+        alert("salah");
+        $("#reward_text_form_to_add").css('border', '1px solid red');
+        valid_reward_to_create = false;
+      }else{
+        $("#reward_text_form_to_add").css('border', '1px solid black');
+        valid_reward_to_create = true;
+      }
+      if(valid_reward_to_create){
+        $('#goto_create_reward_to_list').click();
+      }
     }
-    if(valid_reward_to_create){
-      $('#goto_create_reward_to_list').click();
-    }
-  }
-</script>
+  </script>
+<% end %>
 
 <b><div id="gift_notification_text" style="color: green;display: none;">Reward was added successfully!</div></b>
 <br/>
