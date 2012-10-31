@@ -86,8 +86,8 @@
   <div data-role="content">
     <b>Change Password</b><br/>
     <%= simple_form_for(:user, :url => users_update_user_for_mobile_path, html: {"data-ajax" => "false"}) do |f| %>
-      <%= f.input :password %>
-      <%= f.input :password_confirmation %>
+      <%= f.input :password, input_html: { style: "height: 30px;"} %>
+      <%= f.input :password_confirmation, input_html: { style: "height: 30px;"} %>
       <div style="display: none;">
         <%= f.submit "Update", id: "go_to_update_password_mobile", style: "display: none;" %>
       </div>

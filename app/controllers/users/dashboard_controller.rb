@@ -8,7 +8,7 @@ class Users::DashboardController < ApplicationController
     @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "Not Swigging Yet!"
     @top_city = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.city rescue "Not Swigging Yet!"
     @total_swig = current_user.swigers.count
-    @total_rewards = current_user.messages.where(category: [])
+    @total_rewards = current_user.messages.where(category: [1, 9, 16])
   end
 
   def facebook_page
@@ -218,7 +218,7 @@ class Users::DashboardController < ApplicationController
     @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "Not Swigging Yet!"
     @top_city = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.city rescue "Not Swigging Yet!"
     @total_swig = current_user.swigers.count
-    @total_rewards = current_user.messages.where(category: [])
+    @total_rewards = current_user.messages.where(category: [1, 9, 16])
   end
 
   def update_user_for_mobile
