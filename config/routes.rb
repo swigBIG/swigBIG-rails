@@ -187,6 +187,7 @@ Swprototype::Application.routes.draw do
     post  "invite_fb_friends/:bar_id" => "bar_swigs#invite_fb_friends", as: "invite_fb_friends"
     post  "invite_email_friends/:bar_id" => "bar_swigs#invite_email_friends", as: "invite_email_friends"
 
+    post  "update_profile" => "dashboard#update_profile", as: "update_profile"
 
     resources :messages do
       collection do
