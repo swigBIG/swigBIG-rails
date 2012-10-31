@@ -18,11 +18,14 @@
     margin-left: -50px;
   }
 </style>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
-  });
-</script>
+<%= content_for :js_footer do %>
+  <%= javascript_include_tag "chosen.jquery.js", "jquery-ui.min" %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
+    });
+  </script>
+<% end %>
 
 <%= content_for :side do %>
   <%= image_tag(current_user.avatar_url(:medium), style: "height: 160px;") %>
@@ -44,7 +47,9 @@
       <div><%= f.submit "Update", class: "btn-primary" %></div>
       </div>
       <div class="span4 pull-right" >
-        <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"} %>
+        <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
+        <%#= f.input :bird_date, as: :date, start_year: Date.today.year - 90,end_year: Date.today.year - 19,
+        order: [:day, :month, :year], input_html: {style: "width: 80px;margin: 10px;", class: "user_bird_date"}, required: true %>
           <p>Avatar</p>
           <%= f.input :avatar, placeholder: "Avatar",label: false %>
           <%= f.input :phone_number, placeholder: "Phone Number",label: false %>
