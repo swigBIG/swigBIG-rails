@@ -8,7 +8,7 @@ class Users::DashboardController < ApplicationController
     @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "Not Swigging Yet!"
     @top_city = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.city rescue "Not Swigging Yet!"
     @total_swig = current_user.swigers.count
-    @total_rewards = current_user.messages.where(category: [1, 9, 16])
+    @total_rewards = current_user.messages.where(category: [1,5, 9, 16])
   end
 
   def facebook_page
@@ -208,9 +208,9 @@ class Users::DashboardController < ApplicationController
   def mobile_reward
     @user = current_user
     #    @reward = current_user.messages.where(["category = (?) OR category = (?) AND expirate_reward > (?) ", 9, 16, Time.now ]).order("created_at DESC")
-    @reward = current_user.messages.where(category: [9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
+    @reward = current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
     #    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
-    @reward_to_expirate = current_user.messages.where(category: [9, 16, 1]).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
+    @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1]).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
   end
 
   def facebook_mobile_profile
@@ -218,7 +218,7 @@ class Users::DashboardController < ApplicationController
     @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "Not Swigging Yet!"
     @top_city = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.city rescue "Not Swigging Yet!"
     @total_swig = current_user.swigers.count
-    @total_rewards = current_user.messages.where(category: [1, 9, 16])
+    @total_rewards = current_user.messages.where(category: [1, 5, 9, 16])
   end
 
   def update_user_for_mobile
