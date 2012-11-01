@@ -194,6 +194,7 @@ class Bars::DashboardController < ApplicationController
   end
 
   def create_bar_message
+    debugger
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
@@ -281,9 +282,14 @@ class Bars::DashboardController < ApplicationController
       msg = "Message success Send! to 75%"
 
     when "17"
-      current_bar.messages.where(coupon_status: true).pluck(:received_messageable_id).each do |u|
+      current_bar.messages.where(category: [1, 5, 9, 16], coupon_status: false).pluck(:received_messageable_id).uniq.each do |u|
         user = User.find(u)
-        current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category]})
+
+        current_bar.send_message(user,
+          {topic: params[:acts_as_messageable_message][:topic],
+            body: params[:acts_as_messageable_message][:body],
+            category: params[:acts_as_messageable_message][:category]
+          })
       end
       msg = "Message succes send to all users that have not used their rewards!"
 
