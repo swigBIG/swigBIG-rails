@@ -25,14 +25,16 @@
       <br/>
       <b><%= @bar.loyalty.reward_detail %></b>
     <% else %>
-      <% unless @bar.loyalty.blank? %>
-        <p><b>1&nbsp;</b> Loyalty Reward Point earned!</p>
-      <% else %>
-        <p><b>Loyalty Reward Point earned!</b> &nbsp; The bar not set up Loyalty Reward yet!</p>
+      <% if @loyalty_points %>
+        <% unless @bar.loyalty.blank? %>
+          <p><b>1&nbsp;</b> Loyalty Reward Point earned!</p>
+        <% else %>
+          <p><b>Loyalty Reward Point earned!</b> &nbsp; The bar not set up Loyalty Reward yet!</p>
+        <% end %>
+        <br/>
+        <p><b> <%= @bar.loyalty.swigs_number - @loyalty_points.loyalty_points  %>&nbsp;</b> More reward point to reach reward! <b><%= @loyalty_points.loyalty_points %> of <%= @bar.loyalty.swigs_number %></b></p>
+        <br/>
       <% end %>
-      <br/>
-      <p><b> <%= @bar.loyalty.swigs_number - @loyalty_points.loyalty_points  %>&nbsp;</b> More reward point to reach reward! <b><%= @loyalty_points.loyalty_points %> of <%= @bar.loyalty.swigs_number %></b></p>
-      <br/>
     <% end %>
     <p>You have <b><%= @reward_to_expirate %></b> unused rewards for this bar and
       <b><%= @reward_to_expirate %></b> almost expirate reward</p>
