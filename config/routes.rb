@@ -97,13 +97,13 @@ Swprototype::Application.routes.draw do
     get "rewards/index"
     match "rewards" => "rewards#index", as: "rewards"
     post "create_bar_message" => "dashboard#create_bar_message", as: "create_bar_message"
-    post "create_gift" => "dashboard#create_gift", as: "create_gift"
-    post "activate_loyalty/:loyalty_id" => "dashboard#activate_loyalty", as: "activate_loyalty"
-    post "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
-    post "activate_popularity/:popularity_id" => "dashboard#activate_popularity", as: "activate_popularity"
-    post "deactivate_popularity/:popularity_id" => "dashboard#deactivate_popularity", as: "deactivate_popularity"
-    post "update_gift/:gift_id" => "dashboard#update_gift", as: "update_gift"
-    get "destroy_gift_in_list/:gift_id" => "dashboard#destroy_gift_in_list", as: "destroy_gift_in_list"
+    post  "create_gift" => "dashboard#create_gift", as: "create_gift"
+    post  "activate_loyalty/:loyalty_id" => "dashboard#activate_loyalty", as: "activate_loyalty"
+    post  "deactivate_loyalty/:loyalty_id" => "dashboard#deactivate_loyalty", as: "deactivate_loyalty"
+    post  "activate_popularity/:popularity_id" => "dashboard#activate_popularity", as: "activate_popularity"
+    post  "deactivate_popularity/:popularity_id" => "dashboard#deactivate_popularity", as: "deactivate_popularity"
+    post  "update_gift/:gift_id" => "dashboard#update_gift", as: "update_gift"
+    get  "destroy_gift_in_list/:gift_id" => "dashboard#destroy_gift_in_list", as: "destroy_gift_in_list"
     post  "add_bigswig_list" => "dashboard#add_bigswig_list", as: "add_bigswig_list"
     post  "add_bigswig_list_on_update" => "dashboard#add_bigswig_list_on_update", as: "add_bigswig_list_on_update"
     post  "add_bar_hours" => "dashboard#add_bar_hours", as: "add_bar_hours"
@@ -115,8 +115,9 @@ Swprototype::Application.routes.draw do
     get  "swiger_list" => "dashboard#swiger_list", as: "swiger_list"
     post  "update_bar_hours" => "dashboard#update_bar_hours", as: "update_bar_hours"
     get  "swigger_total_count" => "dashboard#swigger_total_count", as: "swigger_total_count"
-    
-    get 'notification' => "messages#notification"
+
+    get  "notify_mark_as_read" => "dashboard#notify_mark_as_read", as: "notify_mark_as_read"
+    get  'notification' => "messages#notification"
 
     resources :messages do
       collection do

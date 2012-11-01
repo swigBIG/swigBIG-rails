@@ -239,14 +239,12 @@ class Bars::DashboardController < ApplicationController
 
     when "5"
       debugger
-#      user = User.find(params[:acts_as_messageable_message][:to])
-#      current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body], category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id], expirate_reward: params[:acts_as_messageable_message][:expirate_reward]})
       params[:acts_as_messageable_message][:to].split(",").each do |user|
         user = User.find(user)
         current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body],
             category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id],
             reward: params[:acts_as_messageable_message][:gift_id].to_s,
-            expirate_reward: (Time.zone.now + (RewardPolicy.first.popularity_expirate_hours rescue 5).to_i.days),
+            expirate_reward: (Time.zone.now + (RewardPolicy.first.loyalty_expirate_date rescue 5).to_i.days),
             #            expirate_reward: (Time.zone.now + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days),
             coupon: reward_code_generator
           })
@@ -584,6 +582,15 @@ class Bars::DashboardController < ApplicationController
 
   def swigger_total_count
     @total_swiger = current_bar.swigers.count
+  end
+
+  def notify_mark_as_read
+    current_bar.messages.each do |message|
+      message.mark_as_read
+    end
+
+    @total_notification = current_bar.received_messages.where('opened is false').count.to_s
+    respond_to :js
   end
 
 end
