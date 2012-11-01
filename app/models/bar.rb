@@ -19,12 +19,8 @@ class Bar < ActiveRecord::Base
   validates :address, :zip_code, :city, :presence => true, :on => :update
   #  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
 
-  mount_uploader :logo, ImageUploader
-  mount_uploader :bar_background, ImageUploader
-
   before_update  :set_http_website
   before_validation :set_full_address, :locate
-  after_update :update_swig_location
 
   geocoded_by :address
 
@@ -50,21 +46,12 @@ class Bar < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :bar_hours, :allow_destroy => true
-
-
   
   acts_as_mappable :default_units => :miles,
     :default_formula => :sphere,
     :distance_field_name => :distance,
     :lat_column_name => :latitude,
     :lng_column_name => :longitude
-
-  def update_swig_location
-    self.swigs.each do |swig|
-      swig.update_attributes(address: self.address, latitude: self.latitude,
-        longitude: self.longitude, city: self.city)
-    end
-  end
 
   def set_full_address
     unless self.address.blank?
