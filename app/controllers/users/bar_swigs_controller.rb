@@ -82,7 +82,7 @@ class Users::BarSwigsController < ApplicationController
       #    if current_user.popularity_inviters.where(bar_id: bar.id).blank?
       popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
       if !params[:fb_ids].blank? and popularity_inviter.save
-        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
+#        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
         params[:fb_ids].each do |fb_id|
           fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
@@ -141,7 +141,7 @@ class Users::BarSwigsController < ApplicationController
       #    if current_user.popularity_inviters.where(bar_id: bar.id).blank?
       popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
       if !params[:mytags].blank? and popularity_inviter.save
-        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: bar.id, enter_status: "swig", email: current_user.email)
+#        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: bar.id, enter_status: "swig", email: current_user.email)
         params[:mytags].split(",").each do |email|
           Invite.send_invite_email(email, current_user, bar).deliver
           user = User.where(email: email).first
