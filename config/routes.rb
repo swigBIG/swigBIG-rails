@@ -121,6 +121,9 @@ Swprototype::Application.routes.draw do
 
     resources :messages do
       collection do
+        get  "notify_mark_all_read" => "messages#notify_mark_all_read", as: "notify_mark_all_read"
+        get  "messages_mark_all_read" => "messages#messages_mark_all_read", as: "messages_mark_all_read"
+        get 'notifications'
         
         get 'sent'
         post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
@@ -195,11 +198,11 @@ Swprototype::Application.routes.draw do
       collection do
         get  "notify_mark_all_read" => "messages#notify_mark_all_read", as: "notify_mark_all_read"
         get  "messages_mark_all_read" => "messages#messages_mark_all_read", as: "messages_mark_all_read"
+        get 'notifications'
         get 'sent'
         post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
         get 'trash'
         get 'new(/:bar_id)' => "messages#new", as: :new
-        get 'notifications'
       end
     end
   end

@@ -49,14 +49,12 @@
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
 
 
-              <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
+                                        <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
               <li id="notification" class="dropdown">
-
-  <%# unless  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9,15]).blank? %>
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick="$('#goto_unread').click();" ><b style="color: white;">Notification</b><span class="badge badge-error" id="bar_notify_red"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick="$('#goto_notify_unread').click();" ><b style="color: white;">Notification&nbsp;</b><span class="badge badge-error" id="bar_notify_red"><%=  current_bar.received_messages.where("notify_opended is false").count %></span></a>
                 <div style="display: none;">
-                  <% unless  current_bar.received_messages.where("opened is false").blank? %>
-                    <%= link_to "to_unread", bars_notify_mark_as_read_path, id: 'goto_unread', remote: true %>
+                  <% unless  current_bar.received_messages.where("notify_opended is false").blank? %>
+                    <%= link_to "to_unread", notify_mark_all_read_bars_messages_path, id: 'goto_notify_unread', remote: true %>
                   <% end %>
                 </div>
                 <!--<a class="dropdown-toggle" href="#" data-toggle="dropdown" ><b style="color: white;">Notification</b><span class="badge badge-error" style="margin-left: 5px;"><%#=  current_bar.sent_messages.where("opened is false").where(["category = (?) OR category = (?)", 9, 15]).count %></span></a>-->
@@ -75,11 +73,16 @@
                     <% end %>
                   <% end %>
                 </ul>
-  <%# end %>
               </li>
-              <li><b><%#= link_to "Messaging", sent_bars_messages_path, style: "color: white;" %></b></li>
+
               <li>
-                <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color: white;"><b>Messaging</b></a>
+                <a class="dropdown-toggle" href="#" data-toggle="dropdown" style="color: white;"><b>Messaging&nbsp;</b><span class="badge badge-error" id="bar_notify_red"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
+                <!--<a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick="$('#goto_message_unread').click();" ><b style="color: white;">Messages&nbsp;</b></a>-->
+                <div style="display: none;">
+                  <% unless  current_bar.received_messages.where("notify_opended is false").blank? %>
+                    <%= link_to "to_unread", messages_mark_all_read_bars_messages_path, id: 'goto_message_unread', remote: true %>
+                  <% end %>
+                </div>
                 <ul class="dropdown-menu" id="messaging" style="margin-right: 220px;">
                   <li><a class="" data-toggle="modal" href="#bar_message" onclick="$('#bar_message').html('');$.get('/bars/messages/message_popup')"><b style="color: white;">New</b></a></li>
                   <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Inbox", bars_messages_path, style: "color: white;" %></b></a></li>
@@ -87,22 +90,24 @@
                   <li><a class=""  href="#" data-toggle="modal"><b><%= link_to "Trash", trash_bars_messages_path, style: "color: white;" %></b></a></li>
                 </ul>
               </li>
-              <li id="message" class="dropdown">
-                <% unless  current_bar.received_messages.where("opened is false").blank? %>
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%=  current_bar.received_messages.where("opened is false").count %></span></a>
+
+              <!--<li id="message" class="dropdown">
+  <%# unless  current_bar.received_messages.where("opened is false").blank? %>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="badge badge-error"><%#=  current_bar.received_messages.where("opened is false").count %></span></a>
                   <ul class="dropdown-menu" id="message" style="margin-left: -350px !important;">
                     <li style="margin-left: 5px;"><b>messages</b></li>
                     <li class="divider"></li>
-                    <% current_bar.received_messages.where("opened is false").each do |message| %>
-                      <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %>
+  <%# current_bar.received_messages.where("opened is false").each do |message| %>
+                      <li style="width: 290px;margin-bottom: 3px;margin-left: 4px;" onclick="window.location.href='<%#= bars_message_url(message) %>'"><%#= message.topic %>
                         <br/>
-                        <%= message.created_at.strftime("%v") %>
+  <%#= message.created_at.strftime("%v") %>
                       </li>
                       <li class="divider"></li>
-                    <% end %>
+  <%# end %>
                   </ul>
-                <% end %>
-              </li>
+  <%# end %>
+              </li>-->
+
               <li id="fat-menu" class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b>Welcome back <%= current_bar.name %>!</b></a>
                 <ul class="dropdown-menu">
