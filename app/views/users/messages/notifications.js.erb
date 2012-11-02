@@ -1,0 +1,2 @@
+$('#notification_list').html('<%= escape_javascript(render("notifications_content")) %>');
+$('#notification_paginator').html('<%= escape_javascript(paginate(@notifications, :remote => true).to_s) %>');

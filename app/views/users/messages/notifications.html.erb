@@ -1,0 +1,26 @@
+<!--<style>
+  .container {
+    background-color: yellowgreen;
+}
+</style>-->
+
+
+<div class="container-fluid">
+  <div class="row-fluid" style="margin-top: 15px">
+    <div class="span9">
+      <h2>Notification</h2>
+      <table class="table">
+        <thead>
+        </thead>
+        <tbody id="notification_list">
+          <%= render partial: "notifications_content" %>
+        </tbody>
+      </table>
+      <div id="notification_paginator">
+        <%= paginate @notifications, remote: :true %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

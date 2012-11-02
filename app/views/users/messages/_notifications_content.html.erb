@@ -1,0 +1,30 @@
+
+<% @notifications.each do |notification| %>
+  <tr>
+    <% unless notification.category.eql?(22) %>
+      <td style="width: 40%;">
+        <b><%= notification.sent_messageable.name rescue email%>
+          <br/>
+          <%= notification.topic %>
+          <br/>
+          <b>Reward : </b><%= notification.reward rescue "no reward available!" %>
+      </td>
+      <td style="width: 60%;">
+        <%= notification.body %>
+      </td>
+
+    <% else %>
+
+      <td style="width: 40%;">
+        <b>SwigBIG</b>
+        <br/>
+        <%= notification.topic.html_safe %>
+      </td>
+      <td style="width: 60%;">
+        <%= notification.body.html_safe %>
+      </td>
+
+    </tr>
+  <% end  %>
+
+<% end  %>

@@ -116,11 +116,12 @@ Swprototype::Application.routes.draw do
     post  "update_bar_hours" => "dashboard#update_bar_hours", as: "update_bar_hours"
     get  "swigger_total_count" => "dashboard#swigger_total_count", as: "swigger_total_count"
 
-    get  "notify_mark_as_read" => "dashboard#notify_mark_as_read", as: "notify_mark_as_read"
+    
     get  'notification' => "messages#notification"
 
     resources :messages do
       collection do
+        
         get 'sent'
         post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
         get 'trash'
@@ -192,10 +193,13 @@ Swprototype::Application.routes.draw do
 
     resources :messages do
       collection do
+        get  "notify_mark_all_read" => "messages#notify_mark_all_read", as: "notify_mark_all_read"
+        get  "messages_mark_all_read" => "messages#messages_mark_all_read", as: "messages_mark_all_read"
         get 'sent'
         post 'custom_action(/:form_type)' => "messages#custom_action", as: :custom_action
         get 'trash'
         get 'new(/:bar_id)' => "messages#new", as: :new
+        get 'notifications'
       end
     end
   end

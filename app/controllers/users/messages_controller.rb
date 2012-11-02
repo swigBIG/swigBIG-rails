@@ -1,5 +1,5 @@
 class Users::MessagesController < ApplicationController
-layout "users"
+  layout "users"
   def index
     @messages = current_user.received_messages.page(params[:page]).per(10)
   end
@@ -62,6 +62,30 @@ layout "users"
 
   def trash
     @messages = current_user.deleted_messages.page(params[:page]).per(10)
+  end
+
+  def notifications
+    @notifications = current_user.messages.where(category: [22, 1, 9, 15, 16, 17]).page(params[:page]).per(10)
+  end
+
+  def notify_mark_all_read
+    current_user.messages.update_all('notify_opended = true')
+    #    current_user.messages.each do |message|
+    #      message.notify_mark_as_read
+    #    end
+
+    @total_notification = current_user.received_messages.where(notify_opended: false).count.to_s
+    respond_to :js
+  end
+
+  def messages_mark_all_read
+    current_user.messages.update_all('opened = true')
+    #    current_user.messages.each do |message|
+    #      message.notify_mark_as_read
+    #    end
+
+    @total_notification = current_user.received_messages.where(opened: false).count.to_s
+    respond_to :js
   end
 
 end

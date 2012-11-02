@@ -51,22 +51,37 @@
                 </li>
               <% end %>
               <% if user_signed_in? %>
-                <li style="margin-top: 10px;">
-                  <!--<b><%#=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>-->
-                  <b style="color: white;"><%= "Notifications" %></b>
-                </li>
-  <%# unless  current_user.received_messages.where("opened is false").blank? %>
+
                 <li id="user_notification" class="dropdown">
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick="$('#goto_unread').click();" ><span class="badge badge-error" id="notify_red"><%=  current_user.received_messages.where("opened is false").count %></span></a>
+                  <a class="dropdown-toggle" href="" data-toggle="dropdown" onclick="$('#notify_goto_unread').click();" ><b style="color: white;">Notifications&nbsp;</b><span class="badge badge-error" id="notify_red"><%=  current_user.received_messages.where("notify_opended is false").count %></span></a>
                   <ul class="dropdown-menu">
                     <div style="display: none;">
-                      <% unless  current_user.received_messages.where("opened is false").blank? %>
-                        <%= link_to "to_unread", users_notify_mark_as_read_path, id: 'goto_unread', remote: true %>
+                      <% unless  current_user.received_messages.where("notify_opended is false").blank? %>
+                        <%= link_to "to_unread", notify_mark_all_read_users_messages_path, id: 'notify_goto_unread', remote: true %>
                       <% end %>
                     </div>
                     <% current_user.received_messages.where("opened is false").each do |notification| %>
-    <%# current_user.received_messages.limit(4).each do |notification| %>
-                                                    <!--<li style="width: 220px;" onclick="window.location.href='<%#= users_message_url(notification) %>'" ><%#= notification.topic.html_safe %>-->
+                      <li style="width: 220px;" ><%= notification.topic.html_safe %>
+                        <br/>
+                        <%= notification.created_at.strftime("%v") %>
+                      </li>
+                      <li class="divider"></li>
+                    <% end %>
+                    <li>
+                      <b><%=  link_to "See All", notifications_users_messages_path, style: "color: white;" %></b>
+                    </li>
+                  </ul>
+                </li>
+
+                <li id="user_messages" class="dropdown">
+                  <a class="dropdown-toggle" href="" data-toggle="dropdown" onclick="$('#message_goto_unread').click();" ><b style="color: white;">Messages&nbsp;</b><span class="badge badge-error" id="messages_red"><%=  current_user.received_messages.where("opened is false").count %></span></a>
+                  <ul class="dropdown-menu">
+                    <div style="display: none;">
+                      <% unless  current_user.received_messages.where("opened is false").blank? %>
+                        <%= link_to "to_unread", messages_mark_all_read_users_messages_path, id: 'message_goto_unread', remote: true %>
+                      <% end %>
+                    </div>
+                    <% current_user.received_messages.where("opened is false").each do |notification| %>
                       <li style="width: 220px;" ><%= notification.topic.html_safe %>
                         <br/>
                         <%= notification.created_at.strftime("%v") %>
@@ -78,7 +93,8 @@
                     </li>
                   </ul>
                 </li>
-  <%# end %>
+
+
                 <li id="fat-menu" class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || current_user.email ).split(" ").first }!" %></b></a>
                   <ul class="dropdown-menu">
