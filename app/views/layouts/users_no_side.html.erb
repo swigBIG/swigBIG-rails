@@ -46,24 +46,8 @@
       <div style="margin-top: 30px;"></div>
     </div>
     <%= yield :outer %>
-    <div class="navbar-fixed-bottom">
-      <div class="navbar-inner" style="background-image: none;height: 25px;">
-        <!--<div class="container" style="padding-top: 5px;">-->
-        <div class="pull-left" style="color: white; margin-left: 20px;" id="live_feed">Live Feed : &nbsp;<%= Feed.last.content.html_safe rescue nil %></div>
-        <div class="pull-right" style="margin-right: 20px;">
-          <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
-          &nbsp;
-          <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
-          &nbsp;
-          <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
-          &nbsp;
-          <a data-toggle="modal" href="#contact_modal" onclick="$('#contact_modal').html('');$.get('/home/contact_us')" style="color: white;"><b>Contact Us</b></a>
-          &nbsp;
-          <b><%= link_to "Bar Owner?", "http://#{with_subdomain('bars')}", style: "color: white;"  %></b>
-        </div>
-        <!--</div>-->
-      </div>
-    </div>
+    
+    <%= render partial: "shared/users_footer.html" %>
 
     <%= render partial: "shared/site_modal_partial.html" %>
 
