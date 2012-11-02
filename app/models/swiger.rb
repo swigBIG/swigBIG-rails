@@ -44,7 +44,7 @@ class Swiger < ActiveRecord::Base
             time_between_swigging = (TimeSwigging.first.time_between_swig rescue 1) * 3600
             #            time_between_swigging = (RewardPolicy.first.time_between_swig.blank? ?  RewardPolicy.first.time_between_swig :  1)   * 3600
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
-              ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+#              ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               swigging_post_to_wall
               return true
             else
@@ -60,7 +60,7 @@ class Swiger < ActiveRecord::Base
               end
             end
           else
-            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+#            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             swigging_post_to_wall
             return true
           end
