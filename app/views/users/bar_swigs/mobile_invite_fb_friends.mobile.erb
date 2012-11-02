@@ -131,16 +131,14 @@
   </div>
 
   <div data-role="content" >
-
-    <br/>
     <br/>
     <%= form_tag(users_invite_email_friends_path(@bar), "data-ajax" => "false") do %>
       <%= text_field_tag(:mytags,"", style: "height: 30px;")  %>
       <div style="display: none;">
-        <%= submit_tag "Invite", class: "btn-primary", style: "margin-left: 570px;margin-top: -40px;display: none;", id: "goto_invite" %>
+        <%= submit_tag "Invite", class: "btn-primary", style: "margin-left: 570px;margin-top: -40px;display: none;", id: "goto_email_invite" %>
         </div>
       <% end %>
-      <a data-role="button" onclick="$('#goto_invite').click();">Invite</a>
+      <a data-role="button" onclick="$('#goto_email_invite').click();">Invite</a>
       <a href="#after_swigging_page" data-role="button" style="width: 100%;margin: 5px;" data-theme="c" >Cancel</a>
     </div><!-- /content -->
 

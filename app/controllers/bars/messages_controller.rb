@@ -102,4 +102,26 @@ class Bars::MessagesController < ApplicationController
     @bar_message = ActsAsMessageable::Message.new
   end
 
+
+  #  def notifications
+  #    @notifications = current_bar.messages.where(category: [22, 1, 9, 15, 16, 17]).page(params[:page]).per(10)
+  #  end
+
+  def notify_mark_all_read
+    current_bar.messages.update_all('notify_opended = true')
+
+    @total_notification = current_bar.received_messages.where(notify_opended: false).count.to_s
+    respond_to :js
+  end
+
+  def messages_mark_all_read
+    current_bar.messages.update_all('opened = true')
+    #    current_bar.messages.each do |message|
+    #      message.notify_mark_as_read
+    #    end
+
+    @total_notification = current_bar.received_messages.where(opened: false).count.to_s
+    respond_to :js
+  end
+
 end

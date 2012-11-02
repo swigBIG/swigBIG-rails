@@ -98,7 +98,7 @@ class Swiger < ActiveRecord::Base
     Pusher['test_channel'].trigger('my-event', {'message' => "#{self.user.name rescue self.user.email} just swigged at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>"})
     Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just swigged at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>" )
     self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )# unless self.bar.loyalty.blank?
-    if !self.user.access_token.blank? and self.user.fb_post_swig
+    if !self.user.access_token.blank? and !self.user.fb_post_swig.blank?
       me = FbGraph::User.me(user.access_token)
       me.feed!(
         :message => "#{self.user.name} just swigged at #{self.bar.name}! bar info http://swigbig.com/bar/#{self.bar.slug}"

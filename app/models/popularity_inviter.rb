@@ -8,7 +8,8 @@ class PopularityInviter < ActiveRecord::Base
 
   attr_accessible :bar_id, :fb_id, :user_id, :users_inviters_id
 
-  scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
+  scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day)
+  scope :valid_time, where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date )
 
   def popularity_invitations
     self.users_inviters_id.split(",").each do |id|

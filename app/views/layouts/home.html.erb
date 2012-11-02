@@ -22,76 +22,7 @@
     </script>
   </head>
   <body style="padding-top: 20px;">
-    <div class="navbar-fixed-top" style="">
-      <div class="navbar-inner" >
-        <div class="container" >
-          <div class="nav pull-right">
-            <li>
-              <% if !@site_content.blank? %>
-                <% if !@site_content.logos.blank? %>
-                  <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;") rescue nil %>
-                <% else %>
-                  <h3 class="brand" style="color: white;">SwigBIG</h3>
-                <% end %>
-              <% else %>
-                <h3 class="brand" style="color: white;">SwigBIG</h3>
-              <% end %>
-            </li>
-            <li>
-              <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Date.today.to_time.in_time_zone.strftime("%A") %></span></h3></h2>
-            </li>
-            <div class="nav pull-right">
-              <li><b><%= link_to "Home", main_home_path, style: "color: white;" %></b></li>
-              <li><b><a href="#learn_more" data-toggle="modal" id="fat-menu" style="color: white;">Learn More</a></b></li>
-              <% unless user_signed_in? %>
-                <li>
-                  <b><%= link_to "Sign Up for Free", new_user_registration_path,style: "color:#fff" %></b>
-                </li>
-              <% end %>
-              <% if user_signed_in? %>
-                <li>
-                  <b><%=  link_to "Notifications", users_messages_path, style: "color: white;" %></b>
-                </li>
-                <li>
-                  <% unless  current_user.received_messages.where("opened is false").blank? %>
-                    <span class="badge badge-error" onclick="window.location.href='<%= users_messages_path %>'"><%=  current_user.received_messages.where("opened is false").count  %></span>
-                  <% end %>
-                </li>
-                <li id="fat-menu" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;"><b><%= "Welcome back #{(current_user.name || "" ).split(" ").first}!" %></b></a>
-                  <ul class="dropdown-menu">
-                    <% unless current_user.access_token.blank? %>
-                      <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
-                    <% else %>
-                      <li>
-                        <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
-                      </li>
-                      <li>
-                        <b><%= link_to "Profile", users_profile_path(current_user.id), style: "color: white;" %></b>
-                      </li>
-                    <% end %>
-                    <li>
-                      <%= link_to "Rewards", users_rewards_path %>
-                    </li>
-                    <li>
-                      <%= link_to "friendship", users_friend_index_path %>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-                    </li>
-                  </ul>
-                <% else %>
-                <li>
-                  <b><%= link_to "Log In", new_user_session_path, style: "color: white" %></b>
-                </li>
-              <% end %>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render partial: "shared/users_header" %>
 
     <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;">
       <% if notice %>
