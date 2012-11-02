@@ -26,7 +26,8 @@ module ActsAsMessageable
       :expirate_reward,
       :coupon,
       :coupon_status,
-      :reward
+      :reward,
+      :notify_opended
 
     attr_accessor   :removed, :restored
     cattr_accessor  :required
@@ -106,5 +107,18 @@ module ActsAsMessageable
     def reply(*args)
       to.reply_to(self, *args)
     end
+    
+    #costumize method
+    def notify_mark_as_read
+      update_attributes!(:notify_opended => true)
+    end
+
+    def notify_mark_as_unread
+      update_attributes!(:notify_opended => false)
+    end
+    
+    #    def notify_mark_all_read
+    #      update_all('notify_opended = true')
+    #    end
   end
 end
