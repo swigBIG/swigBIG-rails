@@ -44,7 +44,7 @@ class Swiger < ActiveRecord::Base
             time_between_swigging = (TimeSwigging.first.time_between_swig rescue 1) * 3600
             #            time_between_swigging = (RewardPolicy.first.time_between_swig.blank? ?  RewardPolicy.first.time_between_swig :  1)   * 3600
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
-#              ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+              #              ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               swigging_post_to_wall
               return true
             else
@@ -60,7 +60,7 @@ class Swiger < ActiveRecord::Base
               end
             end
           else
-#            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
+            #            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             swigging_post_to_wall
             return true
           end
@@ -80,7 +80,14 @@ class Swiger < ActiveRecord::Base
       swig.update_attributes(lock_status: "unlock")
       today_swiger.pluck(:user_id).uniq.each do |swiger|
         user = User.find(swiger)
-        self.bar.send_message(user, {topic: "Unlock #{self.bar.name}'s BigSWIG", body: "You Unlock #{swig.deal} at #{self.bar.name}", category: 15})
+        self.bar.send_message(user,
+          {
+            topic: "Unlock #{self.bar.name}'s BigSWIG",
+            body: "You Unlock #{swig.deal} at #{self.bar.name}",
+            category: 15,
+            reward: swig.deal,
+            expirate_reward: (self.created_at + 2.hours)
+          })
         Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just unlocked #{swig.deal} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>" )
         unless user.access_token.blank?
           if self.user.fb_post_swig.blank?

@@ -49,7 +49,7 @@
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
 
 
-                                        <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
+                                              <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
               <li id="notification" class="dropdown">
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick="$('#goto_notify_unread').click();" ><b style="color: white;">Notification&nbsp;</b><span class="badge badge-error" id="bar_notify_red"><%=  current_bar.received_messages.where("notify_opended is false").count %></span></a>
                 <div style="display: none;">
@@ -161,20 +161,18 @@
 
     <div class="navbar-fixed-bottom">
       <div class="navbar-inner" style="background-image: none;height: 25px;">
-        <div class="container" style="padding-top: 5px;">
-          <!--<div class="pull-left" style="color: white;" id="show_time_zone"></div>-->
-          <div class="pull-left" style="color: white;" id="live_feed">Live Feed : &nbsp;<%= Feed.last.content.html_safe rescue nil %></div>
-          <div class="pull-right">
-            <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
-            &nbsp;
-            <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
-            &nbsp;
-            <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
-            &nbsp;
-            <a data-toggle="modal" href="#contact_modal" onclick="$('#contact_modal').html('');$.get('/home/contact_us')" style="color: white;"><b>Contact Us</b></a>
-            &nbsp;
-            <b><%= link_to "swigBIG.com", "http://#{with_subdomain(false)}", style: "color: white;"  %></b>
-          </div>
+        <!--<div class="pull-left" style="color: white;" id="show_time_zone"></div>-->
+        <div class="pull-left" style="color: white;margin-left: 20px;" id="live_feed">Live Feed : &nbsp;<%= Feed.last.content.html_safe rescue nil %></div>
+        <div class="pull-right" style="margin-right: 20px;">
+          <a href="#copright" data-toggle="modal" style="color: white;"><b>Copyright</b></a>
+          &nbsp;
+          <a href="#faq" data-toggle="modal" style="color: white;"><b>FAQ</b></a>
+          &nbsp;
+          <a href="#about" data-toggle="modal" style="color: white;"><b>About Us</b></a>
+          &nbsp;
+          <a data-toggle="modal" href="#contact_modal" onclick="$('#contact_modal').html('');$.get('/home/contact_us')" style="color: white;"><b>Contact Us</b></a>
+          &nbsp;
+          <b><%= link_to "swigBIG.com", "http://#{with_subdomain(false)}", style: "color: white;"  %></b>
         </div>
       </div>
     </div>

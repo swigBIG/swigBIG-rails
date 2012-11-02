@@ -35,7 +35,7 @@
                     <%= link_to "to_unread", notify_mark_all_read_users_messages_path, id: 'notify_goto_unread', remote: true %>
                   <% end %>
                 </div>
-                <% current_user.received_messages.where("opened is false").each do |notification| %>
+                <% current_user.received_messages.where("notify_opended is false").each do |notification| %>
                   <li style="width: 220px;" ><%= notification.topic.html_safe %>
                     <br/>
                     <%= notification.created_at.strftime("%v") %>
