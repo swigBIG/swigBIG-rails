@@ -40,13 +40,13 @@ ActiveAdmin.register RewardPolicy do
     f.buttons
   end
 
-  controller do
-
-    def new
-      redirect_to edit_admin_reward_policy_url(RewardPolicy.first.id) unless RewardPolicy.first.blank?
-      @reward_policy = RewardPolicy.new
-    end
-
-  end
+  #  controller do
+  #
+  #    def new
+  #      redirect_to edit_admin_reward_policy_url(RewardPolicy.first.id) unless RewardPolicy.first.blank?
+  #      @reward_policy = RewardPolicy.new
+  #    end
+  #
+  #  end
 
 end
