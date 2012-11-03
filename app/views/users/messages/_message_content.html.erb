@@ -74,5 +74,12 @@
       <td class="span10" onclick="window.location.href='<%= users_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 40) %></td>
       <td class="span4" onclick="window.location.href='<%= users_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
     </tr>
+  <% elsif message.category.eql?(24) %>
+    <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
+      <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
+      <td class="span6"><%= link_to  message.sent_messageable.name, bar_profile_path(message.sent_messageable) %></td>
+      <td class="span11" onclick="window.location.href='<%= users_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 40) %></td>
+      <td class="span4" onclick="window.location.href='<%= users_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+    </tr>
   <% end %>
 <% end %>

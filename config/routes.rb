@@ -126,15 +126,11 @@ Swprototype::Application.routes.draw do
         get 'trash'
         get 'message_popup'
         get 'new/:user_ids' => "messages#new", as: :new
+        post 'reply_message'
 
       end
     end
 
-    #    resources :gifts do
-    #      collection do
-    #        delete 'remove_gift/:gifts_id' => "gifts#remove_gift", as: :remove_gift
-    #      end
-    #    end
   end
   
   resources :bars do

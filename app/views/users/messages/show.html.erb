@@ -1,3 +1,12 @@
+<%= content_for :js_footer do %>
+  <%= javascript_include_tag "bootstrap-collapse" %>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("abbr").hide();
+    })
+  </script>
+<% end %>
 <div class="container-fluid">
   <div class="row-fluid" style="margin-top: 15px">
     <%= content_for :side do %>
@@ -16,41 +25,48 @@
           <br/>
         <% else %>
           <div style="width: 400px;"><b>From : </b> <%= @message_show.sent_messageable.name rescue nil %>, <%= @message_show.sent_messageable.full_address rescue nil %></div>
-          <% end %>
+        <% end %>
 
-          </tr>
-          <tr>
-          <div style="width: 400px;"><b><%= @message_show.topic rescue nil %></b></div>
-          </tr>
-          <tr>
-            <td><%= @message_show.body.html_safe rescue nil %></td>
-          </tr>
-          <% if !@message_show.gift_id.blank? %>
-            <tr>
-              <td><b>Gift: </b></td>
-              <td><%= Gift.find(@message_show.gift_id).name rescue nil %> </td>
-            </tr>
-            <tr>
-              <td><%= Gift.find(@message_show.gift_id).descriptions rescue nil %></td>
-            </tr>
-          <% elsif !@message_show.reward_id.blank? %>
-            <tr>
-              <td><h4>Reward</h4></td>
-            </tr>
-            <tr>
-              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).name rescue nil %></td>
-            </tr>
-            <tr>
-              <td colspan="2"><%= WinnerReward.find(@message_show.reward_id).content rescue nil %></td>
-            </tr>
-          <% end %>
+        </tr>
+        <tr>
+        <div style="width: 400px;"><b><%= @message_show.topic rescue nil %></b></div>
+        </tr>
+        <tr>
+          <td><%= @message_show.body.html_safe rescue nil %></td>
+        </tr>
+        <tr>
+          <td><b>Reward: </b></td>
+          <td><%= @message_show.reward rescue "not available!" %> </td>
+        </tr>
       </table>
+      <div class="clearfix"></div>
+      <% unless @message_show.category.to_i.eql?(22) or @message_show.category.to_i.eql?(9) or @message_show.category.to_i.eql?(15) or @message_show.category.to_i.eql?(16) %>
+        <div class="accordion-group">
+          <div class="accordion-heading" style="margin-left: 10px;">
+            <div class="accordion-inner">
+              <a data-toggle="collapse" data-target="#reply" style="color: black;"><b>Reply</b></a>
+            </div>
+          </div>
+        </div>
+        <div id="reply" class="accordion-body collapse">
+          <div class="accordion-inner" style="margin-left: 0px;">
+            <div style="margin-left: -30px;">
+              <%= simple_form_for(@message, :url => users_messages_path,html: {:class => "form-horizontal pull-left"}) do |f| %>
+                <%= f.input :to, label: false, input_html: {style: "display: none;", value: @message_show.sent_messageable_id} %>
+                <%= f.input :topic, label: "Subject", input_html: {style: "width: 400px;"} %>
+                <%= f.input :body, input_html: {rows: 6, style: "width: 400px;"} %>
+                <%= f.input :category, label: false, input_html: {style: "display: none;", value: 23} %>
+                <div class="form-actions">
+                  <%= f.submit "Send" , class: "btn-primary"%>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
     </div>
   </div>
-</div>
 
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("abbr").hide();
-  })
-</script>
+

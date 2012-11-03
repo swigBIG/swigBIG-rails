@@ -1,3 +1,14 @@
+<%= content_for :js_footer do %>
+  <%= javascript_include_tag "bootstrap-collapse" %>
+  <%#= javascript_include_tag "application" %>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("abbr").hide();
+    })
+  </script>
+<% end %>
+
 <%= content_for :side do %>
   <%= render "message_menu" %>
 <% end %>
@@ -30,4 +41,27 @@
       <td colspan="2"><%= @message_show.body.html_safe rescue nil %></td>
     </tr>
   </table>
-</div>
+
+  <div class="accordion-group">
+    <div class="accordion-heading" style="margin-left: 10px;">
+      <div class="accordion-inner">
+        <a data-toggle="collapse" data-target="#reply" style="color: black;"><b>Reply</b></a>
+      </div>
+    </div>
+  </div>
+  <div id="reply" class="accordion-body collapse">
+    <div class="accordion-inner" style="margin-left: 0px;">
+      <div style="margin-left: -30px;">
+        <%= simple_form_for(@message, :url => reply_message_bars_messages_path,html: {:class => "form-horizontal pull-left"}) do |f| %>
+          <%= f.input :to, label: false, input_html: {style: "display: none;", value: @message_show.sent_messageable_id} %>
+          <%= f.input :topic, label: "Subject", input_html: {style: "width: 400px;"} %>
+          <%= f.input :body, input_html: {rows: 6, style: "width: 400px;"} %>
+          <%= f.input :category, label: false, input_html: {style: "display: none;", value: 24} %>
+          <div class="form-actions">
+            <%= f.submit "Send" , class: "btn-primary"%>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>

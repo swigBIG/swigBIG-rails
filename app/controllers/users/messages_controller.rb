@@ -17,16 +17,17 @@ class Users::MessagesController < ApplicationController
   end
 
   def create
-    receiver = params[:acts_as_messageable_message][:received_messageable_id].split("--")
-    received_messageable_id = receiver.first rescue nil
-    received_messageable_type = receiver.last rescue nil
-    @message = ActsAsMessageable::Message.new(
-      params[:acts_as_messageable_message].merge({received_messageable_id: received_messageable_id, received_messageable_type: received_messageable_type })
-    )
-    if @message.save
-      redirect_to(sent_students_messages_path, notice: "Your message has been successfully sent")
+    bar = Bar.find(params[:acts_as_messageable_message][:to])
+
+    if bar
+      current_user.send_message(bar, {
+          topic: params[:acts_as_messageable_message][:topic],
+          body: params[:acts_as_messageable_message][:body],
+          category: params[:acts_as_messageable_message][:category]
+        })
+      redirect_to users_messages_path, notice: 'succses'
     else
-      render action: :new
+      redirect_to :back, notice: 'succses'
     end
   end
 

@@ -142,5 +142,20 @@ class Bars::MessagesController < ApplicationController
 
     respond_to :js
   end
+
+  def reply_message
+    user = User.find(params[:acts_as_messageable_message][:to])
+
+    if user
+      current_bar.send_message(user, {
+          topic: params[:acts_as_messageable_message][:topic],
+          body: params[:acts_as_messageable_message][:body],
+          category: params[:acts_as_messageable_message][:category]
+        })
+      redirect_to bars_messages_path, notice: 'succses'
+    else
+      redirect_to :back, notice: 'fails reply!'
+    end
+  end
   
 end
