@@ -62,7 +62,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-    debugger
     @user = User.find(current_user.id)
     if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
       if @user.update_attributes(params[:user])

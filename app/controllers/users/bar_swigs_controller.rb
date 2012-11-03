@@ -83,7 +83,6 @@ class Users::BarSwigsController < ApplicationController
   #  end
 
   def invite_fb_friends
-    debugger
     fb = MiniFB::OAuthSession.new(current_user.access_token)
     bar = Bar.find(params[:bar_id])
     #    if current_user.popularity_inviters.where(bar_id: bar.id).valid_time.blank?

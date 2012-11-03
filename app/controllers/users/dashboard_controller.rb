@@ -12,7 +12,6 @@ class Users::DashboardController < ApplicationController
   end
 
   def facebook_page
-    #    debugger
     if is_mobile_view? and !user_signed_in?
       redirect_to mobile_dashboard_home_url(:mobile)
     end
