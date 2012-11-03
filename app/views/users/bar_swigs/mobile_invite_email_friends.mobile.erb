@@ -19,6 +19,11 @@
   </div>
 
   <div data-role="content" >
+
+    <% if @popularity_guesses_point %>
+      <%= "#{@popularity_guesses_point} of #{@inviter.bar.popularity.swigs_number} for #{@inviter.user.name} to get popularity reward from #{@inviter.bar.name}" %>
+    <% end %>
+    
     <% if Rails.cache.exist?('angga') %>
       <%= Rails.cache.delete('angga') %>
       <b>You earned Loyalty Reward!</b>

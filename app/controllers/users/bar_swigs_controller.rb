@@ -53,6 +53,11 @@ class Users::BarSwigsController < ApplicationController
   def mobile_invite_fb_friends
     @bar = Bar.find(params[:bar_id])
     @loyalty_points = current_user.points.where(bar_id: @bar.id).first
+    unless current_user.popularity_guesses.today.first.blank?
+      @inviter = current_user.popularity_guesses.today.first.popularity_inviter
+      @popularity_guesses_point = current_user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+    end
+
     @reward = current_user.messages.where(category: [9, 16]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
     @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
@@ -61,6 +66,10 @@ class Users::BarSwigsController < ApplicationController
   def mobile_invite_email_friends
     @bar = Bar.find(params[:bar_id])
     @loyalty_points = current_user.points.where(bar_id: @bar.id).first
+    unless current_user.popularity_guesses.today.first.blank?
+      @inviter = current_user.popularity_guesses.today.first.popularity_inviter
+      @popularity_guesses_point = current_user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
+    end
     @reward = current_user.messages.where(category: [9, 16]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
     @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
   end
@@ -82,7 +91,7 @@ class Users::BarSwigsController < ApplicationController
       #    if current_user.popularity_inviters.where(bar_id: bar.id).blank?
       popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
       if !params[:fb_ids].blank? and popularity_inviter.save
-#        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
+        #        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
         params[:fb_ids].each do |fb_id|
           fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
@@ -141,7 +150,7 @@ class Users::BarSwigsController < ApplicationController
       #    if current_user.popularity_inviters.where(bar_id: bar.id).blank?
       popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
       if !params[:mytags].blank? and popularity_inviter.save
-#        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: bar.id, enter_status: "swig", email: current_user.email)
+        #        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: bar.id, enter_status: "swig", email: current_user.email)
         params[:mytags].split(",").each do |email|
           Invite.send_invite_email(email, current_user, bar).deliver
           user = User.where(email: email).first
