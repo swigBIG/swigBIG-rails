@@ -129,8 +129,8 @@ class Swiger < ActiveRecord::Base
               reward: self.bar.popularity.reward_detail,
               expirate_reward: (self.created_at + (RewardPolicy.first.popularity_expirate_hours rescue 10).to_i.hours)
             })
-          Pusher['test_channel'].trigger('my-event', {'message' => "#{self.user.name rescue self.user.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!  bar info http://swigbig.com/bar/#{self.bar.slug}"})
-          Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!" )
+          Pusher['test_channel'].trigger('my-event', {'message' => "#{inviter.name rescue inviter.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!"})
+          Feed.create(bar_id: self.bar_id, content: "#{inviter.name rescue inviter.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!" )
           #          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: inviter.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
           if inviter.fb_post_swig
             me = FbGraph::User.me(inviter.access_token)
