@@ -102,11 +102,6 @@ class Bars::MessagesController < ApplicationController
     @bar_message = ActsAsMessageable::Message.new
   end
 
-
-  #  def notifications
-  #    @notifications = current_bar.messages.where(category: [22, 1, 9, 15, 16, 17]).page(params[:page]).per(10)
-  #  end
-
   def notify_mark_all_read
     current_bar.messages.update_all('notify_opended = true')
 
@@ -124,4 +119,28 @@ class Bars::MessagesController < ApplicationController
     respond_to :js
   end
 
+  def notifications
+    @notifications_popularity_rewards = current_bar.messages.where(category: 9).order('created_at DESC').page(params[:page]).per(5)
+    @notifications_loyalty_rewards = current_bar.messages.where(category: 16).order('created_at DESC').page(params[:page]).per(5)
+    @notifications_bigswig_rewards = current_bar.messages.where(category: 15).order('created_at DESC').page(params[:page]).per(5)
+  end
+
+  def notifications_list_bigswig
+    @notifications_bigswig_rewards = current_bar.messages.where(category: 15).order('created_at DESC').page(params[:page]).per(5)
+
+    respond_to :js
+  end
+
+  def notifications_list_loyalty
+    @notifications_loyalty_rewards = current_bar.messages.where(category: 16).order('created_at DESC').page(params[:page]).per(5)
+
+    respond_to :js
+  end
+
+  def notifications_list_popularity
+    @notifications_popularity_rewards = current_bar.messages.where(category: 9).order('created_at DESC').page(params[:page]).per(5)
+
+    respond_to :js
+  end
+  
 end

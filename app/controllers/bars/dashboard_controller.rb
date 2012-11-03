@@ -194,7 +194,6 @@ class Bars::DashboardController < ApplicationController
   end
 
   def create_bar_message
-    debugger
     case params[:acts_as_messageable_message][:category]
     when "0"
       User.all.each do |user|
@@ -239,7 +238,6 @@ class Bars::DashboardController < ApplicationController
       msg =  "Reward Message success Send!"
 
     when "5"
-      debugger
       params[:acts_as_messageable_message][:to].split(",").each do |user|
         user = User.find(user)
         current_bar.send_message(user, {topic: params[:acts_as_messageable_message][:topic], body: params[:acts_as_messageable_message][:body],

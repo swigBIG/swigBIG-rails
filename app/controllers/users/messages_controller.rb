@@ -6,6 +6,7 @@ class Users::MessagesController < ApplicationController
 
   def sent
     @messages = current_user.sent_messages.page(params[:page]).per(10)
+    #    @messages = User.find(14).sent_messages
   end
 
   def new
