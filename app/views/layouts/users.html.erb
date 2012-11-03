@@ -15,7 +15,7 @@
         if (window.console && window.console.log) window.console.log(message);
       };*/
 
-      var pusher = new Pusher('2e8605c76edee2e7bdcd');
+      var pusher = new Pusher('5f86236df59eb8e701d0');
       var channel = pusher.subscribe('test_channel');
       channel.bind('my-event', function(data) {
         $("#live_feed").html("Live Swig Feed: "+data.message)

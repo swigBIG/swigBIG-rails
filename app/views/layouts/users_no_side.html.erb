@@ -12,11 +12,11 @@
     <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
     <script type="text/javascript">
       // Enable pusher logging - don't include this in production
-      /*Pusher.log = function(message) {
+     Pusher.log = function(message) {
         if (window.console && window.console.log) window.console.log(message);
-      };*/
+      };
 
-      var pusher = new Pusher('2e8605c76edee2e7bdcd');
+      var pusher = new Pusher('5f86236df59eb8e701d0');
       var channel = pusher.subscribe('test_channel');
       channel.bind('my-event', function(data) {
         $("#live_feed").html("Live Swig Feed: "+data.message)
