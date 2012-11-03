@@ -1,0 +1,8 @@
+$('#swigs_list_unlock').html('<%= escape_javascript(render("bigswig_notification_list")) %>');
+$('#unlock_swig_paginator').html('<%= escape_javascript(paginate(@notifications_bigswig_rewards, :remote => true).to_s) %>');
+
+$('#popularity_list_unlock').html('<%= escape_javascript(render("popularity_notification_list")) %>');
+$('#unlock_popularity_paginator').html('<%= escape_javascript(paginate(@notifications_popularity_rewards, :remote => true).to_s) %>');
+
+$('#loyalty_list_unlock').html('<%= escape_javascript(render("loyalty_notification_list")) %>');
+$('#unlock_loyalty_paginator').html('<%= escape_javascript(paginate(@notifications_loyalty_rewards, :remote => true).to_s) %>');

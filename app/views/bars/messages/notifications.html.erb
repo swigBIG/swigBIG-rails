@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row-fluid" style="margin-top: 15px">
+    <div class="span8">
+      <h2>Reward</h2>
+      <ul class="tabs" data-tabs="tabs">
+        <li class="active"><a href="#unlock_swig" data-toggle="tab"><h4>Unlock BigSwig</h4></a></li>
+        <li><a href="#popularity_reward" data-toggle="tab"><h4>Popularty Reward</h4></a></li>
+        <li><a href="#loyalty_reward" data-toggle="tab"><h4>Loyalty Reward</h4></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="unlock_swig">
+          <table class="table-striped">
+            <thead>
+            </thead>
+            <tbody id="swigs_list_unlock">
+              <%= render partial: "bigswig_notification_list" %>
+            </tbody>
+          </table>
+          <div id="unlock_swig_paginator">
+            <%= paginate @notifications_bigswig_rewards, remote: true %>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="popularity_reward">
+          <table class="table-striped">
+            <thead>
+            </thead>
+            <tbody id="popularity_list_unlock">
+              <%= render partial: "popularity_notification_list" %>
+            </tbody>
+          </table>
+          <div id="unlock_popularity_paginator">
+            <%= paginate @notifications_popularity_rewards, remote: true %>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="loyalty_reward">
+          <table class="table-striped">
+            <thead>
+            </thead>
+            <tbody id="loyalty_list_unlock">
+              <%= render partial: "loyalty_notification_list" %>
+            </tbody>
+          </table>
+          <div id="unlock_loyalty_paginator">
+            <%= paginate @notifications_loyalty_rewards, remote: true %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

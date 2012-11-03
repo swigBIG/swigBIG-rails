@@ -1,0 +1,7 @@
+<% @notifications_bigswig_rewards.each do |message| %>
+  <tr>
+    <td class="span7"><%= message.received_messageable.name %></td>
+    <td class="span10" ><b><%= message.topic %></b> <br/> <%= message.reward %></td>
+    <td class="span4" ><%= message.created_at.strftime("%b %d, %Y") %></td>
+  </tr>
+<% end %>
