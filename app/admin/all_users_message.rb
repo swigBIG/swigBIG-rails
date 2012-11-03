@@ -1,11 +1,23 @@
 ActiveAdmin.register ActsAsMessageable::Message, as: "all_users_message" do
   menu parent: "Message"
 
+  index do
+    column  "Sender" do |user|
+      user.sent_messageable.name rescue user.sent_messageable.email
+    end
+    column  :topic
+    column  :body
+    column  :created_at
+
+  end
+
+  filter false
+
   form do |f|
 
     f.inputs "New Message to All User" do
       f.input :topic
-      f.input :body
+      f.input :body.html_safe
     end
 
     f.buttons
@@ -15,7 +27,12 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "all_users_message" do
   controller do
     
     def index
-      redirect_to new_admin_all_users_message_url
+
+      index! do |format|
+        @all_users_messages = current_admin_user.received_messages.where(sent_messageable_type: "User").where(["topic NOT LIKE ? ", "<a href='#user_details' data-toggle='modal' id='completion_link'>Complete your profile!</a>"]).page(params[:page])#.per(3)
+        format.html
+      end
+
     end
     
     def create

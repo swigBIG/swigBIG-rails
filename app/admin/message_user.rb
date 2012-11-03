@@ -5,8 +5,7 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "message_user" do
 
     f.inputs "New Message" do
 
-      #      f.input :to, as: :select, collection: user_message_collection#, include_blank: false
-      f.input :to, input_html: {id: "tk_users"}
+      f.input :to, input_html: { id: "tk_users", style: "background-color: gray; width: 1200px;" }
       f.input :topic
       f.input :body
       
@@ -43,8 +42,7 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "message_user" do
     @users_lists = []
 
     users_groups.each do |user|
-      user_name = user.name rescue user.email
-      @users_lists << {id: user.id, name: user_name}
+      @users_lists << {id: user.id, name: user.name}
     end
 
     render :json => @users_lists

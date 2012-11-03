@@ -1,6 +1,18 @@
 ActiveAdmin.register ActsAsMessageable::Message, as: "all_bars_message" do
   menu parent: "Message"
 
+  index do
+    column  "Sender" do |bar|
+      bar.sent_messageable.name rescue bar.sent_messageable.email
+    end
+    column  :topic
+    column  :body
+    column  :created_at
+
+  end
+
+  filter false
+
   form do |f|
     f.inputs "New Message to All User" do
       f.input :topic
@@ -10,9 +22,16 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "all_bars_message" do
   end
   
   controller do
+    
     def index
-      redirect_to new_admin_all_bars_message_url
+
+      index! do |format|
+        @all_bars_messages = current_admin_user.received_messages.where(sent_messageable_type: "Bar").where(["topic NOT LIKE 'Welcome to SwigBIG'"]).page(params[:page])#.per(3)
+        format.html
+      end
+
     end
+
     def create
       #      bar = Bar.find(params[:acts_as_messageable_message][:to])
       Bar.all.each do |bar|
