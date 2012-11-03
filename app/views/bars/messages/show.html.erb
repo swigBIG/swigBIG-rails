@@ -53,6 +53,7 @@
     <div class="accordion-inner" style="margin-left: 0px;">
       <div style="margin-left: -30px;">
         <%= simple_form_for(@message, :url => reply_message_bars_messages_path,html: {:class => "form-horizontal pull-left"}) do |f| %>
+          <%= f.input :reward, input_html: {style: "display: none;", value: @message_show.category} %>
           <%= f.input :to, label: false, input_html: {style: "display: none;", value: @message_show.sent_messageable_id} %>
           <%= f.input :topic, label: "Subject", input_html: {style: "width: 400px;"} %>
           <%= f.input :body, input_html: {rows: 6, style: "width: 400px;"} %>

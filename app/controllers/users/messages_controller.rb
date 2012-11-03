@@ -17,10 +17,15 @@ class Users::MessagesController < ApplicationController
   end
 
   def create
-    bar = Bar.find(params[:acts_as_messageable_message][:to])
+    unless params[:acts_as_messageable_message][:reward].to_i.eql?(22)
+      send_to = Bar.find(params[:acts_as_messageable_message][:to])
+    else
+      send_to = AdminUser.first
+    end
 
-    if bar
-      current_user.send_message(bar, {
+
+    if send_to
+      current_user.send_message(send_to, {
           topic: params[:acts_as_messageable_message][:topic],
           body: params[:acts_as_messageable_message][:body],
           category: params[:acts_as_messageable_message][:category]
