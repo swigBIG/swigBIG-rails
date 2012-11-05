@@ -30,15 +30,21 @@
         <div class="container">
           <div class="nav pull-left">
             <li>
-              <% if !@site_content.blank? %>
-                <% if !@site_content.logos.blank? %>
-                  <%= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;") rescue nil %>
+              <% if bar_signed_in? %>
+                <% if !@site_content.blank? %>
+                  <% if !@site_content.logos.blank? %>
+                    <%#= image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;") rescue nil %>
+                    <%= link_to image_tag(@site_content.logos.status_active.first.image_url, style: "height: 45px;"), bars_dashboard_path, style: "padding: 0px;" %>
+                  <% else %>
+                    <h3 class="brand" style="color: white;"><%= link_to "SwigBIG", bars_dashboard_path, style: "color: white;" %></h3>
+                  <% end %>
                 <% else %>
-                  <h3 class="brand" style="color: white;">SwigBIG</h3>
+                  <h3 class="brand" style="color: white;"><%= link_to "SwigBIG", bars_dashboard_path, style: "color: white;" %></h3>
                 <% end %>
               <% else %>
                 <h3 class="brand" style="color: white;">SwigBIG</h3>
               <% end %>
+
             </li>
             <li>
               <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
@@ -48,7 +54,7 @@
             <% if bar_signed_in? %>
               <li><b><%= link_to "Home", bars_dashboard_path, style: "color: white;" %></b></li>
 
-                                                                <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
+                                                                        <!--<li><b><%#= link_to "notification", bars_notification_path, style: "color: white;" %></b></li>-->
               <li id="notification" class="dropdown">
                 <a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick="$('#goto_notify_unread').click();" ><b style="color: white;">Notification&nbsp;</b><span class="badge badge-error" id="bar_notify_red"><%=  current_bar.received_messages.where("notify_opended is false").count %></span></a>
                 <div style="display: none;">
