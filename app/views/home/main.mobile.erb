@@ -44,28 +44,24 @@
         x.push('<%= b.id rescue nil %>');//2
         x.push('<%=j link_to  b.name, bar_profile_path(b) rescue nil %>');//3
         x.push('<%= n_line(b.swigs.standard.today.first.deal) rescue nil %>');//4
-        x.push('<%= b.sports_team.gsub(",", "<br/>").html_safe rescue nil %>');//5
-        x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
-        x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
-        x.push('<%= b.swigs.today.first.people rescue nil %>');//8
   <% b.swigs.today.big.each do |b_swig| %>
-          x.push('<%= b_swig.deal rescue nil %>');//9++
+          x.push('<%= b_swig.deal rescue nil %>');//5++
           x.push('<%= b_swig.people rescue nil %>');
   <% end %>
         bar.push(x);
         /*
-               x.push(<%#= b.latitude rescue nil %>);//0
-              x.push(<%#= b.longitude rescue nil %>);//1
-              x.push('<%#= b.id rescue nil %>');//2
-              x.push('<%#=j link_to  b.name, bar_profile_path(b) rescue nil %>');//3
-              x.push('<%#= n_line(b.swigs.standard.today.first.deal) rescue nil %>');//4
-              x.push('<%#= b.sports_team.gsub(",", "<br/>").html_safe rescue nil %>');//5
-              x.push('<%#= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
-              x.push('<%#= b.swigs.today.first.lock_status rescue nil %>');//7
-              x.push('<%#= b.swigs.today.first.people rescue nil %>');//8
+                     x.push(<%#= b.latitude rescue nil %>);//0
+                    x.push(<%#= b.longitude rescue nil %>);//1
+                    x.push('<%#= b.id rescue nil %>');//2
+                    x.push('<%#=j link_to  b.name, bar_profile_path(b) rescue nil %>');//3
+                    x.push('<%#= n_line(b.swigs.standard.today.first.deal) rescue nil %>');//4
+                    x.push('<%#= b.sports_team.gsub(",", "<br/>").html_safe rescue nil %>');//5
+                    x.push('<%#= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
+                    x.push('<%#= b.swigs.today.first.lock_status rescue nil %>');//7
+                    x.push('<%#= b.swigs.today.first.people rescue nil %>');//8
   <%# b.swigs.today.big.each do |b_swig| %>
-                x.push('<%#= b_swig.deal rescue nil %>');//9++
-                x.push('<%#= b_swig.people rescue nil %>');
+                      x.push('<%#= b_swig.deal rescue nil %>');//9++
+                      x.push('<%#= b_swig.people rescue nil %>');
   <%# end %>
          */
 
@@ -101,7 +97,9 @@
             infowindow.setContent('<h4>'+bar[i][3]+'</h4>'
               +'<div class="span3 pull-left well">'+bar[i][4]+'</div>'
               +'<div class="span3">'+'<b>BigSwig</b><br/>'
-              
+              +bar[i][5]+'<br/><b>req: </b>'+bar[i][6]+'<br/>'
+              +bar[i][7]+'<br/><b>req: </b>'+bar[i][8]+'<br/>'
+              +bar[i][9]+'<br/><b>req: </b>'+bar[i][10]+'<br/>'
               +'</div>'
             /*
               +lock_status+'<b>req: </b>'+bar[i][8]+'</div>'
