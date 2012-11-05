@@ -141,6 +141,23 @@
       });
     });
   </script>
+  <style type="text/css">
+    .stepContainer .content{
+      width: 650px!important;
+    }
+
+    .modal{
+      width: 610px!important;
+      overflow: hidden!important;
+    }
+    .modal-header{
+      padding: 0px!important;
+    }
+    .modal-body{
+      max-height: 320px!important;
+    }
+  </style>
+
 <% end %>
 
 <% if current_bar.address.blank? %>
@@ -179,9 +196,8 @@
         <div id="collapseTwo" class="accordion-body collapse">
           <div class="accordion-inner">
             <a class="" data-toggle="modal" href="#gift" id="goto_gift_list"><b>Add Reward to list</b></a><br />
-            <a class="" data-toggle="modal" href="#view_reward_list">View Rewards list</a><br />
+            <a class="" data-toggle="modal" href="#view_reward_list"><b>View Rewards list</b></a><br />
             <a class="" data-toggle="modal" href="#reward_stats_modal"><b>Stat</b></a><br />
-            <a class="" data-toggle="modal" href="#reward_stats_modal" onclick="$('#reward_stats_modal').html('');$.get('/bars/reward_stats')">reward Stat</a>
             <a class="" data-toggle="modal" href="#display_redeem_information" id="goto_redeem"><b>Redeem</b></a><br />
           </div>
         </div>
@@ -341,7 +357,7 @@
       <h3>Rewards Stat</h3>
     </div>
     <div class="modal-body well">
-      <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
+      <div id="pie_chart" style="min-width: 570px; height: 300px; margin: 0 auto"></div>
       <table>
         <th>total</th>
         <th>reward</th>
