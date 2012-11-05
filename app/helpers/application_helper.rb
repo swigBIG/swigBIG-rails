@@ -141,4 +141,8 @@ module ApplicationHelper
     time.strftime("%m/%d/%Y") rescue nil
   end
 
+  def chart_data
+    current_bar.messages.where("reward IS NOT NULL").where(category: [9, 16]).group(:reward).count.sort {|a, b| b[1] <=> a[1] }.take(5).map { |val| [val[0],val[1]] }
+  end
+
 end

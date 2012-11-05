@@ -52,7 +52,7 @@ class Users::BarSwigsController < ApplicationController
 
   def mobile_invite_fb_friends
     @bar = Bar.find(params[:bar_id])
-    @loyalty_points = current_user.points.where(bar_id: @bar.id).first
+    @loyalty_points = current_user.points.where(bar_id: @bar.id).first rescue nil
     unless current_user.popularity_guesses.today.first.blank?
       @inviter = current_user.popularity_guesses.today.first.popularity_inviter
       @popularity_guesses_point = current_user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count

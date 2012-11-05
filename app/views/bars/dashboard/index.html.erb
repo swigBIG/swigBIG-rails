@@ -1,5 +1,5 @@
 <%= content_for :js_footer do %>
-  <%= javascript_include_tag "bootstrap-collapse", "validate_people" %>
+  <%= javascript_include_tag "bootstrap-collapse", "validate_people", "highcharts" %>
 
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <script type="text/javascript">
@@ -13,90 +13,133 @@
       }, 70000);
 
   <% unless params[:coupon].blank? %>
-      $("#goto_redeem").click()
+        $("#goto_redeem").click()
   <% end %>
 
   <% if session[:show_big_list] %>
-      $("#goto_bigswig_list_courtesy").click();
-      $("#big_swig_list_partial_text").text("Delete success!");
+        $("#goto_bigswig_list_courtesy").click();
+        $("#big_swig_list_partial_text").text("Delete success!");
     <% session[:show_big_list] = false %>
   <% end %>
     
-    //
+      //
   <% if session[:show_gift_list] %>
-      $("#goto_gift_list").click();
-      $("#gift_notification_text").text("Delete gift success!");
+        $("#goto_gift_list").click();
+        $("#gift_notification_text").text("Delete gift success!");
     <% session[:show_gift_list] = false %>
   <% end %>
 
-    //-- show popup reward list after update
+      //-- show popup reward list after update
   <% if session[:show_gift_list_after_update] %>
-      $("#goto_gift_list").click();
-      $("#gift_notification_text").text("Gift updated successfully!");
+        $("#goto_gift_list").click();
+        $("#gift_notification_text").text("Gift updated successfully!");
     <% session[:show_gift_list_after_update] = false %>
   <% end %>
 
-    //--start of show popup after create, update popularity and loyalty
+      //--start of show popup after create, update popularity and loyalty
   <% if session[:after_create_popularity] or session[:after_create_loyalty] or session[:after_update_loyalty] or session[:after_update_popularity] %>
-      $("#go_to_reward").click();
-      //$("#reward_text_notification").text("Reward successfuly created!");
+        $("#go_to_reward").click();
+        //$("#reward_text_notification").text("Reward successfuly created!");
     <% session[:after_create_loyalty] = false %>
     <% session[:after_create_popularty] = false %>
     <% session[:after_update_popularity] = false %>
     <% session[:after_update_loyalty] = false %>
   <% end %>
-  });
-  //--start of checking stardard swig to not blank
-  function validate_standard_swig(){
-    if($('#bar_standard_swig_to_copy').val() == ''){
-      $('#bar_standard_swig_to_copy').css('border', '1px solid red');
-      $('#swig_notice').text('Bar must have at least 1 standard swig!');
-      valid_standard_swig = false;
-    }else{
-      $('#bar_standard_swig_to_copy').css('border', '1px solid black');
-      valid_standard_swig = true;
+    });
+    //--start of checking stardard swig to not blank
+    function validate_standard_swig(){
+      if($('#bar_standard_swig_to_copy').val() == ''){
+        $('#bar_standard_swig_to_copy').css('border', '1px solid red');
+        $('#swig_notice').text('Bar must have at least 1 standard swig!');
+        valid_standard_swig = false;
+      }else{
+        $('#bar_standard_swig_to_copy').css('border', '1px solid black');
+        valid_standard_swig = true;
+      }
+      if(valid_standard_swig){
+        $('#goto_description').click();
+      }
     }
-    if(valid_standard_swig){
-      $('#goto_description').click();
-    }
-  }
-  //--start google chart
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(drawChart);
+    //--start google chart
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
     
-  //---start of swig stats
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ['Days', 'Swigger'],
-      ['Mon',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
-      ['Tue',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
-      ['Wed',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
-      ['Thu',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
-      ['Fri',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
-      ['Sat',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
-      ['Sun',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
-    ]);
-    var options = {
-      title: 'User Swigging Stat',
-      hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}, 'width':500, 'height':300}
-    };
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar'));
-    chart.draw(data, options);
-  }
+    //---start of swig stats
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Days', 'Swigger'],
+        ['Mon',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Monday"}.count.to_i %>],
+        ['Tue',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Tuesday"}.count.to_i %>],
+        ['Wed',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Wednesday"}.count.to_i %>],
+        ['Thu',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Thursday"}.count %>],
+        ['Fri',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Friday"}.count %>],
+        ['Sat',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Saturday"}.count %>],
+        ['Sun',  <%= @swigers_in_stat.select{|sw| sw.created_at.strftime("%A") == "Sunday"}.count %>]
+      ]);
+      var options = {
+        title: 'User Swigging Stat',
+        hAxis: {title: 'Stat', titleTextStyle: {color: 'green'}, 'width':500, 'height':300}
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_bar'));
+      chart.draw(data, options);
+    }
 
-  function validate_reward_to_list(){
-    if($("#add_big_swig_list_in_modal").val() == ''){
-      alert("salah");
-      $("#add_big_swig_list_in_modal").css('border', '1px solid red');
-      valid_reward_to_create = false;
-    }else{
-      $("#add_big_swig_list_in_modal").css('border', '1px solid black');
-      valid_reward_to_create = true;
+    function validate_reward_to_list(){
+      if($("#add_big_swig_list_in_modal").val() == ''){
+        alert("salah");
+        $("#add_big_swig_list_in_modal").css('border', '1px solid red');
+        valid_reward_to_create = false;
+      }else{
+        $("#add_big_swig_list_in_modal").css('border', '1px solid black');
+        valid_reward_to_create = true;
+      }
+      if(valid_reward_to_create){
+        $('#goto_bigswig_list_modal').click();
+      }
     }
-    if(valid_reward_to_create){
-      $('#goto_bigswig_list_modal').click();
-    }
-  }
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      var chart = new Highcharts.Chart({
+        chart: {
+          renderTo: 'pie_chart',
+          defaultSeriesType: 'pie'
+        },
+        title: {
+          text: 'Rewards'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              color: '#000000',
+              connectorColor: '#000000',
+              formatter: function() {
+                return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
+              }
+            }
+          },
+          series: {
+            allowPointSelect: false,
+            dataLabels: {
+              enabled: true
+            },
+            events: {
+              click: function(event) {
+                //alert(event.point.x);
+                $('#bar_message'+event.point.x).modal();
+              }
+            }
+          }
+        },
+        series: [{
+            data: <%=raw chart_data %>
+          }]
+      });
+    });
   </script>
 <% end %>
 
@@ -137,7 +180,8 @@
           <div class="accordion-inner">
             <a class="" data-toggle="modal" href="#gift" id="goto_gift_list"><b>Add Reward to list</b></a><br />
             <a class="" data-toggle="modal" href="#view_reward_list">View Rewards list</a><br />
-            <a class="" data-toggle="modal" href="#"><b>Stat</b></a><br />
+            <a class="" data-toggle="modal" href="#reward_stats_modal"><b>Stat</b></a><br />
+            <a class="" data-toggle="modal" href="#reward_stats_modal" onclick="$('#reward_stats_modal').html('');$.get('/bars/reward_stats')">reward Stat</a>
             <a class="" data-toggle="modal" href="#display_redeem_information" id="goto_redeem"><b>Redeem</b></a><br />
           </div>
         </div>
@@ -289,6 +333,25 @@
     <div class="modal-footer">
       <a class="btn" data-dismiss="modal"><b>close</b></a>
     </div>
+  </div>
+
+  <div id="reward_stats_modal" class="modal hide fade">
+
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal"><b>x</b></a>
+      <h3>Rewards Stat</h3>
+    </div>
+    <div class="modal-body well">
+      <% @reward_stats.each do |val| %>
+        <%= val[0] %>,<%= val[1] %>
+        <br/>
+      <% end %>
+      <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
+    </div>
+    <div class="modal-footer">
+      <a class="pull-left btn" data-dismiss="modal">Close</a>
+    </div>
+
   </div>
 
   <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">

@@ -31,6 +31,7 @@ class Bars::DashboardController < ApplicationController
     @winner = @bar.winners.all
     @loyalty_reward = RewardMessage.new
     @bar_message = ActsAsMessageable::Message.new
+    @reward_stats = current_bar.messages.where("reward IS NOT NULL").where(category: [9, 16]).group(:reward).count.sort {|a, b| b[1] <=> a[1] }.take(5)
 
     unless params[:coupon].blank?
       @redeem = current_bar.messages.where(coupon: params[:coupon])
@@ -595,6 +596,11 @@ class Bars::DashboardController < ApplicationController
 
     @total_notification = current_bar.received_messages.where('opened is false').count.to_s
     respond_to :js
+  end
+
+  def reward_stats
+    @reward_stats = current_bar.messages.where("reward IS NOT NULL").where(category: [9, 16]).group(:reward).count.sort {|a, b| b[1] <=> a[1] }.take(5)
+      
   end
 
 end

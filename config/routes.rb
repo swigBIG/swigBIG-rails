@@ -115,6 +115,7 @@ Swprototype::Application.routes.draw do
     get  "swiger_list" => "dashboard#swiger_list", as: "swiger_list"
     post  "update_bar_hours" => "dashboard#update_bar_hours", as: "update_bar_hours"
     get  "swigger_total_count" => "dashboard#swigger_total_count", as: "swigger_total_count"
+    get "reward_stats" => "dashboard#reward_stats", as: :reward_stats
 
     resources :messages do
       collection do
