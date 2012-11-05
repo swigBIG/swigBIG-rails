@@ -27,7 +27,7 @@
             <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
               <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= "SwigBIG.com" %></b></td>
               <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= truncate(strip_tags(message.topic.html_safe), length: 20) %></td>
-              <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+              <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= format_date_global(message.created_at) %></td>
               <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
             </tr>
           <% else %>
@@ -39,7 +39,7 @@
                 <td class="span7" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.sent_messageable.name rescue "Not set yet" %></b></td>
               <% end %>
               <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><b><%= message.topic %></b> - <%= truncate(strip_tags(message.body.html_safe), length: 20) %></td>
-              <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+              <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= format_date_global(message.created_at) %></td>
               <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
             </tr>
           <% end %>

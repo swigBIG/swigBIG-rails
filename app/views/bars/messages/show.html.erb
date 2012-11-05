@@ -13,7 +13,7 @@
   <%= render "message_menu" %>
 <% end %>
 <div class="span9">
-  <h4><%= @message_show.created_at.strftime("%b %d, %Y") %></h4>
+  <h4><%= format_date_global(@message_show.created_at) %></h4>
   <table width="100%;">
 
     <% if @message_show.category.eql?(16) or @message_show.category.eql?(16) or @message_show.category.eql?(16) %>

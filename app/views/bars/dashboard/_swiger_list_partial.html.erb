@@ -10,21 +10,10 @@
         <br/>
         <%= swiger.user.name %>
         <br/>
-        <%= swiger.created_at.strftime("%v %r") %>
+        <%= format_date_global(swiger.created_at) %>
       </div>
     <% end %>
 
-    <!--
-    <%# @swigers.each_pair do |x, swiger| %>
-        <div class="span3">
-      <%#= swiger.first.user.avatar.blank? ? image_tag("UserImage.gif", style: "height: 50px;") : image_tag(swiger.first.user.avatar.url, style: "height: 50px;") %>
-          <br/>
-      <%#= swiger.first.user.name %>
-          <br/>
-      <%#= swiger.last.created_at.strftime("%v %r") %>
-        </div>
-    <%# end %>
-    -->
   </div>
   <div class="modal-footer">
     <a class="btn pull-right" data-dismiss="modal">Close</a>

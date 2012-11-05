@@ -115,7 +115,7 @@
               <div class="span3">
                 <b><%= Bar.find(bar).name %></b>
                 <br/>
-                <%= Swiger.where(bar_id: bar).last.created_at.strftime("%d/%m/%Y") %>
+                <%= format_date_global(Swiger.where(bar_id: bar).last.created_at) %>
               </div>
             <% end %>
           </div>

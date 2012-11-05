@@ -34,7 +34,7 @@
                   <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
                     <td class="span7"><%= message.received_messageable.name %></td>
                     <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %></td>
-                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= format_date_global(message.created_at) %></td>
                     <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
                   </tr>
                 <% end %>
@@ -54,7 +54,7 @@
                   <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
                     <td class="span7"><%= message.received_messageable.name %></td>
                     <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %></td>
-                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= format_date_global(message.created_at) %></td>
                     <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
                   </tr>
                 <% end %>
@@ -74,7 +74,7 @@
                   <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
                     <td class="span7"><%= message.received_messageable.name %></td>
                     <td class="span10" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.topic %></td>
-                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= message.created_at.strftime("%b %d, %Y") %></td>
+                    <td class="span4" onclick="window.location.href='<%= bars_message_url(message) %>'"><%= format_date_global(message.created_at) %></td>
                     <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
                   </tr>
                 <% end %>

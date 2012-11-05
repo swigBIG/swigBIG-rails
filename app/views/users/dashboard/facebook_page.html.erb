@@ -141,7 +141,7 @@
               <div class="span3">
                 <b><%= swiger.bar.name rescue "No Name"%></b>
                 <br/>
-                <%= swiger.created_at.strftime("%d/%m/%Y") %>
+                <%= format_date_global(swiger.created_at) %>
               </div>
             <% end %>
           </div>

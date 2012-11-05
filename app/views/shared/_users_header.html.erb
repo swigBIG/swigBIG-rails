@@ -15,7 +15,7 @@
           <% end %>
         </li>
         <li>
-          <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= Time.zone.now.strftime("%A") %></span></h3></h2>
+          <h2 class="brand" style="color: gray;"><h3>&nbsp; on <span id="day_swig"><%= format_date_global(Time.zone.now) %></span></h3></h2>
         </li>
         <div class="nav pull-right" >
 
