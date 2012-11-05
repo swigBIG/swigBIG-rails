@@ -336,22 +336,26 @@
   </div>
 
   <div id="reward_stats_modal" class="modal hide fade">
-
     <div class="modal-header">
       <a class="close" data-dismiss="modal"><b>x</b></a>
       <h3>Rewards Stat</h3>
     </div>
     <div class="modal-body well">
-      <% @reward_stats.each do |val| %>
-        <%= val[0] %>,<%= val[1] %>
-        <br/>
-      <% end %>
       <div id="pie_chart" style="min-width: 500px; height: 300px; margin: 0 auto"></div>
+      <table>
+        <th>total</th>
+        <th>reward</th>
+        <% @reward_stats.each do |val| %>
+          <tr>
+            <td><%= val[1] %></td>
+            <td><%= val[0] %></td>
+          </tr>
+        <% end %>
+      </table>
     </div>
-    <div class="modal-footer">
+    <!--<div class="modal-footer">
       <a class="pull-left btn" data-dismiss="modal">Close</a>
-    </div>
-
+    </div>-->
   </div>
 
   <div id="bigswigModal" class="modal hide fade" style="opacity: 1 ;">
