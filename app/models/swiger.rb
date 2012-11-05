@@ -89,14 +89,13 @@ class Swiger < ActiveRecord::Base
             expirate_reward: (self.created_at + 2.hours)
           })
         Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just unlocked #{swig.deal} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>" )
-        unless user.access_token.blank?
-          if self.user.fb_post_swig.blank?
-            me = FbGraph::User.me(user.access_token)
-            me.feed!(
-              :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
-            )
-          end
+        unless user.access_token.blank? and self.user.fb_post_swig.eql?(false)
+          me = FbGraph::User.me(user.access_token)
+          me.feed!(
+            :message => "#{user.name} just unlocked #{swig.deal} at #{swig.bar.name} !"
+          )
         end
+        
       end
     end
   end
@@ -105,7 +104,7 @@ class Swiger < ActiveRecord::Base
     Pusher['test_channel'].trigger('my-event', {'message' => "#{self.user.name rescue self.user.email} just swigged at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>"})
     Feed.create(bar_id: self.bar_id, content: "#{self.user.name rescue self.user.email} just swigged at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a>" )
     self.user.points.create(bar_id: self.bar.id, loyalty_points: 1 )# unless self.bar.loyalty.blank?
-    if !self.user.access_token.blank? and !self.user.fb_post_swig.blank?
+    if !self.user.access_token.blank? and self.user.lock_fb_post.eql?(false)
       me = FbGraph::User.me(user.access_token)
       me.feed!(
         :message => "#{self.user.name} just swigged at #{self.bar.name}! bar info http://swigbig.com/bar/#{self.bar.slug}"
@@ -132,7 +131,7 @@ class Swiger < ActiveRecord::Base
           Pusher['test_channel'].trigger('my-event', {'message' => "#{inviter.name rescue inviter.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!"})
           Feed.create(bar_id: self.bar_id, content: "#{inviter.name rescue inviter.email} just earned #{self.bar.popularity.reward_detail} at <a href='/bar/#{self.bar.slug}'>#{self.bar.name}</a> for being the popular kid on the block!" )
           #          ActivityStream.create(activity: "winpopularity", verb: "popularity reward", actor_id: inviter.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
-          if inviter.fb_post_swig
+          if !inviter.access_token.blank? and self.user.lock_fb_post.eql?(false)
             me = FbGraph::User.me(inviter.access_token)
             me.feed!(
               :message => "#{inviter.name} just earned #{self.bar.popularity.reward_detail} at #{self.bar.name} for being the popular kid on the block!"
@@ -176,7 +175,7 @@ class Swiger < ActiveRecord::Base
             expirate_reward: (self.created_at + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days)
           })
 
-        if !self.user.access_token.blank? and self.user.lock_fb_post
+        if !self.user.access_token.blank? and self.user.lock_fb_post.eql?(false)
           me = FbGraph::User.me(self.user.access_token)
           me.feed!(
             :message => "#{self.user.name} just earned #{self.bar.loyalty.reward_detail} at #{self.bar.name} for going there way too much!"

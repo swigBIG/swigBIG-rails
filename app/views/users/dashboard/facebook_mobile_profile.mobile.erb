@@ -113,11 +113,11 @@
     <b style="font-size: 28">Blocking posting?</b>
     <select id="post_options" data-role="slider" onchange="fb_posting_status()">
       <% if current_user.lock_fb_post %>
-        <option value="on">ON</option>
-        <option value="off" selected="selected">OFF</option>
+        <option value="on">OFF</option>
+        <option value="off" selected="selected">ON</option>
       <% else %>
-        <option value="on" selected="selected">ON</option>
-        <option value="off">OFF</option>
+        <option value="on" selected="selected">OFF</option>
+        <option value="off">ON</option>
       <% end %>
     </select><br/>
 
@@ -125,11 +125,11 @@
     <b style="font-size: 28">Blocking posting?</b>
     <select id="post_swig_options" data-role="slider" onchange="fb_posting_swig_status()">
       <% if current_user.fb_post_swig %>
-        <option value="on">ON</option>
-        <option value="off" selected="selected">OFF</option>
+        <option value="on">OFF</option>
+        <option value="off" selected="selected">ON</option>
       <% else %>
-        <option value="on" selected="selected">ON</option>
-        <option value="off">OFF</option>
+        <option value="on" selected="selected">OFF</option>
+        <option value="off">ON</option>
       <% end %>
     </select>
 
