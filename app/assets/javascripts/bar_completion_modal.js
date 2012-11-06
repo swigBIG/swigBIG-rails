@@ -143,7 +143,7 @@ function get_all_data(){
   $('#google_text').html($('#bar_google_plus_link').val());
   $('#hour_text').html($('#bar_bar_hour').val());
   $('#description_text').html($('#bar_bar_description').val());
-  $('#sport_text').html($('#mytags').val());
+  $('#sport_text').html($('#tk_sports').val());
   $('#swig_text').html($('#swig').val());
 }
 function validate_standard_swig(){
