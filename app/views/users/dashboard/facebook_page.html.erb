@@ -185,14 +185,16 @@
           <a id="goto_on_post_unlock_bigswig" data-role="button" onclick="window.location.href='<%= users_unlock_post_to_swigbig_unlock_url %>'"  style="display: none;">Deactivate</a>
           <b>This is page for activate and deactivate to posting swigbig event getting reward in facebook</b>
           <% if current_user.lock_fb_post.eql?(true) %>
+          if
             <div class="btn-group" data-toggle="buttons-checkbox">
               <button type="button" class="btn active"><b style="">ON</b></button>
               <button type="button" class="btn" type="button" onclick="$('#goto_on_post_reward').click();"><b>OFF</b></button>
             </div>
           <% else %>
+          else
             <div class="btn-group" data-toggle="buttons-checkbox">
-              <button type="button" class="btn active"><b style=""><b>ON</b></b></button>
-              <button type="button" class="btn" onclick="$('#goto_off_post_reward').click();"><b>Off</b></button>
+              <button type="button" class="btn" onclick="$('#goto_off_post_reward').click();"><b>ON</b></button>
+              <button type="button" class="btn active"><b style=""><b>OFF</b></b></button>
             </div>
           <% end %>
 
