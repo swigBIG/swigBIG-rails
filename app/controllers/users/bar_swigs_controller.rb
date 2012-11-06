@@ -58,7 +58,8 @@ class Users::BarSwigsController < ApplicationController
       @popularity_guesses_point = current_user.popularity_guesses.today.first.popularity_inviter.popularity_guesses.where(enter_status: "swig").count
     end
 
-    @reward = current_user.messages.where(category: [9, 16]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
+    @reward = current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
+#              current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
     @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
   end
