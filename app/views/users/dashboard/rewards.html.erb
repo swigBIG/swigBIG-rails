@@ -50,7 +50,7 @@
     <br/>
     <a class="btn btn-small" style="width: 200px;margin-bottom: 5px;" href="#redeemed" data-toggle="tab"><b>Redeemed Rewards</b></a>
   </div>
-  
+
   <div class="span8 ">
     <div class="tab-content">
       <div class="tab-pane active" id="summary">
@@ -82,13 +82,20 @@
             </tr>
           <% end %>
         </table>
+        <h4>Expiring Soon</h4>
+        <%= @reward_to_expirate.blank? ? "You are all good, you don't have any Rewards expiring soon!" : "" %>
         <table>
-          <tr><h4>Expiring Soon</h4></tr>
-          <tr>
-<%# @bar_rewards.each do |bar| %>
-              <!--<td><%#= bar.sent_messageable.name %><br/><%#= bar.created_at.strftime("%v") %></td>-->
-<%# end %>
-          </tr>
+          <th>From</th>
+          <th>Reward</th>
+          <th>Remaining Time</th>
+          <% @reward_to_expirate.each do |bar| %>
+            <tr>
+              <td><%= bar.sent_messageable.name %></td>
+              <td><%= bar.reward %></td>
+              <td><%= time_remaining(bar.expirate_reward) rescue nil %></td>
+
+            </tr>
+          <% end %>
         </table>
       </div>
       <div class="tab-pane" id="progress">

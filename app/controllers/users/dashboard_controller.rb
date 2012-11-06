@@ -134,6 +134,8 @@ class Users::DashboardController < ApplicationController
     #    @rewards = current_user.received_messages.where(coupon_status: false).where(["expirate_reward <= ? AND expirate_reward > ? AND category = ? OR category = ? OR category = ?", @expirate_within_to_expire.days.from_now, Time.zone.now, 9, 15, 16]).order("expirate_reward ASC").page(params[:page]).per(5)
     @rewards = current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).page(params[:page]).per(5)
     @redeem_rewards = current_user.received_messages.where(coupon_status: true).where(["category = ? OR category = ? OR category = ?", 9, 15, 16]).order("created_at DESC").page(params[:page]).per(5)
+
+    @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1]).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
   end
 
   def update_account
