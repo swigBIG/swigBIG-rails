@@ -1,5 +1,5 @@
 <%= content_for :js_footer do %>
-  <%= javascript_include_tag "jquery.smartWizard-2.0", "jquery.livesearch", "chosen.jquery" %>
+  <%= javascript_include_tag "jquery.smartWizard-2.0", "jquery.livesearch", "chosen.jquery", "bootstrap-button" %>
   <%= stylesheet_link_tag "chosen" %>
 
   <script type="text/javascript">
@@ -50,6 +50,28 @@
       });
     })(jQuery);
   </script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+    });
+    function fb_posting_status(){
+      if ($('#post_options').val() == "on"){
+        $('#goto_on_post_reward').click()
+      }
+      else if ($('#post_options').val() == "off"){
+        $('#goto_off_post_reward').click()
+      }
+    }
+
+    function fb_posting_swig_status(){
+      if ($('#post_options').val() == "on"){
+        $('#goto_on_post_unlock_bigswig').click()
+      }
+      else if ($('#post_options').val() == "off"){
+        $('#goto_off_post_unlock_bigswig').click()
+      }
+    }
+  </script>
+
   <style type="text/css">
     .stepContainer .content{
       width: 650px!important;
@@ -156,6 +178,39 @@
 
         <div id="contact">
           <h2 class="StepTitle"><b>Contact Prefrences</b></h2>
+
+          <a id="goto_off_post_reward" onclick="window.location.href='<%= users_lock_post_event_url %>'"  style="display: none;">Activate</a>
+          <a id="goto_on_post_reward" data-role="button" onclick="window.location.href='<%= users_unlock_post_event_url %>'"  style="display: none;">Deactivate</a>
+          <a id="goto_off_post_unlock_bigswig" data-role="button" onclick="window.location.href='<%= users_lock_post_to_swigbig_unlock_url %>'"  style="display: none;">Activate</a>
+          <a id="goto_on_post_unlock_bigswig" data-role="button" onclick="window.location.href='<%= users_unlock_post_to_swigbig_unlock_url %>'"  style="display: none;">Deactivate</a>
+          <b>This is page for activate and deactivate to posting swigbig event getting reward in facebook</b>
+          <% if current_user.lock_fb_post.eql?(true) %>
+            <div class="btn-group" data-toggle="buttons-checkbox">
+              <button type="button" class="btn active"><b style="">ON</b></button>
+              <button type="button" class="btn" type="button" onclick="$('#goto_on_post_reward').click();"><b>OFF</b></button>
+            </div>
+          <% else %>
+            <div class="btn-group" data-toggle="buttons-checkbox">
+              <button type="button" class="btn active"><b style=""><b>ON</b></b></button>
+              <button type="button" class="btn" onclick="$('#goto_off_post_reward').click();"><b>Off</b></button>
+            </div>
+          <% end %>
+
+          <div class="clearfix"></div>
+          <div class="clearfix"></div>
+          <br/>
+          <b>This button for activate and deactivate to posting unlock Bigswig in facebook</b><br/>
+          <% if current_user.fb_post_swig.eql?(true) %>
+            <div class="btn-group" data-toggle="buttons-checkbox">
+              <button type="button" class="btn" onclick="$('#goto_on_post_unlock_bigswig').click();"><b>ON</b></button>
+              <button type="button" class="btn active"><b style="">OFF</b></button>
+            </div>
+          <% else %>
+            <div class="btn-group" data-toggle="buttons-checkbox">
+              <button type="button" class="btn active"><b style="">ON</b></button>
+              <button type="button" class="btn" onclick="$('#goto_off_post_unlock_bigswig').click();"><b>Off</b></button>
+            </div>
+          <% end %>
         </div>
 
         <div id="delink">
