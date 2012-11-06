@@ -3,11 +3,12 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, 
+  devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable, :omniauthable #, :confirmable
+  
   # Setup accessible (or protected) attributes for your model
   attr_accessor :authenticity_token
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :terms, :bird_date,
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :terms, :bird_date, :slug,
     :avatar, :name, :address, :zip_code, :phone_number, :city, :state, :last_seen, :access_token,
     :fb_id, :lock_status, :lock_fb_post, :fb_post_swig
 
@@ -37,8 +38,6 @@ class User < ActiveRecord::Base
       user
     else # Create a user with a stub password.
       a = self.create!(:email => data.email, :password => Devise.friendly_token[0,20], name: data.name)
-#      a.remote_avatar_url = img
-#      a.save
       return a
     end
   end
