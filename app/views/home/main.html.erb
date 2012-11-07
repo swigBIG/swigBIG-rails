@@ -48,7 +48,7 @@
         x.push('<%= n_line(b.swigs.today.lock_status_active.first.deal) rescue "No Swig Today" %>');//6
         x.push('<%= b.swigs.today.first.lock_status rescue nil %>');//7
         x.push('<%= b.swigs.today.first.people rescue nil %>');//8
-  <% b.swigs.today.big.each do |b_swig| %>
+  <% b.swigs.today.big.order('people ASC').each do |b_swig| %>
           x.push('<%= b_swig.deal rescue nil %>');//9++
           x.push('<%= b_swig.people rescue nil %>');
   <% end %>

@@ -15,14 +15,14 @@ class Bar < ActiveRecord::Base
     :facebook_link, :twitter_link, :google_plus_link, :bar_phone, :bar_description, :bar_hour,
     :bar_hours_attributes, :full_address, :sports_team_list, :lock_status
   
-#  validates :terms, :acceptance => true
-#  validates :address, :zip_code, :city, :presence => true, :on => :update
-#  #  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
-#
-#  before_update  :set_http_website
-#  before_validation :set_full_address, :locate
-#
-#  geocoded_by :address
+  validates :terms, :acceptance => true
+  validates :address, :zip_code, :city, :presence => true, :on => :update
+  #  validates :zip_code, format: {:with => /^\d{5}(-\d{4})?$/, :message => "should be in the form 12345 or 12345-1234"}, :on => :update
+
+  before_update  :set_http_website
+  before_validation :set_full_address, :locate
+
+  geocoded_by :address
 
   extend  FriendlyId
   friendly_id :name , use: :slugged

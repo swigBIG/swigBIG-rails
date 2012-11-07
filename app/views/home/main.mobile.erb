@@ -44,7 +44,7 @@
         x.push('<%= b.id rescue nil %>');//2
         x.push('<%=j link_to  b.name, bar_profile_path(b) rescue nil %>');//3
         x.push('<%= n_line(b.swigs.standard.today.first.deal) rescue nil %>');//4
-  <% b.swigs.today.big.each do |b_swig| %>
+  <% b.swigs.today.big.order('people ASC').each do |b_swig| %>
           x.push('<%= b_swig.deal rescue nil %>');//5++
           x.push('<%= b_swig.people rescue nil %>');
   <% end %>
