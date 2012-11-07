@@ -26,11 +26,12 @@ jQuery.fn.shorten = function(settings) {
 
   return this.each(function() {
     var $this = $(this);
-
+ 
     var content = $this.html();
-    if (content.length > config.showChars) {
-      var c = content.substr(0, config.showChars);
-      var h = content.substr(config.showChars , content.length - config.showChars);
+    var leng_string = $this.html().split("<br>")[0] +'<br>' + $this.html().split("<br>")[1]
+    if (content.length > leng_string.length) {
+      var c = content.substr(0, leng_string.length);
+      var h = content.substr(leng_string.length , content.length - leng_string.length);
       var html = c + '<span class="moreellipses">' + config.ellipsesText + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="javascript://nop/" class="morelink">' + config.moreText + '</a></span>';
       $this.html(html);
       $(".morecontent span").hide();
