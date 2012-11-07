@@ -59,7 +59,7 @@ class Users::BarSwigsController < ApplicationController
     end
 
     @reward = current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).count
-#              current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
+    #              current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
     @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
   end
@@ -109,14 +109,18 @@ class Users::BarSwigsController < ApplicationController
       inviter  = current_user.popularity_inviters.today.where(bar_id: bar.id).first
 
       params[:fb_ids].each do |fb_id|
-        fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
-        user = User.where(fb_id: fb_id).first
-        guess = inviter.popularity_guesses.where(fb_id: fb_id).first
-        if user and !guess
-          inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: bar.id)
-        elsif !user
-          inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: bar.id)
-        elsif guess
+        begin
+          fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
+          user = User.where(fb_id: fb_id).first
+          guess = inviter.popularity_guesses.where(fb_id: fb_id).first
+          if user and !guess
+            inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: bar.id)
+          elsif !user
+            inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: bar.id)
+          elsif guess
+          end
+        rescue
+          
         end
       end
       redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"

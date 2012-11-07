@@ -138,6 +138,14 @@ class Users::DashboardController < ApplicationController
     @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1]).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
   end
 
+  def mobile_reward
+    @user = current_user
+    #    @reward = current_user.messages.where(["category = (?) OR category = (?) AND expirate_reward > (?) ", 9, 16, Time.now ]).order("created_at DESC")
+    @reward = current_user.messages.where(category: [5, 9, 16, 1], coupon_status: false).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
+    #    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
+    @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1], coupon_status: false).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
+  end
+
   def update_account
     @user = current_user
     if @user.update_attributes(params[:user])
@@ -200,20 +208,19 @@ class Users::DashboardController < ApplicationController
   end
 
   def after_sign_up_invite_friend_by_fb
-    fb = MiniFB::OAuthSession.new(current_user.access_token)
-    params[:fb_ids].each do |fb_id|
-      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit http://swigbig.com/"})
+    unless params[:fb_ids].blank?
+      fb = MiniFB::OAuthSession.new(current_user.access_token)
+      params[:fb_ids].each do |fb_id|
+        fb.post(fb_id, :type => :feed, :params => {:message => "invite you to visit http://swigbig.com/ ! #{params[:user_message]}"})
+      end
+      msg = "invite success!"
+    else
+      msg = "no one selected!"
     end
-    redirect_to :back, notice: "invite success"
+    redirect_to :back, notice: msg
   end
 
-  def mobile_reward
-    @user = current_user
-    #    @reward = current_user.messages.where(["category = (?) OR category = (?) AND expirate_reward > (?) ", 9, 16, Time.now ]).order("created_at DESC")
-    @reward = current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
-    #    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
-    @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1]).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
-  end
+  
 
   def facebook_mobile_profile
     @user = current_user
