@@ -8,9 +8,10 @@ class Swiger < ActiveRecord::Base
 
   has_many :popularity_guesses
   
-#  validate :time_and_distance_valid? #, :popularity_reward_valid?
-#
-#  after_create :unlock_bigswig, :get_loyalty, :get_popularity_reward
+  validate :time_and_distance_valid? #, :popularity_reward_valid?
+
+  #  before_create :time_and_distance_valid?
+  after_create :unlock_bigswig, :get_loyalty, :get_popularity_reward
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
 
