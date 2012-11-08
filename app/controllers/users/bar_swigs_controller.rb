@@ -86,13 +86,21 @@ class Users::BarSwigsController < ApplicationController
   def invite_fb_friends
     fb = MiniFB::OAuthSession.new(current_user.access_token)
     bar = Bar.find(params[:bar_id])
-    #    if current_user.popularity_inviters.where(bar_id: bar.id).valid_time.blank?
+
     if current_user.popularity_inviters.where(bar_id: bar.id).where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date ).blank?
-      #    if current_user.popularity_inviters.where(bar_id: bar.id).blank?
       popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
+      
       if !params[:fb_ids].blank? and popularity_inviter.save
-        #        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
-        params[:fb_ids].each do |fb_id|
+
+        fb_friends = params[:fb_ids]
+        if current_user.popularity_guesses.where(bar_id: bar.id).where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date).blank?
+          fb_friends = params[:fb_ids]
+        else
+          inviter = current_user.popularity_guesses.where(bar_id: bar.id).where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date).first.popularity_inviter.user.fb_id
+          fb_friends.delete(inviter)
+        end
+
+        fb_friends.each do |fb_id|
           fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
           if user
@@ -108,7 +116,15 @@ class Users::BarSwigsController < ApplicationController
     else
       inviter  = current_user.popularity_inviters.today.where(bar_id: bar.id).first
 
-      params[:fb_ids].each do |fb_id|
+      fb_friends = params[:fb_ids]
+      if current_user.popularity_guesses.where(bar_id: bar.id).where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date).blank?
+        fb_friends = params[:fb_ids]
+      else
+        inviter = current_user.popularity_guesses.where(bar_id: bar.id).where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date).first.popularity_inviter.user.fb_id
+        fb_friends.delete(inviter)
+      end
+
+      fb_friends.each do |fb_id|
         begin
           fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
@@ -127,34 +143,13 @@ class Users::BarSwigsController < ApplicationController
     end
 
   end
-  #  def invite_fb_friends
-  #    fb = MiniFB::OAuthSession.new(current_user.access_token)
-  #    bar = Bar.find(params[:bar_id])
-  #    popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
-  #    if popularity_inviter.save and !params[:fb_ids].blank?
-  #      popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: popularity_inviter.bar_id, fb_id: current_user.fb_id, enter_status: "swig")
-  #      params[:fb_ids].each do |fb_id|
-  #        fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
-  #        user = User.where(fb_id: fb_id).first
-  #        if user
-  #          popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
-  #        else
-  #          popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
-  #        end
-  #      end
-  #      redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"
-  #    else
-  #      redirect_to :back, notice: "Fail Create Popularity! Please check your Guesses!"
-  #    end
-  #  end
 
   def invite_email_friends
     bar = Bar.find(params[:bar_id])
     if current_user.popularity_inviters.where(bar_id: bar.id).where("created_at <= ? AND created_at  >= ?", Time.zone.now,  (Time.zone.now + (TimeSwigging.first.time_between_swig rescue 3).hours ).to_date ).blank?
-      #    if current_user.popularity_inviters.where(bar_id: bar.id).blank?
       popularity_inviter = bar.popularity_inviters.new(user_id: current_user.id )
       if !params[:mytags].blank? and popularity_inviter.save
-        #        popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: bar.id, enter_status: "swig", email: current_user.email)
+
         params[:mytags].split(",").each do |email|
           Invite.send_invite_email(email, current_user, bar).deliver
           user = User.where(email: email).first
@@ -164,10 +159,12 @@ class Users::BarSwigsController < ApplicationController
             popularity_inviter.popularity_guesses.create(user_id: nil, email: email, bar_id: popularity_inviter.bar_id)
           end
         end
+        
         redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"
       else
         redirect_to :back, notice: "Fail Create Popularity! or no guess that you add!"
       end
+      
     else
       inviter  = current_user.popularity_inviters.today.where(bar_id: bar.id).first
       if !params[:mytags].blank?
