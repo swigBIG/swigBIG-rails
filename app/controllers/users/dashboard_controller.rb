@@ -26,7 +26,7 @@ class Users::DashboardController < ApplicationController
 
     #      @friends_swigger = Swiger.joins(:user).where(["users.email IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", emails, Time.now.beginning_of_day, Time.now.end_of_day ])
     @user = User.new
-    @friends = FbGraph::User.me(current_user.access_token).friends#.sort_by(&:name)
+    @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
   end
 
   def facebook_update_status
@@ -219,9 +219,7 @@ class Users::DashboardController < ApplicationController
     end
     redirect_to :back, notice: msg
   end
-
   
-
   def facebook_mobile_profile
     @user = current_user
     @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "Not Swigging Yet!"
