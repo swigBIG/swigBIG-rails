@@ -77,9 +77,6 @@
                   <b><%= link_to "Profile", users_facebook_page_path, style: "color: white;" %></b>
                 <% else %>
                   <li>
-                    <b><%= link_to "Edit Profile", edit_user_registration_path %></b>
-                  </li>
-                  <li>
                     <b><%= link_to "Profile", users_profile_path(current_user), style: "color: white;" %></b>
                   </li>
                 <% end %>
