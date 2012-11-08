@@ -1,5 +1,5 @@
 <%= content_for :js_footer do %>
-  <%= javascript_include_tag "jquery.smartWizard-2.0", "jquery.livesearch", "chosen.jquery", "bootstrap-button" %>
+  <%= javascript_include_tag "jquery.smartWizard-2.0", "jquery.livesearch", "chosen.jquery", "bootstrap-button", "bootstrap-collapse" %>
   <%= stylesheet_link_tag "chosen" %>
 
   <script type="text/javascript">
@@ -236,71 +236,46 @@
 
 <%= content_for :outer do %>
 
-  <!--<div id="invite_modal" class="modal hide fade" style="opacity: 1 ;">-->
-  <!--<div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
-    <div class="modal-header">
-      <div style="background-color: #6D84B4;margin-bottom: 5px;">
-        <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
-        <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends</h5>
-      </div>
-      <button class="btn btn-mini">Search:</button>
-      <input type="text" name="q" value="" style="width: 450px"></input>
-      <span id="count"></span>
-      <p id="none" style="display:none">There were no names to match your search!</p>
-    </div>
-  <%#= form_tag(users_invite_swigbig_path) do %>
-  <%#= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class=>'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-  <%#= select_tag "bar_id", options_for_select(bar_collection), html: {class: "chzn-select"} %>
-      <div class="modal-body" style="height:350px">
-        <ul id="fb">
-  <%# @friends.each do |friend| %>
-            <li class="span4" style="margin-top: 10px;list-style: none;">
-  <%#= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-  <%#= link_to image_tag(friend.picture) %>
-  <%#= friend.name %>
-            </li>
-  <%# end %>
-        </ul>
-      </div>
-      <div class="modal-footer">
-  <%#= submit_tag "invite", class: "btn-primary " %>
-          &nbsp;
-          &nbsp;
-          <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
-        </div>
-  <%# end %>
-    </div>-->
-
-  <!--<div id="invite_friends" class="modal hide fade active" style="opacity: 1 ;">-->
   <div id="invite_modal" class="modal hide fade active" style="opacity: 1 ;">
-    <div class="modal-header">
-      <div style="background-color: #6D84B4;margin-bottom: 5px;">
-        <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
-        <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends to Join SwigBIG?</h5>
-      </div>
-      <button class="btn btn-mini">Search:</button>
-      <input type="text" name="q" value="" style="width: 450px"></input>
-      <span id="count"></span>
-      <p id="none" style="display:none">There were no names to match your search!</p>
-    </div>
     <%= form_tag(users_after_sign_up_invite_friend_by_fb_path) do %>
-      <div class="modal-body" style="height:350px">
-        <ul id="fb">
-          <% @friends.each do |friend| %>
-            <li class="span4" style="margin-top: 10px;list-style: none;">
-              <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
-              <%= link_to image_tag(friend.picture) %>
-              <%= friend.name %>
-              <%= friend.email %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <%= submit_tag "invite", class: "btn-primary " %>
-          &nbsp;
-          &nbsp;
-          <a class="btn pull-left" data-dismiss="modal" data-toggle="modal" style="margin-top: -2px;">Cancel</a>
+      <div class="modal-header">
+        <div style="background-color: #6D84B4;margin-bottom: 5px;">
+          <a class="close" data-dismiss="modal" style="padding-right: 10px;color: whitesmoke;"><b>x</b></a>
+          <h5 style="padding-left: 10px;color: whitesmoke;">Invite Friends to Join SwigBIG?</h5>
+        </div>
+        <button class="btn btn-mini">Search:</button>
+        <input type="text" name="q" value="" style="width: 450px"></input>
+        <span id="count"></span>
+        &nbsp;
+        <%= submit_tag "Invite", class: "btn-primary pull-right", style: "margin-right: 50px; width: 100px;" %>
+          <p id="none" style="display:none">There were no names to match your search!</p>
+          <br/>
+          <div class="accordion-group">
+            <div class="accordion-heading" style="margin-left: 10px;">
+              <div class="accordion-inner">
+                <a class="" data-toggle="collapse" data-target="#messages_collapse" style="color: black;"><b>Add Message</b></a>
+              </div>
+            </div>
+          </div>
+          <div id="messages_collapse" class="accordion-body collapse">
+            <div class="accordion-inner" style="margin-left: 0px;">
+              <%= text_area_tag(:user_message, nil, size: "100x2", style: "width: 700px;") %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body" style="height:350px">
+          <ul id="fb">
+            <% @friends.each do |friend| %>
+              <li class="span4" style="margin-top: 10px;list-style: none;">
+                <%= check_box_tag "fb_ids[]", friend.identifier, false, :class => "checkbox" %>
+                <%= link_to image_tag(friend.picture) %>
+                <%= friend.name %>
+                <%= friend.email %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="modal-footer">
         </div>
       <% end %>
     </div>
