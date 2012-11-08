@@ -4,6 +4,7 @@
   <%= stylesheet_link_tag "chosen", "tagit-simple-blue" %>
   <script type="text/javascript">
     $(document).ready(function(){
+      $("input.datepicker").datepicker({ dateFormat: 'mm/dd/yy' });
       // Smart Wizard
       $('#wizard').smartWizard({
         transitionEffect:'slide',
@@ -26,10 +27,6 @@
     width: 675px!important;
   }
 </style>
-
-<%= content_for :head_js do %>
-
-<% end %>
 
 <%= content_for :right_side do %>
   <!--<h5 class="pull-right" style="text-align: center;">Redeem Rewards using <br/>our mobile app on</h5>
@@ -128,71 +125,86 @@
         </div>
 
         <div id="email">
-          <h2 class="StepTitle"><b>Progress</b></h2>
-          <div style="margin-top: 30px;">
-            <div style="margin-left: 80px;margin-top: 40px;">
-              <%= simple_form_for(@user, url: users_update_account_path) do |f| %>
-                <%= f.input :email, label: false, placeholder: "Email" %>
-                <%= f.submit "change email"  %>
-              <% end %>
+          <h2 class="StepTitle"><b>Edit profile</b></h2>
+          <div style="margin-top: 20px;">
+<%#= simple_form_for(@user, url: users_update_profile_path, html: { :method => :post, class: "form-horizontal" }) do |f| %>
+            <%#= simple_form_for(@user, url: users_update_account_path) do |f| %>
+            <%= simple_form_for(current_user, url: users_update_account_path) do |f| %>
+              <div class="row-fluid">
+                <div class="span4 pull-left" style="margin-left: -150px;">
+                  <%= f.input :email,label: false, placeholder: "Email" %>
+                  <%= f.input :address, placeholder: "Address",label: false %>
+                  <%= f.input :zip_code, placeholder: "Zip Code",label: false %>
+                  <%= f.input :city, placeholder: "City",label: false %>
+                  <%= f.input :state, placeholder: "State",label: false %>
+                </div>
+                <div class="span4 pull-right" style="margin-left: 145px;">
+                  <%= f.input :name, placeholder: "Name",label: false %>
+                  <%= f.input :bird_date, as: :string, input_html: {class: "datepicker"}, required: true %>
+                    <%= f.input :avatar, placeholder: "Avatar",label: false %>
+                    <%= f.input :phone_number, placeholder: "Phone Number",label: false %>
+                    <%= f.submit "Update", class: "btn-primary pull-right" %>
+                    </div>
+                  </div>
+                <% end %>
+
+              </div>
             </div>
+            <div id="password">
+              <h2 class="StepTitle"><b>Change Password</b></h2>
+              <div style="margin-left: 80px;margin-top: 40px;">
+                <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
+                  <%= f.input :password,label: false, placeholder: "Password" %>
+                  <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
+      <%#= f.input :current_password, label: false, placeholder: "Current Password" %>
+                  <%= f.submit "Change Password" %>
+                <% end %>
+              </div>
+            </div>
+            <div id="contact">
+              <h2 class="StepTitle"><b>Contact Rewards</b></h2>
+              <p></p>
+            </div>
+            <div id="delete">
+              <h2 class="StepTitle"><b>Delete Account</b></h2>
+              <p></p>
+            </div>
+            <div id="delink_fb">
+              <h2 class="StepTitle"><b>De Link to Facebook Account</b></h2>
+              <b>This feature is for convert to get facebook access, please make sure your email same with facebook account email or all your account data will gone!or change your email first!</b>
+              <br/>
+              <%= link_to "Delink with Facebook", omniauth_authorize_path(:user, "facebook"), class: "btn", style: "color: blue;" %><br />
+              </div>
+
+            </div>
+          </td></tr>
+      </table>
+
+
+      <a class="" data-toggle="modal" href="#invite_friends_modal" style="display: none;" id="goto_invite_modal">invite</a>
+      <%= content_for :outer do %>
+        <div id="invite_friends_modal" class="modal hide fade active">
+          <div class="modal-header">
+            <a class="close" data-dismiss="modal" style="padding-right: 10px;"><b>x</b></a>
+            <h5>Invite Friends to Join SwigBIG?</h5>
           </div>
-        </div>
-        <div id="password">
-          <h2 class="StepTitle"><b>Change Password</b></h2>
-          <div style="margin-left: 80px;margin-top: 40px;">
-            <%= simple_form_for(@user, url: users_update_password_path) do |f| %>
-              <%= f.input :password,label: false, placeholder: "Password" %>
-              <%= f.input :password_confirmation, label: false, placeholder: "Password Confirmation" %>
-  <%#= f.input :current_password, label: false, placeholder: "Current Password" %>
-              <%= f.submit "Change Password" %>
+
+          <%= form_tag(users_invite_by_email_path) do %>
+            <div class="modal-body" style="height:230px;">
+
+
+              <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
+              <div style="margin-left: 50px;margin-top: 20px;">
+              </div>
+              <%= text_field_tag(:mytags)  %>
+            </div>
+
+            <div class="modal-footer">
+              <%= submit_tag "invite", class: "btn-primary" %>
+              </div>
             <% end %>
           </div>
-        </div>
-        <div id="contact">
-          <h2 class="StepTitle"><b>Contact Rewards</b></h2>
-          <p></p>
-        </div>
-        <div id="delete">
-          <h2 class="StepTitle"><b>Delete Account</b></h2>
-          <p></p>
-        </div>
-        <div id="delink_fb">
-          <h2 class="StepTitle"><b>De Link to Facebook Account</b></h2>
-          <b>This feature is for convert to get facebook access, please make sure your email same with facebook account email or all your account data will gone!or change your email first!</b>
-          <br/>
-          <%= link_to "Delink with Facebook", omniauth_authorize_path(:user, "facebook"), class: "btn", style: "color: blue;" %><br />
-          </div>
-
-        </div>
-      </td></tr>
-  </table>
-
-
-  <a class="" data-toggle="modal" href="#invite_friends_modal" style="display: none;" id="goto_invite_modal">invite</a>
-  <%= content_for :outer do %>
-    <div id="invite_friends_modal" class="modal hide fade active">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal" style="padding-right: 10px;"><b>x</b></a>
-        <h5>Invite Friends to Join SwigBIG?</h5>
-      </div>
-
-      <%= form_tag(users_invite_by_email_path) do %>
-        <div class="modal-body" style="height:230px;">
-
-
-          <%= select("bar_ids", "bar_id", Bar.all.collect {|b| [ b.name, b.id ] }, {},{:class => 'chzn-select',  allow_single_deselect: false, "data-placeholder" => "Choose Bar to invite"}) %>
-          <div style="margin-left: 50px;margin-top: 20px;">
-          </div>
-          <%= text_field_tag(:mytags)  %>
-        </div>
-
-        <div class="modal-footer">
-          <%= submit_tag "invite", class: "btn-primary" %>
-          </div>
         <% end %>
-      </div>
-    <% end %>
 
 
 
