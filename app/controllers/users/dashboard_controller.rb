@@ -15,7 +15,7 @@ class Users::DashboardController < ApplicationController
     if is_mobile_view? and !user_signed_in?
       redirect_to mobile_dashboard_home_url(:mobile)
     end
-    @top_bar = Swiger.select(:bar_id).group(:bar_id).max
+    @top_bar = current_user.swigers.select(:bar_id).group(:bar_id).max.bar.name rescue "Not Swigging Yet!"
     @swigers = Swiger.where(user_id: current_user).order("created_at DESC")
     @bars = Bar.all
     bar_ids =  Bar.within( @radius_for_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
