@@ -1,7 +1,7 @@
 class Users::MessagesController < ApplicationController
   layout "users"
   def index
-    @messages = current_user.received_messages.page(params[:page]).per(10)
+    @messages = current_user.received_messages.order("created_at DESC").page(params[:page]).per(10)
   end
 
   def sent
@@ -73,7 +73,7 @@ class Users::MessagesController < ApplicationController
 
   def notifications
     @notifications = current_user.messages.where(category: [22, 1, 9, 15, 16, 17]).page(params[:page]).per(10)
-  end
+    end
 
   def notify_mark_all_read
     current_user.messages.update_all('notify_opended = true')

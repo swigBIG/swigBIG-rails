@@ -102,13 +102,21 @@ class Users::BarSwigsController < ApplicationController
 
         #        unless fb_friends.blank?
         fb_friends.each do |fb_id|
+          #          begin
           fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
           if user
+            debugger
             popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
+            current_user.send_message(user,{
+                topic: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
+                body: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
+                category: 10  })
           else
             popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
           end
+          #          rescue
+          #          end
         end
         redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"
         #        else
@@ -197,3 +205,5 @@ class Users::BarSwigsController < ApplicationController
   end
 
 end
+
+
