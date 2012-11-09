@@ -97,7 +97,6 @@ class Users::BarSwigsController < ApplicationController
             fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
             user = User.where(fb_id: fb_id).first
             if user
-              debugger
               popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
               current_user.send_message(user,{
                   topic: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
