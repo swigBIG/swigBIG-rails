@@ -72,7 +72,7 @@ class Users::MessagesController < ApplicationController
   end
 
   def notifications
-    @notifications = current_user.messages.where(category: [22, 1, 9, 15, 16, 17]).page(params[:page]).per(10)
+    @notifications = current_user.messages.where(category: [22, 1, 9, 10, 15, 16, 17, 18]).page(params[:page]).per(5)
     end
 
   def notify_mark_all_read

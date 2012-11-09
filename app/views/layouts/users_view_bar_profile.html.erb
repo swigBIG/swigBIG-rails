@@ -38,12 +38,6 @@
       <div class="span4 pull-left" >
         <br />
         <%= yield :side %>
-        <br />
-        <br />
-        <!--<a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'apple.com');"></a>
-        <br />
-        <br />
-        <a href="#" onclick="return recordOutboundLink(this, 'Outbound Links', 'android.com');"></a>-->
       </div>
       <div class="container span11 pull-left" style="margin-left: 30px;">
         <%= yield %>
@@ -53,6 +47,28 @@
       </div>
       <div style="margin-top: 30px;"></div>
     </div>
+
+    <!-------------------->
+    <div class="container" style="background-color: white;margin-top: 60px;padding-left: 20px;padding-bottom: 20px;padding-top: 20px;padding-right: 20px;border-radius: 7px;opacity: 0.9;width: 1200px;">
+      <% if notice %>
+        <div class="alert alert-success" onclick="$(this).toggle()"><%= notice %><a class="close" ><b>x</b></a></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-success"><%= alert %></div>
+      <% end %>
+      <div class="span11" style="margin-left: -20px;">
+        <%= yield %>
+      </div>
+
+      <div class="span5 pull-right" style="margin-right: -10px;">
+        <%= yield :right_side %>
+      </div>
+      <div style="margin-top: 30px;"></div>
+    </div>
+    <!-------------------->
+
+
+
 
     <%= yield :outer %>
 

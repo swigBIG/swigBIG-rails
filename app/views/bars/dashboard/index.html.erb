@@ -500,7 +500,7 @@
                   <%= text_field_tag :coupon, params[:coupon], placeholder: "Enter reward code here..." %>
                   <br/>
                   <div style="margin: 5px;">
-                    <%= @redeem_info %>
+                    <%= @redeem_info.html_safe %>
                   </div>
                 </div>
                 <div class="modal-footer">

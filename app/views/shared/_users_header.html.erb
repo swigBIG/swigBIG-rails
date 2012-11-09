@@ -50,14 +50,14 @@
             </li>
 
             <li id="user_messages" class="dropdown">
-              <a class="dropdown-toggle" href="" data-toggle="dropdown" onclick="$('#message_goto_unread').click();" ><b style="color: white;">Messages&nbsp;</b><span class="badge badge-error" id="messages_red"><%=  current_user.received_messages.where("opened IS false AND category != '10'").count %></span></a>
+              <a class="dropdown-toggle" href="" data-toggle="dropdown" onclick="$('#message_goto_unread').click();" ><b style="color: white;">Messages&nbsp;</b><span class="badge badge-error" id="messages_red"><%=  current_user.received_messages.where(["opened IS false AND category != (?)", ("10, 18")]).count %></span></a>
               <ul class="dropdown-menu">
                 <div style="display: none;">
-                  <% unless  current_user.received_messages.where("opened IS false AND category != '10'").blank? %>
+                  <% unless  current_user.received_messages.where(["opened IS false AND category != (?)", ("10, 18")]).blank? %>
                     <%= link_to "to_unread", messages_mark_all_read_users_messages_path, id: 'message_goto_unread', remote: true %>
                   <% end %>
                 </div>
-                <% current_user.received_messages.where("opened IS false AND category != '10'").each do |notification| %>
+                <% current_user.received_messages.where(["opened IS false AND category != (?)", ("10, 18")]).each do |notification| %>
                   <li style="width: 220px;" ><%= notification.topic.html_safe %>
                     <br/>
                     <%= notification.created_at.strftime("%v") %>

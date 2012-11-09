@@ -38,11 +38,15 @@ class Bars::DashboardController < ApplicationController
 
       unless @redeem.blank?
         if @redeem.first.coupon_status.eql?(false)
-          current_bar.send_message( @redeem.first.received_messageable, {topic: "redeem reward confirmation", body: "#{@redeem.first.received_messageable.name} has redeem reward at #{@redeem.first.sent_messageable.name}" , category: 18 })
+          current_bar.send_message( @redeem.first.received_messageable, {
+              topic: "#{current_bar.name rescue current_bar.email}'s reward redeemed!",
+#              topic: "#{current_bar.name rescue current_bar.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
+              body: "#{@redeem.first.received_messageable.name} has redeem reward at #{@redeem.first.sent_messageable.name}" ,
+              category: 18 })
           @redeem.first.update_attributes(coupon_status: true)
-          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime('%v')}"
+          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} on #{@redeem.first.created_at.strftime("%m/%d/%Y")} <br/> <b>reward: </b> #{@redeem.first.reward}"
         else
-          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} has taken on #{@redeem.first.created_at.strftime('%v')} "
+          @redeem_info = "Earned by #{User.find(@redeem.first.received_messageable_id).name} has taken on #{@redeem.first.updated_at.strftime("%m/%d/%Y")} "
         end
       else
         @redeem_info = "Unknow Code!"
