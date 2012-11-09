@@ -5,12 +5,12 @@
       <td style="width: 40%;">
         <b><%= notification.sent_messageable.name rescue email%>
           <br/>
-          <%= notification.topic %>
+          <%= notification.topic.html_safe %>
           <br/>
           <b>Reward : </b><%= notification.reward rescue "no reward available!" %>
       </td>
       <td style="width: 60%;">
-        <%= notification.body %>
+        <%= notification.body.html_safe %>
       </td>
 
     <% else %>

@@ -1,5 +1,5 @@
 <% @messages.each do |message| %>
-  <% if message.category.eql?(0) or message.category.eql?(1) or message.category.eql?(5) %>
+  <% if message.category.eql?(0) or message.category.eql?(1) or message.category.eql?(5) or message.category.eql?(18) %>
     <tr style="cursor: pointer;background-color: <%= message.opened ? "white" : "darkgrey" %>">
       <td class="span2"><%= check_box_tag "message_ids[]", message.id, false, :class => "checkbox" %></td>
       <% if !message.gift_id.blank? %>
