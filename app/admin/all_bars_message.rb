@@ -1,6 +1,10 @@
 ActiveAdmin.register ActsAsMessageable::Message, as: "all_bars_message" do
   menu parent: "Message"
 
+  actions :all, except: [:new, :edit, :destroy]
+
+  config.clear_action_items!
+
   index do
     column  "Sender" do |bar|
       bar.sent_messageable.name rescue bar.sent_messageable.email
@@ -8,7 +12,8 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "all_bars_message" do
     column  :topic
     column  :body
     column  :created_at
-
+    
+    default_actions
   end
 
   filter false
@@ -33,7 +38,6 @@ ActiveAdmin.register ActsAsMessageable::Message, as: "all_bars_message" do
     end
 
     def create
-      #      bar = Bar.find(params[:acts_as_messageable_message][:to])
       Bar.all.each do |bar|
         current_admin_user.send_message(bar, {topic: params[:all_bars_message][:topic], body: params[:all_bars_message][:body], category: 22})
       end

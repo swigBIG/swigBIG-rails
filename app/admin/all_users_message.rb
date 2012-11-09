@@ -1,6 +1,8 @@
 ActiveAdmin.register ActsAsMessageable::Message, as: "all_users_message" do
   menu parent: "Message"
 
+  actions :all, except: [:new, :edit, :destroy]
+
   index do
     column  "Sender" do |user|
       user.sent_messageable.name rescue user.sent_messageable.email
