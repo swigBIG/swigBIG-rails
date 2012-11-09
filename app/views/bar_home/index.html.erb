@@ -1,15 +1,50 @@
-<style type="text/css">
-  #p1, #p2, #p3, #p4 {
-    background: none repeat scroll 0 0 white;
-    border-radius: 3px 3px 3px 3px;
-    margin-top: -5px;
-    padding: 5px;
-    position: absolute;
-    text-align: justify;
-    width: 210px;
-    z-index: 10;
-  }
-</style>
+<%= content_for :js_footer do %>
+  <script type="text/javascript">
+    $("#p1").hover(function () {
+      $("#p1text").slideDown();
+      $("#p1image").slideUp();
+    }, function(){
+      $("#p1text").slideUp();
+      $("#p1image").slideDown();
+    });
+    $("#p2").hover(function () {
+      $("#p2text").slideDown();
+      $("#p2image").slideUp();
+    }, function(){
+      $("#p2text").slideUp();
+      $("#p2image").slideDown();
+    });
+    $("#p3").hover(function () {
+      $("#p3text").slideDown();
+      $("#p3image").slideUp();
+    }, function(){
+      $("#p3text").slideUp();
+      $("#p3image").slideDown();
+    });
+    $("#p4").hover(function () {
+      $("#p4text").slideDown();
+      $("#p4image").slideUp();
+    }, function(){
+      $("#p4text").slideUp();
+      $("#p4image").slideDown();
+    });
+  </script>
+
+  <style type="text/css">
+    #p1, #p2, #p3, #p4 {
+      background: none repeat scroll 0 0 white;
+      border-radius: 3px 3px 3px 3px;
+      margin-top: -5px;
+      padding: 5px;
+      position: absolute;
+      text-align: justify;
+      width: 210px;
+      z-index: 10;
+    }
+  </style>
+
+<% end %>
+
 <div class="row-fluid" style="height: 360px;">
   <div id="slogan1" class="span3" style="text-align: center;">
     <h5  style="padding-bottom: 35px;"><%= @site_content.slogan.first_title rescue "not set yet" %><br/> </h5>
@@ -71,43 +106,4 @@
       </div>
     <% end %>
 
-    <script type="text/javascript">
-      $("#p1").hover(function () {
-        $("#p1text").slideDown();
-        $("#p1image").slideUp();
-      }, function(){
-        $("#p1text").slideUp();
-        $("#p1image").slideDown();
-      });
-      $("#p2").hover(function () {
-        $("#p2text").slideDown();
-        $("#p2image").slideUp();
-      }, function(){
-        $("#p2text").slideUp();
-        $("#p2image").slideDown();
-      });
-      $("#p3").hover(function () {
-        $("#p3text").slideDown();
-        $("#p3image").slideUp();
-      }, function(){
-        $("#p3text").slideUp();
-        $("#p3image").slideDown();
-      });
-      $("#p4").hover(function () {
-        $("#p4text").slideDown();
-        $("#p4image").slideUp();
-      }, function(){
-        $("#p4text").slideUp();
-        $("#p4image").slideDown();
-      });
-      /*$("#slogan2").hover(function () {
-        $("#p2").slideToggle("slow");
-      });
-      $("#slogan3").hover(function () {
-        $("#p3").slideToggle("slow");
-        //$("#third_picture").hide();
-      });
-      $("#slogan4").hover(function () {
-        $("#p4").slideToggle("slow");
-      });*/
-    </script>
+
