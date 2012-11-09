@@ -22,9 +22,6 @@ class Users::DashboardController < ApplicationController
     fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
     fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
     @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
-    #    @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids,( Time.zone.now - @swigger_show_within ), Time.zone.now ])
-
-    #      @friends_swigger = Swiger.joins(:user).where(["users.email IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", emails, Time.now.beginning_of_day, Time.now.end_of_day ])
     @user = User.new
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
   end
@@ -37,26 +34,17 @@ class Users::DashboardController < ApplicationController
     redirect_to :back
   end
 
-  #  def invite_swigbig
-  #    fb = MiniFB::OAuthSession.new(current_user.access_token)
-  #
-  #    params[:fb_ids].each do |fb_id|
-  #      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit http://swigbig.com/"})
-  #    end
-  #
-  #    redirect_to :back, notice: "invite success"
-  #  end
-  
   def invite_swigbig
     fb = MiniFB::OAuthSession.new(current_user.access_token)
-    #    @bar = Bar.find(params[:bar_ids][:bar_id])
     @bar = Bar.find(params[:bar_id])
     @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
+    
     if @popularity_inviter.save
+
       if  !params[:fb_ids].blank?
+        
         @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id, fb_id: current_user.fb_id)
         params[:fb_ids].each do |fb_id|
-          #          unless User.where(fb_id: fb_id).first.blank?
           fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit #{@bar.name} or join http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
           if user
@@ -64,11 +52,12 @@ class Users::DashboardController < ApplicationController
           else
             @popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: @popularity_inviter.bar_id)
           end
-          #          end
         end
         redirect_to :back, notice: "Success Create Popularity!"
+        
       else
         @popularity_inviter.destroy
+        
         redirect_to :back, notice: "Empty Guess!"
       end
     else
@@ -76,18 +65,12 @@ class Users::DashboardController < ApplicationController
     end
   end
 
-  #  def invite_by_email
-  #    params[:mytags].each do |e|
-  #      Invite.send_invite_email(e, current_user).deliver
-  #    end
-  #
-  #    redirect_to :back, notice: "invite has been sent"
-  #  end
-
   def invite_by_email
     @bar = Bar.find(params[:bar_ids][:bar_id])
     @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
+
     if @popularity_inviter.save
+      
       if  !params[:mytags].blank?
         @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id, fb_id: current_user.fb_id)
         params[:mytags].split(",").each do |email|
@@ -104,6 +87,7 @@ class Users::DashboardController < ApplicationController
         @popularity_inviter.destroy
         redirect_to :back, notice: "Empty Guess!"
       end
+
     else
       redirect_to :back, notice: "Fail Create Popularity!"
     end
@@ -123,7 +107,6 @@ class Users::DashboardController < ApplicationController
     @friends = current_user.friends
     bar_ids =  Bar.within( @radius_for_swigger, origin: [@city_lat_lng[1], @city_lat_lng[2]]).pluck(:id)
     @friends_swigger = Swiger.today.where(["bar_id IN (?)", bar_ids])
-    #    @winners = Winner.where(user_id: current_user)
   end
 
   def rewards
@@ -131,18 +114,14 @@ class Users::DashboardController < ApplicationController
     @winners = current_user.winners
     @loyalty_points = current_user.points.group(:bar_id)
     @populrity_points = current_user.popularity_inviters.today
-    #    @rewards = current_user.received_messages.where(coupon_status: false).where(["expirate_reward <= ? AND expirate_reward > ? AND category = ? OR category = ? OR category = ?", @expirate_within_to_expire.days.from_now, Time.zone.now, 9, 15, 16]).order("expirate_reward ASC").page(params[:page]).per(5)
     @rewards = current_user.messages.where(category: [5, 9, 16, 1]).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward).page(params[:page]).per(5)
     @redeem_rewards = current_user.received_messages.where(coupon_status: true).where(["category = ? OR category = ? OR category = ?", 9, 15, 16]).order("created_at DESC").page(params[:page]).per(5)
-
     @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1]).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
   end
 
   def mobile_reward
     @user = current_user
-    #    @reward = current_user.messages.where(["category = (?) OR category = (?) AND expirate_reward > (?) ", 9, 16, Time.now ]).order("created_at DESC")
     @reward = current_user.messages.where(category: [5, 9, 16, 1], coupon_status: false).where(['expirate_reward > ? ', Time.zone.now]).order(:expirate_reward)
-    #    @reward_to_expirate = current_user.messages.where(["expirate_reward <= ?", @expirate_within_to_expire.days.from_now])
     @reward_to_expirate = current_user.messages.where(category: [5, 9, 16, 1], coupon_status: false).where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward)
   end
 
@@ -175,7 +154,7 @@ class Users::DashboardController < ApplicationController
 
   def update_completion
     user = current_user
-    #    if (Time.now.to_date.year - params[:user][:bird_date].to_date.year) >= 21
+
     if (Time.now.to_date.year - "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date.year) >= 21
       if user.update_attributes(avatar: params[:user][:avatar] , phone_number: params[:user][:phone_number] , address: params[:user][:address], zip_code: params[:user][:zip_code], city: params[:user][:city], state: params[:user][:state], bird_date: "#{params[:user]["bird_date(3i)"]}-#{params[:user]["bird_date(2i)"]}-#{params[:user]["bird_date(1i)"]}".to_date )
         sign_in user, :bypass => true
@@ -189,8 +168,7 @@ class Users::DashboardController < ApplicationController
     end
   end
 
-  def after_join_invite_friends_by_email
-  end
+  def after_join_invite_friends_by_email; end
 
   def after_join_invite_friends_by_fb
     @friends = FbGraph::User.me(current_user.access_token).friends.sort_by(&:name)
@@ -264,8 +242,6 @@ class Users::DashboardController < ApplicationController
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
     set_flash_message :notice, :signed_out if signed_out && is_navigational_format?
 
-    # We actually need to hardcode this as Rails default responder doesn't
-    # support returning empty response on GET request
     redirect_to redirect_path
   end
 

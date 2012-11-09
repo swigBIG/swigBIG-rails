@@ -12,7 +12,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_inactive_sign_up_path_for(resource)
-    #    new_user_session_url
     main_home_path
   end
 
@@ -40,10 +39,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-
-    #    AdminUser.first.send_message(current_user, {topic: "<a href='#user_details' data-toggle='modal' id='completion_link'>here</a>", category: 22})
     AdminUser.first.send_message(current_user, {topic: "<a href='#user_details' data-toggle='modal' id='completion_link'>Complete your profile!</a>", body: "<a href='#user_details' data-toggle='modal' id='completion_link'>here</a>", category: 22})
     guess = PopularityGuess.today.where(email: current_user.email).first
+    
     unless guess.blank?
       guess.update_attributes(user_id: current_user.id)
       if resource.created_at.strftime("%v-%R").eql?(resource.updated_at.strftime("%v-%R"))
@@ -54,7 +52,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       if current_user.name.blank?
         users_after_join_invite_friends_by_email_url
-        #        users_completion_url
       else
         root_url
       end

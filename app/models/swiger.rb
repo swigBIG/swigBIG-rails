@@ -10,13 +10,11 @@ class Swiger < ActiveRecord::Base
   
   validate :time_and_distance_valid? #, :popularity_reward_valid?
 
-  #  before_create :time_and_distance_valid?
   after_create :unlock_bigswig, :get_loyalty, :get_popularity_reward
 
   scope :today, where("created_at >= ? AND created_at  <= ?", Time.zone.now.beginning_of_day,  Time.zone.now.end_of_day)
 
   def time_and_distance_valid?
-    #    bar_hour = self.bar.bar_hours.where(day: Time.now.in_time_zone.strftime("%A")).first rescue nil
     bar_hour = self.bar.bar_hours.where(day: Time.zone.now.strftime("%A")).first rescue nil
     if bar_hour.blank?
       self.errors.add("time and distance","#{self.bar.name} not set work hours yet!")
@@ -42,9 +40,7 @@ class Swiger < ActiveRecord::Base
           radius = BarRadius.where(status: true).first.distance rescue 1
           unless user_swig.blank?
             time_between_swigging = (TimeSwigging.first.time_between_swig rescue 1) * 3600
-            #            time_between_swigging = (RewardPolicy.first.time_between_swig.blank? ?  RewardPolicy.first.time_between_swig :  1)   * 3600
             if (Chronic.parse("now") - user_swig.created_at) >= time_between_swigging
-              #              ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
               swigging_post_to_wall
               return true
             else
@@ -60,7 +56,6 @@ class Swiger < ActiveRecord::Base
               end
             end
           else
-            #            ActivityStream.create(activity: "swiging", verb: "user swiging", actor_id: self.user.id, actor_type: "User", object_id: self.bar.id, object_type: "Bar")
             swigging_post_to_wall
             return true
           end
@@ -162,10 +157,8 @@ class Swiger < ActiveRecord::Base
 
       total_points = self.user.points.where(bar_id: self.bar.id).first
 
-      #      if self.bar.loyalty.swigs_number.eql?(total_points.loyalty_points)
       if total_points.loyalty_points >= self.bar.loyalty.swigs_number
         self.user.points.where(bar_id: self.bar.id).destroy_all
-        #        total_points.destroy
         Rails.cache.write('angga', true)
         self.bar.send_message(self.user, {
             topic: "You got loyalty reward from #{self.bar.name}",

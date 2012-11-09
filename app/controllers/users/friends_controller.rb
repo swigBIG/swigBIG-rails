@@ -15,12 +15,9 @@ class Users::FriendsController < ApplicationController
 
   end
 
-  def show
-  end
+  def show; end
 
-  def invite_friend
-
-  end
+  def invite_friend; end
 
   def request_list
     @user_request = current_user.pending_invited_by

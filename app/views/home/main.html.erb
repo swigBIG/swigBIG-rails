@@ -37,7 +37,6 @@
   
       var bar = [];
 <% @bars.each do |b| %>
-  <%# @bars.where(city: @city_lat_lng[0].to_s, id: swig_bars).each do |b| %>
         var x = [];
         x.push(<%= b.latitude rescue nil %>);//0
         x.push(<%= b.longitude rescue nil %>);//1
@@ -106,7 +105,6 @@
 <body>
   <%= content_for :side do %>
     <h4><%= @city_lat_lng[0].to_s.titleize rescue "" %></h4>
-  <%#= @test %>
     <ul>
       <li id="fat-menu" class="dropdown" style="list-style: none;">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Select City</b></a>
@@ -150,7 +148,6 @@
     <ul class="tabs" data-tabs="tabs">
       <li class="active"><a href="#list" data-toggle="tab"><h3>List</h3></a></li>
       <li><a href="#map" data-toggle="tab" onclick="initialize()"><h3>Map</h3></a></li>
-      <!--<li><a href="#reward" data-toggle="tab"><h3>Reward</h3></a></li>-->
     </ul>
 
     <div id="my-tab-content" class="tab-content">
@@ -169,9 +166,6 @@
             <%= render "swigs"  %>
           </tbody>
         </table>
-        <!--<div id="main_swig_paginator">
-  <%#= paginate @swigs, remote: true %>
-        </div>-->
       </div>
     </div>
 

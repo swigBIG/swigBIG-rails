@@ -24,7 +24,6 @@ class HomeController < ApplicationController
       if current_user.access_token
         fb_ids = FbGraph::User.me(current_user.access_token).friends.map(&:identifier)
         fb_friends_ids = User.where(fb_id: fb_ids).pluck(:fb_id)
-#        @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day ])
         @friends_swigger = Swiger.joins(:user).where(["users.fb_id IN (?) AND swigers.created_at >= (?) AND swigers.created_at <= (?)", fb_friends_ids,( Time.zone.now - @swigger_show_within.hours ), Time.zone.now ])
       end
     end
@@ -40,7 +39,6 @@ class HomeController < ApplicationController
     unless params[:radius].blank?
       @bars = Bar.within(params[:radius].to_i, origin: @origin).includes(:swigs).where(conditions.join(" AND ")).order("swig_type DESC")
     else
-
       if is_mobile_request?
         unless session[:after_redirect]
           session[:homepage_request_page] = true
@@ -48,11 +46,8 @@ class HomeController < ApplicationController
 
         @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)#.take(5)
       else
-        #        session[:homepage_request_page] = true
         @bars = Bar.within(@radius_to_show_in_mobile_list ,origin: @origin).includes(:swigs).where(conditions.join(" AND ")).sort_by_distance_from(@origin)
       end
-      
-
     end
     
     unless params[:zip_code].blank?
@@ -89,10 +84,6 @@ class HomeController < ApplicationController
       @bars = Bar.geo_scope(origin: @origin).includes(:swigs).where(conditions.join(" AND ")).where(zip_code: params[:zip_code]).order("swig_type DESC")
     end
   end
-
-  #  def live_swig_feed
-  #    render layout: false
-  #  end
 
   def contact_us
     @new_contact = Contact.new

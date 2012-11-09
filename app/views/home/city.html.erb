@@ -19,7 +19,6 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
     
-      //google.maps.event.trigger(map, 'resize');
       var map = new google.maps.Map(document.getElementById("map_home_canvas"), myOptions);
 <% if @origin.class.eql?(String) %>
         var geocoder = new google.maps.Geocoder();
@@ -32,7 +31,6 @@
 
       var bar = [];
 <% @bars.each do |b| %>
-  <%# @bars.where(city: @city_lat_lng[0].to_s, id: swig_bars).each do |b| %>
         var x = [];
         x.push(<%= b.latitude rescue nil %>);//0
         x.push(<%= b.longitude rescue nil %>);//1
@@ -91,8 +89,6 @@
   
 </script>
 
-
-<!--<body onload="initialize()">-->
 <body>
 
   <%= content_for :side do %>

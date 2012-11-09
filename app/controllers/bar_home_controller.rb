@@ -6,4 +6,5 @@ class BarHomeController < ApplicationController
       redirect_to bars_dashboard_url
     end
   end
+  
 end

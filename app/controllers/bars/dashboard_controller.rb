@@ -10,7 +10,6 @@ class Bars::DashboardController < ApplicationController
   def index
     @count = 0
     @big_swig_lists = current_bar.big_swig_lists
-    #    render layout: "main_bars"
     @bar = current_bar
     @swigers = @bar.swigers.where(["created_at >= ?  AND created_at <= ?",Time.now.beginning_of_day,Time.now + 2.hours])
     @swigers_in_stat = @bar.swigers
@@ -40,7 +39,6 @@ class Bars::DashboardController < ApplicationController
         if @redeem.first.coupon_status.eql?(false)
           current_bar.send_message( @redeem.first.received_messageable, {
               topic: "#{current_bar.name rescue current_bar.email}'s reward redeemed!",
-#              topic: "#{current_bar.name rescue current_bar.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
               body: "#{@redeem.first.received_messageable.name} has redeem reward at #{@redeem.first.sent_messageable.name}" ,
               category: 18 })
           @redeem.first.update_attributes(coupon_status: true)
@@ -59,8 +57,7 @@ class Bars::DashboardController < ApplicationController
 
   end
 
-  def show
-  end
+  def show; end
 
   def create_reward_message
     @winner = Winner.find(params[:user_id])
@@ -249,13 +246,12 @@ class Bars::DashboardController < ApplicationController
             category: params[:acts_as_messageable_message][:category], gift_id: params[:acts_as_messageable_message][:gift_id],
             reward: params[:acts_as_messageable_message][:gift_id].to_s,
             expirate_reward: (Time.zone.now + (RewardPolicy.first.loyalty_expirate_date rescue 5).to_i.days),
-            #            expirate_reward: (Time.zone.now + (RewardPolicy.first.loyalty_expirate_date rescue 10).to_i.days),
             coupon: reward_code_generator
           })
       end
       msg =  "Message success Send!"
 
-    when "6" #buat pie chart 25%
+    when "6" #pie chart 25%
       current_bar.points.group(:user_id).count.each_pair do |key, val|
         #      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
         if (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) <= 25 && (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) >= 2
@@ -265,7 +261,7 @@ class Bars::DashboardController < ApplicationController
       end
       msg =  "Message success Send! to 25%"
 
-    when "7" #buat pie chart
+    when "7" # pie chart
       current_bar.points.group(:user_id).count.each_pair do |key, val|
         #      current_bar.swigers.group(:user_id).count.each_pair do |key, val|
         if (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) <= 50 && (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) >= 26
@@ -275,7 +271,7 @@ class Bars::DashboardController < ApplicationController
       end
       msg = "Message success Send! to 50%"
 
-    when "8" #buat pie chart
+    when "8" # pie chart
       current_bar.points.group(:user_id).count.each_pair do |key, val|
         if (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) <= 75 && (val.to_f / current_bar.loyalty.swigs_number.to_f * 100) >= 51
           user = User.find(key)
@@ -475,7 +471,6 @@ class Bars::DashboardController < ApplicationController
     end
 
     render :json => @sport_lists
-    #    respond_to { render :json => @sport_lists }
   end
 
   def users_lists
@@ -487,7 +482,6 @@ class Bars::DashboardController < ApplicationController
     end
     
     render :json => @users_lists
-    #    respond_to { render :json => @users_lists }
   end
 
   def after_join_invite_friends; end
@@ -515,7 +509,6 @@ class Bars::DashboardController < ApplicationController
       
       respond_to :js
     end
-
   end
 
   def add_bigswig_list_on_update
@@ -608,29 +601,3 @@ class Bars::DashboardController < ApplicationController
   end
 
 end
-
-#def invite_by_email
-#    @bar = Bar.find(params[:bar_ids][:bar_id])
-#    @popularity_inviter = @bar.popularity_inviters.new(user_id: current_user.id )
-#    if @popularity_inviter.save
-#      if  !params[:mytags].blank?
-#        @popularity_inviter.popularity_guesses.create(user_id: current_user.id, bar_id: @popularity_inviter.bar_id, fb_id: current_user.fb_id)
-#        params[:mytags].split(",").each do |email|
-#          Invite.send_invite_email(email, current_user, @bar).deliver
-#          user = User.where(email: email).first
-#          if user
-#            @popularity_inviter.popularity_guesses.create(user_id: user.id, email: email, bar_id: @popularity_inviter.bar_id)
-#          else
-#            @popularity_inviter.popularity_guesses.create(user_id: nil, email: email, bar_id: @popularity_inviter.bar_id)
-#          end
-#        end
-#        redirect_to :back, notice: "Success Create Popularity!"
-#      else
-#        @popularity_inviter.destroy
-#        redirect_to :back, notice: "Empty Guess!"
-#      end
-#    else
-#      redirect_to :back, notice: "Fail Create Popularity!"
-#    end
-#  end
-

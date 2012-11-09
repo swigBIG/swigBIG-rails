@@ -6,7 +6,6 @@ class Users::MessagesController < ApplicationController
 
   def sent
     @messages = current_user.sent_messages.page(params[:page]).per(10)
-    #    @messages = User.find(14).sent_messages
   end
 
   def new
@@ -22,7 +21,6 @@ class Users::MessagesController < ApplicationController
     else
       send_to = AdminUser.first
     end
-
 
     if send_to
       current_user.send_message(send_to, {
@@ -73,13 +71,10 @@ class Users::MessagesController < ApplicationController
 
   def notifications
     @notifications = current_user.messages.where(category: [22, 1, 9, 10, 15, 16, 17, 18]).page(params[:page]).per(5)
-    end
+  end
 
   def notify_mark_all_read
     current_user.messages.update_all('notify_opended = true')
-    #    current_user.messages.each do |message|
-    #      message.notify_mark_as_read
-    #    end
 
     @total_notification = current_user.received_messages.where(notify_opended: false).count.to_s
     respond_to :js
@@ -87,12 +82,9 @@ class Users::MessagesController < ApplicationController
 
   def messages_mark_all_read
     current_user.messages.update_all('opened = true')
-    #    current_user.messages.each do |message|
-    #      message.notify_mark_as_read
-    #    end
 
     @total_notification = current_user.received_messages.where(opened: false).count.to_s
     respond_to :js
   end
-
+  
 end

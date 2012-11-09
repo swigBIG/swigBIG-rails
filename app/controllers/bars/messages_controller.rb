@@ -1,9 +1,6 @@
 class Bars::MessagesController < ApplicationController
   layout "bars"
 
-  log_activity_streams :current_bar, :name, "Active Swigs",
-    :@swig, :deal, :active_swig, :swig
-
   def index
     @messages = current_bar.received_messages.page(params[:page]).per(10)
   end
@@ -111,9 +108,6 @@ class Bars::MessagesController < ApplicationController
 
   def messages_mark_all_read
     current_bar.messages.update_all('opened = true')
-    #    current_bar.messages.each do |message|
-    #      message.notify_mark_as_read
-    #    end
 
     @total_notification = current_bar.received_messages.where(opened: false).count.to_s
     respond_to :js
@@ -145,12 +139,10 @@ class Bars::MessagesController < ApplicationController
 
   def reply_message
     unless params[:acts_as_messageable_message][:reward].to_i.eql?(22)
-      #      send_to = Bar.find(params[:acts_as_messageable_message][:to])
       send_to = User.find(params[:acts_as_messageable_message][:to])
     else
       send_to = AdminUser.first
     end
-
 
     if send_to
       current_bar.send_message(send_to, {

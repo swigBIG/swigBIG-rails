@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
       session["geo_#{set_current_ip}"] = @city_lat_lng
       
     else
+      
       if session["geo_#{set_current_ip}"].blank?
         geo = Geokit::Geocoders::MultiGeocoder.geocode(set_current_ip)
         @city_lat_lng = [geo.city, geo.lat, geo.lng]
@@ -44,9 +45,6 @@ class ApplicationController < ActionController::Base
     end
 
     if request.xhr? and !params[:geo].blank?
-      #      if params[:controller] == 'home' and params[:action] == 'main'
-      #        render "home/redirect_with_js"
-      #      else
       if session[:homepage_request_page].eql?(true)
         session[:homepage_request_page] = false
         render "home/redirect_with_js"
@@ -55,17 +53,6 @@ class ApplicationController < ActionController::Base
       end
     end
     
-    #    if session["offset_#{set_current_ip}"].blank?
-    #      timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
-    #      Time.zone = timezone.zone
-    #    else
-    #      if request.xhr?
-    #        timezone = Timezone::Zone.new(:latlon => [@city_lat_lng[1], @city_lat_lng[2]])
-    #        Time.zone = timezone.zone
-    #      else
-    #        Time.zone = 'Pacific Time (US & Canada)'
-    #      end
-    #    end
   end
 
   def swigbig_content
@@ -91,10 +78,6 @@ class ApplicationController < ActionController::Base
 
   def set_current_ip
     return request.remote_ip.to_s if Rails.env.eql?("development")
-    #    "75.85.54.184"
-    #    "64.90.182.55"
-    #        '180.246.28.94'
-    #    '75.85.48.139'
   end
 
 end

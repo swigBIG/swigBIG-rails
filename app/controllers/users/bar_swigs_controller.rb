@@ -75,14 +75,6 @@ class Users::BarSwigsController < ApplicationController
     @reward_to_expirate = current_user.messages.where(["expirate_reward <= ? AND expirate_reward > ?", @expirate_within_to_expire.days.from_now, Time.zone.now]).order(:expirate_reward).count
   end
 
-  #  def invite_fb_friends
-  #    fb = MiniFB::OAuthSession.new(current_user.access_token)
-  #    params[:fb_ids].each do |fb_id|
-  #      fb.post(fb_id, :type => :feed, :params => {:message => "#{current_user.name} invite you to visit http://swigbig.com/"})
-  #    end
-  #    redirect_to :back, notice: "invite success"
-  #  end
-
   def invite_fb_friends
     fb = MiniFB::OAuthSession.new(current_user.access_token)
     bar = Bar.find(params[:bar_id])
@@ -100,28 +92,24 @@ class Users::BarSwigsController < ApplicationController
           fb_friends = fb_friends - inviters
         end
 
-        #        unless fb_friends.blank?
         fb_friends.each do |fb_id|
-          #          begin
-          fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
-          user = User.where(fb_id: fb_id).first
-          if user
-            debugger
-            popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
-            current_user.send_message(user,{
-                topic: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
-                body: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
-                category: 10  })
-          else
-            popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
+          begin
+            fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
+            user = User.where(fb_id: fb_id).first
+            if user
+              debugger
+              popularity_inviter.popularity_guesses.create(user_id: user.id, email: user.email,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
+              current_user.send_message(user,{
+                  topic: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
+                  body: "#{current_user.name rescue current_user.email} invite you join them at <a href='/bar/#{popularity_inviter.bar.slug}'>#{popularity_inviter.bar.name}</a>",
+                  category: 10  })
+            else
+              popularity_inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: popularity_inviter.bar_id)
+            end
+          rescue
           end
-          #          rescue
-          #          end
         end
         redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"
-        #        else
-        #          redirect_to users_bar_profile_url(bar, :mobile), notice: "Fail Create Popularity! need friends to invite!"
-        #        end
       else
         redirect_to :back, notice: "Fail Create Popularity! Please check your Guesses!"
       end
@@ -138,6 +126,7 @@ class Users::BarSwigsController < ApplicationController
 
       fb_friends.each do |fb_id|
         begin
+        
           fb.post(fb_id, :type => :feed, :params => {:message => "invite you join them at #{bar.name} via http://swigbig.com/"})
           user = User.where(fb_id: fb_id).first
           guess = inviter.popularity_guesses.where(fb_id: fb_id).first
@@ -147,8 +136,8 @@ class Users::BarSwigsController < ApplicationController
             inviter.popularity_guesses.create(user_id: nil, email: nil ,fb_id: fb_id, bar_id: bar.id)
           elsif guess
           end
+        
         rescue
-          
         end
       end
       redirect_to users_bar_profile_url(bar, :mobile), notice: "Success Create Popularity!"
@@ -205,5 +194,4 @@ class Users::BarSwigsController < ApplicationController
   end
 
 end
-
 

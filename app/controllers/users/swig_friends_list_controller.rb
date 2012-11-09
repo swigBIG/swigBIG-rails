@@ -1,4 +1,3 @@
 class Users::SwigFriendsListController < ApplicationController
-  def index
-  end
+  def index; end
 end

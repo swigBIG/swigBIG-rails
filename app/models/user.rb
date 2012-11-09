@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
 
   friendly_id :name , use: :slugged
 
-  # attr_accessible :title, :body
   with_options dependent: :destroy do |user|
     user.has_many :points
     user.has_many :swigers
