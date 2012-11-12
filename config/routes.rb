@@ -1,4 +1,6 @@
 Swprototype::Application.routes.draw do
+  get "home/index"
+
   mount Ckeditor::Engine => '/ckeditor'
 
   ActiveAdmin.routes(self)
