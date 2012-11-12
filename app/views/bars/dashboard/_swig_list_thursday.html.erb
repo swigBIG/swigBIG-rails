@@ -20,6 +20,7 @@
     }
     if(valid_thursday_swig){
       $('#goto_create_thursday_swig').click();
+      $('#goto_create_thursday_swig').remove();
     }
   }
   
@@ -108,7 +109,7 @@
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#thursday_standard').submit();", id: "goto_create_thursday_swig", style: "display: none;" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", id: "goto_create_thursday_swig", style: "display: none;" %>
             <a class="btn btn-primary" onclick="return validate_thursday_standard_swig()" id="">Create</a>
           </div>
         <% end %>

@@ -1,28 +1,32 @@
-<script type="text/javascript">
-  function wednesday_clear_list(){
-    $("#wednesday_notice_lists").text("")
-  }
-  function show_list(){
-    $("#add_biglist").text("")
-  }
-  function wednesday_done(){
-    $("#wednesday_done").click();
-    $('#wed_done').attr('disabled', 'disabled');
-  }
-  function validate_wednesday_standard_swig(){
-    if($("#wednesday_standard_swig textarea").val() == ''){
-      $("#wednesday_standard_swig textarea").css('border', '1px solid red');
-      $("#wednesday_standard_text_notification").text('Standard Swig must fill!');
-      valid_wednesday_swig = false;
-    }else{
-      $("#wednesday_standard_swig textarea").css('border', '1px solid black');
-      valid_wednesday_swig = true;
+<%= content_for :js_head do %>
+
+  <script type="text/javascript">
+    function wednesday_clear_list(){
+      $("#wednesday_notice_lists").text("")
     }
-    if(valid_wednesday_swig){
-      $('#goto_create_wednesday_swig').click();
+    function show_list(){
+      $("#add_biglist").text("")
     }
-  }
-</script>
+    function wednesday_done(){
+      $("#wednesday_done").click();
+      $('#wed_done').attr('disabled', 'disabled');
+    }
+    function validate_wednesday_standard_swig(){
+      if($("#wednesday_standard_swig textarea").val() == ''){
+        $("#wednesday_standard_swig textarea").css('border', '1px solid red');
+        $("#wednesday_standard_text_notification").text('Standard Swig must fill!');
+        valid_wednesday_swig = false;
+      }else{
+        $("#wednesday_standard_swig textarea").css('border', '1px solid black');
+        valid_wednesday_swig = true;
+      }
+      if(valid_wednesday_swig){
+        $('#goto_create_wednesday_swig').click();
+        $('#goto_create_wednesday_swig').remove();
+      }
+    }
+  </script>
+<% end %>
 
 <% unless @swigs_wednesday.standard.blank? %>
   <% @swigs_wednesday.standard.each do |swig|%>
@@ -107,7 +111,7 @@
         </div>
         <div class="modal-footer">
           <a class="close" data-dismiss="modal"><b></b></a>
-          <%= f.submit "Done", class: "btn-primary pull-right", onclick: "this.disabled = true; $('#wednesday_standard').submit();", id: "goto_create_wednesday_swig", style: "display: none;" %>
+          <%= f.submit "Done", class: "btn-primary pull-right", id: "goto_create_wednesday_swig", style: "display: none;" %>
             <a class="btn btn-primary" onclick="return validate_wednesday_standard_swig()" id="">Create</a>
           </div>
         <% end %>
@@ -149,52 +153,52 @@
                   </div>
                   <div style="margin-left: -160px;">
                     <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;", class: "bigswig_input_box"}, required: true %>
+                    </div>
+                  <% end %>
+                  <!--</div>-->
+                  <div class="modal-footer">
+                    <a class="btn btn-primary" onclick="return validatePeople(2, 'wed_done', 'new')">Done</a>
+                    <a class="btn btn-primary" id="wed_done" onclick="wednesday_done(this)" style="display: none;">Done</a>
                   </div>
-                <% end %>
-                <!--</div>-->
-                <div class="modal-footer">
-                  <a class="btn btn-primary" onclick="return validatePeople(2, 'wed_done', 'new')">Done</a>
-                  <a class="btn btn-primary" id="wed_done" onclick="wednesday_done(this)" style="display: none;">Done</a>
                 </div>
               </div>
-            </div>
 
-            <div id="update_wednesday_big_swig" class="modal hide fade">
-              <div class="modal-header">
-                <a class="close" data-dismiss="modal"><b>x</b></a>
-                <h4>Update Big Swig on Wednesday</h4>
-              </div>
-              <div class="modal-body well">
+              <div id="update_wednesday_big_swig" class="modal hide fade">
+                <div class="modal-header">
+                  <a class="close" data-dismiss="modal"><b>x</b></a>
+                  <h4>Update Big Swig on Wednesday</h4>
+                </div>
+                <div class="modal-body well">
 
-                <%= simple_form_for(:swig, url: bars_update_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
-                  <% @swigs_wednesday.big.order("people").each_with_index do |swig, x|%>
-                    <%= hidden_field_tag "swig_ids[]", swig.id %>
-                    <div id="wednesday_bigswig_lists_on_update_<%= x %>">
-                      <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
-                    </div>
-                    <div id="people_update_warning_text_<%= "2_#{x}" %>" style="display: none;">people require must fill!</div>
-                    <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;", class: "positive", id: "peoples_update_2_#{x}" %>
-                    <% end %>
-                  </div>
-                  <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "wednesday_update_button" %>
-                  <% end %>
-                  <h5 style="text-align: center;">OR</h5>
-                  <div class="clearfix"></div>
-                  <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_on_update_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
-                    <div id="wednesday_notice_lists" style="color: green;"></div>
-                    <div style="text-align: center;margin-bottom: 15px;">
-                      <b>Create bigswig list</b>
-                    </div>
-                    <div style="margin-bottom: -25px;margin-left: 425px;">
-                      <%= f.submit "Add you own..", class: "btn-success",style: "margin-top: -50px;", onclick: "tuesday_clear_list()" %>
+                  <%= simple_form_for(:swig, url: bars_update_big_swig_path, html: { :class => "form-horizontal"}) do |f| %>
+                    <% @swigs_wednesday.big.order("people").each_with_index do |swig, x|%>
+                      <%= hidden_field_tag "swig_ids[]", swig.id %>
+                      <div id="wednesday_bigswig_lists_on_update_<%= x %>">
+                        <%= render partial: "bigswig_list_on_update", locals: {swig_deal: swig.deal}, :class => "biglist_select"%>
                       </div>
-                      <div style="margin-left: -150px;">
-                        <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                      <div id="people_update_warning_text_<%= "2_#{x}" %>" style="display: none;">people require must fill!</div>
+                      <%= number_field_tag "people[]", swig.people, style: "width: 100px;margin-bottom: 3px;", class: "positive", id: "peoples_update_2_#{x}" %>
                       <% end %>
                     </div>
-                    <div class="modal-footer">
-                      <a class="btn btn-primary" onclick="return validatePeople(2, 'wed_update_done', 'update')">Update</a>
-                      <a class="btn" onclick="$('#wednesday_update_button').click();" id="wed_update_done" style="display: none;"></a>
+                    <%= f.submit "Update Swig", class: "btn-primary", style: "display: none;", id: "wednesday_update_button" %>
+                    <% end %>
+                    <h5 style="text-align: center;">OR</h5>
+                    <div class="clearfix"></div>
+                    <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_on_update_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
+                      <div id="wednesday_notice_lists" style="color: green;"></div>
+                      <div style="text-align: center;margin-bottom: 15px;">
+                        <b>Create bigswig list</b>
+                      </div>
+                      <div style="margin-bottom: -25px;margin-left: 425px;">
+                        <%= f.submit "Add you own..", class: "btn-success",style: "margin-top: -50px;", onclick: "tuesday_clear_list()" %>
+                        </div>
+                        <div style="margin-left: -150px;">
+                          <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;"} %>
+                        <% end %>
+                      </div>
+                      <div class="modal-footer">
+                        <a class="btn btn-primary" onclick="return validatePeople(2, 'wed_update_done', 'update')">Update</a>
+                        <a class="btn" onclick="$('#wednesday_update_button').click();" id="wed_update_done" style="display: none;"></a>
+                      </div>
                     </div>
-                  </div>
-                <% end %>
+                  <% end %>
