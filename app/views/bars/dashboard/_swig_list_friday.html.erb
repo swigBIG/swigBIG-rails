@@ -66,7 +66,6 @@
     <h4>Big Swig</h4>
     <div class="span2 pull-left">
       <a href="#update_friday_big_swig" data-toggle="modal" >Update</a>
-    <%#= link_to "Delete", bars_delete_big_swig_path(@swigs_friday.big.pluck(:id)), method: :get %>
     </div>
     <div class="clearfix"></div>
     <br/>
@@ -93,7 +92,6 @@
     <a href="#friday_big_swig" data-toggle="modal" >Set them up now?</a>
   <% end %>
 
-
   <%= content_for :outer do %>
     <div id="friday_standard_swig" class="modal hide fade">
       <div class="modal-header">
@@ -114,7 +112,6 @@
           </div>
         <% end %>
       </div>
-
 
       <div id="friday_big_swig" class="modal hide fade">
         <div class="modal-header">
@@ -140,7 +137,6 @@
               <% end %>
               <h5 style="text-align: center;">OR</h5>
               <div class="clearfix"></div>
-              <!--<div id="friday_notice_lists" style="color: green;"></div>-->
               <b><div class="add_bigswig_text" style="color: green;display: none;">BigSwig was added successfully!</div></b>
               <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
                 <div style="text-align: center;margin-bottom: 15px;">
@@ -153,7 +149,6 @@
                     <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;", class: "bigswig_input_box"}, required: true %>
                   <% end %>
                 </div>
-                <!--</div>-->
                 <div class="modal-footer">
                   <a class="btn btn-primary" onclick="return validatePeople(4, 'fri_done', 'new')">Done</a>
                   <a class="btn btn-primary" id="fri_done" onclick="friday_done(this)" style="display: none;">Done</a>

@@ -65,7 +65,6 @@
     <h4>Big Swig</h4>
     <div class="span2 pull-left">
       <a href="#update_saturday_big_swig" data-toggle="modal" >Update</a>
-    <%#= link_to "Delete", bars_delete_big_swig_path(@swigs_saturday.big.pluck(:id)) %>
     </div>
     <div class="clearfix"></div>
     <br/>
@@ -81,7 +80,7 @@
         <% if Time.zone.now.strftime('%A').eql?('Monday') %>
           <%= current_bar.swigers.today.count %><b>/</b><%= swig.people %>
         <% else %>
-          0<b>/</b><%= swig.people %>
+          <b>/</b><%= swig.people %>
         <% end %>
       </div>
       <div class="clearfix"></div>
@@ -91,7 +90,6 @@
     <h4>Big Swig</h4>
     <a href="#saturday_big_swig" data-toggle="modal" >Set them up now?</a>
   <% end %>
-
 
   <%= content_for :outer do %>
     <div id="saturday_standard_swig" class="modal hide fade">
@@ -114,7 +112,6 @@
         <% end %>
       </div>
 
-
       <div id="saturday_big_swig" class="modal hide fade">
         <div class="modal-header">
           <a class="close" data-dismiss="modal"><b>x</b></a>
@@ -134,12 +131,10 @@
               <% end %>
               <%= hidden_field_tag :swig_type, "Big" %>
               <%= hidden_field_tag :swig_day, "Saturday" %>
-              <!--<div class="modal-footer">-->
               <%= f.submit "Done", class: "btn-primary pull-right", style: "margin-bottom: -100px;display: none;", id: "saturday_done" %>
               <% end %>
               <h5 style="text-align: center;">OR</h5>
               <div class="clearfix"></div>
-              <!--<div id="saturday_notice_lists" style="color: green;"></div>-->
               <b><div class="add_bigswig_text" style="color: green;display: none;">BigSwig was added successfully!</div></b>
               <%= simple_form_for(:big_swig_list, url: bars_add_bigswig_list_path, html: {:class => "form-horizontal", remote: true}) do |f| %>
                 <div style="text-align: center;margin-bottom: 15px;">
@@ -152,7 +147,6 @@
                     <%= f.input :big_swig, label: false, placeholder: "Type your bigswig here...", input_html: {style: "width: 400px;", class: "bigswig_input_box"}, required: true %>
                   <% end %>
                 </div>
-                <!--</div>-->
                 <div class="modal-footer">
                   <a class="btn btn-primary" onclick="return validatePeople(5, 'sat_done', 'new')">Done</a>
                   <a class="btn btn-primary" id="sat_done" onclick="saturday_done(this)" style="display: none;">Done</a>
