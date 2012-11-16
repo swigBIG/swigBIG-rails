@@ -1,5 +1,5 @@
 ActiveAdmin.register FbSwiggerHour do
-  menu label: "Displays friends by hours"
+  menu parent: "Site Settings", label: "Displays friends by hours"
 
   filter false
 

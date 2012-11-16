@@ -1,6 +1,6 @@
 ActiveAdmin.register Swig do
 
-  menu parent: "Reset Swigs", label: "User swigs"
+  menu parent: "Reset Swigs", label: "Bar swigs"
 
   actions :all, except: [:new, :edit, :destroy]
 
