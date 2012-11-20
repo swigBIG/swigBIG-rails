@@ -2,8 +2,8 @@ ActionMailer::Base.smtp_settings = {
   address: "smtp.gmail.com",
   port: "587",
   domain: "swigbig.com",
-  user_name: "",
-  password: '',
+  user_name: "Swigbiginfo@gmail.com",
+  password: 'password4U',
   authentication: :plain,
   enable_starttls_auto: true
 }
