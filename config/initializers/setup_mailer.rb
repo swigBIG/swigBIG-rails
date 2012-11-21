@@ -3,7 +3,7 @@ ActionMailer::Base.smtp_settings = {
   port: "587",
   domain: "swigbig.com",
   user_name: "Swigbiginfo@gmail.com",
-  password: 'password4U',
+  password: '',
   authentication: :plain,
   enable_starttls_auto: true
 }
